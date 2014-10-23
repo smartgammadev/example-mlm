@@ -124,24 +124,16 @@ class WebinarEvent extends BaseEvent
      */
     private $media;
 
-
     /**
-     * Set media
-     *
-     * @param \Application\Sonata\MediaBundle\Entity\Media $media
-     * @return WebinarEvent
+     * @param MediaInterface $media
      */
-    public function setMedia(\Application\Sonata\MediaBundle\Entity\Media $media = null)
+    public function setMedia(MediaInterface $media)
     {
         $this->media = $media;
-
-        return $this;
     }
 
     /**
-     * Get media
-     *
-     * @return \Application\Sonata\MediaBundle\Entity\Media 
+     * @return MediaInterface
      */
     public function getMedia()
     {

@@ -1,7 +1,8 @@
 parameters:
-#    success_notification.example.class: Success\NotificationBundle\Example
+    success.notification.base_event_notifier.class: Success\NotificationBundle\Service\BaseEventNotifier
 
 services:
-#    success_notification.example:
-#        class: %success_notification.example.class%
+    success.notification.base_event_notifier:
+        class: %success.notification.base_event_notifier.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+

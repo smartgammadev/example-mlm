@@ -1,7 +1,7 @@
 parameters:
-#    success_event.example.class: Success\EventBundle\Example
+    success.event.event_manager.class: Success\EventBundle\Service\EventManager
 
 services:
-#    success_event.example:
-#        class: %success_event.example.class%
+    success.event.event_manager.class:
+        class: %success.event.event_manager.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
