@@ -206,4 +206,9 @@ class BaseEvent
     {
         return $this->accessType;
     }
+    
+    public function __toString() 
+    {
+        return $this -> name;
+    }
 }

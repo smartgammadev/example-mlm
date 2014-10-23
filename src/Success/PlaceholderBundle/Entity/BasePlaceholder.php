@@ -9,7 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Success\PlaceholderBundle\Entity\BasePlaceholderRepository")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"base_placeholder" = "BasePlaceholder", "external_placeholder" = "ExternalPlaceholder"})
+ * 
  */
+
 class BasePlaceholder
 {
     /**

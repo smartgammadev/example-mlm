@@ -96,6 +96,7 @@ sonata_block:
         sonata.user.block.account: # used to display menu option (login option)        
         # Your other blocks
         
+        
 sonata_user:
     security_acl: true
     manager_type: orm # can be orm or mongodb

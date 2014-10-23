@@ -4,7 +4,7 @@ namespace Success\EventBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Success\EventBundle\Entity\EventType;
-//use Acme\HelloBundle\Entity\User;
+
 
 class LoadEventTypeData implements FixtureInterface {
     
