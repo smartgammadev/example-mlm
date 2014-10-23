@@ -27,7 +27,8 @@
         "liip/monitor-bundle": "~2.0",
         "sonata-project/media-bundle": "2.2.8",
         "friendsofsymfony/jsrouting-bundle": "~1.5",
-        "adesigns/calendar-bundle": "~1.1"
+        "adesigns/calendar-bundle": "~1.1",
+        "doctrine/doctrine-fixtures-bundle": "~2.2"
     },
     "scripts": {
         "post-install-cmd": [
