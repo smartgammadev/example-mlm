@@ -1,0 +1,7 @@
+parameters:
+#    success_placeholder.example.class: Success\PlaceholderBundle\Example
+
+services:
+#    success_placeholder.example:
+#        class: %success_placeholder.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

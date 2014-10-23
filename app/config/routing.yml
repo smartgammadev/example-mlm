@@ -1,3 +1,11 @@
+success_notification:
+    resource: "@SuccessNotificationBundle/Resources/config/routing.yml"
+    prefix:   /
+
+success_placeholder:
+    resource: "@SuccessPlaceholderBundle/Resources/config/routing.yml"
+    prefix:   /
+
 success_event:
     resource: "@SuccessEventBundle/Resources/config/routing.yml"
     prefix:   /

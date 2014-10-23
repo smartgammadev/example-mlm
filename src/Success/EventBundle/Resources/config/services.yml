@@ -1,0 +1,7 @@
+parameters:
+#    success_event.example.class: Success\EventBundle\Example
+
+services:
+#    success_event.example:
+#        class: %success_event.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

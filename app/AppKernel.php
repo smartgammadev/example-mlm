@@ -38,6 +38,8 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new ADesigns\CalendarBundle\ADesignsCalendarBundle(),
             new Success\EventBundle\SuccessEventBundle(),
+            new Success\PlaceholderBundle\SuccessPlaceholderBundle(),
+            new Success\NotificationBundle\SuccessNotificationBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
