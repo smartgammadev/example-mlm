@@ -131,4 +131,37 @@ class Notification
     {
         return $this->startDateTime;
     }
+
+    /**
+     * Add logs
+     *
+     * @param \Success\NotificationBundle\Entity\NotificationLog $logs
+     * @return Notification
+     */
+    public function addLog(\Success\NotificationBundle\Entity\NotificationLog $logs)
+    {
+        $this->logs[] = $logs;
+
+        return $this;
+    }
+
+    /**
+     * Remove logs
+     *
+     * @param \Success\NotificationBundle\Entity\NotificationLog $logs
+     */
+    public function removeLog(\Success\NotificationBundle\Entity\NotificationLog $logs)
+    {
+        $this->logs->removeElement($logs);
+    }
+
+    /**
+     * Get logs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLogs()
+    {
+        return $this->logs;
+    }
 }

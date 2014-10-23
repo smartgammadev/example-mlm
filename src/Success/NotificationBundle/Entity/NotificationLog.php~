@@ -126,4 +126,27 @@ class NotificationLog
     {
         return $this->providerName;
     }
+
+    /**
+     * Set notification
+     *
+     * @param \Success\NotificationBundle\Entity\Notification $notification
+     * @return NotificationLog
+     */
+    public function setNotification(\Success\NotificationBundle\Entity\Notification $notification = null)
+    {
+        $this->notification = $notification;
+
+        return $this;
+    }
+
+    /**
+     * Get notification
+     *
+     * @return \Success\NotificationBundle\Entity\Notification 
+     */
+    public function getNotification()
+    {
+        return $this->notification;
+    }
 }
