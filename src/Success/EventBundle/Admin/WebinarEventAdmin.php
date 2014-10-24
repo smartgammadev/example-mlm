@@ -19,6 +19,11 @@ class WebinarEventAdmin extends Admin {
             ->add('password', 'text', array('label' => 'Webinar Password'))
             ->add('eventType', 'entity', array('class' => 'Success\EventBundle\Entity\EventType'))
             ->add('accessType', 'entity', array('class' => 'Success\EventBundle\Entity\EventAccessType'))
+            ->add('media', 'sonata_media_type', array(
+                 'label' => 'Webinar Image',
+                 'provider' => 'sonata.media.provider.image',
+                 'context'  => 'webinar_event'
+            ));
         ;
     }
 

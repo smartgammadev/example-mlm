@@ -35,5 +35,4 @@ class ExternalPlaceholderAdmin extends Admin {
             ->add('pattern')
         ;
     }
-    
 }

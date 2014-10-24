@@ -105,4 +105,9 @@ class EventAccessType
     {
         return $this->events;
     }
+    
+    public function __toString(){
+        return $this -> name;
+    }
+
 }

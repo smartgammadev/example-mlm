@@ -64,22 +64,7 @@ class BaseEvent
      * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"}, fetch="LAZY")
      */
     private $media;
-    
-    /**
-     * @param MediaInterface $media
-     */
-    public function setMedia(MediaInterface $media)
-    {
-        $this->media = $media;
-    }
 
-    /**
-     * @return MediaInterface
-     */
-    public function getMedia()
-    {
-        return $this->media;
-    }
     
     
     /**
@@ -210,5 +195,28 @@ class BaseEvent
     public function __toString() 
     {
         return $this -> name;
+    }
+
+    /**
+     * Set media
+     *
+     * @param \Application\Sonata\MediaBundle\Entity\Media $media
+     * @return BaseEvent
+     */
+    public function setMedia(\Application\Sonata\MediaBundle\Entity\Media $media = null)
+    {
+        $this->media = $media;
+
+        return $this;
+    }
+
+    /**
+     * Get media
+     *
+     * @return \Application\Sonata\MediaBundle\Entity\Media 
+     */
+    public function getMedia()
+    {
+        return $this->media;
     }
 }
