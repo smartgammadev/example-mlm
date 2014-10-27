@@ -33,14 +33,15 @@ class CalendarEventListener
                 ->findAllBetweenDates($startDate,$endDate);
         */
         $cEvents = $this->eventManager->getEventsByDateRange($startDate, $endDate);
-        $this->addEventToCalendar($cEvents);
+        $this->addEventToCalendar($cEvents, $calendarEvent);
     }
     
     /**
      * @param array $cEvents
+     * @param CalendarEvent $calendarEvent
      * @return void
      */
-    private function addEventToCalendar(array $cEvents)
+    private function addEventToCalendar(array $cEvents, CalendarEvent $calendarEvent)
     {
         foreach($cEvents as $cEvent) {
                
