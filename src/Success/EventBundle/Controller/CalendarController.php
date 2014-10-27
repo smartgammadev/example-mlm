@@ -4,6 +4,7 @@ namespace Success\EventBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/calendar")
@@ -11,17 +12,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class CalendarController extends Controller
 {
     /**
-     * @Route("/show")
-     * 
+     * @Route("/show", name="show_calendar")
+     * @Template()
      */
     public function showAction()
     {
-        return $this->render('SuccessEventBundle:Calendar:show.html.twig', array());
+        return array();
     }
         
     /**
-     * @Route("/event/{eventId}")
-     * 
+     * @Route("/event/{eventId}", name="show_calendar_event", requirements={"eventId"="\d+"})
+     * @Template()
      */    
     public function eventAction($eventId){
         $em = $this->getDoctrine()->getManager();
@@ -31,6 +32,6 @@ class CalendarController extends Controller
         if (!$event){
             throw $this->createNotFoundException('No event found for id='.$eventId);
         }
-        return $this->render('SuccessEventBundle:Calendar:event.html.twig',array('event'=>$event));
+        return array('event' => $event);
     }
 }
