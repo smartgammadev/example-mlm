@@ -2,10 +2,16 @@ parameters:
     success.event.event_manager.class: Success\EventBundle\Service\EventManager
 
 services:
-    success.event.event_manager.class:
+    success.event.event_manager:
         class: %success.event.event_manager.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
-
+        
+    success.event.calendar_event_listener:
+        class: Success\EventBundle\EventListener\CalendarEventListener
+        arguments: [ @doctrine.orm.entity_manager ]
+        tags:
+            - {name: kernel.event_listener, event: calendar.load_events, method: loadEvents}
+    
     sonata.admin.event_type:
         class: Success\EventBundle\Admin\EventTypeAdmin
         tags:
@@ -22,4 +28,4 @@ services:
         arguments:
             - ~
             - Success\EventBundle\Entity\WebinarEvent
-            - ~            
+            - ~

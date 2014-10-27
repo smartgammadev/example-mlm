@@ -12,4 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class BaseEventRepository extends EntityRepository
 {
+    public function findAllBetweenDates($startDate,$endDate) {
+        return  $this->getEntityManager()->createQuery(
+                "select e from SuccessEventBundle:BaseEvent e where e.startDateTime BETWEEN :start_date AND :end_date ORDER BY e.startDateTime")
+                ->setParameter("start_date", $startDate->format('Y-m-d H:i:s'))
+                ->setParameter("end_date", $endDate->format('Y-m-d H:i:s'))
+                ->getResult();
+    }
 }
