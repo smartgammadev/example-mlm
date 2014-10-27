@@ -4,11 +4,12 @@ parameters:
 services:
     success.event.event_manager:
         class: %success.event.event_manager.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
-        
+        calls:
+             - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+     
     success.event.calendar_event_listener:
         class: Success\EventBundle\EventListener\CalendarEventListener
-        arguments: [ @doctrine.orm.entity_manager ]
+        arguments: [ @success.event.event_manager ]
         tags:
             - {name: kernel.event_listener, event: calendar.load_events, method: loadEvents}
     

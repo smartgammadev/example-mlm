@@ -6,3 +6,5 @@
 /vendor/
 /composer.phar
 /nbproject/
+bin/
+app/bootstrap.php.cache

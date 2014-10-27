@@ -4,15 +4,15 @@ namespace Success\EventBundle\EventListener;
 
 use ADesigns\CalendarBundle\Event\CalendarEvent;
 use ADesigns\CalendarBundle\Entity\EventEntity;
-use Doctrine\ORM\EntityManager;
 
-class CalendarEventListener {
 
-    private $entityManager;
+class CalendarEventListener 
+{
+    private $eventManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(\Success\EventBundle\Service\EventManager $eventManager)
     {
-        $this->entityManager = $entityManager;
+        $this->eventManager = $eventManager;
     }
 
     public function loadEvents(CalendarEvent $calendarEvent)
@@ -29,9 +29,19 @@ class CalendarEventListener {
         // load events using your custom logic here,
         // for instance, retrieving events from a repository
 
-        $cEvents = $this->entityManager->getRepository('SuccessEventBundle:BaseEvent')
+        /*$cEvents = $this->entityManager->getRepository('SuccessEventBundle:BaseEvent')
                 ->findAllBetweenDates($startDate,$endDate);
-        
+        */
+        $cEvents = $this->eventManager->getEventsByDateRange($startDate, $endDate);
+        $this->addEventToCalendar($cEvents);
+    }
+    
+    /**
+     * @param array $cEvents
+     * @return void
+     */
+    private function addEventToCalendar(array $cEvents)
+    {
         foreach($cEvents as $cEvent) {
                
             $eventEntity = new EventEntity($cEvent->getName(), $cEvent->getStartDateTime(), null, true);
@@ -47,7 +57,7 @@ class CalendarEventListener {
             $eventEntity->setUrl('/calendar/event/'.$cEvent->getId());
             $eventEntity->setCssClass('event-detail');
             $calendarEvent->addEvent($eventEntity);
-        }
+        }        
     }
     
     
