@@ -1,3 +1,6 @@
+imports:
+    - { resource: admin.yml }
+
 parameters:
     success.placeholder.manager.class: Success\PlaceholderBundle\Service\PlaceholderManager
 
@@ -8,11 +11,11 @@ services:
         #arguments: [@service_id, "plain_value", %parameter%]
 
 
-    sonata.admin.external_placeholder:
-        class: Success\PlaceholderBundle\Admin\ExternalPlaceholderAdmin
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: "SPONSOR", label: "Placeholders" }
-        arguments:
-            - ~
-            - Success\PlaceholderBundle\Entity\ExternalPlaceholder
-            - ~            
+#    sonata.admin.external_placeholder:
+#        class: Success\PlaceholderBundle\Admin\ExternalPlaceholderAdmin
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: "SPONSOR", label: "Placeholders" }
+#        arguments:
+#            - ~
+#            - Success\PlaceholderBundle\Entity\ExternalPlaceholder
+#            - ~            

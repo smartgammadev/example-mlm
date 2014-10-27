@@ -1,0 +1,18 @@
+services:
+    sonata.admin.event_type:
+        class: Success\EventBundle\Admin\EventTypeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "SPONSOR", label: "EventTypes" }
+        arguments:
+            - ~
+            - Success\EventBundle\Entity\EventType
+            - ~
+            
+    sonata.admin.webinar_event:
+        class: Success\EventBundle\Admin\WebinarEventAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "SPONSOR", label: "Webinars" }
+        arguments:
+            - ~
+            - Success\EventBundle\Entity\WebinarEvent
+            - ~
