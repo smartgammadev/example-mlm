@@ -1,0 +1,15 @@
+{% extends "::base.html.twig" %}
+
+
+{% block body %}
+    <div>
+        <h2>Event detail</h2>
+            {{ event.name }}
+            {{ event.url }}
+    </div>
+            
+    <div id='countdown'>
+        Time to event:
+    </div>
+    
+{% endblock %}

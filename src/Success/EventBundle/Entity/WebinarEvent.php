@@ -12,14 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class WebinarEvent extends BaseEvent
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * @var string
@@ -34,17 +26,6 @@ class WebinarEvent extends BaseEvent
      * @ORM\Column(name="password", type="string", length=100)
      */
     private  $password;
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set url
