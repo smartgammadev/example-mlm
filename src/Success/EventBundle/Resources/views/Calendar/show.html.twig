@@ -11,8 +11,7 @@
 {% block body %}
     <div style=" margin: auto; width: 50%; height: 50%">
         {% include 'ADesignsCalendarBundle::calendar.html.twig' %}
-    </div>    
-        <a class='event-detail' href='event/4'>ddd</a>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -21,10 +20,10 @@
     <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery-1.11.1.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.colorbox.js') }}"></script>    
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.colorbox.js') }}"></script>
 
     <script>
-            $(document).ready(function () {                
+        $(document).ajaxComplete(function() {            
                 $('a.event-detail').colorbox();
             });
     </script>
