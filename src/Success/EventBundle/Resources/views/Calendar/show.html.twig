@@ -2,19 +2,32 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/colorbox.css') }}" />
 {% endblock %}
+
+{% block title %}Calendar{% endblock %}
 
 
 {% block body %}
     <div style=" margin: auto; width: 50%; height: 50%">
-    {% include 'ADesignsCalendarBundle::calendar.html.twig' %}
-    </div>
+        {% include 'ADesignsCalendarBundle::calendar.html.twig' %}
+    </div>    
+        <a class='event-detail' href='event/4'>ddd</a>
 {% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/jquery/jquery-1.8.2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery-1.11.1.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.colorbox.js') }}"></script>    
+
+    <script>
+            $(document).ready(function () {                
+                $('a.event-detail').colorbox();
+            });
+    </script>
 {% endblock %}
+
+
