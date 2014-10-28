@@ -58,3 +58,6 @@ fos_js_routing:
 adesigns_calendar:
   resource: "@ADesignsCalendarBundle/Resources/config/routing.xml" 
   
+aisel_config:
+    resource: "@AiselConfigBundle/Resources/config/routing.yml"
+    prefix:   /

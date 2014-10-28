@@ -12,18 +12,23 @@ class WebinarEventAdmin extends Admin {
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('startDateTime', 'datetime', array('label' => 'Date & Time'))
+            //->add('startDateTime', 'datetime', array('label' => 'Date & Time'))
+            ->add('startDateTime', 'sonata_type_datetime_picker')
             ->add('url', 'text', array('label' => 'Webinar URL'))
             ->add('name', 'text', array('label' => 'Webinar Name'))
             ->add('pattern', 'text', array('label' => 'Webinar Pattern'))
             ->add('password', 'text', array('label' => 'Webinar Password'))
             ->add('eventType', 'entity', array('class' => 'Success\EventBundle\Entity\EventType'))
             ->add('accessType', 'entity', array('class' => 'Success\EventBundle\Entity\EventAccessType'))
-            ->add('media', 'sonata_media_type', array(
-                 'label' => 'Webinar Image',
-                 'provider' => 'sonata.media.provider.image',
-                 'context'  => 'webinar_event'
-            ));
+            ->add('media', 'sonata_type_model', array(),
+                    array('link_parameters' => array('context' =>
+                    'default', 'provider' => 'sonata.media.provider.image')))
+       ; 
+//            ->add('media', 'sonata_media_type', array(
+//                 'label' => 'Webinar Image',
+//                 'provider' => 'sonata.media.provider.image',
+//                 'context'  => 'webinar_event'
+//            ));
         ;
     }
 

@@ -30,10 +30,13 @@ class CalendarController extends Controller
 
       $event = $this->get('success.event.event_manager')->getEventById($eventId);
       
+        $em = $this->getDoctrine()->getManager();
+        $config = $em -> getRepository('AiselConfigBundle:Config')->getAllSettings()['config_homepage'];
+                         
         if (!$event){
             throw $this->createNotFoundException('No event found for id='.$eventId);
         }
         
-        return array('event' => $event);
+        return array('event' => $event, 'config' => json_decode($config));
     }
 }

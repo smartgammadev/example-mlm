@@ -16,3 +16,12 @@ services:
             - ~
             - Success\EventBundle\Entity\WebinarEvent
             - ~
+            
+#    sonata.admin.config_homepage:
+#        class: Success\EventBundle\Admin\ConfigSuccessAdmin
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: "SPONSOR", label: "Config" }
+#        arguments:
+#            - ~
+#            - Aisel\ConfigBundle\Entity\Config
+#            - ~            

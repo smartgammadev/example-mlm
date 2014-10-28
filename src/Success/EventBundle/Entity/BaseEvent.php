@@ -62,10 +62,10 @@ class BaseEvent
     /**
      * @var \Application\Sonata\MediaBundle\Entity\Media
      * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"}, fetch="LAZY")
+     * @ORM\JoinColumn(name="media", referencedColumnName="id")
      */
     private $media;
 
-    
     
     /**
      * Get id
@@ -196,6 +196,29 @@ class BaseEvent
     {
         return $this -> name;
     }
+
+//    /**
+//     * Set media
+//     *
+//     * @param MediaInterface $media
+//     * @return BaseEvent
+//     */
+//    public function setMedia(MediaInterface $media = null)
+//    {
+//        $this->media = $media;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get media
+//     *
+//     * @return MediaInterface
+//     */
+//    public function getMedia()
+//    {
+//        return $this->media;
+//    }
 
     /**
      * Set media
