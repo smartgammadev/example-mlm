@@ -22,16 +22,11 @@ class CalendarEventListener
         
         // The original request so you can get filters from the calendar
         // Use the filter in your query for example
-
         $request = $calendarEvent->getRequest();
         $filter = $request->get('filter');
 
         // load events using your custom logic here,
         // for instance, retrieving events from a repository
-
-        /*$cEvents = $this->entityManager->getRepository('SuccessEventBundle:BaseEvent')
-                ->findAllBetweenDates($startDate,$endDate);
-        */
         $cEvents = $this->eventManager->getEventsByDateRange($startDate, $endDate);
         $this->addEventToCalendar($cEvents, $calendarEvent);
     }

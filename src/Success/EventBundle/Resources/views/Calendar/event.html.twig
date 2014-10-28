@@ -1,15 +1,57 @@
 {% extends "::base.html.twig" %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/jquery.countdown.css') }}" />
+{% endblock %}
 
 {% block body %}
     <div>
         <h2>Event detail</h2>
-        <h3>{{ event.name }}</h3>
-        <h3>{{ event.url }}</h3>
+        <table>
+            <tr>
+                <td>Event name: </td>
+                <td>{{ event.name }}</td>
+            </tr>
+            <tr>
+                <td>Event URL: </td>
+                <td>{{ event.url }}</td>
+            </tr>
+            <tr>
+                <td>Event Time: </td>
+                <td>{{ event.startDateTime|date('Y/m/d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <td>Time to start: </td>
+                <td><div id='timer'></div></td>
+            </tr>            
+        </table>            
     </div>
-            
-    <div id='countdown'>
-        Time to start:
-    </div>
-    
+    {% if date(event.startDateTime) > date() %}
+    {% if date(event.startDateTime) < date('+20mins') %}
+        <form id="goto-webinar-form" action="{{ event.url }}" target="_blank">
+            <input type="submit" value="Войти в Вебинар">
+        </form>        
+    {% else %}
+        <form id="sign-to-webinar-form" action="#">
+            <input type="submit" value="Записаться">
+        </form>        
+    {% endif %}
+    {% endif %}                
+{% endblock %}
+
+{% block javascripts %}    
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery-1.11.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.countdown.js') }}"></script>
+    <script type="text/javascript">        
+        startDateTime ="{{ event.startDateTime|date('Y/m/d H:i:s') }}";
+        $("#timer").countdown(startDateTime, function(event) {
+            {% if date(event.startDateTime) < date() %}
+                $(this).text('Прошлое событие');
+            {% else %}    
+                $(this).text(
+                    event.strftime('%D days %H:%M:%S')
+                );
+            {% endif %}
+        });
+    </script>    
 {% endblock %}

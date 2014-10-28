@@ -17,14 +17,15 @@
 {% block javascripts %}
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery-1.11.1.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery-1.11.1.min.js') }}"></script>    
+    <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>    
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/full.calendar.ru.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/calendar-settings.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.colorbox.js') }}"></script>
 
     <script>
         $(document).ajaxComplete(function() {            
-                $('a.event-detail').colorbox();
+                $('a.event-detail').colorbox({opacity: 0.5, scrolling:false});
             });
     </script>
 {% endblock %}

@@ -8,3 +8,4 @@
 /nbproject/
 bin/
 app/bootstrap.php.cache
+web/uploads

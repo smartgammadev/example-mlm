@@ -33,7 +33,8 @@
         "sonata-project/media-bundle": "2.2.8",
         "friendsofsymfony/jsrouting-bundle": "~1.5",
         "adesigns/calendar-bundle": "~1.1",
-        "gamma/framework": "dev-master"
+        "gamma/framework": "dev-master",
+        "jms/di-extra-bundle": "~1.4"
     },
     "require-dev": {
         "behat/behat": "2.4.*@stable",
