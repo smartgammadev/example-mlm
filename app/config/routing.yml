@@ -1,3 +1,7 @@
+success_settings:
+    resource: "@SuccessSettingsBundle/Resources/config/routing.yml"
+    prefix:   /
+
 success_notification:
     resource: "@SuccessNotificationBundle/Resources/config/routing.yml"
     prefix:   /
@@ -7,7 +11,6 @@ success_placeholder:
     prefix:   /
 
 success_event:
-    #resource: "@SuccessEventBundle/Resources/config/routing.yml"
     resource: "@SuccessEventBundle/Controller/"
     type: annotation
     prefix: /    
@@ -57,7 +60,3 @@ fos_js_routing:
   
 adesigns_calendar:
   resource: "@ADesignsCalendarBundle/Resources/config/routing.xml" 
-  
-aisel_config:
-    resource: "@AiselConfigBundle/Resources/config/routing.yml"
-    prefix:   /

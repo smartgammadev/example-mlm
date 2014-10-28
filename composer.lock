@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "de5f476a878343bca5b61b29eedc16d5",
+    "hash": "4985c890fadaaba62112935e76aa1558",
     "packages": [
         {
             "name": "adesigns/calendar-bundle",
@@ -51,61 +51,6 @@
                 "jquery calendar"
             ],
             "time": "2014-04-24 15:48:09"
-        },
-        {
-            "name": "aisel/config-bundle",
-            "version": "dev-master",
-            "target-dir": "Aisel/ConfigBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ivanproskuryakov/AiselConfigBundle.git",
-                "reference": "b648a0907ec88dc2f26c90e3702ebed3c2357869"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ivanproskuryakov/AiselConfigBundle/zipball/b648a0907ec88dc2f26c90e3702ebed3c2357869",
-                "reference": "b648a0907ec88dc2f26c90e3702ebed3c2357869",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "php": ">=5.3.3",
-                "phpspec/phpspec": "~2.0",
-                "stof/doctrine-extensions-bundle": "@stable",
-                "symfony/framework-bundle": "~2.3"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.11-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Aisel\\ConfigBundle": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Proskuryakov",
-                    "email": "volgodark@gmail.com",
-                    "homepage": "https://github.com/ivanproskuryakov"
-                }
-            ],
-            "description": "Settings bundle for Symfony2+SonataAdmin projects.",
-            "homepage": "http://aisel.co",
-            "keywords": [
-                "Settings",
-                "configuration",
-                "sonataAdmin"
-            ],
-            "time": "2014-10-24 07:45:32"
         },
         {
             "name": "behat/behat",
@@ -1824,7 +1769,7 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "Knplabs",
+                    "name": "KnpLabs",
                     "homepage": "http://knplabs.com"
                 },
                 {
@@ -4983,7 +4928,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "gamma/framework": 20,
-        "aisel/config-bundle": 20,
         "behat/behat": 0,
         "behat/mink": 0,
         "jms/debugging-bundle": 20,

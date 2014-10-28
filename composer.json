@@ -34,8 +34,7 @@
         "friendsofsymfony/jsrouting-bundle": "~1.5",
         "adesigns/calendar-bundle": "~1.1",
         "gamma/framework": "dev-master",
-        "jms/di-extra-bundle": "~1.4",
-        "aisel/config-bundle": "0.11.*@dev"
+        "jms/di-extra-bundle": "~1.4"
     },
     "require-dev": {
         "behat/behat": "2.4.*@stable",

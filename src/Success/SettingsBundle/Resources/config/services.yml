@@ -1,0 +1,12 @@
+imports:
+    - { resource: admin.yml }
+    
+parameters:
+    success.settings.settings_manager.class: Success\SettingsBundle\Service\SettingsManager
+
+services:
+    success.settings.settings_manager:
+        class: %success.settings.settings_manager.class%
+        calls:
+             - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+

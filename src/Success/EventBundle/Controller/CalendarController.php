@@ -5,7 +5,7 @@ namespace Success\EventBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use JMS\DiExtraBundle\Annotation as DI;
+use Success\SettingsBundle\SuccessSettingsBundle;
 
 /**
  * @Route("/calendar")
@@ -26,17 +26,15 @@ class CalendarController extends Controller
      * @Route("/event/{eventId}", name="show_calendar_event", requirements={"eventId"="\d+"})
      * @Template()
      */
-    public function eventAction($eventId){        
+    public function eventAction($eventId){
 
       $event = $this->get('success.event.event_manager')->getEventById($eventId);
-      
-        $em = $this->getDoctrine()->getManager();
-        $config = $em -> getRepository('AiselConfigBundle:Config')->getAllSettings()['config_homepage'];
-                         
+      $minutesToVisitEvent = $this->get('success.settings.settings_manager')->getSettingValue('minutesToVisitEvent');
+
         if (!$event){
             throw $this->createNotFoundException('No event found for id='.$eventId);
         }
-        
-        return array('event' => $event, 'config' => json_decode($config));
+
+        return array('event' => $event, 'minutesToVisitEvent' => $minutesToVisitEvent);
     }
 }

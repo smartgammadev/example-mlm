@@ -13,7 +13,12 @@ class WebinarEventAdmin extends Admin {
     {
         $formMapper
             //->add('startDateTime', 'datetime', array('label' => 'Date & Time'))
-            ->add('startDateTime', 'sonata_type_datetime_picker')
+            ->add('startDateTime', 'sonata_type_datetime_picker',
+                    array(
+                    'dp_side_by_side'       => true,
+                    'dp_use_current'        => false,
+                    'dp_use_seconds'        => false,
+                ))
             ->add('url', 'text', array('label' => 'Webinar URL'))
             ->add('name', 'text', array('label' => 'Webinar Name'))
             ->add('pattern', 'text', array('label' => 'Webinar Pattern'))

@@ -41,7 +41,7 @@ class AppKernel extends Kernel
             new Success\PlaceholderBundle\SuccessPlaceholderBundle(),
             new Success\NotificationBundle\SuccessNotificationBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
-            new Aisel\ConfigBundle\AiselConfigBundle(),
+            new Success\SettingsBundle\SuccessSettingsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

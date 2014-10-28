@@ -150,11 +150,3 @@ sonata_media:
         local:
             directory:  %kernel.root_dir%/../web/uploads/media
             create:     false
-
-aisel_config:
-    settings_route: /settings/{editLocale}
-    route_prefix: config_ # ex: config_contact
-    entities:
-        homepage:
-            order: 0
-            controller: SuccessEventBundle:ConfigSuccess:modify            

@@ -22,13 +22,13 @@
             </tr>
             <tr>
                 <td>Time to start: </td>
-                <td><div id='timer'></div></td>
+                <td><div id='timer'></div></td>                
             </tr>
         </table>
             {% media event.media, 'small' %} 
     </div>    
     {% if date(event.startDateTime) > date() %}
-    {% if date(event.startDateTime) < date('+'+ config.content +'mins') %}
+    {% if date(event.startDateTime) < date('+'+ minutesToVisitEvent +'mins') %}
         <form id="goto-webinar-form" action="{{ event.url }}" target="_blank">
             <input type="submit" value="Войти в Вебинар">
         </form>        

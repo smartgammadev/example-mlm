@@ -1,0 +1,3 @@
+#success_settings_homepage:
+#    path:     /hello/{name}
+#    defaults: { _controller: SuccessSettingsBundle:Default:index }
