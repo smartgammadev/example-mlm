@@ -31,10 +31,14 @@ class CalendarController extends Controller
       $event = $this->get('success.event.event_manager')->getEventById($eventId);
       $minutesToVisitEvent = $this->get('success.settings.settings_manager')->getSettingValue('minutesToVisitEvent');
 
+      $now = new \DateTime('now');      
+      $allowVisitEvent =  ($event->getStartDateTime()->getTimestamp() - $now->getTimestamp() < $minutesToVisitEvent*60);
+      
+
         if (!$event){
             throw $this->createNotFoundException('No event found for id='.$eventId);
         }
 
-        return array('event' => $event, 'minutesToVisitEvent' => $minutesToVisitEvent);
+        return array('event' => $event, 'allowVisitEvent' => $allowVisitEvent);
     }
 }

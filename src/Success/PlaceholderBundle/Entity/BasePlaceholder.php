@@ -96,4 +96,13 @@ class BasePlaceholder
     {
         return $this->pattern;
     }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function __toString() 
+    {
+        return $this->name;
+    }
 }

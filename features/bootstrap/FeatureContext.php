@@ -49,6 +49,28 @@ class FeatureContext extends MinkContext
     {
         $this->getSession()->wait(1000);
     }
+    
+    /**
+     * @Given /^I fill in "([^"]*)" with current date plus "([^"]*)" minutes$/
+     */
+    public function iFillInWithCurrentDatePlusMinutes($arg1, $arg2)
+    {
+        $currentDate = date('c',  time()+(60*$arg2));
+        $this->fillField($arg1, $currentDate);
+    }
+    
+    
+    /**
+     * @Given /^I fill in "([^"]*)" with current date$/
+     */
+    public function iFillInWithCurrentDate($arg1)
+    {
+        //$session = $this->getSession();
+        $currentDate = date('c',  time());
+        $this->fillField($arg1, $currentDate);
+        //throw new PendingException();
+    }
+
 
     
 //
