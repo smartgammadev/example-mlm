@@ -9,6 +9,13 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class WebinarEventAdmin extends Admin {
     
+    
+    protected $datagridValues = array(
+        '_page' => 1, // Display the first page (default = 1)
+        '_sort_order' => 'DESC', // Descendant ordering (default = 'ASC')
+        '_sort_by' => 'startDateTime' // name of the ordered field (default = the model id field, if any)
+    );
+    
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -19,28 +26,30 @@ class WebinarEventAdmin extends Admin {
                     'dp_use_current'        => false,
                     'dp_use_seconds'        => false,
                 ))
-            ->add('url', 'text', array('label' => 'Webinar URL'))
+            ->add('url', 'url',array('label' => 'Webinar URL'))    
+            //->add('url', 'text', array('label' => 'Webinar URL'))
             ->add('name', 'text', array('label' => 'Webinar Name'))
             ->add('pattern', 'text', array('label' => 'Webinar Pattern'))
             ->add('password', 'text', array('label' => 'Webinar Password'))
             ->add('eventType', 'entity', array('class' => 'Success\EventBundle\Entity\EventType'))
             ->add('accessType', 'entity', array('class' => 'Success\EventBundle\Entity\EventAccessType'))
-            ->add('media', 'sonata_type_model', array(),
-                    array('link_parameters' => array('context' =>
-                    'default', 'provider' => 'sonata.media.provider.image')))
+            ->add('media', 'sonata_type_model', array('label' => 'Webinar Image'),
+                    array('link_parameters' => array('context' =>'webinar_image',
+                    'provider' => 'sonata.media.provider.image')))
        ; 
 //            ->add('media', 'sonata_media_type', array(
 //                 'label' => 'Webinar Image',
 //                 'provider' => 'sonata.media.provider.image',
 //                 'context'  => 'webinar_event'
 //            ));
-        ;
+//        ;
     }
 
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('startDateTime', 'doctrine_orm_date_range', array(), 'sonata_type_date_range', array('format' => 'dd.MM.yyyy', 'widget' => 'single_text', 'attr' => array('class' => 'datepicker')))
             ->add('name')
             ->add('url')
         ;
@@ -50,9 +59,10 @@ class WebinarEventAdmin extends Admin {
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->add('startDateTime','datetime',array('format' => 'd.m.Y H:i'))            
             ->addIdentifier('name')
-            ->add('url')
+            ->add('url', 'url',array('hide_protocol' => false))
         ;
     }
-
+    
 }

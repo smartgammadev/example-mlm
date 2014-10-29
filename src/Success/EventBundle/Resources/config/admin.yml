@@ -7,7 +7,16 @@ services:
             - ~
             - Success\EventBundle\Entity\EventType
             - ~
-            
+
+    sonata.admin.event_access_type:
+        class: Success\EventBundle\Admin\EventAccessTypeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "SPONSOR", label: "AccessTypes" }
+        arguments:
+            - ~
+            - Success\EventBundle\Entity\EventAccessType
+            - ~
+                                    
     sonata.admin.webinar_event:
         class: Success\EventBundle\Admin\WebinarEventAdmin
         tags:

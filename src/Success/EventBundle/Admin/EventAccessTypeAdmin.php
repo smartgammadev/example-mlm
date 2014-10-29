@@ -11,12 +11,12 @@ use Sonata\AdminBundle\Form\FormMapper;
  *
  * @author develop1
  */
-class EventTypeAdmin extends Admin {
+class EventAccessTypeAdmin extends Admin {
         
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name', 'text', array('label' => 'Event Name'))
+            ->add('name', 'text', array('label' => 'Event Access Type'))
         ;
     }
 

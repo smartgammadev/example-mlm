@@ -2,8 +2,8 @@
 Feature: Calendar create feature
   
   Scenario: Create two different events
-    Given I am logged in as admin
 
+    Given I am logged in as admin
     Then I go to "/admin/success/event/webinarevent/create?uniqid=s5444ed96d21e7"
     And I fill in "s5444ed96d21e7_startDateTime" with current date plus "15" minutes
     And I wait for AJAX to finish

@@ -47,7 +47,7 @@ class FeatureContext extends MinkContext
      */    
     public function iWaitForAjaxToFinish()
     {
-        $this->getSession()->wait(1000);
+        $this->getSession()->wait(3000);
     }
     
     /**

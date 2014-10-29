@@ -2,42 +2,50 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('bundles/successevent/css/jquery.countdown.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/4success.style.css') }}" />
 {% endblock %}
 
 {% block body %}
-    <div>
-        <h2>Event detail</h2>
-        <table>
+    <div>        
+        <table class="event-table">
             <tr>
-                <td>Event name: </td>
-                <td>{{ event.name }}</td>
+                <td colspan="5" class="center-cell"><h2>{{ event.name }}</h2></td>
+            </tr>
+
+            <tr>
+                <td colspan="5" class="center-cell">{% media event.media, 'small' %}</td>
+            </tr>
+{#            <tr>
+                <td class="right-cell">Event name: </td>
+                <td class="left-cell">{{ event.name }}</td>
+            </tr>
+#}            <tr>
+                <td colspan="5" class="center-cell">Event Time: <br>{{ event.startDateTime|date('m.d.Y H:i:s') }}
+                </td>
             </tr>
             <tr>
-                <td>Event URL: </td>
-                <td>{{ event.url }}</td>
+                <td colspan="5" class="center-cell">Time to start: 
+                    <div id='timer'></div>
+                </td>
             </tr>
+    
             <tr>
-                <td>Event Time: </td>
-                <td>{{ event.startDateTime|date('Y/m/d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <td>Time to start: </td>
-                <td><div id='timer'></div></td>                
+                <td colspan="5" class="center-cell">        
+                {% if allowVisitEvent %}
+                    <form id="goto-webinar-form" action="{{ event.url }}" target="_blank">
+                        <input class="submit-btn" type="submit" value="Войти в Вебинар">
+                    </form>        
+                {% else %}
+                    <form id="sign-to-webinar-form" action="#">
+                        <input class="submit-btn" type="submit" value="Записаться">
+                    </form>        
+                {% endif %}
+               </td>
             </tr>
         </table>
-            {% media event.media, 'small' %}
     </div>    
     
-    {% if allowVisitEvent %}
-        <form id="goto-webinar-form" action="{{ event.url }}" target="_blank">
-            <input type="submit" value="Войти в Вебинар">
-        </form>        
-    {% else %}
-        <form id="sign-to-webinar-form" action="#">
-            <input type="submit" value="Записаться">
-        </form>        
-    {% endif %}
-   
+    
 {% endblock %}
 
 {% block javascripts %}    
