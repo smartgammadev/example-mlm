@@ -1,7 +1,6 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
-    {{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}" />
     <link rel="stylesheet" href="{{ asset('bundles/successevent/css/colorbox.css') }}" />
 {% endblock %}
@@ -9,26 +8,16 @@
 {% block title %}Calendar{% endblock %}
 
 
-{% block content %}
-{#    <div class="page-head">
-	<div class="container">
-            <h2>Calendar</h2>
-		<h4>active events for current month</h4>
-	</div>
-    </div>#}
-
-    <div class="container">
-        <div class="content" id="calendaContainer">
-            {% include 'ADesignsCalendarBundle::calendar.html.twig' %}
-        </div>
+{% block body %}
+    <div style=" margin: auto; width: 50%; height: 50%" id="calendaContainer">
+        {% include 'ADesignsCalendarBundle::calendar.html.twig' %}
     </div>
-{% endblock content %}
+{% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-{#    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery-1.11.1.min.js') }}"></script>    #}
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery-1.11.1.min.js') }}"></script>    
     <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/successevent/js/full.calendar.ru.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/successevent/js/calendar-settings.js') }}"></script>
@@ -36,19 +25,3 @@
 {% endblock %}
 
 
-{#    {% block content %}
-    <!-- Page heading starts -->
-		<div class="page-head">
-			<div class="container">
-				<h2>Page Title</h2>
-				<h4>something goes here</h4>
-			</div>
-		</div>
-    <!--/ Page Heading ends -->
-
-    <!-- Page content starts -->
-		<div class="content">
-		</div>
-    <!--/ Page content ends -->
-    {% endblock content %}        
-#}
