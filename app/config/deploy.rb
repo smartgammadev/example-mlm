@@ -11,7 +11,7 @@ set :branch,      "master"
 set :model_manager, "doctrine"
 set :shared_files,      ["app/config/parameters.yml"]
 set :shared_children,   [app_path + "/logs", web_path + "/uploads", "vendor"]
-set :update_vendors,    true
+
 
 set :use_composer, true
 set :use_sudo,    false
