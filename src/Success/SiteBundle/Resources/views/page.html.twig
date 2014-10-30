@@ -1,0 +1,11 @@
+{% extends "SuccessSiteBundle::basic_layout.html.twig" %}
+
+{% block body %}
+
+    {% include "SuccessSiteBundle::header.html.twig" %}
+    <div class="sep"></div>
+    {% block content %}
+    {% endblock content %}        
+    
+    {% include "SuccessSiteBundle::footer.html.twig" %}    
+{% endblock %}

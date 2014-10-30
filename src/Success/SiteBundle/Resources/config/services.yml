@@ -1,0 +1,7 @@
+parameters:
+#    success_site.example.class: Success\SiteBundle\Example
+
+services:
+#    success_site.example:
+#        class: %success_site.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

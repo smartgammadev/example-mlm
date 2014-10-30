@@ -3,6 +3,8 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('bundles/successevent/css/jquery.countdown.css') }}" />
     <link rel="stylesheet" href="{{ asset('bundles/successevent/css/4success.style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/bootstrap.min.css') }}" />
+
 {% endblock %}
 
 {% block body %}
@@ -31,15 +33,10 @@
     
             <tr>
                 <td colspan="5" class="center-cell">        
-                {% if allowVisitEvent %}
-                        <div class="button">
-                            <a href="{{ event.url }}" target="blank" >Войти в Вебинар</a>
-                        </div>
-                {% else %}
-                        <div class="button">
-                            <a href="#" >Записаться</a>
-                        </div>
-                        
+                {% if allowVisitEvent %}                    
+                        <a class="btn btn-success btn-lg" href="{{ event.url }}" target="blank">Войти в Вебинар</a>
+                {% else %}                        
+                        <a type="button" class="btn btn-primary btn-lg" href="#" >Записаться</a>
                 {% endif %}
                </td>
             </tr>
@@ -51,6 +48,7 @@
 
 {% block javascripts %}    
     <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery-1.11.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.countdown.js') }}"></script>
     <script type="text/javascript">        
         startDateTime ="{{ event.startDateTime|date('Y/m/d H:i:s') }}";
