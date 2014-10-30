@@ -17,6 +17,8 @@ $(function () {
         lazyFetching: true,
         lang: 'ru',
         firstDay:1,
+        height: 650,
+        aspectRatio: 1,
         timeFormat: {
             // for agendaWeek and agendaDay
             agenda: 'h:mmt',    // 5:00 - 6:30

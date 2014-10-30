@@ -40,14 +40,16 @@ class AppKernel extends Kernel
             new Success\EventBundle\SuccessEventBundle(),
             new Success\PlaceholderBundle\SuccessPlaceholderBundle(),
             new Success\NotificationBundle\SuccessNotificationBundle(),
-            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            //new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Success\SettingsBundle\SuccessSettingsBundle(),
+            new Success\SiteBundle\SuccessSiteBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
         }
 
         return $bundles;

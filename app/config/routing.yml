@@ -1,3 +1,7 @@
+success_site:
+    resource: "@SuccessSiteBundle/Resources/config/routing.yml"
+    prefix:   /
+
 success_settings:
     resource: "@SuccessSettingsBundle/Resources/config/routing.yml"
     prefix:   /

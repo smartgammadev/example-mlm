@@ -43,15 +43,15 @@ class CalendarEventListener
             $eventEntity = new EventEntity($cEvent->getName(), $cEvent->getStartDateTime(), null, true);
             
             if ($cEvent instanceof \Success\EventBundle\Entity\WebinarEvent){
-                $eventEntity->setBgColor('#0000FF');
+                $eventEntity->setBgColor('#FF5D5E');
             } else {
-                $eventEntity->setBgColor('#FF0000');
+                $eventEntity->setBgColor('#0000ff');
             }
             
             $eventEntity->setAllDay(true); // default is false, set to true if this is an all day event            
             $eventEntity->setFgColor('#FFFFFF'); //set the foreground color of the event's label
             $eventEntity->setUrl('/calendar/event/'.$cEvent->getId());
-            $eventEntity->setCssClass('event-detail');
+            //$eventEntity->setCssClass('event-detail');
             $calendarEvent->addEvent($eventEntity);
         }        
     }

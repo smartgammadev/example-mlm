@@ -32,13 +32,14 @@
             <tr>
                 <td colspan="5" class="center-cell">        
                 {% if allowVisitEvent %}
-                    <form id="goto-webinar-form" action="{{ event.url }}" target="_blank">
-                        <input class="submit-btn" type="submit" value="Войти в Вебинар">
-                    </form>        
+                        <div class="button">
+                            <a href="{{ event.url }}" target="blank" >Войти в Вебинар</a>
+                        </div>
                 {% else %}
-                    <form id="sign-to-webinar-form" action="#">
-                        <input class="submit-btn" type="submit" value="Записаться">
-                    </form>        
+                        <div class="button">
+                            <a href="#" >Записаться</a>
+                        </div>
+                        
                 {% endif %}
                </td>
             </tr>
