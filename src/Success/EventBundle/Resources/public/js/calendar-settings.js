@@ -29,7 +29,7 @@ $(function () {
         
         eventRender: function(event, element) {
             //alert('event-render');
-            element.colorbox({opacity: 0.5, scrolling:false});
+            element.colorbox({opacity: 0.5, scrolling:false, width: 350, height: 580});
         },        
         eventSources: [
             {
