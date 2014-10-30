@@ -81,9 +81,10 @@ sonata_admin:
     dashboard:
         groups:
             4 Success:
-                items:                    
+                items: 
                     - sonata.admin.webinar_event
                     - sonata.admin.setting_admin
+                    - sonata.admin.external_placeholder
             Users:
                 items:
                     - sonata.user.admin.user
