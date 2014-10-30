@@ -2,7 +2,7 @@ services:
     sonata.admin.external_placeholder:
         class: Success\PlaceholderBundle\Admin\ExternalPlaceholderAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "SPONSOR", label: "Placeholders" }
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Placeholders" }
         arguments:
             - ~
             - Success\PlaceholderBundle\Entity\ExternalPlaceholder

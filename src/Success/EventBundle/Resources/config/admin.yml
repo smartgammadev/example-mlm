@@ -2,7 +2,7 @@ services:
     sonata.admin.event_type:
         class: Success\EventBundle\Admin\EventTypeAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "SPONSOR", label: "EventTypes" }
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "EventTypes", show_in_dashboard: false }
         arguments:
             - ~
             - Success\EventBundle\Entity\EventType
@@ -11,7 +11,7 @@ services:
     sonata.admin.event_access_type:
         class: Success\EventBundle\Admin\EventAccessTypeAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "SPONSOR", label: "AccessTypes" }
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "AccessTypes", show_in_dashboard: false }
         arguments:
             - ~
             - Success\EventBundle\Entity\EventAccessType
@@ -20,7 +20,7 @@ services:
     sonata.admin.webinar_event:
         class: Success\EventBundle\Admin\WebinarEventAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "SPONSOR", label: "Webinars" }
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Webinars" }
         arguments:
             - ~
             - Success\EventBundle\Entity\WebinarEvent

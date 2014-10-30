@@ -1,5 +1,5 @@
 {% extends "SonataAdminBundle::standard_layout.html.twig" %}
-{#{% block stylesheets %}
+{% block stylesheets %}
     {{ parent() }}
-        <link rel="stylesheet" href="/bundles/sonatacore/public/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
-{% endblock %}#}
+    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/admin.style.css') }}" type="text/css" media="all" />    
+{% endblock %}

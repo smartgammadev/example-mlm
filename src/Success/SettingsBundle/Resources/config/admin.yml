@@ -2,7 +2,7 @@ services:
     sonata.admin.setting_admin:
         class: Success\SettingsBundle\Admin\SettingAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "SPONSOR", label: "Settings" }
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Settings" }
         arguments:
             - ~
             - Success\SettingsBundle\Entity\Setting
