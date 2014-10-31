@@ -17,7 +17,7 @@ class CalendarController extends Controller
      * @Route("/{template}/{slug}", name="show_calendar", requirements={"placeholders"=".+"})
      * @Template()
      */
-    public function showAction(Request $request)
+    public function showAction()
     { //pm->assingFoundPHTosession($request->query->all())
         
         return array();
