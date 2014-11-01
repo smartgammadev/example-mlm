@@ -1,3 +1,0 @@
-success_placeholder_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: SuccessPlaceholderBundle:Default:index }

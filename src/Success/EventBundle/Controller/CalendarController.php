@@ -5,34 +5,53 @@ namespace Success\EventBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Success\SettingsBundle\SuccessSettingsBundle;
+use Symfony\Component\HttpFoundation\Request;
+use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * @Route("/calendarevents")
  */
 class CalendarController extends Controller
 {   //pm-di
-   
+    
     /**
-     * @Route("/{template}/{slug}", name="show_calendar", requirements={"placeholders"=".+"})
+     * @DI\Inject("success.event.event_manager")
+     */
+    private $eventManager;
+    
+    /**
+     * @DI\Inject("success.settings.settings_manager")
+     */    
+    private $settingsManager;
+    
+    /**
+     *
+     * @DI\Inject("success.placeholder.placeholder_manager")
+     */    
+    private $placeholderManager;
+    
+    /**
+     * @Route("/{template}/{slug}", name="show_calendar")
      * @Template()
      */
-    public function showAction()
+    public function showAction(Request $request)
     { //pm->assingFoundPHTosession($request->query->all())
-        
+        $this->placeholderManager->assignPlaceholdersToSession($request->query->all());
+        //$request->query->all();
         return array();
     }
 
     /**
-     * @Route("/event/{eventId}", name="show_calendar_event", requirements={"eventId"="\d+"})
+     * @Route("/{template}/event/{eventId}", name="show_calendar_event", requirements={"eventId"="\d+"})
      * @Template()
      */
     public function eventAction($eventId){
-      $event = $this->get('success.event.event_manager')->getEventById($eventId);
-      $minutesToVisitEvent = $this->get('success.settings.settings_manager')->getSettingValue('minutesToVisitEvent');
-
-      $now = new \DateTime('now');      
       
+      
+      $event = $this->eventManager->getEventById($eventId);      
+      $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');
+
+      $now = new \DateTime('now');
       $allowVisitEvent =  ($event->getStartDateTime()->getTimestamp() - $now->getTimestamp() < $minutesToVisitEvent*60);
       $isPastEvent = $event->getStartDateTime()->getTimestamp() < $now->getTimestamp();
 

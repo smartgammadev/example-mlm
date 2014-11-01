@@ -1,5 +1,4 @@
 <?php
-
 namespace Success\EventBundle\Service;
 
 //use Gamma\Framework\Service\Service;

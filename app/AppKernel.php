@@ -32,7 +32,6 @@ class AppKernel extends Kernel
             new Application\Sonata\NotificationBundle\ApplicationSonataNotificationBundle(),
             //Sonata media
             new Sonata\MediaBundle\SonataMediaBundle(),
-            new JMS\SerializerBundle\JMSSerializerBundle(),
             new Application\Sonata\MediaBundle\ApplicationSonataMediaBundle(),
             //CalendarBundle
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
@@ -42,6 +41,10 @@ class AppKernel extends Kernel
             new Success\NotificationBundle\SuccessNotificationBundle(),
             //new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Success\SettingsBundle\SuccessSettingsBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
+            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
+            new JMS\AopBundle\JMSAopBundle(),
+
             //new Success\SiteBundle\SuccessSiteBundle(),
         );
 

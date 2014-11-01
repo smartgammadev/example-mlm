@@ -19,16 +19,16 @@ class ExternalPlaceholder extends BasePlaceholder
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+//    private $id;
+//
+//
+//    /**
+//     * Get id
+//     *
+//     * @return integer 
+//     */
+//    public function getId()
+//    {
+//        return $this->id;
+//    }
 }

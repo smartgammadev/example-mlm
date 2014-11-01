@@ -40,6 +40,12 @@ class BasePlaceholder
      */
     private $pattern;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="PlaceholderType", inversedBy="placeholders")
+     * @ORM\JoinColumn(name="placeholder_type_id", referencedColumnName="id")
+     */
+    private $placeholderType;
+
 
     /**
      * Get id
@@ -104,5 +110,28 @@ class BasePlaceholder
     public function __toString() 
     {
         return $this->name;
+    }
+
+    /**
+     * Set placeholderType
+     *
+     * @param \Success\PlaceholderBundle\Entity\PlaceholderType $placeholderType
+     * @return BasePlaceholder
+     */
+    public function setPlaceholderType(\Success\PlaceholderBundle\Entity\PlaceholderType $placeholderType = null)
+    {
+        $this->placeholderType = $placeholderType;
+
+        return $this;
+    }
+
+    /**
+     * Get placeholderType
+     *
+     * @return \Success\PlaceholderBundle\Entity\PlaceholderType 
+     */
+    public function getPlaceholderType()
+    {
+        return $this->placeholderType;
     }
 }

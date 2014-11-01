@@ -197,29 +197,6 @@ class BaseEvent
         return $this -> name;
     }
 
-//    /**
-//     * Set media
-//     *
-//     * @param MediaInterface $media
-//     * @return BaseEvent
-//     */
-//    public function setMedia(MediaInterface $media = null)
-//    {
-//        $this->media = $media;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get media
-//     *
-//     * @return MediaInterface
-//     */
-//    public function getMedia()
-//    {
-//        return $this->media;
-//    }
-
     /**
      * Set media
      *

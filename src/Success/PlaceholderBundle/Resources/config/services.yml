@@ -5,10 +5,12 @@ parameters:
     success.placeholder.manager.class: Success\PlaceholderBundle\Service\PlaceholderManager
 
 services:
-    success.placeholder.manager:
-        class: 
+    success.placeholder.placeholder_manager:
         class: %success.placeholder.manager.class%
-        #arguments: [@service_id, "plain_value", %parameter%]
+        calls:
+             - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+
+        #arguments: ~
 
 
 #    sonata.admin.external_placeholder:

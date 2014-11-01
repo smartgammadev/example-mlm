@@ -6,17 +6,17 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-
-
-class ExternalPlaceholderAdmin extends Admin {
-    
+/**
+ * Description of EventTypeAdmin
+ *
+ * @author develop1
+ */
+class PlaceholderTypeAdmin extends Admin {
+        
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper       
-            ->add('name', 'text', array('label' => 'Placeholder Name'))
-            ->add('pattern', 'text', array('label' => 'Placeholder Pattern'))
-            ->add('placeholderType', 'sonata_type_model', array('class' => 'Success\PlaceholderBundle\Entity\PlaceholderType'))
-            //->add('placeholderType', 'sonata_type_model', array('class' => 'Success\PlaceholderBundle\Entity\PlaceholderType'))
+        $formMapper
+            ->add('name', 'text', array('label' => 'Type'))
         ;
     }
 
@@ -25,7 +25,6 @@ class ExternalPlaceholderAdmin extends Admin {
     {
         $datagridMapper
             ->add('name')            
-            ->add('pattern')
         ;
     }
 
@@ -34,8 +33,6 @@ class ExternalPlaceholderAdmin extends Admin {
     {
         $listMapper
             ->addIdentifier('name')
-            ->add('placeholderType')    
-            ->add('pattern')
         ;
     }
 }

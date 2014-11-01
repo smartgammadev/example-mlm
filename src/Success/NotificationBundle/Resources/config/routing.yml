@@ -1,3 +1,0 @@
-success_notification_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: SuccessNotificationBundle:Default:index }
