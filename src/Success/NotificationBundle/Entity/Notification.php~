@@ -10,6 +10,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Success\NotificationBundle\Entity\NotificationRepository")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"email_notification" = "EmailNotification", "sms_notification" = "SMSNotification"})
  */
 class Notification
 {
@@ -32,9 +35,9 @@ class Notification
     /**
      * @var string
      *
-     * @ORM\Column(name="pattern", type="string", length=100)
+     * @ORM\Column(name="destination", type="string", length=255)
      */
-    private $pattern;
+    private $destination;
 
     /**
      * @var \DateTime
@@ -163,5 +166,28 @@ class Notification
     public function getLogs()
     {
         return $this->logs;
+    }
+
+    /**
+     * Set destination
+     *
+     * @param string $destination
+     * @return Notification
+     */
+    public function setDestination($destination)
+    {
+        $this->destination = $destination;
+
+        return $this;
+    }
+
+    /**
+     * Get destination
+     *
+     * @return string 
+     */
+    public function getDestination()
+    {
+        return $this->destination;
     }
 }

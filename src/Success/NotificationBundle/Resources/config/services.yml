@@ -1,8 +1,13 @@
 parameters:
     success.notification.base_event_notifier.class: Success\NotificationBundle\Service\BaseEventNotifier
+    success.notification.notification_manager.class: Success\NotificationBundle\Service\NotificationManager
 
 services:
     success.notification.base_event_notifier:
         class: %success.notification.base_event_notifier.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
 
+    success.notification.notification_manager:
+        class: %success.notification.notification_manager.class%
+        calls: 
+            - [setEntityManager, ["@doctrine.orm.entity_manager"]]

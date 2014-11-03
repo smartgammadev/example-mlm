@@ -34,7 +34,13 @@ class CalendarController extends Controller
      * @DI\Inject("success.member.member_manager")
      */        
     private $memberManager;
-
+    
+    /**
+     *
+     * @DI\Inject("success.notification.notification_manager")
+     */        
+    private $notificationManager;
+    
     /**
      * @Route("/{template}/{slug}", name="show_calendar")
      * @Template()
@@ -73,6 +79,9 @@ class CalendarController extends Controller
      * @Template()
      */
     public function signupAction($eventId, Request $request) {
+        /**
+         * @var \Success\EventBundle\Entity\BaseEvent Event for sign up
+         */
         $event = $this->eventManager->getEventById($eventId);
         
         $form = $this->createForm(new SignupType($this->placeholderManager));
@@ -90,19 +99,21 @@ class CalendarController extends Controller
                     $placeholders[$pattern] = $value;
                 }
             }
-            
+                $now = new \DateTime('now');
+                $this->notificationManager->CreateEmailNotification($now, $placeholders['sponsor_email'], 'sponsor sign up email notification');
+                $this->notificationManager->CreateSMSNotification($now, $placeholders['sponsor_phone'], 'sponsor sign up sms notification');
+                $this->notificationManager->CreateEmailNotification($now, $placeholders['user_email'], 'user sign up email notification');
+                
             if ($notifyUser){
-                //////////////////////
-                //$this->notifyManager->CreateEmailNotification($placeholders['sponsor_email'],now());
-                //$this->notifyManager->CreateSMSNotification($placeholders['sponsor_phone'],now());
-                //$this->notifyManager->CreateEmailNotification($placeholders['user_email'],now());
-                //
-                //$this->notifyManager->CreateSMSNotification($placeholders['user_phone'],$event->getStartDateTime()///{ -30mins});
-                //////////////////////
+                
+                $beforeEventDateModifier = $this->settingsManager->getSettingValue('beforeEventDateModifier');
+                $datetimeBeforeEvent = $event->getStartDateTime()->modify($beforeEventDateModifier);
+                
+                $this->notificationManager->CreateEmailNotification($datetimeBeforeEvent, $placeholders['user_email'], 'user before event email notification');
+                $this->notificationManager->CreateSMSNotification($datetimeBeforeEvent, $placeholders['user_phone'], 'user before event sms notification');
             }
-            $this->placeholderManager->assignPlaceholdersToSession($placeholders);
             
-            //$memberIdentityPlaceholder = $this->settingsManager->getSettingValue('memberIdentityPlaceholder');
+            $this->placeholderManager->assignPlaceholdersToSession($placeholders);                        
             $this->memberManager->updateMemberData($placeholders);
             
             return array('message'=>'You are successfully SignedUp');

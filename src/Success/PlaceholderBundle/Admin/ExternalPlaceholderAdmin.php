@@ -28,7 +28,8 @@ class ExternalPlaceholderAdmin extends Admin {
         $datagridMapper
             ->add('name')
             ->add('pattern')
-        ;
+            ->add('placeholderType')
+        ;       
     }
 
     protected function configureListFields(ListMapper $listMapper)
