@@ -1,7 +1,6 @@
 <?php
 namespace Success\MemberBundle\Service;
 use Success\MemberBundle\Entity\Member;
-use JMS\DiExtraBundle\Annotation\Inject;
 use Success\PlaceholderBundle\Service\PlaceholderManager;
 use Success\PlaceholderBundle\Entity\BasePlaceholder;
 use Success\MemberBundle\Entity\MemberData;
@@ -10,6 +9,7 @@ class MemberManager {
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
     
     private $placeholderManager;
+    private $memberIdentityPlaceholder = 'email';
     
     public function __construct(PlaceholderManager $placeholderManager)
     {
@@ -33,7 +33,7 @@ class MemberManager {
      * @param type $externalId sting(255)
      * @return Success\MemberBundle\Entity\Member
      */
-    public function ResolveMemberByExternalId($externalId)
+    public function resolveMemberByExternalId($externalId)
     {
         $member = $this->GetMemberByExternalId($externalId);
         
@@ -50,36 +50,62 @@ class MemberManager {
         return $member;
     }
     
-    public function UpdateMemberData($placeholders,$memberIdentityPlaceholder)
+    /**
+     * 
+     * @param array $placeholders
+     * @return bool
+     */
+    public function updateMemberData(array $placeholders)
     {   
         $placeholdersData = $this->placeholderManager->getPlaceholdersValuesFormSession($placeholders);
-                        
-        foreach ($placeholdersData as $phData){
-            if ($phData['placeholder']->getPattern()==$memberIdentityPlaceholder){
-                $membersFound[] = array('externalId'=>$phData['value'], 
-                    'pattern'=>$phData['placeholder']->getPlaceholderType()->getPattern());
-            }
-        }
         
-        foreach ($membersFound as $memberFound){
-            $member = $this->ResolveMemberByExternalId($memberFound['externalId']);
-            $placeholdersMemberData = 
-                    $this->placeholderManager->getPlaceholdersValuesByTypePattern($memberFound['pattern']);
-            
-            foreach ($placeholdersMemberData as $phData){
-                $this->ResolveMemberData($member, $phData['placeholder'], $phData['value']);
-            }
-        }        
+        $placeholdersToSearchMember = $this->findPlaceholdersToSearchMember($placeholdersData);
+        $this->findMemberAndResolveUpdateOrCreate($placeholdersToSearchMember);       
     }
     
     /**
      * 
-     * @param Member $member
-     * @param BasePlaceholder $placeholder
-     * @param type $data String
+     * @param array $placeholderData
+     * @return array
+     */
+    private function findPlaceholdersToSearchMember(array $placeholdersData)
+    {
+        $placeholdersToSearchMember = array();                
+        
+        foreach ($placeholdersData as $phData){
+            if ($phData['placeholder']->getPattern() == $this->memberIdentityPlaceholder){
+                $placeholdersToSearchMember[] = array('externalId' => $phData['value'], 
+                                        'pattern' => $phData['placeholder']->getPlaceholderType()->getPattern());
+            }
+        } 
+        return $placeholdersToSearchMember;
+    }
+    
+    /**
+     * 
+     * @param array $placeholdersToSearchMember
      * @return void
      */
-    public function ResolveMemberData($member, $placeholder, $data)
+    private function findMemberAndResolveUpdateOrCreate(array $placeholdersToSearchMember)
+    {       
+        foreach ($placeholdersToSearchMember as $searchPlaceholder){
+            $member = $this->resolveMemberByExternalId($searchPlaceholder['externalId']);
+            $placeholdersMemberData = $this->placeholderManager->getPlaceholdersValuesByTypePattern($searchPlaceholder['pattern']);
+            
+            foreach ($placeholdersMemberData as $phData){
+                $this->resolveUpdateOrCreateMember($member, $phData['placeholder'], $phData['value']);
+            }
+        }         
+    }
+    
+    /**
+     * 
+     * @param \Success\MemberBundle\Entity\Member $member
+     * @param \Success\PlaceholderBundle\Entity\BasePlaceholder $placeholder
+     * @param string $data 
+     * @return \Success\MemberBundle\Entity\MemberData
+     */
+    public function resolveUpdateOrCreateMember(Member $member,BasePlaceholder $placeholder, $data)
     {
         $repo = $this->em->getRepository('SuccessMemberBundle:MemberData');
         $memberData = $repo->findOneBy(array('member'=>$member->getId(), 'placeholder'=>$placeholder->getId()));
@@ -91,16 +117,14 @@ class MemberManager {
             $memberData->setMemberData($data);
             $this->em->persist($memberData);
             $this->em->flush();
-            return $memberData;
         } else {
             $memberData->setMember($member);
             $memberData->setPlaceholder($placeholder);
             $memberData->setMemberData($data);
             $this->em->flush();
-            return $memberData;
         }
         
-        
+        return $memberData;        
     }
     
 }

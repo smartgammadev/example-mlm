@@ -62,7 +62,10 @@ class CalendarController extends Controller
         if (!$event){
             throw $this->createNotFoundException('No event found for id='.$eventId);
         }
-        return array('event' => $event, 'allowVisitEvent' => $allowVisitEvent, 'isPastEvent' => $isPastEvent );
+        return array('event' => $event, 
+                     'allowVisitEvent' => $allowVisitEvent, 
+                     'isPastEvent' => $isPastEvent 
+                    );
     }
     
     /**
@@ -77,13 +80,13 @@ class CalendarController extends Controller
             $placeholders = $this->placeholderManager->getPlaceholdersFromSession();            
             $formdata = $form->getData();
             
-            foreach ($formdata as $pattern=>$value ){
-                $placeholders[$pattern]=$value;
+            foreach ($formdata as $pattern => $value){
+                $placeholders[$pattern] = $value;
             }
             $this->placeholderManager->assignPlaceholdersToSession($placeholders);
             
-            $memberIdentityPlaceholder = $this->settingsManager->getSettingValue('memberIdentityPlaceholder');
-            $this->memberManager->UpdateMemberData($placeholders,$memberIdentityPlaceholder);
+            //$memberIdentityPlaceholder = $this->settingsManager->getSettingValue('memberIdentityPlaceholder');
+            $this->memberManager->updateMemberData($placeholders);
             
             return array('message'=>'You are successfully SignedUp');
         }        
