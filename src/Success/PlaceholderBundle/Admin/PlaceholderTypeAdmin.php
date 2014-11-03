@@ -17,6 +17,7 @@ class PlaceholderTypeAdmin extends Admin {
     {
         $formMapper
             ->add('name', 'text', array('label' => 'Type'))
+            ->add('pattern', 'text', array('label' => 'Type'))
         ;
     }
 
@@ -33,6 +34,7 @@ class PlaceholderTypeAdmin extends Admin {
     {
         $listMapper
             ->addIdentifier('name')
+            ->addIdentifier('pattern')
         ;
     }
 }

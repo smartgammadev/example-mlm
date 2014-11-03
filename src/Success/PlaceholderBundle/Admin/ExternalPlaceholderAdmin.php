@@ -29,13 +29,13 @@ class ExternalPlaceholderAdmin extends Admin {
         ;
     }
 
-
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
             ->addIdentifier('name')
-            ->add('placeholderType')    
-            ->add('pattern')
+            ->add('placeholderType','text',array())
+//            ->add('pattern')
+            ->add('fullPattern')
         ;
     }
 }

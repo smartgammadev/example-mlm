@@ -14,7 +14,8 @@ use Success\PlaceholderBundle\Entity\PlaceholderType;
  *
  * @author develop1
  */
-class PlaceholderManager {
+class PlaceholderManager 
+{
     
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
     
@@ -23,10 +24,41 @@ class PlaceholderManager {
         $session = new Session();
         $session->set('placeholders', $placeholders);
         
-        foreach ($placeholders as $name=>$value){
-            $this->ResolveExternalPlaceholder($name);
-        }
     }
+    
+    public function getPlaceholdersFromSession()
+    {
+        $session = new Session();
+        return $session->get('placeholders');
+    }
+    /**
+     * 
+     * @return array[][placeholder Entity][value sting]
+     */
+    
+    public function getPlaceholdersValuesFormSession()
+    {   $session = new Session();    
+        $placeholders = $session->get('placeholders');
+        
+        foreach ($placeholders as $pattern=>$value){
+            $result[] = array('placeholder'=>$this->ResolveExternalPlaceholder($pattern),'value'=>$value);
+        }
+        return $result;
+    }
+
+    
+    public function getPlaceholdersValuesByTypePattern($typePattern)
+    {   $session = new Session();    
+        $placeholders = $session->get('placeholders');
+        
+        foreach ($placeholders as $pattern=>$value){
+            $ph = $this->ResolveExternalPlaceholder($pattern);
+            if($ph->getPlaceholderType()->getPattern()==$typePattern){
+                $result[] = array('placeholder'=>$ph,'value'=>$value);
+            }
+        }
+        return $result;
+    }    
     
     /**
      * 
@@ -35,44 +67,69 @@ class PlaceholderManager {
      */
     public function ResolveExternalPlaceholder($fullName)
     {
-        $dataChanged = false;
-        
-        $placeholderTypeName = mb_stristr($fullName, '_', true);
-        //$placeholderTypeName = substr($placeholderTypeName, 0, strlen($placeholderTypeName)-1);
-        $placeholderName = mb_stristr($fullName, '_', false);
-        $placeholderName = substr($placeholderName, 1, strlen($placeholderName));
-        
+        $persisted = false;        
+        $placeholderTypePattern = $this->getTypePattern($fullName);
+        $placeholderPattern = $this->getPattern($fullName);
+
         $placeholderRepo = $this->em->getRepository('SuccessPlaceholderBundle:ExternalPlaceholder');
         $placeholderTypeRepo = $this->em->getRepository('SuccessPlaceholderBundle:PlaceholderType');
         
         $placeholderType = $placeholderTypeRepo->findOneBy(
-                array('name'=>$placeholderTypeName));        
+                array('pattern'=>$placeholderTypePattern));        
         
         if(!$placeholderType){
             $placeholderType = new PlaceholderType();
-            $placeholderType->setName($placeholderTypeName);
+            $placeholderType->setName($placeholderTypePattern);
+            $placeholderType->setPattern($placeholderTypePattern);
             $this->em->persist($placeholderType);
-            $dataChanged = true;
-        }
-        
+            $persisted = true;
+        }        
         $placeholder = $placeholderRepo->findOneBy(
-                array('name'=>$placeholderName, 'placeholderType'=>$placeholderType->getId()));
-        
+                array('pattern'=>$placeholderPattern, 'placeholderType'=>$placeholderType->getId()));        
         if(!$placeholder){
-            $placeholder = new ExternalPlaceholder();
-            
-            $placeholder->setPattern($placeholderName);
-            $placeholder->setName($placeholderName);
-            $placeholder->setPlaceholderType($placeholderType);
-            
+            $placeholder = new ExternalPlaceholder();            
+            $placeholder->setPattern($placeholderPattern);
+            $placeholder->setName($placeholderPattern);
+            $placeholder->setPlaceholderType($placeholderType);            
             $this->em->persist($placeholder);
-            $dataChanged = true;
+            $persisted = true;
         }
 
-        if ($dataChanged){
+        if ($persisted){
             $this->em->flush();
         }
         return $placeholder;
-        
     }
+
+    
+    /**
+     * @return Array
+     */
+    public function GetPlaceholderTypes() 
+    {
+        $repo = $this->em->getRepository('SuccessPlaceholderBundle:PlaceholderType');
+        return $repo->findAll();
+    }
+
+    /**
+     * 
+     * @param type $fullname string - example sponsor_mail
+     * @return string - example mail
+     */
+    public function getPattern($fullname)
+    {        
+        $placeholderName = mb_stristr($fullname, '_', false);
+        return substr($placeholderName, 1, strlen($placeholderName));
+    }
+    
+    /**
+     * 
+     * @param type $fullname string - example sponsor_mail
+     * @return string - example sponsor
+     */
+    public function getTypePattern($fullname)
+    {
+        return mb_stristr($fullname, '_', true);
+    }
+
 }

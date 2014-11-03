@@ -22,7 +22,7 @@
                 <td class="left-cell">{{ event.name }}</td>
             </tr>
 #}            <tr>
-                <td colspan="5" class="center-cell">Event Time: <br>{{ event.startDateTime|date('m.d.Y H:i:s') }}
+                <td colspan="5" class="center-cell">Event Time: <br>{{ event.startDateTime|date('d.m.Y H:i') }}
                 </td>
             </tr>
             <tr>
@@ -36,7 +36,7 @@
                 {% if allowVisitEvent %}                    
                         <a class="btn btn-success btn-lg" href="{{ event.url }}" target="blank">Войти в Вебинар</a>
                 {% else %}                        
-                        <a type="button" class="btn btn-primary btn-lg" href="#" >Записаться</a>
+                        <a type="button" class="sign-btn btn btn-primary btn-lg" href="http://www.mail.ru" >Записаться</a>
                 {% endif %}
                </td>
             </tr>
@@ -52,6 +52,7 @@
     <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.countdown.js') }}"></script>
     <script type="text/javascript">        
         startDateTime ="{{ event.startDateTime|date('Y/m/d H:i:s') }}";
+                
         $("#timer").countdown(startDateTime, function(event) {
             {% if date(event.startDateTime) < date() %}
                 $(this).text('Прошлое событие');

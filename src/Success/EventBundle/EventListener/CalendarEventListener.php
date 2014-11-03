@@ -50,7 +50,7 @@ class CalendarEventListener
             
             $eventEntity->setAllDay(true); // default is false, set to true if this is an all day event            
             $eventEntity->setFgColor('#FFFFFF'); //set the foreground color of the event's label
-            $eventEntity->setUrl('/calendarevents/calendar/event/'.$cEvent->getId());
+            $eventEntity->setUrl('/calendarevents/calendar/event/'.$cEvent->getId().'/signup');
             //$eventEntity->setCssClass('event-detail');
             $calendarEvent->addEvent($eventEntity);
         }        

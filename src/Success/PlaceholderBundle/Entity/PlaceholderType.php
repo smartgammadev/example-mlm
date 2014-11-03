@@ -24,10 +24,18 @@ class PlaceholderType
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=50)
+     * @ORM\Column(name="name", type="string", unique=true, length=255)
      */
     private $name;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pattern", type="string", unique=true, length=50)
+     */
+    private $pattern;
+    
+    
     /**
      * @ORM\OneToMany(targetEntity="BasePlaceholder", mappedBy="placeholderType")
      */
@@ -108,5 +116,28 @@ class PlaceholderType
     
     public function __toString() {
         return $this->name;
+    }
+
+    /**
+     * Set pattern
+     *
+     * @param string $pattern
+     * @return PlaceholderType
+     */
+    public function setPattern($pattern)
+    {
+        $this->pattern = $pattern;
+
+        return $this;
+    }
+
+    /**
+     * Get pattern
+     *
+     * @return string 
+     */
+    public function getPattern()
+    {
+        return $this->pattern;
     }
 }

@@ -2,7 +2,7 @@ services:
     sonata.admin.placeholder_type:
         class: Success\PlaceholderBundle\Admin\PlaceholderTypeAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "PlaceholderTypes", show_in_dashboard: false }
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "PlaceholderTypes" }
         arguments:
             - ~
             - Success\PlaceholderBundle\Entity\PlaceholderType

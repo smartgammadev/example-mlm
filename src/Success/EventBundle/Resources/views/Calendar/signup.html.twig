@@ -1,0 +1,26 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/jquery.countdown.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/4success.style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/bootstrap.min.css') }}" />
+
+{% endblock %}
+
+{% block body %}
+    {#{{ count }}#}
+    {% if form is defined %}
+        {{ form(form) }}
+    {% endif %}
+
+    {% if message is defined %}
+        {{ message }}
+    {% endif %}
+    
+
+{% endblock %}
+
+{% block javascripts %}    
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery-1.11.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/bootstrap.min.js') }}"></script>
+{% endblock %}

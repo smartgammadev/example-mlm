@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"base_placeholder" = "BasePlaceholder", "external_placeholder" = "ExternalPlaceholder"})
+ * @ORM\HasLifecycleCallbacks()
  * 
  */
 
@@ -46,7 +47,11 @@ class BasePlaceholder
      */
     private $placeholderType;
 
-
+    /**
+     * @ORM\Column(name="full_pattern", type="string", length=255, unique=true)
+     */
+    private $fullPattern;
+    
     /**
      * Get id
      *
@@ -72,7 +77,7 @@ class BasePlaceholder
 
     /**
      * Get name
-     *
+     *     *
      * @return string 
      */
     public function getName()
@@ -133,5 +138,24 @@ class BasePlaceholder
     public function getPlaceholderType()
     {
         return $this->placeholderType;
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @return void 
+     */
+    public function setFullPattern()
+    {
+        $this->fullPattern = $this->getPlaceholderType()->getPattern().'_'.$this->pattern;
+    }
+
+    /**
+     * Get fullPattern
+     *
+     * @return string 
+     */
+    public function getFullPattern()
+    {
+        return $this->fullPattern;
     }
 }
