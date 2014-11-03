@@ -9,6 +9,7 @@ services:
         class: %success.placeholder.manager.class%
         calls:
              - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+             - [setRequest, ["@?request="]]
 
         #arguments: ~
 

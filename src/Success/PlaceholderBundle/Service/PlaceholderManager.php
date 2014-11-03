@@ -1,6 +1,5 @@
 <?php
 namespace Success\PlaceholderBundle\Service;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Success\PlaceholderBundle\Entity\ExternalPlaceholder;
 use Success\PlaceholderBundle\Entity\PlaceholderType;
 /*
@@ -15,46 +14,47 @@ use Success\PlaceholderBundle\Entity\PlaceholderType;
  * @author develop1
  */
 class PlaceholderManager 
-{
-    
+{    
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
+    use \Gamma\Framework\Traits\DI\SetRequestTrait;
     
     public function assignPlaceholdersToSession(array $placeholders)
     {
-        $session = new Session();
-        $session->set('placeholders', $placeholders);
-        
+        $session = $this->request->get('session');
+        $session->set('placeholders', $placeholders);        
     }
     
     public function getPlaceholdersFromSession()
     {
-        $session = new Session();
+        $session = $this->request->get('session');
         return $session->get('placeholders');
     }
+    
     /**
      * 
      * @return array[][placeholder Entity][value sting]
-     */
-    
+     */  
     public function getPlaceholdersValuesFormSession()
-    {   $session = new Session();    
+    {   
+        /* @var $session \Symfony\Component\HttpFoundation\Session\Session */
+        $session = $this->request->get('session');           
         $placeholders = $session->get('placeholders');
         
-        foreach ($placeholders as $pattern=>$value){
-            $result[] = array('placeholder'=>$this->ResolveExternalPlaceholder($pattern),'value'=>$value);
+        foreach ($placeholders as $pattern => $value){
+            $result[] = array('placeholder' => $this->resolveExternalPlaceholder($pattern), 'value'=>$value);
         }
         return $result;
     }
-
-    
+   
     public function getPlaceholdersValuesByTypePattern($typePattern)
-    {   $session = new Session();    
+    {   
+        $session = $this->request->get('session'); 
         $placeholders = $session->get('placeholders');
         
-        foreach ($placeholders as $pattern=>$value){
+        foreach ($placeholders as $pattern => $value){
             $ph = $this->ResolveExternalPlaceholder($pattern);
-            if($ph->getPlaceholderType()->getPattern()==$typePattern){
-                $result[] = array('placeholder'=>$ph,'value'=>$value);
+            if($ph->getPlaceholderType()->getPattern() == $typePattern){
+                $result[] = array('placeholder'=>$ph, 'value'=>$value);
             }
         }
         return $result;
@@ -62,10 +62,10 @@ class PlaceholderManager
     
     /**
      * 
-     * @param type $fullName string like sponsor_first_name
+     * @param string $fullName string like sponsor_first_name
      * @return Success\PlaceholderBundle\Entity\ExternalPlaceholder
      */
-    public function ResolveExternalPlaceholder($fullName)
+    public function resolveExternalPlaceholder($fullName)
     {
         $persisted = false;        
         $placeholderTypePattern = $this->getTypePattern($fullName);
@@ -100,8 +100,7 @@ class PlaceholderManager
         }
         return $placeholder;
     }
-
-    
+  
     /**
      * @return Array
      */
@@ -113,7 +112,7 @@ class PlaceholderManager
 
     /**
      * 
-     * @param type $fullname string - example sponsor_mail
+     * @param string $fullname - example sponsor_mail
      * @return string - example mail
      */
     public function getPattern($fullname)

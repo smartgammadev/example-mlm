@@ -1,9 +1,11 @@
 <?php
+
 namespace Success\MemberBundle\Service;
 use Success\MemberBundle\Entity\Member;
 use Success\PlaceholderBundle\Service\PlaceholderManager;
 use Success\PlaceholderBundle\Entity\BasePlaceholder;
 use Success\MemberBundle\Entity\MemberData;
+
 class MemberManager {
     
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
@@ -15,8 +17,7 @@ class MemberManager {
     {
         $this->placeholderManager = $placeholderManager;
     }
-    
-    
+     
     /**
      * 
      * @param type $externalId string(255)
@@ -30,23 +31,20 @@ class MemberManager {
     
     /**
      * 
-     * @param type $externalId sting(255)
+     * @param sting $externalId 
      * @return Success\MemberBundle\Entity\Member
      */
     public function resolveMemberByExternalId($externalId)
     {
         $member = $this->GetMemberByExternalId($externalId);
-        
-        $persisted = false;
+
         if (!$member){
             $member = new Member();
             $member->setExternalId($externalId);
             $this->em->persist($member);
-            $persisted = true;
-        }
-        if ($persisted){
             $this->em->flush();
         }
+
         return $member;
     }
     
