@@ -10,6 +10,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Success\NotificationBundle\Entity\NotificationRepository")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"notification" = "Notification", "email" = "EmailNotification", "sms" = "SMSNotification"})
+
  */
 class Notification
 {

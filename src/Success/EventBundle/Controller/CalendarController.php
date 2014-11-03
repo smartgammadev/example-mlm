@@ -86,8 +86,7 @@ class CalendarController extends Controller
             $this->memberManager->UpdateMemberData($placeholders,$memberIdentityPlaceholder);
             
             return array('message'=>'You are successfully SignedUp');
-        }
-        
+        }        
         return array('form'=>$form->createView());
     }
 }
