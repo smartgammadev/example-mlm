@@ -13,6 +13,20 @@
     <div style=" margin: auto; width: 50%; height: 50%" id="calendaContainer">
         {% include 'ADesignsCalendarBundle::calendar.html.twig' %}
     </div>
+        
+    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
+    </div>        
+
+    <div class="modal fade" id="eventSignUpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
+    </div>        
+
+
 {% endblock %}
 
 {% block javascripts %}
@@ -21,9 +35,7 @@
     <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery-1.11.1.min.js') }}"></script>    
     <script type="text/javascript" src="{{ asset('bundles/successevent/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
-    {#<script type="text/javascript" src="{{ asset('bundles/successevent/js/full.calendar.ru.js') }}"></script>#}
-    <script type="text/javascript" src="{{ asset('bundles/successevent/js/calendar-settings.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.colorbox.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/calendar-settings.js') }}"></script>    
 {% endblock %}
 
 

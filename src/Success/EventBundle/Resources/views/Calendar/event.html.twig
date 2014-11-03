@@ -34,16 +34,14 @@
             <tr>
                 <td colspan="5" class="center-cell">        
                 {% if allowVisitEvent %}                    
-                        <a class="btn btn-success btn-lg" href="{{ event.url }}" target="blank">Войти в Вебинар</a>
-                {% else %}                        
-                        <a type="button" class="sign-btn btn btn-primary btn-lg" href="http://www.mail.ru" >Записаться</a>
+                    <a class="btn btn-success btn-lg" href="{{ event.url }}" target="blank">Войти в Вебинар</a>
+                {% else %}
+                    <a data-togle="modal" data-target="#eventSignUpModal" class="btn btn-info" href="/calendarevents/calendar/event/{{ event.id }}/signup" >Записаться</a>
                 {% endif %}
                </td>
             </tr>
         </table>
     </div>    
-    
-    
 {% endblock %}
 
 {% block javascripts %}    

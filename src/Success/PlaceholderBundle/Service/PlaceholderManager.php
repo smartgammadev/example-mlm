@@ -20,13 +20,15 @@ class PlaceholderManager
     
     public function assignPlaceholdersToSession(array $placeholders)
     {
-        $session = $this->request->get('session');
+        //print_r($this->request);
+        
+        $session = $this->request->getSession();
         $session->set('placeholders', $placeholders);        
     }
     
     public function getPlaceholdersFromSession()
     {
-        $session = $this->request->get('session');
+        $session = $this->request->getSession();
         return $session->get('placeholders');
     }
     
@@ -37,9 +39,8 @@ class PlaceholderManager
     public function getPlaceholdersValuesFormSession()
     {   
         /* @var $session \Symfony\Component\HttpFoundation\Session\Session */
-        $session = $this->request->get('session');           
-        $placeholders = $session->get('placeholders');
-        
+        $session = $this->request->getSession();
+        $placeholders = $session->get('placeholders');        
         foreach ($placeholders as $pattern => $value){
             $result[] = array('placeholder' => $this->resolveExternalPlaceholder($pattern), 'value'=>$value);
         }
@@ -48,7 +49,7 @@ class PlaceholderManager
    
     public function getPlaceholdersValuesByTypePattern($typePattern)
     {   
-        $session = $this->request->get('session'); 
+        $session = $this->request->getSession();
         $placeholders = $session->get('placeholders');
         
         foreach ($placeholders as $pattern => $value){
@@ -90,6 +91,7 @@ class PlaceholderManager
             $placeholder = new ExternalPlaceholder();            
             $placeholder->setPattern($placeholderPattern);
             $placeholder->setName($placeholderPattern);
+            $placeholder->setAllowUserToEdit(false);
             $placeholder->setPlaceholderType($placeholderType);            
             $this->em->persist($placeholder);
             $persisted = true;

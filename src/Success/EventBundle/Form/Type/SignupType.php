@@ -19,11 +19,15 @@ class SignupType extends AbstractType {
         $phValues=$this->pm->getPlaceholdersValuesFormSession();
         
         foreach ($phValues as $phValue){
-            if ($phValue['placeholder']->getPlaceholderType()->getPattern()=='user'){
-                $builder->add($phValue['placeholder']->getFullPattern(),
-                        'text',array('label'=>$phValue['placeholder']->getName(),'data'=>$phValue['value']));
+            if (($phValue['placeholder']->getPlaceholderType()->getPattern()=='user')&&
+                ($phValue['placeholder']->getAllowUserToEdit())){
+                    $builder->add($phValue['placeholder']->getFullPattern(),
+                        'text',array('label'=>$phValue['placeholder']->getName(),'data'=>$phValue['value']));               
             }
-        }
+        }        
+        $builder->add('notify', 'checkbox',array(
+            'label' => 'Notify me before this event',
+            'required'  => false));
         $builder->add('SignUp', 'submit');
     }
     

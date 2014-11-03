@@ -52,7 +52,7 @@ class CalendarController extends Controller
      * @Template()
      */
     public function eventAction($eventId){            
-        $event = $this->eventManager->getEventById($eventId);      
+        $event = $this->eventManager->getEventById($eventId);
         $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');
 
         $now = new \DateTime('now');
@@ -73,6 +73,8 @@ class CalendarController extends Controller
      * @Template()
      */
     public function signupAction($eventId, Request $request) {
+        $event = $this->eventManager->getEventById($eventId);
+        
         $form = $this->createForm(new SignupType($this->placeholderManager));
         $form->handleRequest($request);
 
@@ -80,8 +82,23 @@ class CalendarController extends Controller
             $placeholders = $this->placeholderManager->getPlaceholdersFromSession();            
             $formdata = $form->getData();
             
-            foreach ($formdata as $pattern => $value){
-                $placeholders[$pattern] = $value;
+            $notifyUser = false;
+            foreach ($formdata as $pattern => $value){                                
+                if (($pattern == 'notify')&&($value==true)){
+                   $notifyUser = true;
+                } else{
+                    $placeholders[$pattern] = $value;
+                }
+            }
+            
+            if ($notifyUser){
+                //////////////////////
+                //$this->notifyManager->CreateEmailNotification($placeholders['sponsor_email'],now());
+                //$this->notifyManager->CreateSMSNotification($placeholders['sponsor_phone'],now());
+                //$this->notifyManager->CreateEmailNotification($placeholders['user_email'],now());
+                //
+                //$this->notifyManager->CreateSMSNotification($placeholders['user_phone'],$event->getStartDateTime()///{ -30mins});
+                //////////////////////
             }
             $this->placeholderManager->assignPlaceholdersToSession($placeholders);
             

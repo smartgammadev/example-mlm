@@ -51,6 +51,12 @@ class BasePlaceholder
      * @ORM\Column(name="full_pattern", type="string", length=255, unique=true)
      */
     private $fullPattern;
+
+    /**
+     * @ORM\Column(name="allow_user_to_edit", type="boolean")
+     */
+    private $allowUserToEdit;
+
     
     /**
      * Get id
@@ -157,5 +163,28 @@ class BasePlaceholder
     public function getFullPattern()
     {
         return $this->fullPattern;
+    }
+
+
+    /**
+     * Set allowUserToEdit
+     *
+     * @param boolean $allowUserToEdit
+     * @return BasePlaceholder
+     */
+    public function setAllowUserToEdit($allowUserToEdit)
+    {
+        $this->allowUserToEdit = $allowUserToEdit;
+        return $this;
+    }
+
+    /**
+     * Get allowUserToEdit
+     *
+     * @return boolean 
+     */
+    public function getAllowUserToEdit()
+    {
+        return $this->allowUserToEdit;
     }
 }

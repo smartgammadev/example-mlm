@@ -15,7 +15,6 @@ $(function () {
             right: 'month, basicWeek, basicDay,'
         },
         lazyFetching: true,
-        lang: 'ru',
         firstDay:1,
         height: 650,
         aspectRatio: 1,
@@ -29,7 +28,12 @@ $(function () {
         
         eventRender: function(event, element) {
             //alert('event-render');
-            element.colorbox({opacity: 0.5, scrolling:false, width: 350, height: 580});
+            element.attr("data-toggle","modal");
+            element.attr("data-target","#eventModal");
+
+            //element.addClass('btn');
+            //element.addClass('btn-info');
+            //element.colorbox({opacity: 0.5, scrolling:false, width: 350, height: 580});
         },        
         eventSources: [
             {
