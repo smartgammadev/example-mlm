@@ -23,7 +23,7 @@ class SettingsManager
     public function getSettingValue($name){
         $repo = $this->em->getRepository('SuccessSettingsBundle:Setting');
         $setting = $repo->findOneBy(array('name' => $name));
-        $value = $setting->getValue();
+        $value = $setting->getSettingValue();
         
         if (!$value){
             throw $this->createNotFoundException('No setting found for name = "'.$name.'"');

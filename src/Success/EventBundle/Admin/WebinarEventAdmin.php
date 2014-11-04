@@ -8,8 +8,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 
 class WebinarEventAdmin extends Admin {
-    
-    
+       
     protected $datagridValues = array(
         '_page' => 1, // Display the first page (default = 1)
         '_sort_order' => 'DESC', // Descendant ordering (default = 'ASC')
@@ -60,9 +59,21 @@ class WebinarEventAdmin extends Admin {
     {
         $listMapper
             ->add('startDateTime','datetime',array('format' => 'd.m.Y H:i'))            
-            ->addIdentifier('name')
+            ->add('name')
             ->add('url', 'url',array('hide_protocol' => false))
+            ->add('_action', 'actions', array(
+                    'actions' => array(
+                    'edit'      => array(),    
+                    'delete'      => array(),
+                )
+            ))
         ;
+    }
+    
+    public function getNewInstance() {
+        $newInstance = parent::getNewInstance();
+        $newInstance->setUrl('http://');
+        return $newInstance;
     }
     
 }

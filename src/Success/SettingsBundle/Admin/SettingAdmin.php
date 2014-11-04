@@ -18,7 +18,7 @@ class SettingAdmin extends Admin {
     {
         $formMapper
             ->add('name', 'text', array('label' => 'Setting Name','read_only' => true))
-            ->add('value', 'text', array('label' => 'Setting Value'))
+            ->add('settingValue', 'text', array('label' => 'Setting Value'))
         ;
     }
 
@@ -40,7 +40,7 @@ class SettingAdmin extends Admin {
     {
         $listMapper
             ->addIdentifier('name')
-            ->add('value')
+            ->add('settingValue')
         ;
     }
 }

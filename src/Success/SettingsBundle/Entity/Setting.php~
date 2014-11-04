@@ -33,7 +33,7 @@ class Setting
      *
      * @ORM\Column(name="value", type="text")
      */
-    private $value;
+    private $settingValue;
 
 
     /**
@@ -69,30 +69,32 @@ class Setting
         return $this->name;
     }
 
+
+    
+    public function __toString() {
+        return $this->name;
+    }
+
     /**
-     * Set value
+     * Set settingValue
      *
-     * @param string $value
+     * @param string $settingValue
      * @return Setting
      */
-    public function setValue($value)
+    public function setSettingValue($settingValue)
     {
-        $this->value = $value;
+        $this->settingValue = $settingValue;
 
         return $this;
     }
 
     /**
-     * Get value
+     * Get settingValue
      *
      * @return string 
      */
-    public function getValue()
+    public function getSettingValue()
     {
-        return $this->value;
-    }
-    
-    public function __toString() {
-        return $this->name;
+        return $this->settingValue;
     }
 }

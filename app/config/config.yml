@@ -83,8 +83,9 @@ sonata_admin:
             4 Success:
                 items: 
                     - sonata.admin.webinar_event
+                    - sonata.admin.webinar_signup                    
+                    - sonata.admin.external_placeholder                    
                     - sonata.admin.setting_admin
-                    - sonata.admin.external_placeholder
                     #- sonata.admin.placeholder_type
             Users:
                 items:

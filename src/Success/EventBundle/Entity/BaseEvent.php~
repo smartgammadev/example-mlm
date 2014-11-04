@@ -3,7 +3,7 @@
 namespace Success\EventBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * BaseEvent
  *
@@ -65,6 +65,12 @@ class BaseEvent
      * @ORM\JoinColumn(name="media", referencedColumnName="id")
      */
     private $media;
+    
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="EventSignUp", mappedBy="event")
+     */
+    private $signUps;
 
     
     /**
@@ -196,6 +202,7 @@ class BaseEvent
     {
         return $this -> name;
     }
+    
 
     /**
      * Set media
@@ -218,5 +225,46 @@ class BaseEvent
     public function getMedia()
     {
         return $this->media;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->signUps = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add signUps
+     *
+     * @param \Success\EventBundle\Entity\EventSignUp $signUps
+     * @return BaseEvent
+     */
+    public function addSignUp(\Success\EventBundle\Entity\EventSignUp $signUps)
+    {
+        $this->signUps[] = $signUps;
+
+        return $this;
+    }
+
+    /**
+     * Remove signUps
+     *
+     * @param \Success\EventBundle\Entity\EventSignUp $signUps
+     */
+    public function removeSignUp(\Success\EventBundle\Entity\EventSignUp $signUps)
+    {
+        $this->signUps->removeElement($signUps);
+    }
+
+    /**
+     * Get signUps
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSignUps()
+    {
+        return $this->signUps;
     }
 }

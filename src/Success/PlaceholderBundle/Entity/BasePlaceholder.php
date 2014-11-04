@@ -57,6 +57,11 @@ class BasePlaceholder
      */
     private $allowUserToEdit;
 
+    /**
+     * @ORM\Column(name="pass_to_external_link", type="boolean")
+     */
+    private $passToExternalLink;
+
     
     /**
      * Get id
@@ -186,5 +191,28 @@ class BasePlaceholder
     public function getAllowUserToEdit()
     {
         return $this->allowUserToEdit;
+    }
+
+    /**
+     * Set passToExternalLink
+     *
+     * @param boolean $passToExternalLink
+     * @return BasePlaceholder
+     */
+    public function setPassToExternalLink($passToExternalLink)
+    {
+        $this->passToExternalLink = $passToExternalLink;
+
+        return $this;
+    }
+
+    /**
+     * Get passToExternalLink
+     *
+     * @return boolean 
+     */
+    public function getPassToExternalLink()
+    {
+        return $this->passToExternalLink;
     }
 }

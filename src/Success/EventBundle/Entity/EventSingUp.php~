@@ -1,0 +1,100 @@
+<?php
+
+namespace Success\EventBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * EventSingUp
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Success\EventBundle\Entity\EventSingUpRepository")
+ */
+class EventSingUp
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="signDate", type="datetime")
+     */
+    private $signUpDateTime;
+   
+    /**
+     * @var \Success\EventBundle\Entity\BaseEvent
+     * @ORM\ManyToOne(targetEntity="BaseEvent", inversedBy="signUps")
+     */
+    private $event;
+    
+    
+    /**
+     * @var \Success\MemberBundle\Entity\Member
+     * @ORM\ManyToOne(targetEntity="Success\MemberBundle\Entity\Member", inversedBy="signsUp")
+     * 
+     */
+    private $member;
+    
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set event
+     *
+     * @param \Success\EventBundle\Entity\BaseEvent $event
+     * @return EventSingUp
+     */
+    public function setEvent(\Success\EventBundle\Entity\BaseEvent $event = null)
+    {
+        $this->event = $event;
+
+        return $this;
+    }
+
+    /**
+     * Get event
+     *
+     * @return \Success\EventBundle\Entity\BaseEvent 
+     */
+    public function getEvent()
+    {
+        return $this->event;
+    }
+
+    /**
+     * Set signUpDateTime
+     *
+     * @param \DateTime $signUpDateTime
+     * @return EventSingUp
+     */
+    public function setSignUpDateTime($signUpDateTime)
+    {
+        $this->signUpDateTime = $signUpDateTime;
+
+        return $this;
+    }
+
+    /**
+     * Get signUpDateTime
+     *
+     * @return \DateTime 
+     */
+    public function getSignUpDateTime()
+    {
+        return $this->signUpDateTime;
+    }
+}

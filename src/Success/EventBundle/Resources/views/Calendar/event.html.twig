@@ -27,14 +27,18 @@
             </tr>
             <tr>
                 <td colspan="5" class="center-cell">Time to start: 
-                    <div id='timer'></div>
+                    {% if isPastEvent %}
+                        <div id='past-event'>'Past Event'</div>
+                    {% else %}
+                        <div id='timer'></div>
+                    {% endif %}
                 </td>
             </tr>
     
             <tr>
                 <td colspan="5" class="center-cell">        
-                {% if allowVisitEvent %}                    
-                    <a class="btn btn-success btn-lg" href="{{ event.url }}" target="blank">Войти в Вебинар</a>
+                {% if allowVisitEvent %}
+                    <a class="btn btn-success btn-lg" href="{{ externalLink }}" target="blank">Войти в Вебинар</a>
                 {% else %}
                     <a class="btn btn-info modal-btn" href="/calendarevents/calendar/event/{{ event.id }}/signup">Записаться</a>
                 {% endif %}
@@ -44,19 +48,14 @@
     </div>    
 {#{% endblock %}#}
 
-{% block javascripts %}
-    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.countdown.js') }}"></script>
+{% block javascripts %}    
     <script type="text/javascript">        
         startDateTime ="{{ event.startDateTime|date('Y/m/d H:i:s') }}";
                 
         $("#timer").countdown(startDateTime, function(event) {
-            {% if date(event.startDateTime) < date() %}
-                $(this).text('Прошлое событие');
-            {% else %}    
                 $(this).text(
                     event.strftime('%D days %H:%M:%S')
                 );
-            {% endif %}
         });
     </script>
     

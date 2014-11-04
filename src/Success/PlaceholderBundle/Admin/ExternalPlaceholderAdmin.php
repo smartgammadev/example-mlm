@@ -39,6 +39,7 @@ class ExternalPlaceholderAdmin extends Admin {
             ->add('placeholderType','text', array())
             ->add('fullPattern')
             ->add('allowUserToEdit', 'boolean', array('editable' => true))
+            ->add('passToExternalLink', 'boolean', array('editable' => true))    
             ->add('_action', 'actions', array(
                     'actions' => array(
                     'edit'      => array(),

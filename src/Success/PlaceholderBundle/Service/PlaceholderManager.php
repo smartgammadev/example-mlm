@@ -23,7 +23,7 @@ class PlaceholderManager
         //print_r($this->request);
         
         $session = $this->request->getSession();
-        $session->set('placeholders', $placeholders);        
+        $session->set('placeholders', $placeholders);
     }
     
     public function getPlaceholdersFromSession()
@@ -43,6 +43,19 @@ class PlaceholderManager
         $placeholders = $session->get('placeholders');        
         foreach ($placeholders as $pattern => $value){
             $result[] = array('placeholder' => $this->resolveExternalPlaceholder($pattern), 'value'=>$value);
+        }
+        return $result;
+    }
+    
+    public function getPlaceholdersValuesForExternalLink()
+    {
+        $session = $this->request->getSession();
+        $placeholders = $session->get('placeholders');
+        foreach ($placeholders as $pattern => $value){
+            $ph = $this->ResolveExternalPlaceholder($pattern);
+            if($ph->getPassToExternalLink()){
+                $result[] = array('placeholder'=>$ph, 'value'=>$value);
+            }
         }
         return $result;
     }

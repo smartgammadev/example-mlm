@@ -57,6 +57,11 @@ class BasePlaceholder
      */
     private $allowUserToEdit;
 
+    /**
+     * @ORM\Column(name="pass_to_external_link", type="boolean")
+     */
+    private $passToExternalLink;
+
     
     /**
      * Get id

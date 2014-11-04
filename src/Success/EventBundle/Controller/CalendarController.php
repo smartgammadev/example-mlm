@@ -15,31 +15,28 @@ use Success\EventBundle\Form\Type\SignupType;
 class CalendarController extends Controller
 {    
     /**
+     * @var \Success\EventBundle\Service\EventManager
      * @DI\Inject("success.event.event_manager")
      */
     private $eventManager;
     
     /**
+     * @var \Success\SettingsBundle\Service\SettingsManager
      * @DI\Inject("success.settings.settings_manager")
      */    
     private $settingsManager;
     
     /**
+     * @var \Success\PlaceholderBundle\Service\PlaceholderManager
      * @DI\Inject("success.placeholder.placeholder_manager")
      */    
     private $placeholderManager;
     
     /**
-     *
+     * @var \Success\MemberBundle\Service\MemberManager
      * @DI\Inject("success.member.member_manager")
      */        
     private $memberManager;
-    
-    /**
-     *
-     * @DI\Inject("success.notification.notification_manager")
-     */        
-    private $notificationManager;
     
     /**
      * @Route("/{template}/{slug}", name="show_calendar")
@@ -59,18 +56,22 @@ class CalendarController extends Controller
      */
     public function eventAction($eventId){            
         $event = $this->eventManager->getEventById($eventId);
+        if (!$event){
+            throw $this->createNotFoundException('No event found for id='.$eventId);
+        }        
+        
         $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');
 
         $now = new \DateTime('now');
         $allowVisitEvent =  ($event->getStartDateTime()->getTimestamp() - $now->getTimestamp() < $minutesToVisitEvent*60);
         $isPastEvent = $event->getStartDateTime()->getTimestamp() < $now->getTimestamp();
+        
+        $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($event);
 
-        if (!$event){
-            throw $this->createNotFoundException('No event found for id='.$eventId);
-        }
-        return array('event' => $event, 
-                     'allowVisitEvent' => $allowVisitEvent, 
-                     'isPastEvent' => $isPastEvent 
+        return array('event' => $event,
+                    'allowVisitEvent' => $allowVisitEvent,
+                    'isPastEvent' => $isPastEvent,
+                    'externalLink' => $externalLink,
                     );
     }
     
@@ -94,33 +95,27 @@ class CalendarController extends Controller
             
             $formdata = $form->getData();
             
-            $notifyUser = false;
+            $notifyUserBeforeEvent = false;
             foreach ($formdata as $pattern => $value){                                
                 if (($pattern == 'notify')&&($value==true)){
-                   $notifyUser = true;
+                   $notifyUserBeforeEvent = true;
                 } else{
                     $placeholders[$pattern] = $value;
                 }
-            }
-                $now = new \DateTime('now');
-                $this->notificationManager->CreateEmailNotification($now, $placeholders['sponsor_email'], 'sponsor sign up email notification');
-                $this->notificationManager->CreateSMSNotification($now, $placeholders['sponsor_phone'], 'sponsor sign up sms notification');
-                $this->notificationManager->CreateEmailNotification($now, $placeholders['user_email'], 'user sign up email notification');
-                
-            if ($notifyUser){
-                
-                $beforeEventDateModifier = $this->settingsManager->getSettingValue('beforeEventDateModifier');
-                $datetimeBeforeEvent = $event->getStartDateTime()->modify($beforeEventDateModifier);
-                
-                $this->notificationManager->CreateEmailNotification($datetimeBeforeEvent, $placeholders['user_email'], 'user before event email notification');
-                $this->notificationManager->CreateSMSNotification($datetimeBeforeEvent, $placeholders['user_phone'], 'user before event sms notification');
-            }
+            }            
+            $now = new \DateTime('now');
+            $memberSignedUp = $this->memberManager->resolveMemberByExternalId($placeholders['user_email']);
             
             $this->placeholderManager->assignPlaceholdersToSession($placeholders);                        
-            $this->memberManager->updateMemberData($placeholders);
+            $this->memberManager->updateMemberData($placeholders);            
             
-            return array('message'=>'You are successfully signed up to the event.');
+            if ($this->eventManager->SignUpMemberForEvent($memberSignedUp, $event, $now, $notifyUserBeforeEvent)){
+                $message = 'You has already signed up to this event.';
+            }else{
+                $message = 'You have successfully signed up to this event.';
+            }            
+            return array('message' => $message);
         }        
-        return array('form'=>$form->createView());
+        return array('form' => $form->createView());
     }
 }

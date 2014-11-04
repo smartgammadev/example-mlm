@@ -11,6 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Success\NotificationBundle\Entity\NotificationRepository")
  */
 class EmailNotification extends Notification 
-{    
+{
     
 }
