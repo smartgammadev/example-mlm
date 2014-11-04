@@ -1,14 +1,14 @@
-{% extends "::base.html.twig" %}
+{#{% extends "::base.html.twig" %}#}
 
-{% block stylesheets %}
+{#{% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('bundles/successevent/css/jquery.countdown.css') }}" />
     <link rel="stylesheet" href="{{ asset('bundles/successevent/css/4success.style.css') }}" />
     <link rel="stylesheet" href="{{ asset('bundles/successevent/css/bootstrap.min.css') }}" />
 
 {% endblock %}
-
-{% block body %}
-    <div>        
+#}
+{#{% block body %}#}
+    <div id="event-modal">
         <table class="event-table">
             <tr>
                 <td colspan="5" class="center-cell"><h2>{{ event.name }}</h2></td>
@@ -36,17 +36,15 @@
                 {% if allowVisitEvent %}                    
                     <a class="btn btn-success btn-lg" href="{{ event.url }}" target="blank">Войти в Вебинар</a>
                 {% else %}
-                    <a data-togle="modal" data-target="#eventSignUpModal" class="btn btn-info" href="/calendarevents/calendar/event/{{ event.id }}/signup" >Записаться</a>
+                    <a class="btn btn-info modal-btn" href="/calendarevents/calendar/event/{{ event.id }}/signup">Записаться</a>
                 {% endif %}
                </td>
             </tr>
         </table>
     </div>    
-{% endblock %}
+{#{% endblock %}#}
 
-{% block javascripts %}    
-    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery-1.11.1.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/successevent/js/bootstrap.min.js') }}"></script>
+{% block javascripts %}
     <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.countdown.js') }}"></script>
     <script type="text/javascript">        
         startDateTime ="{{ event.startDateTime|date('Y/m/d H:i:s') }}";
@@ -60,5 +58,23 @@
                 );
             {% endif %}
         });
-    </script>    
+    </script>
+    
+    <script>
+    $('.modal-btn').click(function(event){
+        var $link = $(this);        
+        event.preventDefault();
+        
+        $('#event-modal').load(
+        $link.attr('href'),
+        function(response, status, xhr) {
+            if (status === 'error') {
+                $('#event-modal').html('<h2>Whoops!</h2><p>Sorry, but there was an error:' + xhr.status + ' ' + xhr.statusText+ '</p>');
+            }
+            return this;
+        }
+    );
+    });    
+    </script>
+
 {% endblock %}

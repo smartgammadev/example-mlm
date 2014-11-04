@@ -9,8 +9,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 class SignupType extends AbstractType {
 
     private $pm;
-    public function __construct($placeholderManager) {
+    private $eventId;
+    public function __construct($placeholderManager, $eventId) {
         $this->pm = $placeholderManager;
+        $this->eventId = $eventId;
         //$this->placeholders = $placeholders;
     }
     
@@ -24,10 +26,13 @@ class SignupType extends AbstractType {
                     $builder->add($phValue['placeholder']->getFullPattern(),
                         'text',array('label'=>$phValue['placeholder']->getName(),'data'=>$phValue['value']));               
             }
-        }        
+        }
+        
         $builder->add('notify', 'checkbox',array(
             'label' => 'Notify me before this event',
             'required'  => false));
+        $builder->setAction('/calendarevents/calendar/event/'.$this->eventId.'/signup');
+        $builder->setMethod('POST');
         $builder->add('SignUp', 'submit');
     }
     

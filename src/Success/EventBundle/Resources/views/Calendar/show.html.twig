@@ -1,9 +1,11 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/colorbox.css') }}" />
     <link rel="stylesheet" href="{{ asset('bundles/successevent/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/4success.style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}" />
+
+
 {% endblock %}
 
 {% block title %}Calendar{% endblock %}
@@ -11,22 +13,23 @@
 
 {% block body %}
     <div style=" margin: auto; width: 50%; height: 50%" id="calendaContainer">
-        {% include 'ADesignsCalendarBundle::calendar.html.twig' %}
+        {% include 'ADesignsCalendarBundle::calendar.html.twig' %}                
     </div>
         
-    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="calendar-modal-event" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+    </div>    
+
+{#    <div class="modal fade" id="calendar-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content"></div>
     </div>
-    </div>        
-
-    <div class="modal fade" id="eventSignUpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content"></div>
     </div>
-    </div>        
-
-
+#}        
+        
 {% endblock %}
 
 {% block javascripts %}

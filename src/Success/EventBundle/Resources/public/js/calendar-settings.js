@@ -29,7 +29,7 @@ $(function () {
         eventRender: function(event, element) {
             //alert('event-render');
             element.attr("data-toggle","modal");
-            element.attr("data-target","#eventModal");
+            element.attr("data-target","#calendar-modal-event");
 
             //element.addClass('btn');
             //element.addClass('btn-info');

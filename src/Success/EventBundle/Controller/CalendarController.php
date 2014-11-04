@@ -84,11 +84,14 @@ class CalendarController extends Controller
          */
         $event = $this->eventManager->getEventById($eventId);
         
-        $form = $this->createForm(new SignupType($this->placeholderManager));
+        $form = $this->createForm(new SignupType($this->placeholderManager, $eventId));
+        
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $placeholders = $this->placeholderManager->getPlaceholdersFromSession();            
+        
+        if ($form->isValid()) {            
+            $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
+            
             $formdata = $form->getData();
             
             $notifyUser = false;
@@ -116,7 +119,7 @@ class CalendarController extends Controller
             $this->placeholderManager->assignPlaceholdersToSession($placeholders);                        
             $this->memberManager->updateMemberData($placeholders);
             
-            return array('message'=>'You are successfully SignedUp');
+            return array('message'=>'You are successfully signed up to the event.');
         }        
         return array('form'=>$form->createView());
     }

@@ -1,0 +1,15 @@
+{% block form_row %}
+{% spaceless %}
+    <div class="form-group">
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form, { 'attr': {'class': 'form-control'} }) }}
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+
+{% block button_row %}
+<div class="submit">
+    {{ form_widget(form, { 'attr': {'class': 'submit-btn btn btn-info'} }) }}
+</div>
+{% endblock button_row %}
