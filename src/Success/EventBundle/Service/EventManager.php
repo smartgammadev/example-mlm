@@ -61,6 +61,25 @@ class EventManager //extends Service
         return $repo->findNextNearestByDate($startDate);
     }
     
+    public function getAllEventsOfWeekByDate($dateOfWeek)
+    {
+        $startDate = $this->firstDayOfWeek($dateOfWeek);
+        $endDate = $this->lastDayOfWeek($dateOfWeek);
+        
+        /* @var $repo \Success\EventBundle\Entity\BaseEventRepository */
+        $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");        
+        return $repo->findAllBetweenDates($startDate, $endDate);
+    }
+    
+    public function getNextEventsOfWeekByDate($dateOfWeek)
+    {
+        $endDate = $this->lastDayOfWeek($dateOfWeek);
+        
+        /* @var $repo \Success\EventBundle\Entity\BaseEventRepository */
+        $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");        
+        return $repo->findAllBetweenDates($dateOfWeek, $endDate);        
+    }
+    
     /**
      * @param $eventId
      * @return \Success\EventBundle\Entity\BaseEvent
@@ -73,7 +92,7 @@ class EventManager //extends Service
     
     /**
      * 
-     * @param Member $member
+     * @param \Success\MemberBundle\Entity\Member $member
      * @param BaseEvent $event
      * @param \DateTime $signUpDate
      * @return boolean True if already exists, false if created
@@ -96,7 +115,7 @@ class EventManager //extends Service
     }    
     
     /**
-     * @param Member $memberSignedUp
+     * @param \Success\MemberBundle\Entity\Member $memberSignedUp
      * @param BaseEvent $event
      * @param \DateTime $signUpDateTime
      * @param boolean $notifyUserBeforeEvent
@@ -128,16 +147,46 @@ class EventManager //extends Service
      */
     public function GenerateExternalLinkForWebinarEvent(WebinarEvent $event){
         $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
-        $url = $event->getUrl().'/';
-        
-        $url = $url.urlencode($placeholders['user_first_name'].' '.$placeholders['user_last_name']);
-        
+        $url = $event->getUrl().'/';        
+        $url = $url.urlencode($placeholders['user_first_name'].' '.$placeholders['user_last_name']);        
         $pwd = $event->getPassword();
-
         if (!(($pwd=='')||($pwd==null))){
             $url = $url.'/'.md5($pwd);
-            }
-            
+            }            
         return $url;
     }
+    
+    
+    /**
+     * @param \DateTime $dateOfWeek
+     * @return \DateTime first day of week where $dateOfWeek in
+     */
+    private function firstDayOfWeek(\DateTime $dateOfWeek)
+    {
+        $thisDate = new \DateTime();
+        $thisDate->setTimestamp($dateOfWeek->getTimestamp());
+        $thisDay = strftime("%u", $thisDate->getTimestamp());                
+        $firstDayOfWeekTimestamp = $thisDate->modify('-'.($thisDay-1).' days')->getTimestamp();        
+        $firstDateOfWeek = new \DateTime();
+        $firstDateOfWeek->setTimestamp(mktime(0, 0, 0, date("m", $firstDayOfWeekTimestamp) , date("d", $firstDayOfWeekTimestamp), date("Y", $firstDayOfWeekTimestamp)));        
+        //echo $firstDateOfWeek->format('Y-m-d H:i:s');        
+        return $firstDateOfWeek;
+    }
+
+    /**
+     * @param \DateTime $dateOfWeek
+     * @return \DateTime last day of week where $dateOfWeek in
+     */    
+    private function lastDayOfWeek(\DateTime $dateOfWeek)
+    {
+        $thisDate = new \DateTime();
+        $thisDate->setTimestamp($dateOfWeek->getTimestamp());
+        $thisDay = strftime("%u", $thisDate->getTimestamp());                
+        $lastDayOfWeekTimestamp = $thisDate->modify('+'.(7-$thisDay).' days')->getTimestamp();        
+        $lastDateOfWeek = new \DateTime();
+        $lastDateOfWeek->setTimestamp(mktime(12, 59, 59, date("m", $lastDayOfWeekTimestamp) , date("d", $lastDayOfWeekTimestamp), date("Y", $lastDayOfWeekTimestamp)));
+        //echo $lastDateOfWeek->format('Y-m-d H:i:s');
+        return $lastDateOfWeek;
+    }
+
 }

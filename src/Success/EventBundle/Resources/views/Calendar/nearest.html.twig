@@ -13,6 +13,12 @@
 
 {% block body %}
     {{ nearestEvent.name }}
+
+        {% for event in eventsOfWeek %}
+            <li>{{ event.name }}</li>
+        {% endfor %}
+        
+        
 {% endblock %}
 
 {% block javascripts %}

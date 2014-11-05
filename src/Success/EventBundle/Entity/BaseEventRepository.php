@@ -29,5 +29,5 @@ class BaseEventRepository extends EntityRepository
                     ->setMaxResults(1)
                     ->getResult();        
         return $result[0];
-    }
+    }        
 }
