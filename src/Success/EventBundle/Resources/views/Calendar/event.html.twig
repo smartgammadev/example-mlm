@@ -40,7 +40,7 @@
                 {% if allowVisitEvent %}
                     <a class="btn btn-success btn-lg" href="{{ externalLink }}" target="blank">Войти в Вебинар</a>
                 {% else %}
-                    <a class="btn btn-info modal-btn" href="/calendarevents/calendar/event/{{ event.id }}/signup">Записаться</a>
+                    <a id="btn-signup" class="btn btn-info btn-lg" href="/calendarevents/calendar/event/{{ event.id }}/signup">Записаться</a>
                 {% endif %}
                </td>
             </tr>
@@ -48,7 +48,7 @@
     </div>    
 {#{% endblock %}#}
 
-{% block javascripts %}    
+{% block javascripts %}
     <script type="text/javascript">        
         startDateTime ="{{ event.startDateTime|date('Y/m/d H:i:s') }}";
                 
@@ -59,21 +59,20 @@
         });
     </script>
     
-    <script>
-    $('.modal-btn').click(function(event){
+    <script type="text/javascript">
+    
+    $('#btn-signup').click(function(event){
         var $link = $(this);        
         event.preventDefault();
-        
-        $('#event-modal').load(
+        $('.modal-content').load(
         $link.attr('href'),
         function(response, status, xhr) {
             if (status === 'error') {
-                $('#event-modal').html('<h2>Whoops!</h2><p>Sorry, but there was an error:' + xhr.status + ' ' + xhr.statusText+ '</p>');
+                $('.modal-content').html('<h2>Whoops!</h2><p>Sorry, but there was an error:' + xhr.status + ' ' + xhr.statusText+ '</p>');
+                }
+                return this;
             }
-            return this;
-        }
-    );
+        );
     });    
-    </script>
-
+    </script> 
 {% endblock %}

@@ -105,6 +105,7 @@ class PlaceholderManager
             $placeholder->setPattern($placeholderPattern);
             $placeholder->setName($placeholderPattern);
             $placeholder->setAllowUserToEdit(false);
+            $placeholder->setPassToExternalLink(false);
             $placeholder->setPlaceholderType($placeholderType);            
             $this->em->persist($placeholder);
             $persisted = true;

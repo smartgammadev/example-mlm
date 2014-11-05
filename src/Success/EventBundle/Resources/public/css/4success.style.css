@@ -34,6 +34,6 @@ table.event-table form .submit-btn {
     height: 50px;        
 }
 
-#event-modal{
-    margin: 50px;
+#modal-content{
+    padding: 30px;
 }

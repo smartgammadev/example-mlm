@@ -18,7 +18,7 @@
         
     <div class="modal fade" id="calendar-modal-event" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" id="modal-content">
         </div>
     </div>
     </div>
@@ -32,6 +32,25 @@
     <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/successevent/js/calendar-settings.js') }}"></script>    
     <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.countdown.js') }}"></script>
+
+    <script>
+      $('body').on('hidden.bs.modal', '.modal', function () {
+        $('#modal-content').empty();
+      });
+      $('body').on('click','.modal-btn',function(){
+        link = $(this).attr('href');
+         
+        $('#modal-content').load(
+            link,
+            function(response, status, xhr) {
+            if (status === 'error') {
+                $('#modal-content').html('<h2>Whoops!</h2><p>Sorry, but there was an error:' + xhr.status + ' ' + xhr.statusText+ '</p>');                
+                }
+            return this;
+            }
+          );
+      });
+    </script>
 {% endblock %}
 
 

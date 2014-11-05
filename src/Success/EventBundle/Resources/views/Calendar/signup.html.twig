@@ -21,13 +21,10 @@
             <script>
                 $('.submit-btn').click(function(event){
                     event.preventDefault();
-
-
                     var $url = $( "#sign_up_form" ).attr('action');
-
                     $.post($url, $( "#sign_up_form" ).serialize())
-                    .done(function(data) {
-                        $('#event-modal').html(data);
+                        .done(function(data) {
+                        $('#modal-content').html(data);
                     });            
             });    
             </script>

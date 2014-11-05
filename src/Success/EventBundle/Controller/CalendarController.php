@@ -63,11 +63,10 @@ class CalendarController extends Controller
         $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');
 
         $now = new \DateTime('now');
-        $allowVisitEvent =  ($event->getStartDateTime()->getTimestamp() - $now->getTimestamp() < $minutesToVisitEvent*60);
-        $isPastEvent = $event->getStartDateTime()->getTimestamp() < $now->getTimestamp();
+        $allowVisitEvent = ($event->getStartDateTime()->getTimestamp() - $now->getTimestamp() < $minutesToVisitEvent*60);
+        $isPastEvent = $event->getStartDateTime()->getTimestamp() < $now->getTimestamp();                        
         
         $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($event);
-
         return array('event' => $event,
                     'allowVisitEvent' => $allowVisitEvent,
                     'isPastEvent' => $isPastEvent,
