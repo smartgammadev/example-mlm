@@ -116,11 +116,19 @@ class EventManager //extends Service
      * @return string Url
      */
     public function GenerateExternalLinkForWebinarEvent(WebinarEvent $event){
-        $placeholders = $this->placeholderManager->getPlaceholdersValuesForExternalLink();        
-        $url = $event->getUrl().'?';        
-        foreach ($placeholders as $ph){
-            $url .= $ph['placeholder']->getFullPattern().'='.$ph['value'].'&';
+        $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
+        $url = $event->getUrl().'/';
+        $url = $url.urlencode($placeholders['user_first_name'].' '.$placeholders['user_last_name']);
+        $pwd = $event->getPassword();
+        if (!(($pwd=='')||($pwd==null))){
+            $url = $url.'/'.md5($pwd);
         }
+        
+//        foreach ($placeholders as $ph){
+//            $url .= $ph['placeholder']->getFullPattern().'='.$ph['value'].'&';
+//        }
+        
+        
         return $url;
     }
 }
