@@ -43,11 +43,10 @@ class CalendarController extends Controller
      * @Template()
      */
     public function showAction(Request $request)
-    { //pm->assingFoundPHTosession($request->query->all())
+    { 
         $placeholders = $request->query->all();                
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);
         return array();
-        
     }
 
     /**
@@ -116,5 +115,17 @@ class CalendarController extends Controller
             return array('message' => $message);
         }        
         return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/nearest", name="show_nearest_events")
+     * @Template()
+     */
+    
+    public function nearestAction()
+    {
+        $placeholders = $request->query->all();                
+        $this->placeholderManager->assignPlaceholdersToSession($placeholders);
+        return array();
     }
 }

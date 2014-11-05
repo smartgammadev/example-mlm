@@ -11,11 +11,12 @@ class MemberManager {
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
     
     private $placeholderManager;
-    private $memberIdentityPlaceholder = 'email';
+    private $memberIdentityPlaceholder;// = 'email';
     
-    public function __construct(PlaceholderManager $placeholderManager)
+    public function __construct(PlaceholderManager $placeholderManager, $memberIdentityPlaceholder)
     {
-        $this->placeholderManager = $placeholderManager;
+        $this->placeholderManager = $placeholderManager;        
+        $this->memberIdentityPlaceholder = $memberIdentityPlaceholder;
     }
      
     /**
