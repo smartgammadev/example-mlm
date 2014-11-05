@@ -120,12 +120,14 @@ class CalendarController extends Controller
     /**
      * @Route("/nearest", name="show_nearest_events")
      * @Template()
-     */
-    
-    public function nearestAction()
+     */    
+    public function nearestAction(Request $request)
     {
         $placeholders = $request->query->all();                
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);
-        return array();
+        $now = new \DateTime;
+        $nearestEvent = $this->eventManager->getNearestNextEvent($now);
+        
+        return array('nearestEvent' => $nearestEvent);
     }
 }

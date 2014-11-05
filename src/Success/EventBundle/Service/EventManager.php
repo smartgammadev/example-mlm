@@ -51,6 +51,17 @@ class EventManager //extends Service
     }
     
     /**
+     * @param Datetime $startdate
+     * @return \Success\EventBundle\Entity\BaseEvent
+     */
+    public function getNearestNextEvent($startDate)
+    {
+        /* @var $repo \Success\EventBundle\Entity\BaseEventRepository */
+        $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
+        return $repo->findNextNearestByDate($startDate);
+    }
+    
+    /**
      * @param $eventId
      * @return \Success\EventBundle\Entity\BaseEvent
      */  
@@ -118,17 +129,15 @@ class EventManager //extends Service
     public function GenerateExternalLinkForWebinarEvent(WebinarEvent $event){
         $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
         $url = $event->getUrl().'/';
+        
         $url = $url.urlencode($placeholders['user_first_name'].' '.$placeholders['user_last_name']);
+        
         $pwd = $event->getPassword();
+
         if (!(($pwd=='')||($pwd==null))){
             $url = $url.'/'.md5($pwd);
-        }
-        
-//        foreach ($placeholders as $ph){
-//            $url .= $ph['placeholder']->getFullPattern().'='.$ph['value'].'&';
-//        }
-        
-        
+            }
+            
         return $url;
     }
 }

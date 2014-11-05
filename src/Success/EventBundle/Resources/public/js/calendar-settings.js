@@ -26,14 +26,10 @@ $(function () {
             '': 'h:mmt'         // 7p
         },
         
-        eventRender: function(event, element) {
-            //alert('event-render');
+        eventRender: function(event, element) {            
             element.attr("data-toggle","modal");
             element.attr("data-target","#calendar-modal-event");
-
-            //element.addClass('btn');
-            //element.addClass('btn-info');
-            //element.colorbox({opacity: 0.5, scrolling:false, width: 350, height: 580});
+            element.attr("data-backdrop","true");
         },        
         eventSources: [
             {

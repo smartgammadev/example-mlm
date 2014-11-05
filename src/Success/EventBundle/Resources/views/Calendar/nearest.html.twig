@@ -1,0 +1,26 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/4success.style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}" />
+
+
+{% endblock %}
+
+{% block title %}Nearest Events Calendar{% endblock %}
+
+
+{% block body %}
+    {{ nearestEvent.name }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery-1.11.1.min.js') }}"></script>    
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.countdown.js') }}"></script>
+{% endblock %}
+
+

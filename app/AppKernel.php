@@ -45,7 +45,7 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\AopBundle\JMSAopBundle(),
 
-            //new Success\SiteBundle\SuccessSiteBundle(),
+            new Success\SiteBundle\SuccessSiteBundle(),
             new Success\MemberBundle\SuccessMemberBundle(),
         );
 
