@@ -41,16 +41,16 @@ class BaseEventNotifier {
     /**
      * @param EmailNotification $notification
      * @param string $template
+     * @param array ('name'=>'value')
      * @return boolean 
      */    
-    public function sendEmailNotification(EmailNotification $notification, $templateName)
+    public function sendEmailNotification(EmailNotification $notification, $templateName, array $params)
     {
         $twig = new \Twig_Environment(new \Twig_Loader_String());            
         $msgTemplate = $this->settingsManager->getSettingValue($templateName);
         
-        $msgBody = $twig->render($msgTemplate, array());
+        $msgBody = $twig->render($msgTemplate, $params);
 
-        echo $msgBody;
         $message = \Swift_Message::newInstance()
             ->setSubject('Test Email')
             ->setFrom('rregion1292@gmail.com')

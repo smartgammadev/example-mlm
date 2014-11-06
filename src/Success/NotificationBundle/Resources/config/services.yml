@@ -11,6 +11,6 @@ services:
 
     success.notification.notification_manager:
         class: %success.notification.notification_manager.class%
-        arguments: [@success.notification.base_event_notifier]
+        arguments: [@success.notification.base_event_notifier, @success.placeholder.placeholder_manager]
         calls: 
             - [setEntityManager, ["@doctrine.orm.entity_manager"]]
