@@ -56,6 +56,8 @@ class BaseEventNotifier {
             ->setFrom('rregion1292@gmail.com')
             ->setTo($notification->getDestination())
             ->setBody($msgBody);
+        
+            echo "sending mail: ".$notification->getDestination();
             
             if ($this->mailer->send($message)!==0){
                 $notification->setIsSent(true);
