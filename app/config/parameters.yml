@@ -6,13 +6,9 @@ parameters:
     database_name: DB4Success
     database_user: root
     database_password: root
-    
     mailer_transport: gmail
-    mailer_host: ~
+    mailer_host: null
     mailer_user: rregion1292
     mailer_password: masterkey1292
-#    mailer_encryption: tls
-#    mailer_port: 465
-    
     locale: en
     secret: ThisTokenIsNotSoSecretChangeIt
