@@ -123,8 +123,7 @@ class EventManager //extends Service
      */        
     public function SignUpMemberForEvent(Member $memberSignedUp, BaseEvent $event, \DateTime $signUpDateTime, $notifyUserBeforeEvent)
     {
-       $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
-       
+       $placeholders = $this->placeholderManager->getPlaceholdersFromSession();       
        $alreadyExists = $this->resolveSignUpForMember($memberSignedUp, $event, $signUpDateTime);
        
        if (!$alreadyExists){

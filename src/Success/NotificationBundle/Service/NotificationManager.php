@@ -25,8 +25,14 @@ class NotificationManager
      */
     private $baseEventNotifier;
     
-    public function __construct($baseEventNotifier) {
+    /**
+     * @var \Success\PlaceholderBundle\Service\PlaceholderManager
+     */
+    private $placeholderManager;
+    
+    public function __construct($baseEventNotifier, $placeholderManager) {
         $this->baseEventNotifier = $baseEventNotifier;
+        $this->placeholderManager = $placeholderManager;
     }
 
 
@@ -38,12 +44,17 @@ class NotificationManager
      */
     public function createEmailNotification(\DateTime $datetime, $email, $templateName)
     {
+                
         $notification = new EmailNotification();
         $notification->setName($templateName);
         $notification->setStartDateTime($datetime);
         $notification->setDestination($email);
         $notification->setIsSent(false);
         $notification->setIsFailed(false);
+        
+        $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
+        $notification->setParams($placeholders);
+        
         $this->em->persist($notification);
         $this->em->flush();
     }
@@ -75,7 +86,7 @@ class NotificationManager
         $notifications = $repo->getEmailNotificationsToSend();
         
         foreach ($notifications as $notification){
-            $this->baseEventNotifier->sendEmailNotification($notification, $notification->getName());
+            $this->baseEventNotifier->sendEmailNotification($notification, $notification->getName(), $notification->getParams());
         }
            
     }
