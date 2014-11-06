@@ -57,7 +57,7 @@ class BaseEventNotifier {
             ->setTo($notification->getDestination())
             ->setBody($msgBody);
         
-            echo "sending mail: ".$notification->getDestination();
+            echo "sending mail: ".$notification->getDestination().'\n';
             
             if ($this->mailer->send($message)!==0){
                 $notification->setIsSent(true);
