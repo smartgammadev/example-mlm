@@ -12,9 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 //}
 //
 
-
-
-
 class ProcessEmailCommand extends ContainerAwareCommand
 {
     protected function configure()

@@ -12,5 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EmailNotification extends Notification 
 {
+    /**
+     * @ORM\Column(name="params", type="json_array")
+     * 
+     */
+    private $params;
     
 }
