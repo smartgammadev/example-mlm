@@ -5,9 +5,12 @@ parameters:
 services:
     success.notification.base_event_notifier:
         class: %success.notification.base_event_notifier.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+        arguments: [@mailer, @success.settings.settings_manager]
+        calls: 
+            - [setEntityManager, ["@doctrine.orm.entity_manager"]]        
 
     success.notification.notification_manager:
         class: %success.notification.notification_manager.class%
+        arguments: [@success.notification.base_event_notifier]
         calls: 
             - [setEntityManager, ["@doctrine.orm.entity_manager"]]

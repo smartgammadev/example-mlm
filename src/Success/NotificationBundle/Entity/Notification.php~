@@ -27,21 +27,18 @@ class Notification
 
     /**
      * @var string
-     *
      * @ORM\Column(name="name", type="string", length=100)
      */
     private $name;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="destination", type="string", length=255)
      */
     private $destination;
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="startDateTime", type="datetime")
      */
     private $startDateTime;
@@ -50,6 +47,16 @@ class Notification
      * @ORM\OneToMany(targetEntity="NotificationLog", mappedBy="notification")
      */
     private $logs;
+    
+    /**
+     * @ORM\Column(name="is_sent", type="boolean")
+     */
+    private $isSent;
+
+    /**
+     * @ORM\Column(name="is_failed", type="boolean")
+     */    
+    private $isFailed;
     
     public function __construct() {
         $this -> logs = new ArrayCollection();

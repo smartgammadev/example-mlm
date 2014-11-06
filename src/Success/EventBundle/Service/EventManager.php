@@ -128,15 +128,15 @@ class EventManager //extends Service
        $alreadyExists = $this->resolveSignUpForMember($memberSignedUp, $event, $signUpDateTime);
        
        if (!$alreadyExists){
-            $this->notificationManager->CreateEmailNotification($signUpDateTime, $placeholders['sponsor_email'], 'sponsor sign up email notification');
-            $this->notificationManager->CreateSMSNotification($signUpDateTime, $placeholders['sponsor_phone'], 'sponsor sign up sms notification');
-            $this->notificationManager->CreateEmailNotification($signUpDateTime, $placeholders['user_email'], 'user sign up email notification');
+            $this->notificationManager->CreateEmailNotification($signUpDateTime, $placeholders['sponsor_email'], 'sponsorSignUpEmailMessage');
+            $this->notificationManager->CreateSMSNotification($signUpDateTime, $placeholders['sponsor_phone'], 'sponsorSignUpSMSMessage');
+            $this->notificationManager->CreateEmailNotification($signUpDateTime, $placeholders['user_email'], 'userSignUpEmailMessage');
 
             if ($notifyUserBeforeEvent){
                 $minutesBeforeEvent = $this->settingsManager->getSettingValue('beforeEventDateModifier');                
                 $datetimeBeforeEvent = $event->getStartDateTime()->modify('-'.$minutesBeforeEvent.' minutes');
-                $this->notificationManager->CreateEmailNotification($datetimeBeforeEvent, $placeholders['user_email'], 'user before event email notification');
-                $this->notificationManager->CreateSMSNotification($datetimeBeforeEvent, $placeholders['user_phone'], 'user before event sms notification');
+                $this->notificationManager->CreateEmailNotification($datetimeBeforeEvent, $placeholders['user_email'], 'userBeforeEventEmailNotification');
+                $this->notificationManager->CreateSMSNotification($datetimeBeforeEvent, $placeholders['user_phone'], 'userBeforeEventSMSNotification');
             }
        }
        return $alreadyExists;

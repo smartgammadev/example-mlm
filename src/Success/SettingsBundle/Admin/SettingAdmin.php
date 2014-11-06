@@ -18,7 +18,7 @@ class SettingAdmin extends Admin {
     {
         $formMapper
             ->add('name', 'text', array('label' => 'Setting Name','read_only' => true))
-            ->add('settingValue', 'text', array('label' => 'Setting Value'))
+            ->add('settingValue', 'textarea', array('label' => 'Setting Value'))
         ;
     }
 

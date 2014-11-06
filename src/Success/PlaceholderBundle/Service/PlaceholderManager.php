@@ -59,9 +59,9 @@ class PlaceholderManager
         }
         return $result;
     }
-   
+
     public function getPlaceholdersValuesByTypePattern($typePattern)
-    {   
+    {
         $session = $this->request->getSession();
         $placeholders = $session->get('placeholders');
         

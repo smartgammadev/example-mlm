@@ -35,7 +35,7 @@ class CalendarController extends Controller
     /**
      * @var \Success\MemberBundle\Service\MemberManager
      * @DI\Inject("success.member.member_manager")
-     */        
+     */
     private $memberManager;
     
     /**
@@ -65,7 +65,7 @@ class CalendarController extends Controller
         $allowVisitEvent = ($event->getStartDateTime()->getTimestamp() - $now->getTimestamp() < $minutesToVisitEvent*60);
         $isPastEvent = $event->getStartDateTime()->getTimestamp() < $now->getTimestamp();                        
         
-        $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($event);
+        $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($event);        
         return array('event' => $event,
                     'allowVisitEvent' => $allowVisitEvent,
                     'isPastEvent' => $isPastEvent,

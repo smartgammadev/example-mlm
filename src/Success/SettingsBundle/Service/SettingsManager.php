@@ -1,5 +1,6 @@
 <?php
 namespace Success\SettingsBundle\Service;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -23,11 +24,12 @@ class SettingsManager
     public function getSettingValue($name){
         $repo = $this->em->getRepository('SuccessSettingsBundle:Setting');
         $setting = $repo->findOneBy(array('name' => $name));
-        $value = $setting->getSettingValue();
         
-        if (!$value){
-            throw $this->createNotFoundException('No setting found for name = "'.$name.'"');
+        if (!$setting){
+            throw new \Exception('Seting with name="'.$name.'" was not found');
         }
+        
+        $value = $setting->getSettingValue();        
         return $value;
     }
 }

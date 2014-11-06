@@ -27,21 +27,18 @@ class Notification
 
     /**
      * @var string
-     *
      * @ORM\Column(name="name", type="string", length=100)
      */
     private $name;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="destination", type="string", length=255)
      */
     private $destination;
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="startDateTime", type="datetime")
      */
     private $startDateTime;
@@ -50,6 +47,16 @@ class Notification
      * @ORM\OneToMany(targetEntity="NotificationLog", mappedBy="notification")
      */
     private $logs;
+    
+    /**
+     * @ORM\Column(name="is_sent", type="boolean")
+     */
+    private $isSent;
+
+    /**
+     * @ORM\Column(name="is_failed", type="boolean")
+     */    
+    private $isFailed;
     
     public function __construct() {
         $this -> logs = new ArrayCollection();
@@ -98,7 +105,6 @@ class Notification
     public function setPattern($pattern)
     {
         $this->pattern = $pattern;
-
         return $this;
     }
 
@@ -121,7 +127,6 @@ class Notification
     public function setStartDateTime($startDateTime)
     {
         $this->startDateTime = $startDateTime;
-
         return $this;
     }
 
@@ -144,7 +149,6 @@ class Notification
     public function addLog(\Success\NotificationBundle\Entity\NotificationLog $logs)
     {
         $this->logs[] = $logs;
-
         return $this;
     }
 
@@ -189,5 +193,51 @@ class Notification
     public function getDestination()
     {
         return $this->destination;
+    }
+
+    /**
+     * Set isSent
+     *
+     * @param boolean $isSent
+     * @return Notification
+     */
+    public function setIsSent($isSent)
+    {
+        $this->isSent = $isSent;
+
+        return $this;
+    }
+
+    /**
+     * Get isSent
+     *
+     * @return boolean 
+     */
+    public function getIsSent()
+    {
+        return $this->isSent;
+    }
+
+    /**
+     * Set isFailed
+     *
+     * @param boolean $isFailed
+     * @return Notification
+     */
+    public function setIsFailed($isFailed)
+    {
+        $this->isFailed = $isFailed;
+
+        return $this;
+    }
+
+    /**
+     * Get isFailed
+     *
+     * @return boolean 
+     */
+    public function getIsFailed()
+    {
+        return $this->isFailed;
     }
 }
