@@ -47,6 +47,7 @@ class AppKernel extends Kernel
 
             new Success\SiteBundle\SuccessSiteBundle(),
             new Success\MemberBundle\SuccessMemberBundle(),
+            new Success\SalesGeneratorBundle\SuccessSalesGeneratorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
