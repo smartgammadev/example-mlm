@@ -30,4 +30,19 @@
     <script type="text/javascript" src="{{ asset('bundles/successsite/js/custom.js') }}"></script>
 {% endblock %}
 
-{% block body %}{% endblock %}
+
+{% block body %}
+    <!-- Header starts -->
+    <header>
+        {% include "SuccessSiteBundle::header.html.twig" %}    
+    </header>
+    <!--  Header ends -->
+
+    {% block content %}{% endblock %}
+
+    <!-- Footer starts -->
+    <footer>
+        {% include "SuccessSiteBundle::footer.html.twig" %}    
+    </footer>
+    <!-- Footer ends -->
+{% endblock body %}

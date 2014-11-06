@@ -2,9 +2,10 @@ success_member:
     resource: "@SuccessMemberBundle/Resources/config/routing.yml"
     prefix:   /
 
-#success_site:
-#    resource: "@SuccessSiteBundle/Resources/config/routing.yml"
-#    prefix:   /
+success_site:
+    resource: "@SuccessSiteBundle/Controller/"
+    type:     annotation
+    prefix:   /
 
 success_settings:
     resource: "@SuccessSettingsBundle/Resources/config/routing.yml"
