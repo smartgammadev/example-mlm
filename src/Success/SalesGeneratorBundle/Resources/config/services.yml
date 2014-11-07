@@ -1,0 +1,8 @@
+parameters:
+    success.sales_generator.manager.class: Success\SalesGeneratorBundle\Service\SalesGeneratorManager
+
+services:
+    success.sales_generator.manager:
+        class: %success.sales_generator.manager.class%
+        calls:
+             - [setEntityManager, ["@doctrine.orm.entity_manager"]]
