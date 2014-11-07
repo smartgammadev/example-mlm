@@ -32,7 +32,7 @@
                 </div>
                 <div class="panel-body">
                   <h6>
-                      <a href="{{ path('sales_generator', {'question_id' : question.id ~ answerIndex}) }}" class="new-question">{{ answer.text }}</a>
+                      <a href="{{ path('sales_generator', {'question_id' : (((answerIndex ~ question.id) * 2.71)|round) }) }}" class="new-question">{{ answer.text }}</a>
                   </h6>
                 </div>
             </div>
