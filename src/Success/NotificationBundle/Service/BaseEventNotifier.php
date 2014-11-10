@@ -94,6 +94,9 @@ class BaseEventNotifier {
         if (!$msgStatus==0){
             $notification->setIsSent(true);
             $notification->setMsgId($msgStatus);
+            
+            
+            //$notification->addLog($logs)
         }else{
             $notification->setIsSent(true);
             //$notification->setIsFailed(true);          
