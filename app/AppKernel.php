@@ -44,17 +44,20 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\AopBundle\JMSAopBundle(),
-
-            new Success\SiteBundle\SuccessSiteBundle(),
+            new Success\SiteBundle\SuccessSiteBundle(),            
             new Success\MemberBundle\SuccessMemberBundle(),
+<<<<<<< HEAD
             new Success\SalesGeneratorBundle\SuccessSalesGeneratorBundle(),
+=======
+            new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
+>>>>>>> master
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
-            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
+            //$bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
         }
 
         return $bundles;

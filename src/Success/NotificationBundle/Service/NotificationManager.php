@@ -90,4 +90,18 @@ class NotificationManager
         }
            
     }
+    
+    public function processSMSNotifications()
+    {
+        /**
+         * @var \Success\NotificationBundle\Entity\NotificationRepository
+         */
+        $repo = $this->em->getRepository('SuccessNotificationBundle:SMSNotification');
+        $notifications = $repo->getSMSNotificationsToSend();        
+        foreach ($notifications as $notification){
+            $this->baseEventNotifier->sendSMSNotification($notification, $notification->getName(), array());
+        }
+           
+    }
+    
 }

@@ -14,11 +14,19 @@ class NotificationRepository extends EntityRepository
 {
     public function getEmailNotificationsToSend()
     {
-        $nowDate = new \DateTime('now');        
+        $nowDate = new \DateTime('now');
         return $this->getEntityManager()->createQuery(
-                //"select e from SuccessEventBundle:BaseEvent e where e.startDateTime BETWEEN :start_date AND :end_date ORDER BY e.startDateTime"
                 'select e from SuccessNotificationBundle:EmailNotification e where e.startDateTime < :now and e.isSent = false')
                 ->setParameter('now', $nowDate->format('Y-m-d H:i:s'))
                 ->getResult();
+    }
+    
+    public function getSMSNotificationsToSend()
+    {
+        $nowDate = new \DateTime('now');
+        return $this->getEntityManager()->createQuery(
+                'select e from SuccessNotificationBundle:SMSNotification e where e.startDateTime < :now and e.isSent = false')
+                ->setParameter('now', $nowDate->format('Y-m-d H:i:s'))
+                ->getResult();        
     }
 }
