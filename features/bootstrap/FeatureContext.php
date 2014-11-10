@@ -1,5 +1,4 @@
 <?php
-namespace Sucess\Behat;
 
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
