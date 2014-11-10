@@ -44,9 +44,9 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\AopBundle\JMSAopBundle(),
-
-            new Success\SiteBundle\SuccessSiteBundle(),
+            new Success\SiteBundle\SuccessSiteBundle(),            
             new Success\MemberBundle\SuccessMemberBundle(),
+            new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

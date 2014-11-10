@@ -28,14 +28,21 @@ class BaseEventNotifier {
     private $settingsManager;
     
     /**
+     * @var \Success\NotificationBundle\Service\SMSManager
+     */    
+    private $SMSManager;
+    
+    /**
      * @param type $mailer
      * @param \Success\SettingsBundle\Service\SettingsManager $settingsManager
      * @param \Success\PlaceholderBundle\Service\PlaceholderManager $placeholderManager
+     * @param \Success\NotificationBundle\Service\SMSManager
      * 
      */            
-    public function __construct($mailer, $settingsManager) {
+    public function __construct($mailer, $settingsManager, $SMSManager) {
         $this->mailer = $mailer;
         $this->settingsManager = $settingsManager;
+        $this->SMSManager = $SMSManager;
     }
     
     /**
@@ -57,7 +64,7 @@ class BaseEventNotifier {
             ->setTo($notification->getDestination())
             ->setBody($msgBody);
         
-            echo "sending mail: ".$notification->getDestination().'\n';
+            echo "sending mail to ".$notification->getDestination();
             
             if ($this->mailer->send($message)!==0){
                 $notification->setIsSent(true);
@@ -68,5 +75,24 @@ class BaseEventNotifier {
             }
             $this->em->flush();
     }
+    
+    /**
+     * @param SMSNotification $notification
+     * @param string $templateName
+     * @param array ('name'=>'value')
+     * @return boolean 
+     */    
+    public function sendSMSNotification(SMSNotification $notification, $templateName, array $params)
+    {
+        $twig = new \Twig_Environment(new \Twig_Loader_String());
+        $msgTemplate = $this->settingsManager->getSettingValue($templateName);
+        $msgBody = $twig->render($msgTemplate, $params);
+        $msgStatus = $this->SMSManager->msgSend($notification->getDestination(), $msgBody);
+        
+//        if !($msgStatus==){
+//            
+//        }
+    }
+    
 
 }

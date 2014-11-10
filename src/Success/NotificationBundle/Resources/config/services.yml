@@ -1,11 +1,16 @@
 parameters:
     success.notification.base_event_notifier.class: Success\NotificationBundle\Service\BaseEventNotifier
     success.notification.notification_manager.class: Success\NotificationBundle\Service\NotificationManager
+    success.notification.sms_manager.class: Success\NotificationBundle\Service\SMSManager
 
 services:
+    success.notification.sms_manager:
+        class: %success.notification.sms_manager.class%
+        arguments: ["SMSBytehand"]
+    
     success.notification.base_event_notifier:
         class: %success.notification.base_event_notifier.class%
-        arguments: [@mailer, @success.settings.settings_manager]
+        arguments: [@mailer, @success.settings.settings_manager,  @success.notification.sms_manager]
         calls: 
             - [setEntityManager, ["@doctrine.orm.entity_manager"]]        
 

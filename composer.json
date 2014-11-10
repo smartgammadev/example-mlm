@@ -34,7 +34,8 @@
         "friendsofsymfony/jsrouting-bundle": "~1.5",
         "adesigns/calendar-bundle": "~1.1",
         "gamma/framework": "dev-master",
-        "jms/di-extra-bundle": "~1.4"
+        "jms/di-extra-bundle": "~1.4",
+        "sensio/buzz-bundle": "dev-master"
     },
     "require-dev": {
         "behat/behat": "2.4.*@stable",
