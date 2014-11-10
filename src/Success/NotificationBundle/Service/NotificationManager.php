@@ -99,7 +99,7 @@ class NotificationManager
         $repo = $this->em->getRepository('SuccessNotificationBundle:SMSNotification');
         $notifications = $repo->getSMSNotificationsToSend();        
         foreach ($notifications as $notification){
-            $this->baseEventNotifier->sendSMSNotification($notification, $notification->getName(), array());
+            $this->baseEventNotifier->sendSMSNotification($notification, $notification->getName(), $notification->getParams());
         }
            
     }

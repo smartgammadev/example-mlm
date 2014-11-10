@@ -54,7 +54,7 @@ class Notification
     private $isSent;
 
     /**
-     * @ORM\Column(name="is_failed", type="boolean")
+     * @ORM\Column(name="is_failed", type="boolean", nullable=true)
      */    
     private $isFailed;
     

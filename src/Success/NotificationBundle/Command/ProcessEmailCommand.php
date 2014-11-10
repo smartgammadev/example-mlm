@@ -27,5 +27,5 @@ class ProcessEmailCommand extends ContainerAwareCommand
         $nm = $this->getContainer()->get('success.notification.notification_manager');
         $nm->processEmailNotifications();
         $output->writeln($text);
-    }    
+    }
 }

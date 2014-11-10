@@ -23,5 +23,5 @@ class SMSManager {
     public function checkMsgStatus($msgId)
     {
         return $this->gateService->checkMsgStatus($msgId);
-    }        
+    }
 }
