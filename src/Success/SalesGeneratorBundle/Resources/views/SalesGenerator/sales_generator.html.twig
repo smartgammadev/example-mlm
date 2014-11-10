@@ -1,0 +1,45 @@
+{% extends "SuccessSiteBundle::basic_layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/successsalesgenerator/css/sales_generator.css') }}" />
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="container">
+        <h1>Sales generator</h1>
+
+        <div class="panel panel-primary question">
+            <div class="panel-heading">
+              <h3 class="panel-title">Вопрос</h3>
+            </div>
+            <div class="panel-body">
+              <h6>
+                  <p>{{ question.text }}</p>
+              </h6>
+            </div>
+        </div>
+        
+        <div class="container">
+        {% for key, answer in question.answers %}
+            {% set answerIndex = key + 1 %}
+            <div class="panel panel-info answer">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Ответ №{{ answerIndex }}</h3>
+                </div>
+                <div class="panel-body">
+                  <h6>
+                      <a href="{{ path('sales_generator', {'question_id' : (((answerIndex ~ question.id) * 2.71)|round) }) }}" class="new-question">{{ answer.text }}</a>
+                  </h6>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    
+    {% block javascripts %}
+        {{ parent() }}
+        <script type="text/javascript" src="{{ asset('bundles/successsalesgenerator/js/sales_generator.js') }}"></script>
+    {% endblock javascripts %}
+{% endblock content %}
+{% block footer %}{% endblock footer %}

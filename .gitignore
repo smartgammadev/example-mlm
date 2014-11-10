@@ -9,3 +9,6 @@
 bin/
 app/bootstrap.php.cache
 web/uploads
+web/bundles
+.gitignore
+.git

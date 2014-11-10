@@ -9,7 +9,10 @@
          {  "type": "vcs", "url": "git@github.com:smart-gamma/fixtures-generator.git" }     
     ],    
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-0": { 
+            "": "src/",
+            "Success\\Behat": "features/"
+        }
     },
     "require": {
         "php": ">=5.3.3",
