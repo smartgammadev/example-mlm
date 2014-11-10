@@ -46,11 +46,8 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new Success\SiteBundle\SuccessSiteBundle(),            
             new Success\MemberBundle\SuccessMemberBundle(),
-<<<<<<< HEAD
             new Success\SalesGeneratorBundle\SuccessSalesGeneratorBundle(),
-=======
             new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
->>>>>>> master
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
