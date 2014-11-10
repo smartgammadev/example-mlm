@@ -47,7 +47,7 @@ class BaseEventNotifier {
     
     /**
      * @param EmailNotification $notification
-     * @param string $template
+     * @param string $templateName
      * @param array ('name'=>'value')
      * @return boolean 
      */    
@@ -64,7 +64,7 @@ class BaseEventNotifier {
             ->setTo($notification->getDestination())
             ->setBody($msgBody);
         
-            echo "sending mail to ".$notification->getDestination();
+            echo "sending mail to ".$notification->getDestination();echo PHP_EOL;
             
             if ($this->mailer->send($message)!==0){
                 $notification->setIsSent(true);
@@ -87,12 +87,17 @@ class BaseEventNotifier {
         $twig = new \Twig_Environment(new \Twig_Loader_String());
         $msgTemplate = $this->settingsManager->getSettingValue($templateName);
         $msgBody = $twig->render($msgTemplate, $params);
-        $msgStatus = $this->SMSManager->msgSend($notification->getDestination(), $msgBody);
-        
-//        if !($msgStatus==){
-//            
-//        }
-    }
-    
 
+        echo "sending SMS to ".$notification->getDestination();echo PHP_EOL;
+        $msgStatus = $this->SMSManager->msgSend($notification->getDestination(), $msgBody);        
+        
+        if ($msgStatus){
+            $notification->setIsSent(true);
+            $notification->setIsFailed(false);
+        }else{
+            $notification->setIsSent(true);
+            $notification->setIsFailed(true);          
+        }
+        $this->em->flush();
+    }
 }

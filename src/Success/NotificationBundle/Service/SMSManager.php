@@ -18,7 +18,7 @@ class SMSManager {
     public function msgSend($toNumber, $text)
     {
         return $this->gateService->msgSend($toNumber, $text);
-    }        
+    }
     
     public function checkMsgStatus($msgId)
     {

@@ -5,10 +5,12 @@ use Buzz\Browser;
 class SMSBytehand {
     
     const SERVICE_URL = "http://bytehand.com:3800/";
-    const MSG_FROM = "SMS-INFO";
+    const KEY = "15993";
+    const ID = "B0BE02F4608FED36";
+    const MSG_FROM = "4Success";
     
-    private $id;
-    private $key;
+    //private $id;
+    //private $key;
     private $browser;
     
     public function __construct()
@@ -19,10 +21,17 @@ class SMSBytehand {
 
     public function serviceInit()
     {                        
-        $this->id = urlencode("15993");
-        $this->key = urlencode("B0BE02F4608FED36");
-    }        
+        //$this->id = urlencode("15993");
+        //$this->key = urlencode("B0BE02F4608FED36");
+    }
 
+    
+    /**
+     * 
+     * @param type $toNumber
+     * @param type $text
+     * @return boolean true if success, error description if failed
+     */
     public function msgSend($toNumber,$text)
     {
         $msgText = urlencode($text);
@@ -35,10 +44,10 @@ class SMSBytehand {
         $response = json_decode($response_json);
         
         if($response['status']==0){
-            return $response['description'];
+            return true;
         } else {
-            echo "Error: Status=".$response['status']." Description=".$response['description']."\r\n";
-            return false;
+            echo "Error: Status=".$response['status']." Description=".$response['description'];
+            return $response['description'];
         }
     }        
     

@@ -1,3 +1,7 @@
+imports:
+    - { resource: sms.yml }
+
+
 parameters:
     success.notification.base_event_notifier.class: Success\NotificationBundle\Service\BaseEventNotifier
     success.notification.notification_manager.class: Success\NotificationBundle\Service\NotificationManager
@@ -6,7 +10,7 @@ parameters:
 services:
     success.notification.sms_manager:
         class: %success.notification.sms_manager.class%
-        arguments: ["SMSBytehand"]
+        arguments: ["%current_sms_service%"]
     
     success.notification.base_event_notifier:
         class: %success.notification.base_event_notifier.class%

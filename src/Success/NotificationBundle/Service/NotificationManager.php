@@ -58,7 +58,7 @@ class NotificationManager
         $this->em->persist($notification);
         $this->em->flush();
     }
-
+    
     /**
      * @param \DateTime $datetime
      * @param string $phone

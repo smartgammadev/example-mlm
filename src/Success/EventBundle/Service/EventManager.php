@@ -132,10 +132,11 @@ class EventManager //extends Service
             $this->notificationManager->CreateEmailNotification($signUpDateTime, $placeholders['user_email'], 'userSignUpEmailMessage');
 
             if ($notifyUserBeforeEvent){
-                $minutesBeforeEvent = $this->settingsManager->getSettingValue('beforeEventDateModifier');                
-                $datetimeBeforeEvent = $event->getStartDateTime()->modify('-'.$minutesBeforeEvent.' minutes');
-                $this->notificationManager->CreateEmailNotification($datetimeBeforeEvent, $placeholders['user_email'], 'userBeforeEventEmailNotification');
-                $this->notificationManager->CreateSMSNotification($datetimeBeforeEvent, $placeholders['user_phone'], 'userBeforeEventSMSNotification');
+                $minutesBeforeEvent = $this->settingsManager->getSettingValue('beforeEventDateModifier');
+                $datetimeBeforeEvent = $event->getStartDateTime();
+                $datetimeBeforeEvent->modify('-'.$minutesBeforeEvent.' minutes');
+                $this->notificationManager->CreateEmailNotification($datetimeBeforeEvent, $placeholders['user_email'], 'userBeforeEventEmailMessage');
+                $this->notificationManager->CreateSMSNotification($datetimeBeforeEvent, $placeholders['user_phone'], 'userBeforeEventSMSMessage');
             }
        }
        return $alreadyExists;
