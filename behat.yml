@@ -1,7 +1,17 @@
 default:
+    paths:
+        features: features
+        bootstrap: %behat.paths.features%/bootstrap
+    context:
+        class: Success\Behat\FeatureContext
+        parameters:
+            base_url: http://calendar.develop1.lan/app_test.php 
+            timeout: 20
     extensions:
+        Behat\Symfony2Extension\Extension:
+            mink_driver: true
         Behat\MinkExtension\Extension:
             base_url: http://calendar.develop1.lan/app_test.php
-            
-            selenium2: ~
+            selenium2:
+                capabilities: { "browser": "firefox", "version": "17.0"}
             goutte: ~

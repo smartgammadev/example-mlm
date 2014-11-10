@@ -1,4 +1,4 @@
-@sales_generator                                                    
+@sales_gen                                                    
 Feature: Sales Generator(frontend)
     In order to use sales generator
     as a user
