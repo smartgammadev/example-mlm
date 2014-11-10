@@ -1,10 +1,14 @@
 <?php
 
+namespace Success\Behat;
+
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
     Behat\Behat\Context\BehatContext,
     Behat\Behat\Exception\PendingException;
+
 use Behat\Gherkin\Node\PyStringNode,
+        
     Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\MinkContext;
 
@@ -20,17 +24,6 @@ use Behat\MinkExtension\Context\MinkContext;
  */
 class FeatureContext extends MinkContext
 {
-    /**
-     * Initializes context.
-     * Every scenario gets it's own context object.
-     *
-     * @param array $parameters context parameters (set them up through behat.yml)
-     */
-    public function __construct(array $parameters)
-    {
-        // Initialize your context here
-    }
-
     /**
      * @Given /^I am logged in as admin$/
      */
@@ -69,6 +62,28 @@ class FeatureContext extends MinkContext
         $currentDate = date('c',  time());
         $this->fillField($arg1, $currentDate);
         //throw new PendingException();
+    }
+    
+    /**
+     * @param string $selector
+     *
+     * @throws ElementNotFoundException
+     * @return void
+     * @When /^I click "([^"]*)"$/
+     */
+    public function iClick($selector)
+    {
+        /* first by id then by css selector */
+        try {
+            $element = $this->getSession()->getPage()->find('css', "#" . $selector);
+        } catch (\Exception $e) {
+            $element = $this->getSession()->getPage()->find('css', $selector);
+        }
+
+        if (null === $element)
+            throw new ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', $selector);
+
+        $this->getSession()->getDriver()->click($element->getXPath());
     }
 
 

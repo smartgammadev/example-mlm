@@ -33,7 +33,7 @@ class SalesGeneratorController extends Controller
     
     /**
      * 
-     * @Route("/sales_generator/{question_id}/", name="sales_generator", requirements={"question_id" = "\d+"})
+     * @Route("/audiences/{question_id}/", name="sales_generator", requirements={"question_id" = "\d+"})
      * @Template("SuccessSalesGeneratorBundle:SalesGenerator:sales_generator.html.twig")
      */
     public function questionAction($question_id)
