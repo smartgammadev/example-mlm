@@ -32,17 +32,22 @@
 
 
 {% block body %}
+    
     <!-- Header starts -->
-    <header>
-        {% include "SuccessSiteBundle::header.html.twig" %}    
-    </header>
+    {% block header %}
+        <header>
+            {% include "SuccessSiteBundle::header.html.twig" %}    
+        </header>
+    {% endblock header %}
     <!--  Header ends -->
 
     {% block content %}{% endblock %}
 
     <!-- Footer starts -->
-    <footer>
-        {% include "SuccessSiteBundle::footer.html.twig" %}    
-    </footer>
+    {% block footer %}
+        <footer>
+            {% include "SuccessSiteBundle::footer.html.twig" %}    
+        </footer>
+    {% endblock footer %}
     <!-- Footer ends -->
 {% endblock body %}

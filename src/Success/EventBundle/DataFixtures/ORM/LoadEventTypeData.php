@@ -13,14 +13,14 @@ class LoadEventTypeData implements FixtureInterface {
      */
     public function load(ObjectManager $manager)
     {
-//        $newEvent1 = new EventType();        
-//        $newEvent1 -> setName("вводный вебинар");
-//        $manager->persist($newEvent1);
-//
-//        $newEvent2 = new EventType();        
-//        $newEvent2 -> setName("стартовый тренинг");
-//        $manager->persist($newEvent2);
-//        
-//        $manager->flush();
+        $newEvent1 = new EventType();        
+        $newEvent1 -> setName("вводный вебинар");
+        $manager->persist($newEvent1);
+
+        $newEvent2 = new EventType();        
+        $newEvent2 -> setName("стартовый тренинг");
+        $manager->persist($newEvent2);
+        
+        $manager->flush();
     }
 }

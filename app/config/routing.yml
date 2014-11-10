@@ -1,3 +1,8 @@
+success_sales_generator:
+    resource: "@SuccessSalesGeneratorBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 success_member:
     resource: "@SuccessMemberBundle/Resources/config/routing.yml"
     prefix:   /

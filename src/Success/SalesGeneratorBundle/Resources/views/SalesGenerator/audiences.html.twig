@@ -1,0 +1,29 @@
+{% extends "SuccessSiteBundle::basic_layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/successsalesgenerator/css/sales_generator.css') }}" />
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="container">
+        <h1>Audiences</h1>
+        {% for audience in audiences %}
+            <div class="panel panel-primary audience">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Категория №{{ audience.id }}</h3>
+                </div>
+                <div class="panel-body">
+                  <h6><a href="{{ path('sales_generator', {'question_id' : audience.id}) }}">{{ audience.name }}</a></h6>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/successsalesgenerator/js/sales_generator.js') }}"></script>
+{% endblock javascripts %}
+
+{% block footer %}{% endblock footer %}

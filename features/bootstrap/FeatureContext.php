@@ -21,17 +21,6 @@ use Behat\MinkExtension\Context\MinkContext;
 class FeatureContext extends MinkContext
 {
     /**
-     * Initializes context.
-     * Every scenario gets it's own context object.
-     *
-     * @param array $parameters context parameters (set them up through behat.yml)
-     */
-    public function __construct(array $parameters)
-    {
-        // Initialize your context here
-    }
-
-    /**
      * @Given /^I am logged in as admin$/
      */
     public function iAmLoggedInAsAdmin()
@@ -70,18 +59,22 @@ class FeatureContext extends MinkContext
         $this->fillField($arg1, $currentDate);
         //throw new PendingException();
     }
-
-
     
-//
-// Place your definition and hook methods here:
-//
-//    /**
-//     * @Given /^I have done something with "([^"]*)"$/
-//     */
-//    public function iHaveDoneSomethingWith($argument)
-//    {
-//        doSomethingWith($argument);
-//    }
-//
+    /**
+     * @When /^I click "([^"]*)"$/
+     */
+    public function iClick($selector)
+    {
+        /* first by id then by css selector */
+        try {
+            $element = $this->getSession()->getPage()->find('css', "#" . $selector);
+        } catch (\Exception $e) {
+            $element = $this->getSession()->getPage()->find('css', $selector);
+        }
+
+        if (null === $element)
+            throw new ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', $selector);
+
+        $this->getSession()->getDriver()->click($element->getXPath());
+    }
 }

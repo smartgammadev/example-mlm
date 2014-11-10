@@ -1,7 +1,7 @@
 default:
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://4success
+            base_url: http://calendar.develop1.lan/app_test.php
             
             selenium2: ~
             goutte: ~
