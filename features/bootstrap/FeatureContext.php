@@ -6,6 +6,7 @@ use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
+use Behat\MinkExtension\Context\MinkContext;
 
 //
 // Require 3rd-party libraries here:
@@ -17,7 +18,7 @@ use Behat\Gherkin\Node\PyStringNode,
 /**
  * Features context.
  */
-class FeatureContext extends BehatContext
+class FeatureContext extends MinkContext
 {
     /**
      * @Given /^I am logged in as admin$/
@@ -41,9 +42,9 @@ class FeatureContext extends BehatContext
     /**
      * @Given /^I fill in "([^"]*)" with current date plus "([^"]*)" minutes$/
      */
-    public function iFillInWithCurrentDatePlusMinutes($arg1, $minutes)
+    public function iFillInWithCurrentDatePlusMinutes($arg1, $arg2)
     {
-        $currentDate = date('c',  time()+(60*$minutes));
+        $currentDate = date('c',  time()+(60*$arg2));
         $this->fillField($arg1, $currentDate);
     }
     
@@ -60,10 +61,6 @@ class FeatureContext extends BehatContext
     }
     
     /**
-     * @param string $selector
-     *
-     * @throws ElementNotFoundException
-     * @return void
      * @When /^I click "([^"]*)"$/
      */
     public function iClick($selector)
