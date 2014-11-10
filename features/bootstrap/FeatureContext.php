@@ -1,16 +1,11 @@
 <?php
 
-namespace Success\Behat;
-
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
     Behat\Behat\Context\BehatContext,
     Behat\Behat\Exception\PendingException;
-
 use Behat\Gherkin\Node\PyStringNode,
-        
     Behat\Gherkin\Node\TableNode;
-use Behat\MinkExtension\Context\MinkContext;
 
 //
 // Require 3rd-party libraries here:
@@ -22,7 +17,7 @@ use Behat\MinkExtension\Context\MinkContext;
 /**
  * Features context.
  */
-class FeatureContext extends MinkContext
+class FeatureContext extends BehatContext
 {
     /**
      * @Given /^I am logged in as admin$/
@@ -85,18 +80,4 @@ class FeatureContext extends MinkContext
 
         $this->getSession()->getDriver()->click($element->getXPath());
     }
-
-
-    
-//
-// Place your definition and hook methods here:
-//
-//    /**
-//     * @Given /^I have done something with "([^"]*)"$/
-//     */
-//    public function iHaveDoneSomethingWith($argument)
-//    {
-//        doSomethingWith($argument);
-//    }
-//
 }
