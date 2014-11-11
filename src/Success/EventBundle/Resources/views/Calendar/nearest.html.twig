@@ -1,76 +1,157 @@
-{% extends "::base.html.twig" %}
+{% extends "SuccessSiteBundle::basic_layout.html.twig" %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/4success.style.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}" />
-
-
+    {{ parent() }}
 {% endblock %}
 
 {% block title %}Nearest Events Calendar{% endblock %}
 
 
 {% block body %}
-    <div class="page-head">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>Календарь мероприятий</h2>
-                </div>    
-            </div>
+    <div class="modal fade" id="calendar-modal-event" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modal-content">
         </div>
-    </div>        
+    </div>
+    </div>
     
     <div class="content">
         <div class="container">
-            <div class="row">            
-                <div class="col-md-6">
-                    <h4>Мероприятия сегодня ({{(eventsOfDay|length)}})</h4>
-                    {% for event in eventsOfDay %}
-                    <div class="panel-group">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                {{ event.name }}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Ближайшее мероприятие</h5>                        
+                                <span>Название меропиятия: </span>
+                                <h2>{{ nearest.name }}</h2>
+                                <span>До начала осталось: </span>
+                                <h1> <span id='timer' ></span></h1>
+                                
+                                <span>Тема: </span>
+                                <h3>{{ nearest.pattern }}</h3>                               
+                                <div class="button">
+                                    {% if allowToVisit %}
+                                        <a href="{{ externalLink }}" target="blank">Войти в Вебинар</a>
+                                    {% else %}
+                                        <a class="modal-btn" data-toggle="modal" data-target="calendar-modal-event" href="/calendarevents/calendar/event/{{ nearest.id }}/signup" >Записаться</a>
+                                    {% endif %}
+                                </div>
                             </div>
-                            <div class="panel-body">
-                                {% media event.media, 'small' %}
-                                {{ event.startDateTime|date('d.m.Y H:i') }}
-                                <a class="btn btn-success">Записаться</a>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                    
-                <div class="col-md-6">
-                    <h4>Мероприятия недели ({{(eventsOfWeek|length)}})</h4>
-                    {% for event in eventsOfWeek %}
-                    <div class="panel-group">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                {{ event.name }}
-                            </div>
-                            <div class="panel-body">
-                                {% media event.media, 'small' %}
-                                {{ event.startDateTime|date('d.m.Y H:i') }}
+                            <div class="col-md-6 centered" style='text-align: center'>
+                                {% media nearest.media, 'small' %}
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Мероприятия сегодня ({{(eventsToday.events|length)}})</h4>
+                    <h4>{{eventsToday.date|date('l')}}: {{eventsToday.date|date('d.m.Y')}}</h4>
+                    
+                        {% for event in eventsToday.events %}
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">                                        
+                                            <h3>{{ event.name }}</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <span>тема: </span>
+                                                <h3>{{ event.pattern }}</h3>
+                                                
+                                                <span>время: </span>
+                                                <h2>{{ event.startDateTime|date('H:i') }}</h2>
+                                                <div class="button">
+                                                    <a href="#" >Записаться</a>
+                                                </div>                                                
+                                            </div>
+                                            <div class="col-md-6">
+                                                {% media event.media, 'small' %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                        {% endfor %}                                
+                </div>
+                    
+                        {% set daysCount = eventsOfWeek|length-1 %}
+                <div class="col-md-6">
+                    <h4>Мероприятия недели</h4>
+                        {% for i in 0..daysCount %}
+                            {% if eventsOfWeek[i].events|length>0 %}
+                                <h4>{{ eventsOfWeek[i].date|date('l') }}: {{ eventsOfWeek[i].date|date('d.m.Y') }}</h4>
+                                    {% for event in eventsOfWeek[i].events %}
+                                        <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                            <h3>{{ event.name }}</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <span>тема: </span>
+                                                <h3>{{ event.pattern }}</h3>
+                                                
+                                                <span>время: </span>
+                                                <h2>{{ event.startDateTime|date('H:i') }}</h2>
+                                                <div class="button">
+                                                    <a href="#" >Записаться</a>
+                                                </div>                                                
+                                            </div>
+                                            <div class="col-md-6">
+                                                {% media event.media, 'small' %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                        </div>                                                                    
+                                    {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                </div>
         </div>
-    </div>    
+    </div>
+</div>        
         
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery-1.11.1.min.js') }}"></script>    
-    <script type="text/javascript" src="{{ asset('bundles/successevent/js/bootstrap.min.js') }}"></script>
+    {{ parent() }}
     <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.countdown.js') }}"></script>
+    
+    <script type="text/javascript">        
+        startDateTime ="{{ nearest.startDateTime|date('Y/m/d H:i:s') }}";
+                
+        $("#timer").countdown(startDateTime, function(event) {
+                $(this).text(
+                    event.strftime('%D:%H:%M:%S')
+                );
+        });
+    </script>
+    
+    <script>
+      $('body').on('hidden.bs.modal', '.modal', function () {
+        $('#modal-content').empty();
+      });
+      
+      $('body').on('click','.modal-btn',function(){
+        link = $(this).attr('href');
+        $('#modal-content').load(
+            link,
+            function(response, status, xhr) {
+            if (status === 'error') {
+                $('#modal-content').html('<h2>Whoops!</h2><p>Sorry, but there was an error:' + xhr.status + ' ' + xhr.statusText+ '</p>');                
+                }
+            return this;
+            }
+          );
+      });
+    </script> 
+
+    
 {% endblock %}
 
 

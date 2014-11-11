@@ -21,6 +21,16 @@ class BaseEventRepository extends EntityRepository
         return $this->findAllBetweenDates($fromDate, $toDate);
     }
     
+    public function findNextByDate(\DateTime $startDate) 
+    {
+        $fromDate = clone $startDate; 
+        $toDate = clone $fromDate;
+        $toDate->modify('+1 day');
+        $toDate->setTime(0, 0, 0);
+        return $this->findAllBetweenDates($fromDate, $toDate);
+    }
+    
+    
     public function findAllBetweenDates(\DateTime $startDate,\DateTime $endDate) 
     {
         return  $this->getEntityManager()->createQuery(
@@ -29,6 +39,7 @@ class BaseEventRepository extends EntityRepository
                 ->setParameter("end_date", $endDate->format('Y-m-d H:i:s'))
                 ->getResult();
     }
+    
     
     public function findNextNearestByDate(\DateTime $startDate)
     {

@@ -67,6 +67,12 @@ class EventManager //extends Service
         return $repo->findAllByDate($startDate);
     }
     
+    public function getNextEventsForDate($startDate)
+    {
+        $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
+        return $repo->findNextByDate($startDate);
+    }
+
     
     public function getAllEventsOfWeekByDate($dateOfWeek)
     {
@@ -184,7 +190,7 @@ class EventManager //extends Service
      * @param \DateTime $dateOfWeek
      * @return \DateTime last day of week where $dateOfWeek in
      */    
-    private function lastDayOfWeek(\DateTime $dateOfWeek)
+    public function lastDayOfWeek(\DateTime $dateOfWeek)
     {
         $thisDate = new \DateTime();
         $thisDate->setTimestamp($dateOfWeek->getTimestamp());
