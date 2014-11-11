@@ -10,6 +10,5 @@ parameters:
     mailer_host: null
     mailer_user: rregion1292
     mailer_password: masterkey1292
-    time_zone: "Europe/Kiev"
     locale: ru
     secret: ThisTokenIsNotSoSecretChangeIt
