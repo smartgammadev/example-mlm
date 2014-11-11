@@ -126,8 +126,8 @@ class CalendarController extends Controller
         $placeholders = $request->query->all();                
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);        
         $now = new \DateTime;
-        $nearestEvent = $this->eventManager->getNearestNextEvent($now);        
+        $eventsOfDay = $this->eventManager->getEventsForDate($now);
         $eventsOfWeek = $this->eventManager->getNextEventsOfWeekByDate($now);        
-        return array('nearestEvent' => $nearestEvent,'eventsOfWeek' => $eventsOfWeek);
+        return array('eventsOfDay' => $eventsOfDay,'eventsOfWeek' => $eventsOfWeek);
     }
 }

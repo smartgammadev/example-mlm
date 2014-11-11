@@ -12,9 +12,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class BaseEventRepository extends EntityRepository
 {
-    public function findAllBetweenDates($startDate,$endDate) {
+    public function findAllByDate(\DateTime $startDate) 
+    {
+        $fromDate = clone $startDate; 
+        $fromDate->setTime(0, 0, 0);
+        $toDate = clone $fromDate;
+        $toDate->modify('+1 day');                
+        return $this->findAllBetweenDates($fromDate, $toDate);
+    }
+    
+    public function findAllBetweenDates(\DateTime $startDate,\DateTime $endDate) 
+    {
         return  $this->getEntityManager()->createQuery(
-                "select e from SuccessEventBundle:BaseEvent e where e.startDateTime BETWEEN :start_date AND :end_date ORDER BY e.startDateTime")
+                "select e from SuccessEventBundle:BaseEvent e where e.startDateTime BETWEEN :start_date AND :end_date ORDER BY e.startDateTime ASC")
                 ->setParameter("start_date", $startDate->format('Y-m-d H:i:s'))
                 ->setParameter("end_date", $endDate->format('Y-m-d H:i:s'))
                 ->getResult();
@@ -22,7 +32,7 @@ class BaseEventRepository extends EntityRepository
     
     public function findNextNearestByDate(\DateTime $startDate)
     {
-        $dql = 'select e from SuccessEventBundle:BaseEvent e where e.startDateTime > :start_date ORDER BY e.startDateTime DESC';
+        $dql = 'select e from SuccessEventBundle:BaseEvent e where e.startDateTime > :start_date ORDER BY e.startDateTime ASC';
         $result = $this->getEntityManager()->createQuery($dql)
                     ->setParameter('start_date', $startDate->format('Y-m-d H:i:s'))
                     ->setFirstResult(0)

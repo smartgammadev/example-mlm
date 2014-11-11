@@ -1,0 +1,7 @@
+parameters:
+    use-sms-service: bytehand
+    
+    sms-service:
+        bytehand:
+            id: "15993"
+            key: "B0BE02F4608FED36"

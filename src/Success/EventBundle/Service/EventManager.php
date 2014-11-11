@@ -60,6 +60,13 @@ class EventManager //extends Service
         $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
         return $repo->findNextNearestByDate($startDate);
     }
+
+    public function getEventsForDate($startDate)
+    {
+        $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
+        return $repo->findAllByDate($startDate);
+    }
+    
     
     public function getAllEventsOfWeekByDate($dateOfWeek)
     {
