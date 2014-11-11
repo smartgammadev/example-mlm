@@ -12,12 +12,56 @@
 
 
 {% block body %}
-    {{ nearestEvent.name }}
-
-        {% for event in eventsOfWeek %}
-            <li>{{ event.name }}</li>
-        {% endfor %}
-        
+    <div class="page-head">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Календарь мероприятий</h2>
+                </div>    
+            </div>
+        </div>
+    </div>        
+    
+    <div class="content">
+        <div class="container">
+            <div class="row">            
+                <div class="col-md-6">
+                    <h4>Мероприятия сегодня ({{(eventsOfDay|length)}})</h4>
+                    {% for event in eventsOfDay %}
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {{ event.name }}
+                            </div>
+                            <div class="panel-body">
+                                {% media event.media, 'small' %}
+                                {{ event.startDateTime|date('d.m.Y H:i') }}
+                                <a class="btn btn-success">Записаться</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                    
+                <div class="col-md-6">
+                    <h4>Мероприятия недели ({{(eventsOfWeek|length)}})</h4>
+                    {% for event in eventsOfWeek %}
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {{ event.name }}
+                            </div>
+                            <div class="panel-body">
+                                {% media event.media, 'small' %}
+                                {{ event.startDateTime|date('d.m.Y H:i') }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>    
         
 {% endblock %}
 
