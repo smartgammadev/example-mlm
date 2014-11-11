@@ -28,6 +28,12 @@ class WebinarEvent extends BaseEvent
     private  $password;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */    
+    private $description;
+    /**
      * Set url
      *
      * @param string $url

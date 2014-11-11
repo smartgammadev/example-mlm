@@ -28,6 +28,7 @@ class WebinarEventAdmin extends Admin {
             ->add('url', 'url',array('label' => 'Webinar URL'))    
             //->add('url', 'text', array('label' => 'Webinar URL'))
             ->add('name', 'text', array('label' => 'Webinar Name'))
+            ->add('description', 'textarea', array('label' => 'Webinar Description'))
             ->add('pattern', 'text', array('label' => 'Webinar Pattern'))
             ->add('password', 'text', array('label' => 'Webinar Password','required' => false))
             ->add('eventType', 'sonata_type_model', array('class' => 'Success\EventBundle\Entity\EventType'))

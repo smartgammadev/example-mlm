@@ -28,6 +28,12 @@ class WebinarEvent extends BaseEvent
     private  $password;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */    
+    private $description;
+    /**
      * Set url
      *
      * @param string $url
@@ -99,5 +105,28 @@ class WebinarEvent extends BaseEvent
     public function getEventType()
     {
         return $this->eventType;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return WebinarEvent
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 }

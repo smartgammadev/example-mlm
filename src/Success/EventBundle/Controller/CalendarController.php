@@ -135,8 +135,12 @@ class CalendarController extends Controller
         $nextDay->modify("+1 day");
         $interval = new \DateInterval('P1D');
         $daterange = new \DatePeriod($nextDay, $interval ,$lastDayOfWeek);
+        $weekEventsCount = 0;
         foreach ($daterange as $date){
-            $eventsOfWeek[] = array('date'=>$date, 'events'=>$this->eventManager->getEventsForDate($date));
+            $dayEvents = $this->eventManager->getEventsForDate($date);
+            $weekEventsCount += count($dayEvents);
+            $eventsOfWeek[] = array('date'=>$date, 'events'=>$dayEvents);
+            
         }
         
         $nearestEvent = $this->eventManager->getNearestNextEvent($now);
@@ -148,6 +152,7 @@ class CalendarController extends Controller
             'allowToVisit' => $allowVisitEvent,
             'externalLink' => $externalLink,
             'eventsToday' => $eventsToday, 
+            'weekEventsCount' => $weekEventsCount,
             'eventsOfWeek' => $eventsOfWeek);
     }
 }

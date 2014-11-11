@@ -29,7 +29,7 @@ class SignupType extends AbstractType {
         }
         
         $builder->add('notify', 'checkbox',array(
-            'label' => 'Notify me before this event',
+            'label' => 'Напомнить перед началом события',
             'required'  => false));
         $builder->setAction('/calendarevents/calendar/event/'.$this->eventId.'/signup');
         $builder->setMethod('POST');

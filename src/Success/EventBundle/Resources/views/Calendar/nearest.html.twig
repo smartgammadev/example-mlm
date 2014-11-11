@@ -2,6 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/4success.style.css') }}" />
 {% endblock %}
 
 {% block title %}Nearest Events Calendar{% endblock %}
@@ -28,18 +29,18 @@
                                 <span>До начала осталось: </span>
                                 <h1> <span id='timer' ></span></h1>
                                 
-                                <span>Тема: </span>
-                                <h3>{{ nearest.pattern }}</h3>                               
+                                <h4>Тема: </h4>
+                                <p>{{ nearest.description }}</p>
                                 <div class="button">
                                     {% if allowToVisit %}
                                         <a href="{{ externalLink }}" target="blank">Войти в Вебинар</a>
                                     {% else %}
-                                        <a class="modal-btn" data-toggle="modal" data-target="calendar-modal-event" href="/calendarevents/calendar/event/{{ nearest.id }}/signup" >Записаться</a>
+                                        <a class="modal-btn btn-lg" data-toggle="modal" data-target="#calendar-modal-event" href="/calendarevents/calendar/event/{{ nearest.id }}/signup">Записаться</a>
                                     {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-6 centered" style='text-align: center'>
-                                {% media nearest.media, 'small' %}
+                                {% media nearest.media, 'large' %}
                             </div>
                         </div>
                     </div>
@@ -49,8 +50,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <h4>Мероприятия сегодня ({{(eventsToday.events|length)}})</h4>
+                    {% set day = eventsToday.date|date('l') %}
+{#                    {% trans %}%day%{% endtrans %}#}
                     <h4>{{eventsToday.date|date('l')}}: {{eventsToday.date|date('d.m.Y')}}</h4>
-                    
                         {% for event in eventsToday.events %}
                                 <div class="panel panel-default">
                                     <div class="panel-heading">                                        
@@ -60,13 +62,13 @@
                                         <div class="row">
                                             <div class="col-md-6">
 
-                                                <span>тема: </span>
-                                                <h3>{{ event.pattern }}</h3>
+                                                <h4>Тема: </h4>
+                                                <p>{{ event.description }}</p>
                                                 
-                                                <span>время: </span>
+                                                <h5>время: </h5>
                                                 <h2>{{ event.startDateTime|date('H:i') }}</h2>
-                                                <div class="button">
-                                                    <a href="#" >Записаться</a>
+                                                <div class="button">                                                    
+                                                    <a class="modal-btn" data-toggle="modal" data-target="#calendar-modal-event" href="/calendarevents/calendar/event/{{ event.id }}/signup" >Записаться</a>
                                                 </div>                                                
                                             </div>
                                             <div class="col-md-6">
@@ -81,25 +83,25 @@
                     
                         {% set daysCount = eventsOfWeek|length-1 %}
                 <div class="col-md-6">
-                    <h4>Мероприятия недели</h4>
+                    <h4>Мероприятия недели ({{ weekEventsCount }})</h4>
                         {% for i in 0..daysCount %}
                             {% if eventsOfWeek[i].events|length>0 %}
                                 <h4>{{ eventsOfWeek[i].date|date('l') }}: {{ eventsOfWeek[i].date|date('d.m.Y') }}</h4>
                                     {% for event in eventsOfWeek[i].events %}
-                                        <div class="panel panel-danger">
+                                        <div class="panel panel-success">
                                     <div class="panel-heading">
-                                            <h3>{{ event.name }}</h3>
+                                        <h3>{{ event.name }}</h3>
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <span>тема: </span>
-                                                <h3>{{ event.pattern }}</h3>
+                                                <h5>Тема: </h5>
+                                                <p>{{ event.description }}</p>
                                                 
-                                                <span>время: </span>
+                                                <h5>время: </h5>
                                                 <h2>{{ event.startDateTime|date('H:i') }}</h2>
                                                 <div class="button">
-                                                    <a href="#" >Записаться</a>
+                                                    <a class="modal-btn" data-toggle="modal" data-target="#calendar-modal-event" href="/calendarevents/calendar/event/{{ event.id }}/signup" >Записаться</a>
                                                 </div>                                                
                                             </div>
                                             <div class="col-md-6">
@@ -130,9 +132,7 @@
                     event.strftime('%D:%H:%M:%S')
                 );
         });
-    </script>
-    
-    <script>
+
       $('body').on('hidden.bs.modal', '.modal', function () {
         $('#modal-content').empty();
       });

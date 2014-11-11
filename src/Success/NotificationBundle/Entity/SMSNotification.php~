@@ -20,10 +20,9 @@ class SMSNotification extends Notification
     
     /**
      * @var string
-     * @ORM\Column(name="msg-id", type="string", length=255, nullable=true)
+     * @ORM\Column(name="msg_id", type="string", length=255, nullable=true)
      */
     private $msgId;
-
     
 
     /**
@@ -47,5 +46,28 @@ class SMSNotification extends Notification
     public function getParams()
     {
         return $this->params;
+    }
+
+    /**
+     * Set msgId
+     *
+     * @param string $msgId
+     * @return SMSNotification
+     */
+    public function setMsgId($msgId)
+    {
+        $this->msgId = $msgId;
+
+        return $this;
+    }
+
+    /**
+     * Get msgId
+     *
+     * @return string 
+     */
+    public function getMsgId()
+    {
+        return $this->msgId;
     }
 }
