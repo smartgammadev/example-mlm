@@ -25,10 +25,9 @@ class SalesGeneratorController extends Controller
      */
     public function chooseAudienceAction()
     {   
-//        $this->salesGeneratorManager->fillBase();
-//        $this->salesGeneratorManager->audiencesSS();
-        $audiences = $this->salesGeneratorManager->getAllAudiences();
-        return ['audiences' => $audiences];
+        // $this->salesGeneratorManager->fillBase();
+        // $this->salesGeneratorManager->audiencesSS();
+        return ['audiences' => $audiences = $this->salesGeneratorManager->getAllAudiences()];
     }
     
     /**

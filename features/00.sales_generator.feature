@@ -1,4 +1,4 @@
-@sales_gen                                                    
+@javascript                                                  
 Feature: Sales Generator(frontend)
     In order to use sales generator
     as a user
@@ -9,7 +9,7 @@ Feature: Sales Generator(frontend)
          Then I should see 4 ".audience" elements
 
     Scenario: Step into audience
-        Given I am on "/audiences/1"
+        Given I am on "/audience/1"
          Then I should see "Вопрос"
           And I should see 3 ".answer" elements
          When I click ".new-question:first-child"
