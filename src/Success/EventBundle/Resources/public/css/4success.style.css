@@ -89,5 +89,10 @@ table.event-table form .submit-btn {
 #nearest-event #timer{
     color: rgba(0, 149, 149, 1);
 }
-
+.container {
+    max-width: 900px;
+    width: 900px;
+    padding-left: 0;
+    padding-right: 0;
+}
 //background-color: #FD6D57
