@@ -37,3 +37,57 @@ table.event-table form .submit-btn {
 #modal-content{
     padding: 30px;
 }
+
+#nearest-event{
+    background-color: rgba(0, 149, 149, 0.5);
+}
+
+/*.panel-default > .panel-heading {
+  color: #333;
+  background-color: #f5f5f5;
+  border-color: #ddd;
+}*/
+
+.panel-default > .panel-heading {
+  background-color: rgba(0, 149, 149, 0.5);
+  border-color: rgba(0, 149, 149, 1);
+}
+.panel-default{
+    border-color: rgba(0, 149, 149, 0.7);
+    background-color: rgba(0, 149, 149, 0.1);
+}
+
+.panel-danger > .panel-heading {
+  background-color: rgba(253, 109, 87, 0.7);
+  border-color: rgba(253, 109, 87, 1);
+}
+.panel-danger{
+  background-color: rgba(253, 109, 87, 0.2);
+  border-color: rgba(253, 109, 87, 0.7);
+}
+.panel-danger h3{
+    color: #fff;
+}
+
+
+.panel-default h3{
+    color: #fff;
+}
+
+#nearest-event h2, #nearest-event h3, #nearest-event h4, #nearest-event h5{
+    color: #fff;
+}
+
+#nearest-event{
+    border-color: rgba(0, 149, 149, 0.7);
+}
+
+#nearest-event p{
+    color: #fff;
+}
+
+#nearest-event #timer{
+    color: rgba(0, 149, 149, 1);
+}
+
+//background-color: #FD6D57

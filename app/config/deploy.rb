@@ -1,12 +1,13 @@
-set :application, "4success.smart-gamma.com"
-set :domain,      "4success.smart-gamma.com"
+set :application, "4success"
+set :domain,      "128.199.43.50"
 set :user,        "4success"
 set :deploy_to,   "/home/4success/4success"
 set :app_path,    "app"
 
-set :repository,  "git@bitbucket.org:stas81/4success.git"
+set :repository,  "file:///var/www/4success"
 set :scm,         :git
 set :branch,      "master"
+set :deploy_via,  :copy
 
 set :model_manager, "doctrine"
 set :shared_files,      ["app/config/parameters.yml"]

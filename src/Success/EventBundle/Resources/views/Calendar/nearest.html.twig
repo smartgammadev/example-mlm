@@ -18,18 +18,18 @@
     
     <div class="content">
         <div class="container">
-            <div class="row">
+            <div class="row" >
                 <div class="col-md-12">
-                    <div class="well">
+                    <div class="well jumbotron" id="nearest-event">
                         <div class="row">
-                            <div class="col-md-6">
-                                <h5>Ближайшее мероприятие</h5>                        
-                                <span>Название меропиятия: </span>
+                            <div  class="col-md-6">
+                                <h3>Ближайшее мероприятие</h3>
+                                <h5>Название меропиятия: </h5>
                                 <h2>{{ nearest.name }}</h2>
-                                <span>До начала осталось: </span>
-                                <h1> <span id='timer' ></span></h1>
+                                <h5>До начала осталось: </h5>
+                                <h1><span id='timer'></span></h1>
                                 
-                                <h4>Тема: </h4>
+                                <h5>Тема:</h5>
                                 <p>{{ nearest.description }}</p>
                                 <div class="button">
                                     {% if allowToVisit %}
@@ -88,7 +88,7 @@
                             {% if eventsOfWeek[i].events|length>0 %}
                                 <h4>{{ eventsOfWeek[i].date|date('l') }}: {{ eventsOfWeek[i].date|date('d.m.Y') }}</h4>
                                     {% for event in eventsOfWeek[i].events %}
-                                        <div class="panel panel-success">
+                                        <div class="panel panel-danger">
                                     <div class="panel-heading">
                                         <h3>{{ event.name }}</h3>
                                     </div>
