@@ -18,7 +18,7 @@
     
 
 {#        <div class="container">#}
-            <div class="row" >
+            <div id="main-row" class="row" >
                 <div class="col-md-12">
                     <div class="well jumbotron" id="nearest-event">
                         <div class="row">
@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div id="main-row" class="row">
                 <div class="col-md-6">
                     <h4>Мероприятия сегодня ({{(eventsToday.events|length)}})</h4>
                     {% set day = eventsToday.date|date('l') %}

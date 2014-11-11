@@ -96,8 +96,10 @@ table.event-table form .submit-btn {
     padding-right: 0;
 }
 
-.col-md-6, .col-md-12{
-    
+#main-row {
+  width: 900px;
+}
+.col-md-6, .col-md-12{    
     padding-right: 0;
 }
 //background-color: #FD6D57
