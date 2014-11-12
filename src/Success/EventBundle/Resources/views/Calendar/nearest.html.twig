@@ -142,8 +142,9 @@
         
         if (!eventsIframe === null){
             eventsIframe.contentWindow.scrollTo(0,0);
-            $("html, body").animate({ scrollTop: 0 }, "fast");
+            
         }
+        $("html, body").animate({ scrollTop: 0 }, "slow");
         
         link = $(this).attr('href');
         $('#modal-content').load(
