@@ -170,5 +170,5 @@ sonata_media:
             create:     false
             
 ornicar_apc:
-    #host: http://businesspride.info
+    host: http://128.199.43.50/
     web_dir: %kernel.root_dir%/../web
