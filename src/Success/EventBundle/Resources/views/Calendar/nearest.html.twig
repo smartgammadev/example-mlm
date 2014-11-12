@@ -144,7 +144,9 @@
             eventsIframe.contentWindow.scrollTo(0,0);
             
         }
-        $("html, body").animate({ scrollTop: 0 }, "slow");
+
+        window.scrollTo(0,0);
+        //$("html, body").animate({ scrollTop: 0 }, "slow");
         
         link = $(this).attr('href');
         $('#modal-content').load(
