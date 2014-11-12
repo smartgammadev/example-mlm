@@ -144,10 +144,17 @@
             //eventsIframe.contentWindow.scrollTo(0,0);
             //window.parent.parent.scrollTo(0,0)            
         }        
-        parent.postMessage("scroll_up", "*");
+        //parent.postMessage("scroll_up", "*");
         //window.parent.scrollTo(0,0);
-        //$("html, body").animate({ scrollTop: 0 }, "slow");
-        
+        //$("html, body").animate({ scrollTop: 0 }, "slow");        
+        {#<script>
+          window.addEventListener("message", function(event) {
+            if (event.data==='scroll_up')
+              window.scrollTo(0,0);
+            //console.log("Hello from " + event.data);
+                });
+        </script>
+        #}                        
         link = $(this).attr('href');
         $('#modal-content').load(
             link,
