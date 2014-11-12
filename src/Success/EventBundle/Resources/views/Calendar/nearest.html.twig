@@ -144,18 +144,11 @@
         var eventsIframe = document.getElementById('events-calendar');        
         if (!eventsIframe === null){
           eventsIframe.contentWindow.scrollTo(0,0);
-          //window.parent.parent.scrollTo(0,0);
+          window.parent.parent.scrollTo(0,0);
           parent.postMessage("scroll_up", "*");
         }        
         
-        $("html, body").animate({ scrollTop: 0 }, "slow");        
-        
-        //
-          window.addEventListener("message", function(event) {
-            if (event.data==='scroll_up')
-              window.scrollTo(0,0);            
-                });
-
+        //$("html, body").animate({ scrollTop: 0 }, "slow");        
         link = $(this).attr('href');
         $('#modal-content').load(
             link,
