@@ -126,15 +126,20 @@ class CalendarController extends Controller
         $placeholders = $request->query->all();
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);        
 
-        $now = new \DateTime();
+        $now = new \DateTime('now');
         $lastDayOfWeek = $this->eventManager->lastDayOfWeek($now);
-        $eventsToday = array('date' => $now, 'events' => $this->eventManager->getNextEventsForDate($now));        
+        
+        $eventsToday = array('date' => $now, 'events' => $this->eventManager->getNextEventsForDate($now));
+        
+        
         $eventsOfWeek = array();
         $nextDay = clone $now;
         $nextDay->setTime(0, 0, 0);
         $nextDay->modify("+1 day");
+        
         $interval = new \DateInterval('P1D');
         $daterange = new \DatePeriod($nextDay, $interval ,$lastDayOfWeek);
+        
         $weekEventsCount = 0;
         foreach ($daterange as $date){
             $dayEvents = $this->eventManager->getEventsForDate($date);
