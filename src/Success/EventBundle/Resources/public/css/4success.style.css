@@ -104,7 +104,12 @@ table.event-table form .submit-btn {
     padding-right: 0px;
 }
 
-.media-img{
-    float: left;
+.event-descr img{
+    padding-left: 15px;
+    float: right;
+    display: inline;
+}
+
+.event-time{
     display: inline;
 }
