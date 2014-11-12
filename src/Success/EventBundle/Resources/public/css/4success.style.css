@@ -104,3 +104,7 @@ table.event-table form .submit-btn {
     padding-right: 0px;
 }
 
+.media-img{
+    float: left;
+    display: inline;
+}

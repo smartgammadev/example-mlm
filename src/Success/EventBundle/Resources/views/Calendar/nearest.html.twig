@@ -139,9 +139,12 @@
       $('body').on('click','.modal-btn',function(){
           
         var eventsIframe = document.getElementById('events-calendar');
-        if (!eventsIframe === null)
+        
+        if (!eventsIframe === null){
             eventsIframe.contentWindow.scrollTo(0,0);
-
+            $("html, body").animate({ scrollTop: 0 }, "fast");
+        }
+        
         link = $(this).attr('href');
         $('#modal-content').load(
             link,
