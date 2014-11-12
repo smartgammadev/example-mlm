@@ -146,16 +146,16 @@ sonata_media:
 #
             formats:
                 preview:   { width: 100, quality: 100}
-                small:     { width: 200, quality: 100}
-                large:     { width: 600, quality: 100}            
+                small:     { width: 180, quality: 100}
+                large:     { width: 380, quality: 100}            
 
         webinar_image:
             providers:
                 - sonata.media.provider.image
             formats:
                 preview:   { width: 100, quality: 100}
-                small:     { width: 200, quality: 100}
-                large:     { width: 400, quality: 100}            
+                small:     { width: 180, quality: 100}
+                large:     { width: 380, quality: 100}            
 
     cdn:
         server:
