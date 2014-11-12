@@ -127,7 +127,10 @@
         startDateTime ="{{ nearest.startDateTime|date('Y/m/d H:i:s') }}";
                 
         $("#timer").countdown(startDateTime, function(event) {
-                $(this).text(
+            if (event.strftime('%D:%H:%M:%S')==='00:00:00:00')
+                $(this).text('Уже идет');
+            else
+                $(this).text(                        
                     event.strftime('%D:%H:%M:%S')
                 );
         });

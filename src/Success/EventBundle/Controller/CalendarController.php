@@ -81,18 +81,12 @@ class CalendarController extends Controller
         /**
          * @var \Success\EventBundle\Entity\BaseEvent Event for sign up
          */
-        $event = $this->eventManager->getEventById($eventId);
-        
+        $event = $this->eventManager->getEventById($eventId);        
         $form = $this->createForm(new SignupType($this->placeholderManager, $eventId));
-        
         $form->handleRequest($request);
-
-        
         if ($form->isValid()) {            
             $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
-            
             $formdata = $form->getData();
-            
             $notifyUserBeforeEvent = false;
             foreach ($formdata as $pattern => $value){                                
                 if (($pattern == 'notify')&&($value==true)){
@@ -113,7 +107,7 @@ class CalendarController extends Controller
                 $message = 'You have successfully signed up to this event.';
             }            
             return array('message' => $message);
-        }        
+        }
         return array('form' => $form->createView());
     }
 
@@ -128,7 +122,7 @@ class CalendarController extends Controller
         
         $tz_object = new \DateTimeZone('Europe/Kiev');        
         $now = new \DateTime('now',$tz_object);
-        
+        $now->modify("-15 minutes");
         $lastDayOfWeek = $this->eventManager->lastDayOfWeek($now);        
         $eventsToday = array('date' => $now, 'events' => $this->eventManager->getNextEventsForDate($now));
         
