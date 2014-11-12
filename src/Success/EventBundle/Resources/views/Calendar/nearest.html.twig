@@ -142,11 +142,9 @@
         
         if (!eventsIframe === null){
             eventsIframe.contentWindow.scrollTo(0,0);
-            //window.parent.parent.scrollTo(0,0)
-            window.parent.scrollTo(0,0);
-        }
-
-        window.scrollTo(0,0);
+            //window.parent.parent.scrollTo(0,0)            
+        }        
+        window.parent.scrollTo(0,0);
         //$("html, body").animate({ scrollTop: 0 }, "slow");
         
         link = $(this).attr('href');
