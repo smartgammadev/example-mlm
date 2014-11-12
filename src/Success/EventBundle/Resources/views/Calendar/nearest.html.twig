@@ -137,6 +137,11 @@
       });
       
       $('body').on('click','.modal-btn',function(){
+          
+        var eventsIframe = document.getElementById('events-calendar');
+        if (!eventsIframe === null)
+            eventsIframe.contentWindow.scrollTo(0,0);
+
         link = $(this).attr('href');
         $('#modal-content').load(
             link,
