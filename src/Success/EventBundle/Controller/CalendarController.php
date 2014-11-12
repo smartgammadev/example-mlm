@@ -127,6 +127,7 @@ class CalendarController extends Controller
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);        
 
         $now = new \DateTime('now');
+        echo 'now:'.$now->format('Y-m-d H:i:s');
         $lastDayOfWeek = $this->eventManager->lastDayOfWeek($now);
         
         $eventsToday = array('date' => $now, 'events' => $this->eventManager->getNextEventsForDate($now));

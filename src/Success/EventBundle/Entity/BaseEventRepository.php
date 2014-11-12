@@ -27,8 +27,8 @@ class BaseEventRepository extends EntityRepository
         $toDate = clone $fromDate;
         $toDate->modify('+1 day');
         $toDate->setTime(0, 0, 1);
-        echo 'from date:'.$fromDate->format('Y-m-d H:i:s').'<br>';
-        echo 'to date:'.$toDate->format('Y-m-d H:i:s').'<br>';
+        //echo 'from date:'.$fromDate->format('Y-m-d H:i:s').'<br>';
+        //echo 'to date:'.$toDate->format('Y-m-d H:i:s').'<br>';
         return $this->findAllBetweenDates($fromDate, $toDate);
     }
     
