@@ -141,10 +141,11 @@
         var eventsIframe = document.getElementById('events-calendar');
         
         if (!eventsIframe === null){
-            eventsIframe.contentWindow.scrollTo(0,0);
+            //eventsIframe.contentWindow.scrollTo(0,0);
             //window.parent.parent.scrollTo(0,0)            
         }        
-        window.parent.scrollTo(0,0);
+        parent.postMessage("scroll_up", "*");
+        //window.parent.scrollTo(0,0);
         //$("html, body").animate({ scrollTop: 0 }, "slow");
         
         link = $(this).attr('href');
