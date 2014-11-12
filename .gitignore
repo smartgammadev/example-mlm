@@ -6,9 +6,11 @@
 /vendor/
 /composer.phar
 /nbproject/
+/backups/
 bin/
 app/bootstrap.php.cache
 web/uploads
 web/bundles
 .gitignore
 .git
+*~

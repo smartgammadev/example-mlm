@@ -23,7 +23,19 @@ role :db,         domain, :primary => true
 
 set  :keep_releases,  5
 
+namespace :symfony do
+  desc "Clear apc cache"
+  task :apc_clear do
+    capifony_pretty_print "--> Clear apc cache"
+    run "#{try_sudo} sh -c 'cd #{current_path} && #{php_bin} #{symfony_console} apc:clear --env=#{symfony_env_prod}'"
+    capifony_puts_ok
+  end
+end
+
 logger.level = Logger::MAX_LEVEL
 
 # Be more verbose by uncommenting the following line
  logger.level = Logger::MAX_LEVEL
+
+after "deploy", "symfony:apc_clear"
+after "deploy:rollback:cleanup", "symfony:apc_clear"
