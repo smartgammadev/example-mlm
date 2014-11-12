@@ -124,16 +124,12 @@ class CalendarController extends Controller
     public function nearestAction(Request $request)
     {
         $placeholders = $request->query->all();
-        $this->placeholderManager->assignPlaceholdersToSession($placeholders);        
-
+        $this->placeholderManager->assignPlaceholdersToSession($placeholders);
         
-        
-        //????????
         $tz_object = new \DateTimeZone('Europe/Kiev');        
         $now = new \DateTime('now',$tz_object);
         
-        $lastDayOfWeek = $this->eventManager->lastDayOfWeek($now);
-        
+        $lastDayOfWeek = $this->eventManager->lastDayOfWeek($now);        
         $eventsToday = array('date' => $now, 'events' => $this->eventManager->getNextEventsForDate($now));
         
         
@@ -149,8 +145,7 @@ class CalendarController extends Controller
         foreach ($daterange as $date){
             $dayEvents = $this->eventManager->getEventsForDate($date);
             $weekEventsCount += count($dayEvents);
-            $eventsOfWeek[] = array('date'=>$date, 'events'=>$dayEvents);
-            
+            $eventsOfWeek[] = array('date'=>$date, 'events'=>$dayEvents);            
         }
         
         $nearestEvent = $this->eventManager->getNearestNextEvent($now);

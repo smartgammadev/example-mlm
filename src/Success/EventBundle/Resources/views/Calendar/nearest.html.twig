@@ -29,11 +29,11 @@
                                 
                                 <h5>Тема:</h5>
                                 <p>{{ nearest.description }}</p>
-                                <div class="button">
+                                <div>
                                     {% if allowToVisit %}
-                                        <a href="{{ externalLink }}" target="blank">Войти в Вебинар</a>
+                                        <a href="{{ externalLink }}" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Войти в Вебинар</a>                                        
                                     {% else %}
-                                        <a class="modal-btn btn-lg" data-toggle="modal" data-target="#calendar-modal-event" href="/calendarevents/calendar/event/{{ nearest.id }}/signup">Записаться</a>
+                                        <a href="/calendarevents/calendar/event/{{ nearest.id }}/signup" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
                                     {% endif %}
                                 </div>
                             </div>
@@ -65,8 +65,9 @@
                                                 
                                                 <h5>время: </h5>
                                                 <h2>{{ event.startDateTime|date('H:i') }}</h2>
-                                                <div class="button">                                                    
-                                                    <a class="modal-btn" data-toggle="modal" data-target="#calendar-modal-event" href="/calendarevents/calendar/event/{{ event.id }}/signup" >Записаться</a>
+                                                <div>                                                    
+                                                    <a href="/calendarevents/calendar/event/{{ event.id }}/signup" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
+                                                    {#<a class="modal-btn" data-toggle="modal" data-target="#calendar-modal-event" href="/calendarevents/calendar/event/{{ event.id }}/signup" >Записаться</a>#}
                                                 </div>                                                
                                             </div>
                                             <div class="col-xs-6">
@@ -98,8 +99,9 @@
                                                 
                                                 <h5>время: </h5>
                                                 <h2>{{ event.startDateTime|date('H:i') }}</h2>
-                                                <div class="button">
-                                                    <a class="modal-btn" data-toggle="modal" data-target="#calendar-modal-event" href="/calendarevents/calendar/event/{{ event.id }}/signup" >Записаться</a>
+                                                <div>
+                                                    <a href="/calendarevents/calendar/event/{{ event.id }}/signup" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
+                                                    {#<a class="modal-btn" data-toggle="modal" data-target="#calendar-modal-event" href="/calendarevents/calendar/event/{{ event.id }}/signup" >Записаться</a>#}
                                                 </div>                                                
                                             </div>
                                             <div class="col-xs-6">
