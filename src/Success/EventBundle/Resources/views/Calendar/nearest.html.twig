@@ -151,12 +151,11 @@
         $("html, body").animate({ scrollTop: 0 }, "slow");        
         
         //
-        //  window.addEventListener("message", function(event) {
-        //    if (event.data==='scroll_up')
-        //      window.scrollTo(0,0);
-        //    console.log("Hello from " + event.data);
-        //        });
-                                
+          window.addEventListener("message", function(event) {
+            if (event.data==='scroll_up')
+              window.scrollTo(0,0);            
+                });
+
         link = $(this).attr('href');
         $('#modal-content').load(
             link,
