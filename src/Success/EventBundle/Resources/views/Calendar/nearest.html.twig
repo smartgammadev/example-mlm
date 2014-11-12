@@ -142,12 +142,13 @@
 
         // scrolling feature
         var eventsIframe = document.getElementById('events-calendar');        
-        if (!eventsIframe === null){
-          eventsIframe.contentWindow.scrollTo(0,0);
-          window.parent.parent.scrollTo(0,0);
-          parent.postMessage("scroll_up", "*");
-        }        
         
+{#        if (!eventsIframe === null){
+          eventsIframe.contentWindow.scrollTo(0,0);
+          window.parent.parent.scrollTo(0,0);          
+        }
+#}        
+        parent.postMessage("scroll_up", "*");
         //$("html, body").animate({ scrollTop: 0 }, "slow");        
         link = $(this).attr('href');
         $('#modal-content').load(
