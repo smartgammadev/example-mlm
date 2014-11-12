@@ -126,10 +126,11 @@ class CalendarController extends Controller
         $placeholders = $request->query->all();
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);        
 
-        $now = new \DateTime('now');
+        
         
         //????????
-        $tz_object = new \DateTimeZone('Europe/Kiev');
+        $tz_object = new \DateTimeZone('Europe/Kiev');        
+        $now = new \DateTime('now',$tz_object);
         echo 'now:'.$now->format('Y-m-d H:i:s');
         
         $lastDayOfWeek = $this->eventManager->lastDayOfWeek($now);
