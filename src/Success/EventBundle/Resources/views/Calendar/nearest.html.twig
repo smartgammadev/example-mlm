@@ -31,7 +31,7 @@
                                 <p>{{ nearest.description }}</p>
                                 <div>
                                     {% if allowToVisit %}
-                                        <a href="{{ externalLink }}" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Войти в Вебинар</a>                                        
+                                        <a href="{{ externalLink }}" class="btn btn-lg btn-danger" role="button" target="blank">Войти в Вебинар</a>
                                     {% else %}
                                         <a href="/calendarevents/calendar/event/{{ nearest.id }}/signup" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
                                     {% endif %}
@@ -58,10 +58,12 @@
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
-                                            <div class="col-xs-6">
+                                            <div class="col-xs-12">
 
-                                                <h4>Тема: </h4>
-                                                <p>{{ event.description }}</p>
+                                                <p class="event-descr">
+                                                    {% media event.media, 'small' %}
+                                                    {{ event.description }}
+                                                </p>
                                                 
                                                 <h5>время: </h5>
                                                 <h2>{{ event.startDateTime|date('H:i') }}</h2>
@@ -69,9 +71,6 @@
                                                     <a href="/calendarevents/calendar/event/{{ event.id }}/signup" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
                                                     {#<a class="modal-btn" data-toggle="modal" data-target="#calendar-modal-event" href="/calendarevents/calendar/event/{{ event.id }}/signup" >Записаться</a>#}
                                                 </div>                                                
-                                            </div>
-                                            <div class="col-xs-6">
-                                                {% media event.media, 'small' %}
                                             </div>
                                         </div>
                                     </div>
@@ -94,15 +93,14 @@
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-xs-12">
-                                                <h5>Тема: </h5>
+                                                {#<h5>Тема: </h5>#}
                                                 <p class="event-descr">
                                                     {% media event.media, 'small' %}
                                                     {{ event.description }}
-                                                </p>
-                                                
-                                                <h5>время: </h5>
+                                                </p>                                                
+                                                <h5 class="time-event-label">Время:</h5>
                                                 <h2 class="event-time">{{ event.startDateTime|date('H:i') }}</h2>
-                                                <div>
+                                                <div class="event-signup">
                                                     <a href="/calendarevents/calendar/event/{{ event.id }}/signup" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
                                                     {#<a class="modal-btn" data-toggle="modal" data-target="#calendar-modal-event" href="/calendarevents/calendar/event/{{ event.id }}/signup" >Записаться</a>#}
                                                 </div>                                                

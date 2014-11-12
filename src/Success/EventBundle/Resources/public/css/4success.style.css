@@ -103,6 +103,9 @@ table.event-table form .submit-btn {
     padding-left: 15px;
     padding-right: 0px;
 }
+.event-descr {
+    padding-right: 15px;
+}
 
 .event-descr img{
     padding-left: 15px;
@@ -111,5 +114,14 @@ table.event-table form .submit-btn {
 }
 
 .event-time{
+    display: inline;
+}
+.event-signup{
+    text-align: right; 
+    padding-right: 15px;
+}
+
+.time-event-label{
+
     display: inline;
 }
