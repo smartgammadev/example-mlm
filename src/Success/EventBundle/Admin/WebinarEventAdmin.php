@@ -24,7 +24,7 @@ class WebinarEventAdmin extends Admin {
                     'dp_side_by_side'       => true,
                     'dp_use_current'        => false,
                     'dp_use_seconds'        => false,
-                    'view_timezone'             => 'Europe/Kiev',
+                    'model_timezone'             => 'Europe/Kiev',
                 ))
             ->add('url', 'url',array('label' => 'Webinar URL'))    
             //->add('url', 'text', array('label' => 'Webinar URL'))
