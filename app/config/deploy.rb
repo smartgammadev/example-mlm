@@ -17,6 +17,13 @@ set :shared_children,   [app_path + "/logs", web_path + "/uploads", "vendor"]
 set :use_composer, true
 set :use_sudo,    false
 
+set :use_set_permissions,        true
+set :webserver_user,             "www-data"
+set :permission_method,          :acl
+
+set :writable_dirs,              ["app/cache", "app/logs"]
+
+
 role :web,        domain                         # Your HTTP server, Apache/etc
 role :app,        domain, :primary => true       # This may be the same as your `Web` server
 role :db,         domain, :primary => true
