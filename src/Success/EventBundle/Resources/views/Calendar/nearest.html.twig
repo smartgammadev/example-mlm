@@ -47,10 +47,8 @@
 
             <div id="main-row" class="row">
                 <div class="col-xs-6">
-                    <h4>Мероприятия сегодня ({{(eventsToday.events|length)}})</h4>
-                    {% set day = eventsToday.date|date('l') %}
-{#                    {% trans %}%day%{% endtrans %}#}
-                    <h4>{{eventsToday.date|date('l')}}: {{eventsToday.date|date('d.m.Y')}}</h4>
+                    <h4>Мероприятия сегодня ({{(eventsToday.events|length)}})</h4>                    
+                    <h4>{{ eventsToday.date|date('l')|trans }}: {{ eventsToday.date|date('d.m.Y') }}</h4>
                         {% for event in eventsToday.events %}
                                 <div class="panel panel-default">
                                     <div class="panel-heading">                                        
@@ -84,7 +82,7 @@
                     <h4>Мероприятия недели ({{ weekEventsCount }})</h4>
                         {% for i in 0..daysCount %}
                             {% if eventsOfWeek[i].events|length>0 %}
-                                <h4>{{ eventsOfWeek[i].date|date('l') }}: {{ eventsOfWeek[i].date|date('d.m.Y') }}</h4>
+                                <h4>{{ eventsOfWeek[i].date|date('l')|trans }}: {{ eventsOfWeek[i].date|date('d.m.Y') }}</h4>
                                     {% for event in eventsOfWeek[i].events %}
                                         <div class="panel panel-danger">
                                     <div class="panel-heading">

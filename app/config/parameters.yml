@@ -10,5 +10,5 @@ parameters:
     mailer_host: null
     mailer_user: rregion1292
     mailer_password: masterkey1292
-    locale: ru
+    locale: "ru_RU"
     secret: ThisTokenIsNotSoSecretChangeIt

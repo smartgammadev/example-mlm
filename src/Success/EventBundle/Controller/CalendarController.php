@@ -102,9 +102,9 @@ class CalendarController extends Controller
             $this->memberManager->updateMemberData($placeholders);            
             
             if ($this->eventManager->SignUpMemberForEvent($memberSignedUp, $event, $now, $notifyUserBeforeEvent)){
-                $message = 'You has already signed up to this event.';
+                $message = 'Вы уже зарегистрированы на этот вебинар.';
             }else{
-                $message = 'You have successfully signed up to this event.';
+                $message = 'Поздравляем, Вы успешно зарегистрированы на вебинар!';
             }            
             return array('message' => $message);
         }
@@ -120,8 +120,9 @@ class CalendarController extends Controller
         $placeholders = $request->query->all();
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);
         
-        $tz_object = new \DateTimeZone('Europe/Kiev');        
-        $now = new \DateTime('now',$tz_object);
+        //$tz_object = new \DateTimeZone('Europe/Kiev');
+        $now = new \DateTime('now');//,$tz_object);
+        echo $now->format('d-m-Y h:i:s');
         $now->modify("-15 minutes");
         $lastDayOfWeek = $this->eventManager->lastDayOfWeek($now);        
         $eventsToday = array('date' => $now, 'events' => $this->eventManager->getNextEventsForDate($now));
