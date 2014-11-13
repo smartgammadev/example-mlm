@@ -122,7 +122,7 @@ class CalendarController extends Controller
         
         //$tz_object = new \DateTimeZone('Europe/Kiev');
         $now = new \DateTime('now');//,$tz_object);
-        echo $now->format('d-m-Y h:i:s');
+        //echo $now->format('d-m-Y h:i:s');
         $now->modify("-15 minutes");
         $lastDayOfWeek = $this->eventManager->lastDayOfWeek($now);        
         $eventsToday = array('date' => $now, 'events' => $this->eventManager->getNextEventsForDate($now));
