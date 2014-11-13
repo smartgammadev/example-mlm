@@ -24,11 +24,14 @@
                                 <h3>Ближайшее мероприятие</h3>
                                 <h5>Название меропиятия: </h5>
                                 <h2>{{ nearest.name }}</h2>
-                                <h5>До начала осталось: </h5>
-                                <h1><span id='timer'></span></h1>
+                                <p class='event-sub'>{{ nearest.pattern }}</p>
+                                <p class='event-sub'>{{ nearest.accessType }}</p>
                                 
+                                <h5>До начала осталось: </h5>
+                                <h1><span id='timer'></span></h1>                                
                                 <h5>Тема:</h5>
                                 <p>{{ nearest.description }}</p>
+                                
                                 <div>
                                     {% if allowToVisit %}
                                         <a href="{{ externalLink }}" class="btn btn-lg btn-danger" role="button" target="blank">Войти в Вебинар</a>
@@ -60,21 +63,28 @@
 
                                                 <p class="event-descr">
                                                     {% media event.media, 'small' %}
-                                                    {{ event.description }}
+                                                    {{ event.description }}                                                    
+                                                </p>
+                                            </div>    
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                <p class='event-sub'><h5>{{ nearest.pattern }}</h5>
+                                                    <h5>доступ: {{ nearest.accessType }}</h5>
                                                 </p>
                                                 
-                                                <h5>время: </h5>
+                                                <h5>время проведения: </h5>
                                                 <h2>{{ event.startDateTime|date('H:i') }}</h2>
-                                                <div>                                                    
+                                            </div>
+                                            <div class="col-xs-5 vbottom">
+                                                <div class='event-signup'>                                                    
                                                     <a href="/calendarevents/calendar/event/{{ event.id }}/signup" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
-                                                    {#<a class="modal-btn" data-toggle="modal" data-target="#calendar-modal-event" href="/calendarevents/calendar/event/{{ event.id }}/signup" >Записаться</a>#}
                                                 </div>                                                
+                                            </div>                                        
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                        
-                        {% endfor %}                                
+                                    </div>                        
+                        {% endfor %}
                 </div>
                     
                         {% set daysCount = eventsOfWeek|length-1 %}
@@ -95,17 +105,26 @@
                                                 <p class="event-descr">
                                                     {% media event.media, 'small' %}
                                                     {{ event.description }}
-                                                </p>                                                
-                                                <h5 class="time-event-label">Время:</h5>
-                                                <h2 class="event-time">{{ event.startDateTime|date('H:i') }}</h2>
-                                                <div class="event-signup">
-                                                    <a href="/calendarevents/calendar/event/{{ event.id }}/signup" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
-                                                    {#<a class="modal-btn" data-toggle="modal" data-target="#calendar-modal-event" href="/calendarevents/calendar/event/{{ event.id }}/signup" >Записаться</a>#}
-                                                </div>                                                
+                                                </p>
                                             </div>
-                                            
-                                                
                                         </div>
+                                                
+                                        <div class="row">                                                
+                                        <div class="col-xs-7">
+                                                <p class='event-sub'><h5>{{ nearest.pattern }}</h5>
+                                                    <h5>доступ: {{ nearest.accessType }}</h5>
+                                                </p>                                            
+                                                <h5 class="time-event-label">время проведения:</h5>
+                                                <h2 class="event-time">{{ event.startDateTime|date('H:i') }}</h2>                                        
+                                        </div>
+                                        
+                                        <div class="col-xs-5 vbottom">
+                                                <div class="event-signup">
+                                                    <a href="/calendarevents/calendar/event/{{ event.id }}/signup" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>                                                    
+                                                </div>                                                                                                                                                                                    
+                                        </div>
+
+                                        </div>                                                                                            
                                     </div>
                                         </div>                                                                    
                                     {% endfor %}

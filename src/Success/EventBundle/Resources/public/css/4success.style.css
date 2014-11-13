@@ -118,10 +118,20 @@ table.event-table form .submit-btn {
 }
 .event-signup{
     text-align: right; 
-    padding-right: 15px;
+    padding-top: 15px;
 }
 
 .time-event-label{
 
     display: inline;
+}
+
+p.event-sub{
+    margin-bottom: 0px;
+}
+
+.vbottom {    
+    display: table-cell;
+    vertical-align: bottom;
+    float: none;
 }

@@ -30,8 +30,11 @@
                 <source>Sunday</source>
                 <target>Воскресенье</target>
             </trans-unit>            
-
-
+            
+            <trans-unit id="8">
+                <source>Start Date Time</source>
+                <target>Дата/время начала</target>
+            </trans-unit>             
 
         </body>
     </file>
