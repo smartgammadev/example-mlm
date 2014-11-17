@@ -1,0 +1,21 @@
+{% extends 'SonataAdminBundle:CRUD:edit.html.twig' %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        
+        $(document).ready(function() {
+            var inputs = $('input').filter(function() {
+                    return this.name.match(/.*\[answers\].*\[text\]/);
+                });
+            
+            inputs.each(function(key, value) {
+               
+            });
+        });
+        
+    </script> 
+
+{% endblock javascripts %}

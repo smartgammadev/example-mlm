@@ -21,7 +21,7 @@ class SalesGeneratorController extends Controller
     
     /**
      * @Route("/audiences", name="audiences")
-     * @Template("SuccessSalesGeneratorBundle:SalesGenerator:audiences.html.twig", vars={"audiences"})
+     * @Template("SuccessSalesGeneratorBundle::audiences.html.twig", vars={"audiences"})
      */
     public function chooseAudienceAction()
     {   
@@ -33,7 +33,7 @@ class SalesGeneratorController extends Controller
     /**
      * 
      * @Route("/audience/{question_id}/", name="sales_generator", requirements={"question_id" = "\d+"})
-     * @Template("SuccessSalesGeneratorBundle:SalesGenerator:sales_generator.html.twig")
+     * @Template("SuccessSalesGeneratorBundle::sales_generator.html.twig")
      */
     public function questionAction($question_id)
     {   
