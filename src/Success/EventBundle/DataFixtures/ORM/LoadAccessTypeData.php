@@ -7,7 +7,7 @@ use Success\EventBundle\Entity\EventAccessType;
 
 
 
-class LoadAccessTypeData implements FixtureInterface {
+class LoadAccessTypeData extends AbstractFixture implements OrderedFixtureInterface {
     /**
      * {@inheritDoc}
      */
@@ -23,4 +23,12 @@ class LoadAccessTypeData implements FixtureInterface {
         
         $manager->flush();
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getOrder()
+    {
+        return 2;
+    }    
 }

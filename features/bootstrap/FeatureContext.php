@@ -72,9 +72,10 @@ class FeatureContext extends MinkContext
             $element = $this->getSession()->getPage()->find('css', $selector);
         }
 
-        if (null === $element)
+        if (null === $element){
             throw new ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', $selector);
-
+        }
+        
         $this->getSession()->getDriver()->click($element->getXPath());
     }
 }

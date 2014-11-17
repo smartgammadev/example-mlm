@@ -83,18 +83,20 @@ class CalendarController extends Controller
          */
         $event = $this->eventManager->getEventById($eventId);        
         $form = $this->createForm(new SignupType($this->placeholderManager, $eventId));
+        
         $form->handleRequest($request);
-        if ($form->isValid()) {            
+        
+        if ($form->isValid()) {
             $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
             $formdata = $form->getData();
             $notifyUserBeforeEvent = false;
-            foreach ($formdata as $pattern => $value){                                
+            foreach ($formdata as $pattern => $value){
                 if (($pattern == 'notify')&&($value==true)){
                    $notifyUserBeforeEvent = true;
-                } else{
+                } else {
                     $placeholders[$pattern] = $value;
                 }
-            }            
+            }
             $now = new \DateTime('now');
             $memberSignedUp = $this->memberManager->resolveMemberByExternalId($placeholders['user_email']);
             
@@ -103,7 +105,7 @@ class CalendarController extends Controller
             
             if ($this->eventManager->SignUpMemberForEvent($memberSignedUp, $event, $now, $notifyUserBeforeEvent)){
                 $message = 'Вы уже зарегистрированы на этот вебинар.';
-            }else{
+            } else {
                 $message = 'Поздравляем, Вы успешно зарегистрированы на вебинар!';
             }            
             return array('message' => $message);
@@ -120,11 +122,11 @@ class CalendarController extends Controller
         $placeholders = $request->query->all();
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);
         
-        //$tz_object = new \DateTimeZone('Europe/Kiev');
-        $now = new \DateTime('now');//,$tz_object);
-        //echo $now->format('d-m-Y h:i:s');
+        $now = new \DateTime('now');
+        
         $now->modify("-15 minutes");
-        $lastDayOfWeek = $this->eventManager->lastDayOfWeek($now);        
+        $lastDayOfWeek = clone $now; //$this->eventManager->lastDayOfWeek($now);
+        $lastDayOfWeek->modify('+7 days');
         $eventsToday = array('date' => $now, 'events' => $this->eventManager->getNextEventsForDate($now));
         
         

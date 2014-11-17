@@ -6,7 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Success\EventBundle\Entity\EventType;
 
 
-class LoadEventTypeData implements FixtureInterface {
+class LoadEventTypeData extends AbstractFixture implements OrderedFixtureInterface {
     
     /**
      * {@inheritDoc}
@@ -23,4 +23,12 @@ class LoadEventTypeData implements FixtureInterface {
         
         $manager->flush();
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getOrder()
+    {
+        return 2;
+    }    
 }

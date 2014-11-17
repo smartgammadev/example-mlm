@@ -40,7 +40,8 @@ class PlaceholderManager
     {   
         /* @var $session \Symfony\Component\HttpFoundation\Session\Session */
         $session = $this->request->getSession();
-        $placeholders = $session->get('placeholders');        
+        $placeholders = $session->get('placeholders');
+        $result = [];
         foreach ($placeholders as $pattern => $value){
             $result[] = array('placeholder' => $this->resolveExternalPlaceholder($pattern), 'value'=>$value);
         }

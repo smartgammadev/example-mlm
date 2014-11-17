@@ -160,12 +160,40 @@ class EventManager //extends Service
      */
     public function GenerateExternalLinkForWebinarEvent(WebinarEvent $event){
         $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
-        $url = $event->getUrl().'/';        
-        $url = $url.urlencode($placeholders['user_first_name'].' '.$placeholders['user_last_name']);        
+        $url = $event->getUrl().'/';
+        
+        if (isset($placeholders['user_first_name'])){
+            $url = $url.urlencode($placeholders['user_first_name']);
+            if (isset($placeholders['user_last_name'])){
+                $url = $url.urlencode(' '.$placeholders['user_last_name']);
+            }
+        } else {
+            if (isset($placeholders['user_last_name'])){
+                $url = $url.urlencode(' '.$placeholders['user_last_name']);
+            } else {
+                $url = $url.'';
+            }
+        }
+        $url = $url.'/';
+
+        if (isset($placeholders['sponsor_first_name'])){
+            $url = $url.urlencode($placeholders['sponsor_first_name']);
+            if (isset($placeholders['sponsor_last_name'])){
+                $url = $url.urlencode(' '.$placeholders['sponsor_last_name']);
+            }
+        } else {
+            if (isset($placeholders['sponsor_last_name'])){
+                $url = $url.urlencode(' '.$placeholders['sponsor_last_name']);
+            } else {
+                $url = $url.'';
+            }
+        }
+
         $pwd = $event->getPassword();
+            
         if (!(($pwd=='')||($pwd==null))){
             $url = $url.'/'.md5($pwd);
-            }            
+            }
         return $url;
     }
     

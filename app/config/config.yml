@@ -97,9 +97,9 @@ sonata_notification:
     admin:
         enabled: false
 
-sonata_intl:
-    timezone:
-        default: Europe/Kiev
+#sonata_intl:
+#    timezone:
+#        default: Europe/Moscow
 
 # Swiftmailer Configuration
 swiftmailer:
