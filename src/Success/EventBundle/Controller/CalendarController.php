@@ -81,8 +81,8 @@ class CalendarController extends Controller
         /**
          * @var \Success\EventBundle\Entity\BaseEvent Event for sign up
          */
-        $event = $this->eventManager->getEventById($eventId);        
-        $form = $this->createForm(new SignupType($this->placeholderManager, $eventId));
+        $event = $this->eventManager->getEventById($eventId);
+        $form = $this->createForm(new SignupType($this->placeholderManager, $eventId, $this->get('router')));
         
         $form->handleRequest($request);
         
@@ -100,15 +100,15 @@ class CalendarController extends Controller
             $now = new \DateTime('now');
             $memberSignedUp = $this->memberManager->resolveMemberByExternalId($placeholders['user_email']);
             
-            $this->placeholderManager->assignPlaceholdersToSession($placeholders);                        
-            $this->memberManager->updateMemberData($placeholders);            
-            
+            $this->placeholderManager->assignPlaceholdersToSession($placeholders);
+            $this->memberManager->updateMemberData($placeholders);
+
             if ($this->eventManager->SignUpMemberForEvent($memberSignedUp, $event, $now, $notifyUserBeforeEvent)){
                 $message = 'Вы уже зарегистрированы на этот вебинар.';
             } else {
                 $message = 'Поздравляем, Вы успешно зарегистрированы на вебинар!';
-            }            
-            return array('message' => $message);
+            }
+            return array('message' => $message);            
         }
         return array('form' => $form->createView());
     }
@@ -146,11 +146,17 @@ class CalendarController extends Controller
         }
         
         $nearestEvent = $this->eventManager->getNearestNextEvent($now);
-        $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');
-        $allowVisitEvent = ($nearestEvent->getStartDateTime()->getTimestamp() - $now->getTimestamp() < $minutesToVisitEvent*60);
-        $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nearestEvent);
+        if ($nearestEvent){
+            $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');
+            $allowVisitEvent = ($nearestEvent->getStartDateTime()->getTimestamp() - $now->getTimestamp() < $minutesToVisitEvent*60);
+            $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nearestEvent);
+        } else{
+            $allowVisitEvent = false;            
+            $externalLink = '';
+        }
         
-        return array('nearest' => $nearestEvent, 
+        return array(
+            'nearest' => $nearestEvent,
             'allowToVisit' => $allowVisitEvent,
             'externalLink' => $externalLink,
             'eventsToday' => $eventsToday, 

@@ -20,6 +20,9 @@ use Behat\MinkExtension\Context\MinkContext;
  */
 class FeatureContext extends MinkContext
 {
+    const SONATA_UNIQID='s5444ed96d21e7';
+
+
     /**
      * @Given /^I am logged in as admin$/
      */
@@ -38,16 +41,6 @@ class FeatureContext extends MinkContext
     {
         $this->getSession()->wait(3000);
     }
-    
-    /**
-     * @Given /^I fill in "([^"]*)" with current date plus "([^"]*)" minutes$/
-     */
-    public function iFillInWithCurrentDatePlusMinutes($arg1, $arg2)
-    {
-        $currentDate = date('c',  time()+(60*$arg2));
-        $this->fillField($arg1, $currentDate);
-    }
-    
     
     /**
      * @Given /^I fill in "([^"]*)" with current date$/
@@ -78,4 +71,48 @@ class FeatureContext extends MinkContext
         
         $this->getSession()->getDriver()->click($element->getXPath());
     }
+    
+    /**
+     * @Then /^I want to create new event$/
+     */
+    public function iWantToCreateNewEvent()
+    {
+        $this->visit('admin/success/event/webinarevent/create?uniqid='.self::SONATA_UNIQID);
+        //throw new PendingException();
+    }
+    
+    /**
+     * @Then /^I fill "([^"]*)" with current date plus "([^"]*)" minutes$/
+     */
+    public function iFillWithCurrentDatePlusMinutes($filedName, $minutes)
+    {
+        $currentDate = date('c',  time()+(60*$minutes));
+        $this->fillField(self::SONATA_UNIQID.'_'.$filedName, $currentDate);
+    }
+    
+    /**
+     * @Then /^I fill "([^"]*)" with "([^"]*)"$/
+     */
+    public function iFillWith($filedName, $value)
+    {
+        $this->fillField(self::SONATA_UNIQID.'_'.$filedName, $value);
+    }
+   
+    /**
+     * @Given /^I select "([^"]*)" in "([^"]*)"$/
+     */
+    public function iSelectIn($value, $filedName)
+    {
+        $this->selectOption(self::SONATA_UNIQID.'_'.$filedName, $value);
+    }
+    
+    
+    /**
+     * @Then /^I go to "([^"]*)" with "([^"]*)" placeholders$/
+     */
+    public function iGoToWithPlaceholders($url, $placeholders)
+    {
+        $this->visit($url.'?'.$placeholders);
+    }
+    
 }

@@ -31,7 +31,7 @@ class WebinarEventAdmin extends Admin {
             ->add('description', 'textarea', array('label' => 'Webinar Description'))
             ->add('pattern', 'text', array('label' => 'Webinar Pattern'))
             ->add('password', 'text', array('label' => 'Webinar Password','required' => false))
-            ->add('eventType', 'sonata_type_model', array('class' => 'Success\EventBundle\Entity\EventType'))
+            ->add('eventType',  'sonata_type_model', array('class' => 'Success\EventBundle\Entity\EventType'))
             ->add('accessType', 'sonata_type_model', array('class' => 'Success\EventBundle\Entity\EventAccessType'))
             ->add('media', 'sonata_type_model', array('label' => 'Webinar Image'),
                     array('link_parameters' => array('context' =>'webinar_image',
@@ -60,7 +60,7 @@ class WebinarEventAdmin extends Admin {
     {
         $listMapper
             ->add('startDateTime','datetime',array('format' => 'd.m.Y H:i'))            
-            ->add('name')
+            ->addIdentifier('name')
             ->add('url', 'url',array('hide_protocol' => false))
             ->add('_action', 'actions', array(
                     'actions' => array(

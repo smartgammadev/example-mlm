@@ -1,7 +1,6 @@
 <?php
 namespace Success\EventBundle\Form\Type;
 
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -10,10 +9,11 @@ class SignupType extends AbstractType {
 
     private $pm;
     private $eventId;
-    public function __construct($placeholderManager, $eventId) {
+    private $router;
+    public function __construct($placeholderManager, $eventId, $router) {
         $this->pm = $placeholderManager;
         $this->eventId = $eventId;
-        //$this->placeholders = $placeholders;
+        $this->router = $router;
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -33,7 +33,9 @@ class SignupType extends AbstractType {
             'required'  => false,
             'data' => true,
             'disabled' => false));
-        $builder->setAction('/calendarevents/calendar/event/'.$this->eventId.'/signup');
+        
+        $builder->setAction($this->router->generate("calendar_event_signup", array('eventId' => $this->eventId, 'template' => 'calendar')));
+        //$builder->setAction('/calendarevents/calendar/event/'.$this->eventId.'/signup');
         $builder->setMethod('POST');
         $builder->add('Записаться', 'submit');
     }
