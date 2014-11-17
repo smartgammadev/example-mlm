@@ -49,7 +49,7 @@ class AppKernel extends Kernel
             new Success\SalesGeneratorBundle\SuccessSalesGeneratorBundle(),
             new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
             new Sonata\IntlBundle\SonataIntlBundle(),            
-             new Ornicar\ApcBundle\OrnicarApcBundle(),
+            new Ornicar\ApcBundle\OrnicarApcBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
