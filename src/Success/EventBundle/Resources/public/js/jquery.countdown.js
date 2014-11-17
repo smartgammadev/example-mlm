@@ -105,6 +105,18 @@
             return plural;
         }
     }
+    
+    function convertDateLocalToMoscow(dateConvert) {
+        var offset = '+3';
+        var utc;
+        var nd;
+        utc = dateConvert.getTime() + (dateConvert.getTimezoneOffset() * 60000);
+        nd = new Date(utc + (3600000*offset));
+        //alert(nd.toLocaleString());
+        return nd;
+    }
+    
+    
     var Countdown = function(el, finalDate, callback) {
         this.el = el;
         this.$el = $(el);
@@ -156,7 +168,10 @@
                 this.remove();
                 return;
             }
-            this.totalSecsLeft = this.finalDate.getTime() - new Date().getTime();
+            
+            
+            //this.totalSecsLeft = this.finalDate.getTime() - new Date().getTime();
+            this.totalSecsLeft = this.finalDate.getTime() - convertDateLocalToMoscow(new Date()).getTime();
             this.totalSecsLeft = Math.ceil(this.totalSecsLeft / 1e3);
             this.totalSecsLeft = this.totalSecsLeft < 0 ? 0 : this.totalSecsLeft;
             this.offset = {

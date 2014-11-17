@@ -177,36 +177,14 @@ class EventManager //extends Service
         $url = $event->getUrl().'/';
         
         if (isset($placeholders['user_first_name'])){
-            $url = $url.urlencode($placeholders['user_first_name']);
-            if (isset($placeholders['user_last_name'])){
-                $url = $url.urlencode(' '.$placeholders['user_last_name']);
-            }
-        } else {
-            if (isset($placeholders['user_last_name'])){
-                $url = $url.urlencode(' '.$placeholders['user_last_name']);
-            } else {
-                $url = $url.'';
-            }
-        }
-        $url = $url.'/';
-
-        if (isset($placeholders['sponsor_first_name'])){
-            $url = $url.urlencode($placeholders['sponsor_first_name']);
-            if (isset($placeholders['sponsor_last_name'])){
-                $url = $url.urlencode(' '.$placeholders['sponsor_last_name']);
-            }
-        } else {
-            if (isset($placeholders['sponsor_last_name'])){
-                $url = $url.urlencode(' '.$placeholders['sponsor_last_name']);
-            } else {
-                $url = $url.'';
-            }
+            $url .= urlencode($placeholders['user_first_name']);            
+            $url .= urlencode(' от '.$placeholders['sponsor_first_name'].' '.$placeholders['sponsor_last_name']);
         }
 
         $pwd = $event->getPassword();
             
         if (!(($pwd=='')||($pwd==null))){
-            $url = $url.'/'.md5($pwd);
+            $url .= '/'.md5($pwd);
             }
         return $url;
     }

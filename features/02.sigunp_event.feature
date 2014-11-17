@@ -1,7 +1,7 @@
 @javascript
 Feature: Calendar feature
   
-  Scenario: Create, edit, delete events
+  Scenario: Create and sign up for created event
 
     Given I am logged in as admin
     Then I want to create new event
@@ -22,4 +22,5 @@ Feature: Calendar feature
     Then I wait for AJAX to finish
     And I press "signup_Записаться"
     Then I wait for AJAX to finish
+    Then I should see "Вы успешно зарегистрированы"
     And I press "OK"
