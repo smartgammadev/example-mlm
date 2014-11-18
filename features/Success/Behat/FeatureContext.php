@@ -44,13 +44,6 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     public function __construct(array $parameters)
     {
         $this->parameters = $parameters;
-        //$this->useContext('pages', new PagesContext());
-
-        //$apiContext = new ApiContext($parameters['base_url']);
-        /* @var $client \Buzz\Client\AbstractClient */
-        //$client = $apiContext->getBrowser()->getClient();
-        //$client->setTimeout($parameters['timeout']);
-        //$this->useContext('api', $apiContext);
     }    
     
     
