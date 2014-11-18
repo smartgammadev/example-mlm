@@ -80,7 +80,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     /**
      * Get entity manager.
      *
-     * @return ObjectManager
+     * @return \Doctrine\ORM\EntityManager
      */
     public function getEntityManager()
     {
@@ -200,33 +200,44 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     {
         $this->visit($url.'?'.$placeholders);
     }
-    
-
-//    public function iShouldSeeNewNotifications($count)
-//    {
-//        /** @var $em \Doctrine\ORM\EntityManager */
-//        //$em = $this->getEntityManager();
-//        $notificationRepo = $this->getRepository('SuccessNotificationBundle:Notification');
-//        $notificationsCount = count($notificationRepo->findAll());
-//        
-//        if ($count == $notificationsCount){
-//            $message = 'Count of notifications in not equals '.$count.', but equals '.$notificationsCount;
-//            throw new ExpectationException($message, $this->getSession());
-//        }
-//        //throw new PendingException();
-//    }
 
     /**
-     * @Then /^I should see (\d+) new notifications$/
+     * @Then /^I should have (\d+) notifications$/
      */
-    public function iShouldSeeNewNotifications($count)
+    public function iShouldHaveNotifications($arg1)
     {
-        $notificationRepo = $this->getRepository('SuccessNotificationBundle:Notification');
-        $notificationsCount = count($notificationRepo->findAll());
-        
-        if ($notificationsCount == $count){
-            throw new PendingException($notificationsCount.' not equals '.$count);
+        $notificationsCount = $this->getEntityManager()->createQuery('select count(n) from SuccessNotificationBundle:Notification n')->getSingleScalarResult();
+        if ($notificationsCount !== $arg1) {
+            $message = 'Count of notifications in DB not equals '.$arg1.', but equals '.$notificationsCount;
+            throw new ExpectationException($message, $this->getSession());
+        }        
+    }
+    
+    /**
+     * @Given /^I should have (\d+) members$/
+     */
+    public function iShouldHaveMembers($arg1)
+    {
+        $membersCount = $this->getEntityManager()->createQuery('select count(m) from SuccessMemberBundle:Member m')->getSingleScalarResult();
+        if ($membersCount !== $arg1) {
+            $message = 'Count of members in DB not equals '.$arg1.', but equals '.$membersCount;
+            throw new ExpectationException($message, $this->getSession());
+        }        
+    }
+
+    /**
+     * @Then /^I should have member with "([^"]*)" id$/
+     */
+    public function iShouldHaveMemberWithId($memberId)
+    {
+        $membersCount = $this->getEntityManager()->createQuery('select count(m) from SuccessMemberBundle:Member m where m.externalId=:external_id')
+                ->setParameter('external_id', $memberId)
+                ->getSingleScalarResult();
+        if ($membersCount == 0) {
+            $message = 'Count of members with id '.$memberId.', is '.$membersCount;
+            throw new ExpectationException($message, $this->getSession());
         }
+        
     }
     
     

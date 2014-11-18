@@ -118,7 +118,7 @@ class CalendarController extends Controller
      * @Template()
      */    
     public function nearestAction(Request $request)
-    {
+    {        
         $placeholders = $request->query->all();
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);
         
