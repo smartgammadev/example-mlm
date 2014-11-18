@@ -4,7 +4,6 @@
 !app/logs/.gitkeep
 /build/
 /vendor/
-/composer.phar
 /nbproject/
 /backups/
 bin/
