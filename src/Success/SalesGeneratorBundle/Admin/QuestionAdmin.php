@@ -35,10 +35,7 @@ class QuestionAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id', 'doctrine_orm_callback', [
-                'label' => 'Audience number',
-                'callback' => [$this, 'getQuestionsForAudience']
-            ])
+            ->add('id')
             ->add('text')
         ;
     }
@@ -56,17 +53,6 @@ class QuestionAdmin extends Admin
         ;
     }
     
-    public function getQuestionsForAudience($queryBuilder, $alias, $field, $value)
-    {
-        if (!$value['value']) {
-            return;
-        }
-        
-        $queryBuilder->andWhere($alias. ".id LIKE '" . $value['value'] . "%'");
-
-        return true;
-    }
-    
     public function getTemplate($name)
     {
         switch ($name) {
@@ -77,5 +63,22 @@ class QuestionAdmin extends Admin
                 return parent::getTemplate($name);
                 break;
         }
+    }
+    
+    public function preRemove($question)
+    {
+        /* @var $container ContainerInterface */
+        $container = $this->getConfigurationPool()->getContainer();
+        
+        /* @var $entityManager \Doctrine\ORM\EntityManager */
+        $em = $container->get('doctrine.orm.default_entity_manager');
+        
+        // Remove all answers for current question
+        foreach($question->getAnswers() as $answer) {
+            $question->removeAnswer($answer);
+            $em->remove($em->getRepository('SuccessSalesGeneratorBundle:Answer')->findOneById($answer->getId()));
+        }
+        
+        $em->flush();
     }
 }

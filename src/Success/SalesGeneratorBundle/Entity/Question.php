@@ -5,7 +5,6 @@ namespace Success\SalesGeneratorBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-
 /**
  * Question
  *
@@ -41,7 +40,7 @@ class Question
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Success\SalesGeneratorBundle\Entity\Answer", mappedBy="currentQuestion", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Success\SalesGeneratorBundle\Entity\Answer", mappedBy="currentQuestion", cascade={"persist", "remove"})
      */
     private $answers;
     
@@ -135,11 +134,12 @@ class Question
 
     /**
      * 
-     * @param \Success\SalesGeneratorBundle\Entity\Answer $answers
+     * @param \Success\SalesGeneratorBundle\Entity\Answer $answer
      */
-    public function removeAnswers(\Success\SalesGeneratorBundle\Entity\Answer $answers)
-    {
-        $this->answers->removeElement($answers);
+    public function removeAnswer(\Success\SalesGeneratorBundle\Entity\Answer $answer)
+    {   
+//        var_dump($answers); die;
+        $this->answers->removeElement($answer);
     }
 
     /**
