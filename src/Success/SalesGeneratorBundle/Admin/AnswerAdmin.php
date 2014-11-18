@@ -20,8 +20,8 @@ class AnswerAdmin extends Admin
         // Create custon answer creation template
         // Make sure it fills with current subject(see last bookmark in firefox)
         $formMapper
-            ->add('question.id', 'text', ['disabled' => 'true', 'read_onlys' => 'true', 'data' => '11123'])
             ->add('text')
+            ->add('nextQuestion')
         ;
     }
 
@@ -42,5 +42,14 @@ class AnswerAdmin extends Admin
             ->addIdentifier('question')
             ->addIdentifier('text')
         ;
+    }
+    
+    public function getTemplate($name)
+    {
+        if ('list' == $name) {
+            $this->setTemplate('list', 'ClasscorFacebookAudiencesBundle:Admin:facebookaudiences.html.twig');
+        }
+        
+        return parent::getTemplate($name);
     }
 }

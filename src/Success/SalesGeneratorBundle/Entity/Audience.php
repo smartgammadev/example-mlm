@@ -3,6 +3,7 @@
 namespace Success\SalesGeneratorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Audience
@@ -27,8 +28,18 @@ class Audience
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-
-
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Question")
+     * @ORM\JoinColumn(name="first_question_id", referencedColumnName="id", nullable=true)
+     */
+    private $firstQuestion;
+    
+    public function __construct()
+    {
+        $this->answers = new ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -58,6 +69,34 @@ class Audience
      * @return string 
      */
     public function getName()
+    {
+        return $this->name;
+    }
+    
+    /**
+     * Set firstQuestion
+     *
+     * @param \Success\SalesGeneratorBundle\Entity\Question $firstQuestion
+     * @return Success\SalesGeneratorBundle\Entity\Audience
+     */
+    public function setFirstQuestion(\Success\SalesGeneratorBundle\Entity\Question $firstQuestion)
+    {
+        $this->firstQuestion = $firstQuestion;
+
+        return $this;
+    }
+
+    /**
+     * Get firstQuestion
+     *
+     * @return \Success\SalesGeneratorBundle\Entity\Question
+     */
+    public function getFirstQuestion()
+    {
+        return $this->firstQuestion;
+    }
+    
+    public function __toString()
     {
         return $this->name;
     }

@@ -19,8 +19,9 @@ class QuestionAdmin extends Admin
     );
         
     protected function configureFormFields(FormMapper $formMapper)
-    {    
+    {
         $formMapper
+            ->add('audience')
             ->add('text', 'textarea', ['label' => 'Question'])
             ->add('answers', 'sonata_type_collection', ['by_reference' => true,'cascade_validation' => false], [
                'allow_delete'=>true,
@@ -30,7 +31,6 @@ class QuestionAdmin extends Admin
             ])
         ;
     }
-
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
@@ -48,10 +48,7 @@ class QuestionAdmin extends Admin
     {
         $listMapper
             ->remove('batch')
-            ->add('id', 'text', [
-                'template' => 'SuccessSalesGeneratorBundle:Admin/fields:question_id.html.twig',
-                'label' => 'Question order'
-            ])
+            ->add('id')
             ->addIdentifier('text', 'text', [
                 'template' => 'SuccessSalesGeneratorBundle:Admin/fields:question_text_field.html.twig',
                 'label' => 'Question'

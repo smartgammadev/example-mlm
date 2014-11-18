@@ -25,8 +25,8 @@ class SalesGeneratorController extends Controller
      */
     public function chooseAudienceAction()
     {   
-        // $this->salesGeneratorManager->fillBase();
-        // $this->salesGeneratorManager->audiencesSS();
+//        $this->salesGeneratorManager->audiencesSS();
+//        $this->salesGeneratorManager->fillBase(); // Fills DataBase without relations to next questions
         return ['audiences' => $audiences = $this->salesGeneratorManager->getAllAudiences()];
     }
     
@@ -36,13 +36,7 @@ class SalesGeneratorController extends Controller
      * @Template("SuccessSalesGeneratorBundle::sales_generator.html.twig")
      */
     public function questionAction($question_id)
-    {   
-        if (strlen((string)$question_id) > 1) {
-            
-            $question_id = round($question_id / 2.71);
-            $question_id = intval(substr((string)$question_id, 1) . substr((string)$question_id, 0, 1));
-        }
-                
+    { 
         $question = $this->salesGeneratorManager->getCurrentQuestionWithAnswers($question_id);
         return ['question' => $question];
     }

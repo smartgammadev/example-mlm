@@ -14,7 +14,7 @@
                   <h3 class="panel-title">Категория №{{ audience.id }}</h3>
                 </div>
                 <div class="panel-body">
-                  <h6><a href="{{ path('sales_generator', {'question_id' : audience.id}) }}">{{ audience.name }}</a></h6>
+                  <h6><a href="{{ path('sales_generator', {'question_id' : audience.firstQuestion.id }) }}">{{ audience.name }}</a></h6>
                 </div>
             </div>
         {% endfor %}

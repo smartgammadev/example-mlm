@@ -29,10 +29,16 @@ class Answer
     private $text;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Question", inversedBy="answers")
-     * @ORM\JoinColumn(name="question_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Question", inversedBy="answers", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="current_question_id", referencedColumnName="id")
      */
-    private $question;
+    private $currentQuestion;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Question", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="next_question_id", referencedColumnName="id", nullable=true)
+     */
+    private $nextQuestion;
     
     /**
      * Get id
@@ -68,25 +74,53 @@ class Answer
     }
     
     /**
-     * Set question
+     * Set currentQuestion
      *
-     * @param \Success\SalesGeneratorBundle\Entity\Question $question
+     * @param \Success\SalesGeneratorBundle\Entity\Question $currentQuestion
      * @return Success\SalesGeneratorBundle\Entity\Answer
      */
-    public function setQuestion(\Success\SalesGeneratorBundle\Entity\Question $question)
+    public function setCurrentQuestion(\Success\SalesGeneratorBundle\Entity\Question $currentQuestion)
     {
-        $this->question = $question;
+        $this->currentQuestion = $currentQuestion;
 
         return $this;
     }
 
     /**
-     * Get question
+     * Get currentQuestion
      *
      * @return \Success\SalesGeneratorBundle\Entity\Question
      */
-    public function getQuestion()
+    public function getCurrentQuestion()
     {
-        return $this->question;
+        return $this->currentQuestion;
+    }
+    
+    /**
+     * Set nextQuestion
+     *
+     * @param \Success\SalesGeneratorBundle\Entity\Question $nextQuestion
+     * @return Success\SalesGeneratorBundle\Entity\Answer
+     */
+    public function setNextQuestion(\Success\SalesGeneratorBundle\Entity\Question $nextQuestion)
+    {
+        $this->nextQuestion = $nextQuestion;
+
+        return $this;
+    }
+
+    /**
+     * Get nextQuestion
+     *
+     * @return \Success\SalesGeneratorBundle\Entity\Question
+     */
+    public function getNextQuestion()
+    {
+        return $this->nextQuestion;
+    }
+    
+    public function __toString()
+    {
+        return $this->text;
     }
 }

@@ -17,22 +17,23 @@ class SalesGeneratorManager
         
         foreach ($this->questions as $question) {
             $id = str_replace('q', '', $question['question']['index']);
+            $audience = $em->getRepository('SuccessSalesGeneratorBundle:Audience')->findOneById(substr($id, 0,1));
             
-            $newQuestion = new Question();
-            $newQuestion->setId($id)
+            $currentQuestion = new Question();
+            $currentQuestion->setAudience($audience)
                     ->setText($question['question']['text']);
             
             if (isset($question['answers']))
                 foreach ($question['answers'] as $index => $text) {
                     $answer = new Answer();
                     $answer->setText($text)
-                           ->setQuestion($newQuestion);
+                           ->setCurrentQuestion($currentQuestion);
 
-                    $newQuestion->addAnswer($answer);
+                    $currentQuestion->addAnswer($answer);
                     $em->persist($answer);
                 }
                 
-            $em->persist($newQuestion);
+            $em->persist($currentQuestion);
             $em->flush();
         }        
     }
