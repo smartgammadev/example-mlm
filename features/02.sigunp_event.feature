@@ -1,5 +1,5 @@
 @javascript
-Feature: Calendar feature
+Feature: Sign up for event in calendar
   
   Scenario: Create and sign up for created event
 
@@ -24,3 +24,5 @@ Feature: Calendar feature
     Then I wait for AJAX to finish
     Then I should see "Вы успешно зарегистрированы"
     And I press "OK"
+
+    Then I should see 3 new notifications

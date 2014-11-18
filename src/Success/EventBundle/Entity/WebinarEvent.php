@@ -78,34 +78,6 @@ class WebinarEvent extends BaseEvent
     {
         return $this->password;
     }
-    /**
-     * @var \Success\EventBundle\Entity\EventType
-     */
-    private $eventType;
-
-
-    /**
-     * Set eventType
-     *
-     * @param \Success\EventBundle\Entity\EventType $eventType
-     * @return WebinarEvent
-     */
-    public function setEventType(\Success\EventBundle\Entity\EventType $eventType = null)
-    {
-        $this->eventType = $eventType;
-
-        return $this;
-    }
-
-    /**
-     * Get eventType
-     *
-     * @return \Success\EventBundle\Entity\EventType 
-     */
-    public function getEventType()
-    {
-        return $this->eventType;
-    }
 
     /**
      * Set description

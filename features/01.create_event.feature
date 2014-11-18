@@ -33,6 +33,8 @@ Feature: Calendar feature
     Then I go to "/calendarevents/nearest" with "user.email=stas-81@mail.ru&user.first_name=uName&user.last_name=uLastName&sponsor.email=stas-81@mail.ru&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     And I should see "test webinar #1"
     Then I should see "test webinar #2"
+    And I should see "Войти в Вебинар"
+    And I should see "Записаться"
 
     Then I go to "/admin/success/event/webinarevent/list"
     And I follow "test webinar #1"

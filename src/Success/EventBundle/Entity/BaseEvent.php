@@ -44,16 +44,15 @@ class BaseEvent
      * @ORM\Column(name="startDateTime", type="datetime")
      */
     private $startDateTime;
-
     
     /**
-     * @ORM\ManyToOne(targetEntity="EventType", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="Success\EventBundle\Entity\EventType", inversedBy="events")
      * @ORM\JoinColumn(name="event_type_id", referencedColumnName="id")
      */
     private $eventType;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EventAccessType", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="Success\EventBundle\Entity\EventAccessType", inversedBy="events")
      * @ORM\JoinColumn(name="access_type_id", referencedColumnName="id")
      */
     private $accessType;
@@ -158,10 +157,11 @@ class BaseEvent
      * @param \Success\EventBundle\Entity\EventType $eventType
      * @return BaseEvent
      */
-    public function setEventType(\Success\EventBundle\Entity\EventType $eventType = null)
+    public function setEventType(\Success\EventBundle\Entity\EventType $eventType)
     {
         $this->eventType = $eventType;
-
+//        var_dump($this->eventType);
+//        die;
         return $this;
     }
 
@@ -181,7 +181,7 @@ class BaseEvent
      * @param \Success\EventBundle\Entity\EventAccessType $accessType
      * @return BaseEvent
      */
-    public function setAccessType(\Success\EventBundle\Entity\EventAccessType $accessType = null)
+    public function setAccessType(\Success\EventBundle\Entity\EventAccessType $accessType)
     {
         $this->accessType = $accessType;
 

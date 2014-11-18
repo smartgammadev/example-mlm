@@ -123,8 +123,8 @@ class CalendarController extends Controller
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);
         
         $now = new \DateTime('now');
-        
         $now->modify("-15 minutes");
+        
         $lastDayOfWeek = clone $now; //$this->eventManager->lastDayOfWeek($now);
         $lastDayOfWeek->modify('+7 days');
         $eventsToday = array('date' => $now, 'events' => $this->eventManager->getNextEventsForDate($now));
@@ -147,8 +147,11 @@ class CalendarController extends Controller
         
         $nearestEvent = $this->eventManager->getNearestNextEvent($now);
         if ($nearestEvent){
-            $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');            
-            $allowVisitEvent = ($nearestEvent->getStartDateTime()->getTimestamp() - $now->getTimestamp() < $minutesToVisitEvent*60);            
+            $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');
+            
+            $current = new \DateTime('now');
+            $allowVisitEvent = ($nearestEvent->getStartDateTime()->getTimestamp() - $current->getTimestamp() < $minutesToVisitEvent*60);
+            
             $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nearestEvent);
         } else{
             $allowVisitEvent = false;            

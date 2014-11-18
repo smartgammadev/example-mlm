@@ -25,24 +25,17 @@ class WebinarEventAdmin extends Admin {
                     'dp_use_current'        => false,
                     'dp_use_seconds'        => false,
                 ))
-            ->add('url', 'url',array('label' => 'Webinar URL'))    
-            //->add('url', 'text', array('label' => 'Webinar URL'))
+            ->add('url', 'url',array('label' => 'Webinar URL'))                
             ->add('name', 'text', array('label' => 'Webinar Name'))
             ->add('description', 'textarea', array('label' => 'Webinar Description'))
             ->add('pattern', 'text', array('label' => 'Webinar Pattern'))
             ->add('password', 'text', array('label' => 'Webinar Password','required' => false))
-            ->add('eventType',  'sonata_type_model', array('class' => 'Success\EventBundle\Entity\EventType'))
-            ->add('accessType', 'sonata_type_model', array('class' => 'Success\EventBundle\Entity\EventAccessType'))
+            ->add('eventType',  'entity', array('class' => 'Success\EventBundle\Entity\EventType'))
+            ->add('accessType', 'entity', array('class' => 'Success\EventBundle\Entity\EventAccessType'))
             ->add('media', 'sonata_type_model', array('label' => 'Webinar Image'),
                     array('link_parameters' => array('context' =>'webinar_image',
                     'provider' => 'sonata.media.provider.image')))
        ; 
-//            ->add('media', 'sonata_media_type', array(
-//                 'label' => 'Webinar Image',
-//                 'provider' => 'sonata.media.provider.image',
-//                 'context'  => 'webinar_event'
-//            ));
-//        ;
     }
 
 
@@ -61,6 +54,8 @@ class WebinarEventAdmin extends Admin {
         $listMapper
             ->add('startDateTime','datetime',array('format' => 'd.m.Y H:i'))            
             ->addIdentifier('name')
+            ->add('eventType', 'text', array())
+            ->add('accessType', 'text', array())
             ->add('url', 'url',array('hide_protocol' => false))
             ->add('_action', 'actions', array(
                     'actions' => array(
