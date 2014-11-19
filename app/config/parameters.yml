@@ -12,3 +12,4 @@ parameters:
     mailer_password: vremenno
     locale: ru_RU
     secret: ThisTokenIsNotSoSecretChangeIt
+    domain: 128.199.43.50

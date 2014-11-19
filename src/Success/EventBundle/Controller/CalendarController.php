@@ -149,8 +149,7 @@ class CalendarController extends Controller
         $current = new \DateTime('now');
         if ($nearestEvent){
             $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');                        
-            $allowVisitEvent = ($nearestEvent->getStartDateTime()->getTimestamp() - $current->getTimestamp() < $minutesToVisitEvent*60);
-            
+            $allowVisitEvent = ($nearestEvent->getStartDateTime()->getTimestamp() - $current->getTimestamp() < $minutesToVisitEvent*60);            
             $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nearestEvent);
         } else{
             $allowVisitEvent = false;            
