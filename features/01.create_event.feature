@@ -19,7 +19,7 @@ Feature: Calendar feature
     And I should see "создан"
 
     Then I want to create new event
-    And I fill "startDateTime" with current date plus "30" minutes
+    And I fill "startDateTime" with current date plus "60" minutes
     Then I fill "url" with "https://go.myownconference.ru/4SuccessTeam"
     And I fill "name" with "test webinar #2"
     Then I fill "description" with "This is description for test webinar #2"

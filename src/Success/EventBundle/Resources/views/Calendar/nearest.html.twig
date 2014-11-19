@@ -3,6 +3,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/successevent/css/4success.style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/successevent/css/jquery.countdownTimer.css') }}" />
 {% endblock %}
 
 {% block title %}Nearest Events Calendar{% endblock %}
@@ -31,7 +32,10 @@
                                 <p class='event-sub'>{{ nearest.accessType }}</p>
                                 
                                 <h5>До начала осталось: </h5>
-                                <h1><span id='timer'></span></h1>                                
+                                <h1><span id='timer'></span></h1>
+                                
+                                <div id="countdowntimer"><span id="future_date"><span></div>
+                                
                                 <h5>Тема:</h5>
                                 <p>{{ nearest.description }}</p>                                
                                     <div>
@@ -143,11 +147,27 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.countdown.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.countdownTimer.js') }}"></script>
     
     <script type="text/javascript">
         {% if nearest is null %}
-        {% else %}
-            startDateTime ="{{ nearest.startDateTime|date('Y/m/d H:i:s') }}";
+        {% else %}                                    
+            $(function(){
+              $('#future_date').countdowntimer({                  
+                dateAndTime : "{{ nearest.startDateTime|date('Y/m/d H:i:s') }}",
+                startDate : "{{ currentDateTime|date('Y/m/d H:i:s') }}",
+                timeUp : timeisUp,
+                size : "lg"
+              });              
+                function timeisUp() {
+                    $('#webinar-enter-btn').removeClass('disabled');
+                    $('#future_date').text('Уже идет');
+                }                            
+            });
+
+            
+            
+{#            startDateTime ="{{ nearest.startDateTime|date('Y/m/d H:i:s') }}";
             serverDateTime ="{{ currentDateTime|date('Y/m/d H:i:s') }}";
 
             $("#timer").countdown(startDateTime, function(event) {
@@ -159,7 +179,7 @@
                         event.strftime('%D:%H:%M:%S')
                     );
             });
-        {% endif %}
+#}        {% endif %}
 
       $('body').on('hidden.bs.modal', '.modal', function () {
         $('#modal-content').empty();
