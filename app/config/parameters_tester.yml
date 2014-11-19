@@ -1,0 +1,16 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_name: tester_4success
+    database_user: tester_4success
+    database_password: 1S3x456
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: ru_RU
+    secret: 6f3ab49e9d88119b3ed643bf2cf82763
+    elastic_host : localhost
+    elastic_port : 9200
+    domain: success.smart-gamma.com

@@ -4,10 +4,11 @@ Feature: Sales Generator(frontend)
     as a user
     Audiences, questions and answers need to be already in database
     
+    @basic
     Scenario: Check audiences
         Given I am on "/audiences"
          Then I should see 4 ".audience" elements
-
+    @basic
     Scenario: Step into audience
         Given I am on "/audience/1"
          Then I should see "Вопрос"
