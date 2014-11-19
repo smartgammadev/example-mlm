@@ -11,9 +11,7 @@ use Sonata\AdminBundle\Admin\Admin,
  * @author develop1
  */
 class QuestionAdmin extends Admin
-{
-    private $salesGeneratorManager;
-    
+{    
     protected $datagridValues = array(
         '_page' => 1,
         '_sort_order' => 'ASC',
@@ -57,6 +55,7 @@ class QuestionAdmin extends Admin
                 'template' => 'SuccessSalesGeneratorBundle:Admin/fields:question_text_field.html.twig',
                 'label' => 'Question'
             ])
+            ->addIdentifier('audience')
         ;
     }
     
@@ -66,7 +65,6 @@ class QuestionAdmin extends Admin
      */
     public function postPersist($question)
     {
-        // find audience
         /* @var $container ContainerInterface */
         $container = $this->getConfigurationPool()->getContainer();
         
@@ -89,18 +87,9 @@ class QuestionAdmin extends Admin
         /* @var $container ContainerInterface */
         $container = $this->getConfigurationPool()->getContainer();
         
-        /* @var $entityManager \Doctrine\ORM\EntityManager */
-        $em = $container->get('doctrine.orm.default_entity_manager');
+        /* @var $salesGeneratorManager \Success\SalesGeneratorBundle\Service\SalesGeneratorManager */
+        $salesGeneratorManager = $container->get('success.sales_generator.manager');
         
-        // Remove all answers for current question
-        foreach($question->getAnswers() as $answer) {
-            // find all answers that refference current one and set this reff to NULL
-            $em->getRepository('SuccessSalesGeneratorBundle:Answer')->removeNextQuestionForReferencingAnswer($question);
-            
-            $question->removeAnswer($answer);
-            $em->remove($answer);
-        }
-        // if it's the first question in Audience, remove reference to it
-        $em->getRepository('SuccessSalesGeneratorBundle:Audience')->removeReferenceToFirstQuestion($question);
+        $salesGeneratorManager->removeAllQuestionRelations($question);
     }
 }

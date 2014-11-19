@@ -33,7 +33,7 @@ class Question
     
     /**
      * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Audience")
-     * @ORM\JoinColumn(name="audience_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="audience_id", referencedColumnName="id", nullable=true)
      */
     private $audience;
     
@@ -138,7 +138,6 @@ class Question
      */
     public function removeAnswer(\Success\SalesGeneratorBundle\Entity\Answer $answer)
     {   
-//        var_dump($answers); die;
         $this->answers->removeElement($answer);
     }
 

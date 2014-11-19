@@ -25,8 +25,8 @@ class SalesGeneratorController extends Controller
      */
     public function chooseAudienceAction()
     {   
-//        $this->salesGeneratorManager->audiencesSS();
-//        $this->salesGeneratorManager->fillBase(); // Fills DataBase without relations to next questions
+//        $this->salesGeneratorManager->fillAudiences();
+//        $this->salesGeneratorManager->fillQuestionsAndAnswers(); // Fills DataBase without relations to next questions
         return ['audiences' => $audiences = $this->salesGeneratorManager->getAllAudiences()];
     }
     
