@@ -18,7 +18,7 @@ class AnswerRepository extends EntityRepository
     
     public function removeAllAnswersForQuestion(\Success\SalesGeneratorBundle\Entity\Question $question)
     {
-        $em = $this->em;
+        $em = $this->getEntityManager();
         
         foreach($question->getAnswers() as $answer) {
             // find all answers that refference current one and set this reff to NULL
