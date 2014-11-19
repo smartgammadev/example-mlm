@@ -20,6 +20,7 @@ class AnswerAdmin extends Admin
         // Create custon answer creation template
         // Make sure it fills with current subject(see last bookmark in firefox)
         $formMapper
+            ->add('currentQuestion', 'entity', ['class' => 'Success\SalesGeneratorBundle\Entity\Question','attr'=>['hidden' => true]])
             ->add('text')
             ->add('nextQuestion')
         ;
@@ -44,12 +45,22 @@ class AnswerAdmin extends Admin
         ;
     }
     
-    public function getTemplate($name)
-    {
-        if ('list' == $name) {
-            $this->setTemplate('list', 'ClasscorFacebookAudiencesBundle:Admin:facebookaudiences.html.twig');
+    public function getNewInstance() {
+        $newAnswer = parent::getNewInstance();
+        
+        if ($this->request->get('objectId',null) !== NULL) {
+            
+            $question_id = $this->request->get('objectId',null);
+            /* @var $container ContainerInterface */
+            $container = $this->getConfigurationPool()->getContainer();
+
+            /* @var $entityManager \Doctrine\ORM\EntityManager */
+            $em = $container->get('doctrine.orm.default_entity_manager');
+            
+            $question = $em->getRepository('SuccessSalesGeneratorBundle:Question')->findOneById($question_id);
+            $newAnswer->setCurrentQuestion($question);
         }
         
-        return parent::getTemplate($name);
+        return $newAnswer;
     }
 }

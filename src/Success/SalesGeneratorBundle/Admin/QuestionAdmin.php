@@ -12,6 +12,8 @@ use Sonata\AdminBundle\Admin\Admin,
  */
 class QuestionAdmin extends Admin
 {
+    private $salesGeneratorManager;
+    
     protected $datagridValues = array(
         '_page' => 1,
         '_sort_order' => 'ASC',
@@ -21,15 +23,20 @@ class QuestionAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('audience')
-            ->add('text', 'textarea', ['label' => 'Question'])
-            ->add('answers', 'sonata_type_collection', ['by_reference' => true,'cascade_validation' => false], [
-               'allow_delete'=>true,
-               'edit' => 'inline',
-               'sortable' => 'position',
-               'inline' => 'table'
-            ])
-        ;
+            ->with('Question')
+                ->add('audience', 'entity', ['class' => 'Success\SalesGeneratorBundle\Entity\Audience'])
+                ->add('text', 'textarea', ['label' => 'Question'])
+            ->end();
+        
+        if ($this->id($this->getSubject()))
+            $formMapper->with('Answers')                    
+                ->add('answers', 'sonata_type_collection', ['by_reference' => true,'cascade_validation' => false], [
+                    'allow_delete'=>true,
+                    'edit' => 'inline',
+                    'sortable' => 'position',
+                    'inline' => 'table'
+                ])
+            ->end();
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -53,18 +60,30 @@ class QuestionAdmin extends Admin
         ;
     }
     
-    public function getTemplate($name)
+    /** Set question to be the first in audience if there are no questions at all
+     * 
+     * @param Success\SalesGeneratorBundle\Entity\Question $question
+     */
+    public function postPersist($question)
     {
-        switch ($name) {
-            case 'edit':
-                return 'SuccessSalesGeneratorBundle:Admin:question_edit.html.twig';
-                break;
-            default:
-                return parent::getTemplate($name);
-                break;
+        // find audience
+        /* @var $container ContainerInterface */
+        $container = $this->getConfigurationPool()->getContainer();
+        
+        /* @var $entityManager \Doctrine\ORM\EntityManager */
+        $em = $container->get('doctrine.orm.default_entity_manager');
+        
+        $audience = $question->getAudience();        
+        if ($audience->getFirstQuestion() == NULL) {
+            $audience->setFirstQuestion($question);
+            $em->flush();
         }
     }
     
+    /** Removes all relations for current question
+     * 
+     * @param Success\SalesGeneratorBundle\Entity\Question $question
+     */
     public function preRemove($question)
     {
         /* @var $container ContainerInterface */
@@ -75,10 +94,13 @@ class QuestionAdmin extends Admin
         
         // Remove all answers for current question
         foreach($question->getAnswers() as $answer) {
+            // find all answers that refference current one and set this reff to NULL
+            $em->getRepository('SuccessSalesGeneratorBundle:Answer')->removeNextQuestionForReferencingAnswer($question);
+            
             $question->removeAnswer($answer);
-            $em->remove($em->getRepository('SuccessSalesGeneratorBundle:Answer')->findOneById($answer->getId()));
+            $em->remove($answer);
         }
-        
-        $em->flush();
+        // if it's the first question in Audience, remove reference to it
+        $em->getRepository('SuccessSalesGeneratorBundle:Audience')->removeReferenceToFirstQuestion($question);
     }
 }

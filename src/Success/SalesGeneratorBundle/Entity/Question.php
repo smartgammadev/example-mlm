@@ -40,7 +40,7 @@ class Question
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Success\SalesGeneratorBundle\Entity\Answer", mappedBy="currentQuestion", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Success\SalesGeneratorBundle\Entity\Answer", mappedBy="currentQuestion", cascade={"all"}, orphanRemoval=true)
      */
     private $answers;
     

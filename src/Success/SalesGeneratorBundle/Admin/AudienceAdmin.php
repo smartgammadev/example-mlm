@@ -17,6 +17,7 @@ class AudienceAdmin extends Admin
     {
         $formMapper
             ->add('name', 'text', ['label' => 'Name'])
+            ->add('firstQuestion')
         ;
     }
 
@@ -35,6 +36,7 @@ class AudienceAdmin extends Admin
             ->remove('batch')
             ->add('id')
             ->addIdentifier('name')
+            ->add('firstQuestion')
         ;
     }
     

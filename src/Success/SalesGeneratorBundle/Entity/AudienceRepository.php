@@ -12,4 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class AudienceRepository extends EntityRepository
 {
+    /**
+     * @param Success/SalesGeneratorBundle/Entity/Question $question
+     */
+    public function removeReferenceToFirstQuestion($question)
+    {
+        $referencingAudience = $this->findOneBy(['firstQuestion' => $question->getId()]);
+        
+        if ($referencingAudience)
+            $referencingAudience->setFirstQuestion();
+    }
 }

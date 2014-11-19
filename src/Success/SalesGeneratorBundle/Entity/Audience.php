@@ -79,7 +79,7 @@ class Audience
      * @param \Success\SalesGeneratorBundle\Entity\Question $firstQuestion
      * @return Success\SalesGeneratorBundle\Entity\Audience
      */
-    public function setFirstQuestion(\Success\SalesGeneratorBundle\Entity\Question $firstQuestion)
+    public function setFirstQuestion(\Success\SalesGeneratorBundle\Entity\Question $firstQuestion = null)
     {
         $this->firstQuestion = $firstQuestion;
 

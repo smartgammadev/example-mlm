@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Answer
  *
  * @ORM\Table(name="Answers")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Success\SalesGeneratorBundle\Entity\AnswerRepository")
  */
 class Answer
 {
@@ -29,13 +29,13 @@ class Answer
     private $text;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Question", inversedBy="answers", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Question", inversedBy="answers", cascade={"persist"})
      * @ORM\JoinColumn(name="current_question_id", referencedColumnName="id")
      */
     private $currentQuestion;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Question", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Question", cascade={"persist"})
      * @ORM\JoinColumn(name="next_question_id", referencedColumnName="id", nullable=true)
      */
     private $nextQuestion;
@@ -99,10 +99,10 @@ class Answer
     /**
      * Set nextQuestion
      *
-     * @param \Success\SalesGeneratorBundle\Entity\Question $nextQuestion
+     * @param $nextQuestion
      * @return Success\SalesGeneratorBundle\Entity\Answer
      */
-    public function setNextQuestion(\Success\SalesGeneratorBundle\Entity\Question $nextQuestion)
+    public function setNextQuestion(\Success\SalesGeneratorBundle\Entity\Question $nextQuestion = null)
     {
         $this->nextQuestion = $nextQuestion;
 
