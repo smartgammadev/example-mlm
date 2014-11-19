@@ -135,3 +135,7 @@ p.event-sub{
     vertical-align: bottom;
     float: none;
 }
+
+.time-zone{
+    font-size: 12px;
+}

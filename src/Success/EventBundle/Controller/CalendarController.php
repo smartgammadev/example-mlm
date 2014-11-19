@@ -55,9 +55,9 @@ class CalendarController extends Controller
      */
     public function eventAction($eventId){            
         $event = $this->eventManager->getEventById($eventId);
-        if (!$event){
+        if (!$event) {
             throw $this->createNotFoundException('No event found for id='.$eventId);
-        }        
+        }
         
         $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');
 
@@ -123,7 +123,7 @@ class CalendarController extends Controller
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);
         
         $now = new \DateTime('now');
-        $now->modify("-15 minutes");
+        $now->modify("-20 minutes");
         
         $lastDayOfWeek = clone $now; //$this->eventManager->lastDayOfWeek($now);
         $lastDayOfWeek->modify('+7 days');
@@ -146,10 +146,9 @@ class CalendarController extends Controller
         }
         
         $nearestEvent = $this->eventManager->getNearestNextEvent($now);
+        $current = new \DateTime('now');
         if ($nearestEvent){
-            $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');
-            
-            $current = new \DateTime('now');
+            $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');                        
             $allowVisitEvent = ($nearestEvent->getStartDateTime()->getTimestamp() - $current->getTimestamp() < $minutesToVisitEvent*60);
             
             $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nearestEvent);
@@ -159,6 +158,7 @@ class CalendarController extends Controller
         }
         
         return array(
+            'currentDateTime' => $current,
             'nearest' => $nearestEvent,
             'allowToVisit' => $allowVisitEvent,
             'externalLink' => $externalLink,

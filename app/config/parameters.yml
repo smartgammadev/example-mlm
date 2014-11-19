@@ -8,7 +8,7 @@ parameters:
     database_password: root
     mailer_transport: gmail
     mailer_host: null
-    mailer_user: rregion1292
-    mailer_password: masterkey1292
+    mailer_user: 4success.bz
+    mailer_password: vremenno
     locale: ru_RU
     secret: ThisTokenIsNotSoSecretChangeIt

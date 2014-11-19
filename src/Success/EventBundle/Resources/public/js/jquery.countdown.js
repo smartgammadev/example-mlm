@@ -60,6 +60,13 @@
         M: "minutes",
         S: "seconds"
     };
+    
+    var setServerTime = function(date) {
+        this.serverDate = date;
+        console.log(this.date);
+        return this;
+    }
+    
     function strftime(offsetObject) {
         return function(format) {
             var directives = format.match(/%(-|!)?[A-Z]{1}(:[^;]+;)?/gi);
@@ -130,7 +137,8 @@
             this.$el.on("stoped.countdown", callback);
             this.$el.on("finish.countdown", callback);
         }
-        this.setFinalDate(finalDate);
+        this.setFinalDate(finalDate);        
+        //this.setServerDate(serverDate);        
         this.start();
     };
     $.extend(Countdown.prototype, {
@@ -169,9 +177,12 @@
                 return;
             }
             
-            
+            //alert(this.serverDate);
             //this.totalSecsLeft = this.finalDate.getTime() - new Date().getTime();
             this.totalSecsLeft = this.finalDate.getTime() - convertDateLocalToMoscow(new Date()).getTime();
+            //this.totalSecsLeft = this.finalDate.getTime() - this.serverDate.getTime();
+            //alert(this.totalSecsLeft);
+            
             this.totalSecsLeft = Math.ceil(this.totalSecsLeft / 1e3);
             this.totalSecsLeft = this.totalSecsLeft < 0 ? 0 : this.totalSecsLeft;
             this.offset = {

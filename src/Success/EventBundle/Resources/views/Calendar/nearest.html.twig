@@ -36,8 +36,10 @@
                                 <p>{{ nearest.description }}</p>                                
                                     <div>
                                         {% if allowToVisit %}
-                                            <a href="{{ externalLink }}" class="btn btn-lg btn-danger" role="button" target="blank">Войти в Вебинар</a>
-                                        {% else %}                                                                                                                                    
+                                            <a id="webinar-enter-btn" href="{{ externalLink }}" class="btn btn-lg btn-danger" role="button" target="blank">Войти в Вебинар</a>
+                                            <a href="{{ path('calendar_event_signup', {'eventId' : nearest.id, 'template': 'calendar'}) }}" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
+                                        {% else %}
+                                            <a id="webinar-enter-btn" href="{{ externalLink }}" class="btn btn-lg btn-danger disabled" role="button" target="blank">Войти в Вебинар</a>
                                             <a href="{{ path('calendar_event_signup', {'eventId' : nearest.id, 'template': 'calendar'}) }}" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
                                         {% endif %}
                                     </div>
@@ -77,7 +79,7 @@
                                                 </p>
                                                 
                                                 <h5>время проведения: </h5>
-                                                <h2>{{ event.startDateTime|date('H:i') }}</h2>
+                                                <h2>{{ event.startDateTime|date('H:i') }}<span class='time-zone'>(МСК)</span></h2>
                                             </div>
                                             <div class="col-xs-5 vbottom">
                                                 <div class='event-signup'>                                                    
@@ -104,7 +106,6 @@
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-xs-12">
-                                                {#<h5>Тема: </h5>#}
                                                 <p class="event-descr">
                                                     {% media event.media, 'small' %}
                                                     {{ event.description }}
@@ -118,7 +119,7 @@
                                                     <h5>доступ: {{ event.accessType }}</h5>
                                                 </p>                                            
                                                 <h5 class="time-event-label">время проведения:</h5>
-                                                <h2 class="event-time">{{ event.startDateTime|date('H:i') }}</h2>                                        
+                                                <h2 class="event-time">{{ event.startDateTime|date('H:i') }}<span class='time-zone'>(МСК)</span></h2>                                        
                                         </div>
                                         
                                         <div class="col-xs-5 vbottom">
@@ -147,12 +148,14 @@
         {% if nearest is null %}
         {% else %}
             startDateTime ="{{ nearest.startDateTime|date('Y/m/d H:i:s') }}";
+            serverDateTime ="{{ currentDateTime|date('Y/m/d H:i:s') }}";
 
             $("#timer").countdown(startDateTime, function(event) {
                 if (event.strftime('%D:%H:%M:%S')==='00:00:00:00')
-                    $(this).text('Уже идет');
+                    $(this).text('Уже идет'),
+                    $('#webinar-enter-btn').removeClass('disabled');
                 else
-                    $(this).text(                        
+                    $(this).text(
                         event.strftime('%D:%H:%M:%S')
                     );
             });
