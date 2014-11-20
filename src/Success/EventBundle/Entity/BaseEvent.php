@@ -70,6 +70,14 @@ class BaseEvent
      * @ORM\OneToMany(targetEntity="EventSignUp", mappedBy="event")
      */
     private $signUps;
+    
+    /**
+     *
+     * @var \Success\EventBundle\Entity\EventRepeat
+     * @ORM\OneToOne(targetEntity="EventRepeat", mappedBy="event", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $eventRepeat;
 
     
     /**
@@ -266,5 +274,28 @@ class BaseEvent
     public function getSignUps()
     {
         return $this->signUps;
+    }
+
+    /**
+     * Set eventRepeat
+     *
+     * @param \Success\EventBundle\Entity\EventRepeat $eventRepeat
+     * @return BaseEvent
+     */
+    public function setEventRepeat(\Success\EventBundle\Entity\EventRepeat $eventRepeat = null)
+    {
+        $this->eventRepeat = $eventRepeat;
+
+        return $this;
+    }
+
+    /**
+     * Get eventRepeat
+     *
+     * @return \Success\EventBundle\Entity\EventRepeat 
+     */
+    public function getEventRepeat()
+    {
+        return $this->eventRepeat;
     }
 }

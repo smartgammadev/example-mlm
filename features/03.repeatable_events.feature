@@ -18,4 +18,8 @@ Feature: Creation repeatable events in calendar. Repeating by day, week, month, 
 
     Then I follow "test webinar #1"
     And I press "Repeatable"
-    Then I fill "repeatDateTime" with current date plus "30" days
+    Then I fill "endDateTime" with current date plus "30" days
+    And I select "D" in "repeatType"
+    Then I fill "interval" with "1"
+    And press "btn_create_and_list"
+    Then I should see "успешно обновлен"

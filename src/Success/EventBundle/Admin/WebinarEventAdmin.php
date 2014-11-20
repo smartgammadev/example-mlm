@@ -15,23 +15,44 @@ class WebinarEventAdmin extends Admin {
         '_sort_by' => 'startDateTime' // name of the ordered field (default = the model id field, if any)
     );
     
-    protected function configureFormFields(FormMapper $formMapper)
+
+    protected function configureRoutes(\Sonata\AdminBundle\Route\RouteCollection $collection) {
+        $collection
+            ->add('cancel_repeats',
+                'cancel_repeats/{id}',
+                array('_controller' => 'SuccessEventBundle:EventCRUD:cancelRepeats'),
+                array('id' => '\d+')
+        )
+    ;
+    }
+
+        protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            //->add('startDateTime', 'datetime', array('label' => 'Date & Time'))
-            ->add('startDateTime', 'sonata_type_datetime_picker',
-                    array(
-                    'dp_side_by_side'       => true,
-                    'dp_use_current'        => false,
-                    'dp_use_seconds'        => false,
-                ))
+            ->with('Имя и описание вебинара')
+                ->add('name', 'text', array('label' => 'Webinar Name'))
+                ->add('description', 'textarea', array('label' => 'Webinar Description'))
+            ->end()
+
+            ->with('Планирование мероприятия')
+                ->add('startDateTime', 'sonata_type_datetime_picker',
+                            array(
+                            'dp_side_by_side'       => true,
+                            'dp_use_current'        => false,
+                            'dp_use_seconds'        => false,
+                        ));
+                if ($this->id($this->getSubject())){
+                    $formMapper->add('eventRepeat', 'sonata_type_admin', array('required' => false), array('edit'=>'inline') );
+                    
+                }
+            $formMapper->end();
+                    
+        $formMapper
             ->add('url', 'url',array('label' => 'Webinar URL'))                
-            ->add('name', 'text', array('label' => 'Webinar Name'))
-            ->add('description', 'textarea', array('label' => 'Webinar Description'))
             ->add('pattern', 'text', array('label' => 'Webinar Pattern'))
             ->add('password', 'text', array('label' => 'Webinar Password','required' => false))
             ->add('eventType',  'entity', array('class' => 'Success\EventBundle\Entity\EventType'))
-            ->add('accessType', 'entity', array('class' => 'Success\EventBundle\Entity\EventAccessType'))
+            ->add('accessType', 'entity', array('class' => 'Success\EventBundle\Entity\EventAccessType'))            
             ->add('media', 'sonata_type_model', array('label' => 'Webinar Image'),
                     array('link_parameters' => array('context' =>'webinar_image',
                     'provider' => 'sonata.media.provider.image')))

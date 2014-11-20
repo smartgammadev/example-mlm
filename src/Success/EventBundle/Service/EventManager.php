@@ -6,6 +6,7 @@ use Success\EventBundle\Entity\BaseEvent;
 use Success\EventBundle\Entity\WebinarEvent;
 use Success\MemberBundle\Entity\Member;
 use Success\EventBundle\Entity\EventSignUp;
+use Success\EventBundle\Entity\EventRepeat;
 
 class EventManager //extends Service
 {
@@ -43,15 +44,45 @@ class EventManager //extends Service
      * @param Datetime $endDate
      * @return \Success\EventBundle\Entity\BaseEvent[]
      */  
-    public function getEventsByDateRange($startDate, $endDate)
+    public function getEventsByDateRange(\DateTime $startDate, \DateTime $endDate)
     {     
         /* @var $repo \Success\EventBundle\Entity\BaseEventRepository */
         $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
-        return $repo->findAllBetweenDates($startDate,$endDate);
+        //$result = $repo->findAllBetweenDates($startDate,$endDate);
+        
+        $nowDate = new \DateTime();        
+        $result = array_merge($repo->findAllBetweenDates($startDate,$endDate), $this->appendRepeatsForEvents($nowDate, $startDate, $endDate));
+        
+        usort($result, function($a, $b)
+            {
+                return strcmp($a->getStartDateTime()->format('Y-m-d H:i:s'), $b->getStartDateTime()->format('Y-m-d H:i:s'));
+            });        
+        return $result;
+    }
+    
+    
+    private function appendRepeatsForEvents(\DateTime $nowDate, \DateTime $startDate, \DateTime $endDate)
+    {
+        $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
+        $repeatableEvents = $repo->findAllWithActiveRepeats($nowDate);
+        
+        //var_dump($startDate);
+        //var_dump($endDate);
+                        
+        $result = [];
+        foreach ($repeatableEvents as $repeatableEvent){
+            $repeatDates = $this->getRepeatsForEvent($repeatableEvent, $startDate, $endDate);
+                foreach ($repeatDates as $repeatDate){
+                    $eventClone = clone $repeatableEvent;
+                    $eventClone->setStartDateTime($repeatDate);
+                    $result[] = $eventClone;
+                }
+        }
+        return $result;        
     }
     
     /**
-     * @param Datetime $startdate
+     * @param Datetime $startDate
      * @return \Success\EventBundle\Entity\BaseEvent
      */
     public function getNearestNextEvent($startDate)
@@ -64,7 +95,8 @@ class EventManager //extends Service
     public function getEventsForDate($startDate)
     {
         $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
-        return $repo->findAllByDate($startDate);
+        $result = $repo->findAllByDate($startDate);
+        return $result;
     }
     
     public function getNextEventsForDate($startDate)
@@ -144,14 +176,13 @@ class EventManager //extends Service
        if (!$alreadyExists){
             if (isset($placeholders['sponsor_email'])){
                 $this->notificationManager->CreateEmailNotification($signUpDateTime, $placeholders['sponsor_email'], 'sponsorSignUpEmailMessage');
-            }            
+            }
             if (isset($placeholders['sponsor_phone'])){
                 $this->notificationManager->CreateSMSNotification($signUpDateTime, $placeholders['sponsor_phone'], 'sponsorSignUpSMSMessage');
             }
             if (isset($placeholders['user_email'])){
                 $this->notificationManager->CreateEmailNotification($signUpDateTime, $placeholders['user_email'], 'userSignUpEmailMessage');
             }
-            
             if ($notifyUserBeforeEvent){
                 $minutesBeforeEvent = $this->settingsManager->getSettingValue('beforeEventDateModifier');
                 $datetimeBeforeEvent = $event->getStartDateTime();
@@ -217,9 +248,78 @@ class EventManager //extends Service
         $thisDay = strftime("%u", $thisDate->getTimestamp());                
         $lastDayOfWeekTimestamp = $thisDate->modify('+'.(7-$thisDay).' days')->getTimestamp();        
         $lastDateOfWeek = new \DateTime();
-        $lastDateOfWeek->setTimestamp(mktime(12, 59, 59, date("m", $lastDayOfWeekTimestamp) , date("d", $lastDayOfWeekTimestamp), date("Y", $lastDayOfWeekTimestamp)));
+        $lastDateOfWeek->setTimestamp(mktime(23, 59, 59, date("m", $lastDayOfWeekTimestamp) , date("d", $lastDayOfWeekTimestamp), date("Y", $lastDayOfWeekTimestamp)));
         //echo $lastDateOfWeek->format('Y-m-d H:i:s');
         return $lastDateOfWeek;
     }
-
+    
+    
+    
+    public function getAllRepatableEvents()
+    {
+        $repo = $this->em->getRepository('SuccessEventBundle:BaseEvent');
+        $now = new \DateTime();
+        return $repo->findAllWithActiveRepeats($now);
+    }
+    
+    
+    /**
+     * @param BaseEvent $event
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     * @return array Description
+     */
+    public function getRepeatsForEvent(BaseEvent $event, \DateTime $startDate, \DateTime $endDate)
+    {
+        
+        
+        if ($event->getEventRepeat() == null){
+            return null;
+            
+        } else {
+            
+            $eventRepeat = $event->getEventRepeat();            
+            return $this->getDatesForRepeat($eventRepeat, $event->getStartDateTime(), $startDate, $endDate);
+        }
+    }
+    
+    /**
+     * 
+     * @param EventRepeat $eventRepeat
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     * @return array of dates
+     */    
+    private function getDatesForRepeat(EventRepeat $eventRepeat, \DateTime $eventStartDate, \DateTime $startDate, \DateTime $endDate)
+    {
+        if ($eventRepeat->getEndDateTime()->getTimestamp() < $endDate->getTimestamp()){
+            return null;
+            
+        }           
+        $repeatType = $eventRepeat->getRepeatType();        
+        $interval = $eventRepeat->getRepeatInterval();                
+        $datesInterval = new \DateInterval('P'.$interval.$repeatType);
+        $repeatDates = $this->getDatesForInterval($datesInterval, $eventStartDate, $startDate, $endDate);
+        return $repeatDates;
+    }
+    
+    /**
+     * 
+     * @param \DateInterval $inteval
+     * @param \DateTime $eventStartDate
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     * @return array of DateTime objects
+     */    
+    private function getDatesForInterval(\DateInterval $inteval, \DateTime $eventStartDate, \DateTime $startDate, \DateTime $endDate)
+    {
+        $result = [];
+        $daterange = new \DatePeriod($eventStartDate, $inteval ,$endDate);
+            foreach($daterange as $date){
+                if ($date->getTimestamp()>=$startDate->getTimestamp()){                    
+                    $result[] = $date;
+                }                    
+            }
+        return $result;
+    }
 }

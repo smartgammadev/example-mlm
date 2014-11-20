@@ -24,7 +24,7 @@ services:
         arguments:
             - ~
             - Success\EventBundle\Entity\WebinarEvent
-            - ~
+            - SuccessEventBundle:EventCRUD
 
     sonata.admin.webinar_signup:
         class: Success\EventBundle\Admin\WebinarSignUpAdmin
@@ -35,12 +35,11 @@ services:
             - Success\EventBundle\Entity\EventSignUp
             - ~
 
-            
-#    sonata.admin.config_homepage:
-#        class: Success\EventBundle\Admin\ConfigSuccessAdmin
-#        tags:
-#            - { name: sonata.admin, manager_type: orm, group: "SPONSOR", label: "Config" }
-#        arguments:
-#            - ~
-#            - Aisel\ConfigBundle\Entity\Config
-#            - ~            
+    sonata.admin.event_repeat:
+        class: Success\EventBundle\Admin\EventRepeatAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Webinar Repeats", show_in_dashboard: false  }
+        arguments:
+            - ~
+            - Success\EventBundle\Entity\EventRepeat
+            - ~    

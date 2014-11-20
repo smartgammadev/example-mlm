@@ -53,7 +53,8 @@ class CalendarController extends Controller
      * @Route("/{template}/event/{eventId}", name="show_calendar_event", requirements={"eventId"="\d+"})
      * @Template()
      */
-    public function eventAction($eventId){            
+    public function eventAction($eventId)
+    {
         $event = $this->eventManager->getEventById($eventId);
         if (!$event) {
             throw $this->createNotFoundException('No event found for id='.$eventId);
@@ -74,10 +75,62 @@ class CalendarController extends Controller
     }
     
     /**
+     * @Route("/day", name="day_events")
+     * @Template()
+     */
+    public function dayAction()
+    {
+        $startDate = new \DateTime();
+        $endDate = clone $startDate;
+        $endDate->setTime(23, 59, 59);
+        
+        $events =  array('date' => $startDate, 'events' => $this->eventManager->getEventsByDateRange($startDate, $endDate));
+        return array('eventsToday' => $events);
+    }
+
+    /**
+     * @Route("/week", name="week_events")
+     * @Template()
+     */
+    public function weekAction()
+    {
+        $startDate = new \DateTime();
+        $endDate = clone $startDate;
+
+        $startDate->modify('+1 days');
+        $startDate->setTime(0, 0, 1);        
+        
+        $endDate->modify('+7 days');
+        $endDate->setTime(23, 59, 59);
+
+        $interval = new \DateInterval('P1D');
+        $daterange = new \DatePeriod($startDate, $interval ,$endDate);
+        
+        $eventsOfWeek = [];
+        $counter = 0;
+        
+        foreach ($daterange as $date){
+            $dayBegin = $date;
+            $dayEnd = clone $date;
+            $dayEnd->setTime(23, 59, 59);
+            $dayEvents = $this->eventManager->getEventsByDateRange($dayBegin, $dayEnd);
+            $eventsOfWeek[] = array('date' => $date, 'events' => $dayEvents);
+            $counter += count($dayEvents);
+        }
+        
+        //var_dump($eventsOfWeek);
+        //$events =  array('date' => $startDate, 'events' => $this->eventManager->getEventsByDateRange($startDate, $endDate));
+                        
+        return array('weekEventsCount' => $counter, 'eventsOfWeek' => $eventsOfWeek);
+    }
+    
+    
+    /**
      * @Route("/{template}/event/{eventId}/signup", name="calendar_event_signup", requirements={"eventId"="\d+"})
      * @Template()
      */
-    public function signupAction($eventId, Request $request) {
+    public function signupAction($eventId, Request $request) 
+    {
         /**
          * @var \Success\EventBundle\Entity\BaseEvent Event for sign up
          */
@@ -121,6 +174,11 @@ class CalendarController extends Controller
     {        
         $placeholders = $request->query->all();
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);
+                
+//            $testStart = new \DateTime();
+//            $testEnd = clone $testStart;
+//            $testEnd->modify('+3 days');            
+//            var_dump($this->eventManager->getEventsByDateRange($testStart, $testEnd));                
         
         $now = new \DateTime('now');
         $now->modify("-20 minutes");
@@ -142,12 +200,12 @@ class CalendarController extends Controller
         foreach ($daterange as $date){
             $dayEvents = $this->eventManager->getEventsForDate($date);
             $weekEventsCount += count($dayEvents);
-            $eventsOfWeek[] = array('date'=>$date, 'events'=>$dayEvents);            
+            $eventsOfWeek[] = array('date'=>$date, 'events'=>$dayEvents);
         }
         
         $nearestEvent = $this->eventManager->getNearestNextEvent($now);
         $current = new \DateTime('now');
-        if ($nearestEvent){
+        if ($nearestEvent){            
             $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');                        
             $allowVisitEvent = ($nearestEvent->getStartDateTime()->getTimestamp() - $current->getTimestamp() < $minutesToVisitEvent*60);            
             $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nearestEvent);

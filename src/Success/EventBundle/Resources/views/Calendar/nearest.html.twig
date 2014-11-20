@@ -59,7 +59,8 @@
 
             <div id="main-row" class="row">
                 <div class="col-xs-6">
-                    <h4>Мероприятия сегодня ({{(eventsToday.events|length)}})</h4>                    
+                    {{ render( path('day_events') ) }}
+{#                    <h4>Мероприятия сегодня ({{(eventsToday.events|length)}})</h4>                    
                     <h4>{{ eventsToday.date|date('l')|trans }}: {{ eventsToday.date|date('d.m.Y') }}</h4>
                         {% for event in eventsToday.events %}
                                 <div class="panel panel-default">
@@ -94,11 +95,12 @@
                                         </div>
                                     </div>                        
                         {% endfor %}
-                </div>
+#}                </div>
                     
-                        {% set daysCount = eventsOfWeek|length-1 %}
+                        {#{% set daysCount = eventsOfWeek|length-1 %}#}
                 <div class="col-xs-6">
-                    <h4>Мероприятия недели ({{ weekEventsCount }})</h4>
+                    {{ render( path('week_events') ) }}
+{#                    <h4>Мероприятия недели ({{ weekEventsCount }})</h4>
                         {% for i in 0..daysCount %}
                             {% if eventsOfWeek[i].events|length>0 %}
                                 <h4>{{ eventsOfWeek[i].date|date('l')|trans }}: {{ eventsOfWeek[i].date|date('d.m.Y') }}</h4>
@@ -138,7 +140,7 @@
                                     {% endfor %}
                             {% endif %}
                         {% endfor %}
-                </div>
+#}                </div>
         </div>
 {#    </div>        #}
         
@@ -164,22 +166,7 @@
                     $('#future_date').text('Уже идет');
                 }                            
             });
-
-            
-            
-{#            startDateTime ="{{ nearest.startDateTime|date('Y/m/d H:i:s') }}";
-            serverDateTime ="{{ currentDateTime|date('Y/m/d H:i:s') }}";
-
-            $("#timer").countdown(startDateTime, function(event) {
-                if (event.strftime('%D:%H:%M:%S')==='00:00:00:00')
-                    $(this).text('Уже идет'),
-                    $('#webinar-enter-btn').removeClass('disabled');
-                else
-                    $(this).text(
-                        event.strftime('%D:%H:%M:%S')
-                    );
-            });
-#}        {% endif %}
+        {% endif %}
 
       $('body').on('hidden.bs.modal', '.modal', function () {
         $('#modal-content').empty();
@@ -189,12 +176,7 @@
 
         // scrolling feature
         var eventsIframe = document.getElementById('events-calendar');        
-        
-{#        if (!eventsIframe === null){
-          eventsIframe.contentWindow.scrollTo(0,0);
-          window.parent.parent.scrollTo(0,0);          
-        }
-#}        
+     
         parent.postMessage("scroll_up", "*");
         //$("html, body").animate({ scrollTop: 0 }, "slow");        
         link = $(this).attr('href');

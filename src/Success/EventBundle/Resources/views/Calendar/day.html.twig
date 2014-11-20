@@ -1,0 +1,36 @@
+                    <h4>Мероприятия сегодня ({{(eventsToday.events|length)}})</h4>                    
+                    <h4>{{ eventsToday.date|date('l')|trans }}: {{ eventsToday.date|date('d.m.Y') }}</h4>
+                        {% for event in eventsToday.events %}
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">                                        
+                                            <h3>{{ event.name }}</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+
+                                                <p class="event-descr">
+                                                    {% media event.media, 'small' %}
+                                                    {{ event.description }}                                                    
+                                                </p>
+                                            </div>    
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                <p class='event-sub'><h5>{{ event.pattern }}</h5>
+                                                    <h5>доступ: {{ event.accessType }}</h5>
+                                                </p>
+                                                
+                                                <h5>время проведения: </h5>
+                                                <h2>{{ event.startDateTime|date('H:i') }}<span class='time-zone'>(МСК)</span></h2>
+                                            </div>
+                                            <div class="col-xs-5 vbottom">
+                                                <div class='event-signup'>                                                    
+                                                    <a href="{{ path('calendar_event_signup', {'eventId' : event.id, 'template': 'calendar'}) }}" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
+                                                </div>                                                
+                                            </div>                                        
+                                            </div>
+                                        </div>
+                                    </div>                        
+                        {% endfor %}
+
