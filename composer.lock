@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "af1f04e3a973f75c5989e00fdaba7e5d",
+    "hash": "074278d9aad9ebed11c498296b51dd35",
     "packages": [
         {
             "name": "adesigns/calendar-bundle",
@@ -854,6 +854,80 @@
                 "orm"
             ],
             "time": "2014-10-06 13:22:50"
+        },
+        {
+            "name": "epam/ci-bundle",
+            "version": "v1.0.0",
+            "target-dir": "Epam/CiBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/epam-php-solutions/EpamCiBundle.git",
+                "reference": "a77470132f2c97b053b879102a0b95dd36454b9c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/epam-php-solutions/EpamCiBundle/zipball/a77470132f2c97b053b879102a0b95dd36454b9c",
+                "reference": "a77470132f2c97b053b879102a0b95dd36454b9c",
+                "shasum": ""
+            },
+            "require": {
+                "sensiolabs/security-checker": "1.*",
+                "symfony/symfony": "~2.3"
+            },
+            "suggest": {
+                "doctrine/data-fixtures": "Required for Doctrine Fixtures during build",
+                "doctrine/doctrine-fixtures-bundle": "Required for Doctrine Fixtures during build",
+                "doctrine/doctrine-migrations-bundle": "Required for Doctrine Migrations during build & deployment",
+                "doctrine/migrations": "Required for Doctrine Migrations during build & deployment",
+                "ext-xsl": "Required by apidoc phing target (backed by phpDocumentor 2)"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Epam\\CiBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Max Romanovsky",
+                    "email": "max.romanovsky@gmail.com",
+                    "homepage": "http://maxromanovsky.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "EPAM Systems",
+                    "homepage": "http://www.epam.com"
+                },
+                {
+                    "name": "Capifony Community",
+                    "homepage": "https://github.com/everzet/capifony/graphs/contributors"
+                },
+                {
+                    "name": "Php-jenkins-template Community",
+                    "homepage": "https://github.com/sebastianbergmann/php-jenkins-template/graphs/contributors"
+                }
+            ],
+            "description": "This bundle provides functionality for Continuous Integration & Automated Deployments for Symfony-based projects",
+            "keywords": [
+                "capifony",
+                "capistrano",
+                "ci",
+                "continuous integration",
+                "deployment",
+                "hudson",
+                "jenkins",
+                "phing"
+            ],
+            "time": "2013-10-24 13:11:50"
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
@@ -2609,6 +2683,51 @@
             ],
             "description": "This bundle generates code for you",
             "time": "2014-04-28 14:01:06"
+        },
+        {
+            "name": "sensiolabs/security-checker",
+            "version": "v1.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sensiolabs/security-checker.git",
+                "reference": "da1f9d19c80eac2b6ae8043bb92b7c7a16d00713"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/da1f9d19c80eac2b6ae8043bb92b7c7a16d00713",
+                "reference": "da1f9d19c80eac2b6ae8043bb92b7c7a16d00713",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "symfony/console": "~2.0"
+            },
+            "bin": [
+                "security-checker"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "SensioLabs\\Security": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien.potencier@gmail.com"
+                }
+            ],
+            "description": "A security checker for your composer.lock",
+            "time": "2014-07-08 18:12:35"
         },
         {
             "name": "sonata-project/admin-bundle",

@@ -50,7 +50,11 @@ class BaseEventRepository extends EntityRepository
                     ->setParameter('start_date', $startDate->format('Y-m-d H:i:s'))
                     ->setFirstResult(0)
                     ->setMaxResults(1)
-                    ->getResult();        
-        return $result[0];
+                    ->getResult();
+        if (count($result)!==0){
+            return $result[0];
+        } else {
+            return null;
+        }            
     }        
 }

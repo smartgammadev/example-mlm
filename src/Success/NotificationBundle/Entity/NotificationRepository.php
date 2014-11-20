@@ -28,5 +28,5 @@ class NotificationRepository extends EntityRepository
                 'select e from SuccessNotificationBundle:SMSNotification e where e.startDateTime < :now and e.isSent = false')
                 ->setParameter('now', $nowDate->format('Y-m-d H:i:s'))
                 ->getResult();        
-    }
+    }    
 }

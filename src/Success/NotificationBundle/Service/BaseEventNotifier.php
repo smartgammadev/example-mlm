@@ -1,8 +1,10 @@
 <?php
 namespace Success\NotificationBundle\Service;
 
+use Success\NotificationBundle\Entity\Notification;
 use Success\NotificationBundle\Entity\EmailNotification;
 use Success\NotificationBundle\Entity\SMSNotification;
+use Success\NotificationBundle\Entity\NotificationLog;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -59,21 +61,28 @@ class BaseEventNotifier {
         $msgBody = $twig->render($msgTemplate, $params);
 
         $message = \Swift_Message::newInstance()
-            ->setSubject('Test Email')
-            ->setFrom('rregion1292@gmail.com')
+            ->setSubject('4success mail')
+            ->setFrom('4success.bz@gmail.com')
             ->setTo($notification->getDestination())
             ->setBody($msgBody);
         
             echo "Sending mail to ".$notification->getDestination();echo PHP_EOL;
             
-            if ($this->mailer->send($message)!==0){
+            $sendResult = $this->mailer->send($message);
+                                    
+            if ($sendResult !== 0){
                 $notification->setIsSent(true);
                 $notification->setIsFailed(false);
-            } else{
+                
+            } else {
                 $notification->setIsSent(true);
                 $notification->setIsFailed(true);                
             }
             $this->em->flush();
+            
+            $this->logNotification($notification, "sent: result=$sendResult", 'swiftmailer');
+            
+        return ($sendResult == 0) ? true : false;
     }
     
     /**
@@ -91,16 +100,38 @@ class BaseEventNotifier {
         echo "Sending SMS to ".$notification->getDestination();echo PHP_EOL;
         $msgStatus = $this->SMSManager->msgSend($notification->getDestination(), $msgBody);        
         
-        if (!$msgStatus==0){
+        if ($msgStatus !== 0){
             $notification->setIsSent(true);
-            $notification->setMsgId($msgStatus);
-            
-            
+            $notification->setMsgId($msgStatus);            
             //$notification->addLog($logs)
         }else{
             $notification->setIsSent(true);
             //$notification->setIsFailed(true);          
         }
+        $this->em->flush();
+        
+        $this->logNotification($notification, "sent: msgStatus=$msgStatus", 'sms');
+        
+        return ($msgStatus !== 0) ? true : false;
+    }
+    
+    /**
+     * 
+     * @param Notification $notification
+     * @param string $status
+     * @param string $providerName
+     * @return void
+     */    
+    public function logNotification(Notification $notification, $status, $providerName)
+    {
+        $now = new \DateTime();
+        $log = new NotificationLog();
+        $log->setNotification($notification);
+        $log->setStatus($status);
+        $log->setProviderName($providerName);
+        $log->setActionDate($now);
+        
+        $this->em->persist($log);
         $this->em->flush();
     }
 }

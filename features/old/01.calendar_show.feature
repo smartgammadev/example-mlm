@@ -5,3 +5,4 @@ Feature: Calendar display feature
         Given I am on "/calendar/show"
         Then I should see "Sun"
         And I should see "Mon"
+        And I wait for AJAX to finish

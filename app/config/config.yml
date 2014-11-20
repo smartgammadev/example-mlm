@@ -102,9 +102,9 @@ sonata_notification:
     admin:
         enabled: false
 
-sonata_intl:
-    timezone:
-        default: Europe/Kiev
+#sonata_intl:
+#    timezone:
+#        default: Europe/Moscow
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -175,5 +175,5 @@ sonata_media:
             create:     false
             
 ornicar_apc:
-    host: http://128.199.43.50/
+    host: %domain%
     web_dir: %kernel.root_dir%/../web

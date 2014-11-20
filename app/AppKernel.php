@@ -48,7 +48,7 @@ class AppKernel extends Kernel
             new Success\MemberBundle\SuccessMemberBundle(),
             new Success\SalesGeneratorBundle\SuccessSalesGeneratorBundle(),
             new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
-            new Sonata\IntlBundle\SonataIntlBundle(),            
+            new Sonata\IntlBundle\SonataIntlBundle(),
             new Ornicar\ApcBundle\OrnicarApcBundle(),
         );
 
@@ -56,7 +56,8 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
-            //$bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
+            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
+            $bundles[] = new Epam\CiBundle\EpamCiBundle();
         }
 
         return $bundles;
@@ -65,11 +66,12 @@ class AppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
-    }    
-    
-    public function init()
-    {
-        date_default_timezone_set('Europe/Moscow');
-        parent::init();
     }
+    
+
+//    public function init()
+//    {
+//        date_default_timezone_set('Europe/Moscow');
+//        parent::init();
+//    }
 }

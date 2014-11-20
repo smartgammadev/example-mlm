@@ -1,7 +1,28 @@
+#default:
+#    extensions:
+#        Behat\Symfony2Extension\Extension:
+#            mink_driver: true
+#        
+#        Behat\MinkExtension\Extension:            
+#            base_url: http://4success/app_test.php
+#            selenium2: ~
+#            goutte: ~
+
 default:
+    paths:
+        features: features
+    context:
+        class: Success\Behat\FeatureContext
+        parameters:
+            base_url: http://4success/app_test.php
+            timeout: 20
+        
     extensions:
+        Behat\Symfony2Extension\Extension:
+            mink_driver: true
         Behat\MinkExtension\Extension:
-            base_url: http://calendar.develop1.lan/app_test.php
-            
-            selenium2: ~
-            goutte: ~
+            base_url: http://4success/app_test.php
+            default_session: selenium2
+            browser_name: 'firefox'
+            selenium2:
+              capabilities: { "browser": "firefox", "version": "17.0"}

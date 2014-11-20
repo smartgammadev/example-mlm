@@ -99,8 +99,9 @@ class EventManager //extends Service
      */  
     public function getEventById($eventId)
     {
-        $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
-        return $repo->find($eventId);
+        $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");        
+        $event = $repo->findOneBy(array('id' => $eventId));
+        return $event;
     }
     
     /**
@@ -136,20 +137,33 @@ class EventManager //extends Service
      */        
     public function SignUpMemberForEvent(Member $memberSignedUp, BaseEvent $event, \DateTime $signUpDateTime, $notifyUserBeforeEvent)
     {
+       
        $placeholders = $this->placeholderManager->getPlaceholdersFromSession();       
        $alreadyExists = $this->resolveSignUpForMember($memberSignedUp, $event, $signUpDateTime);
        
        if (!$alreadyExists){
-            $this->notificationManager->CreateEmailNotification($signUpDateTime, $placeholders['sponsor_email'], 'sponsorSignUpEmailMessage');
-            $this->notificationManager->CreateSMSNotification($signUpDateTime, $placeholders['sponsor_phone'], 'sponsorSignUpSMSMessage');
-            $this->notificationManager->CreateEmailNotification($signUpDateTime, $placeholders['user_email'], 'userSignUpEmailMessage');
-
+            if (isset($placeholders['sponsor_email'])){
+                $this->notificationManager->CreateEmailNotification($signUpDateTime, $placeholders['sponsor_email'], 'sponsorSignUpEmailMessage');
+            }            
+            if (isset($placeholders['sponsor_phone'])){
+                $this->notificationManager->CreateSMSNotification($signUpDateTime, $placeholders['sponsor_phone'], 'sponsorSignUpSMSMessage');
+            }
+            if (isset($placeholders['user_email'])){
+                $this->notificationManager->CreateEmailNotification($signUpDateTime, $placeholders['user_email'], 'userSignUpEmailMessage');
+            }
+            
             if ($notifyUserBeforeEvent){
                 $minutesBeforeEvent = $this->settingsManager->getSettingValue('beforeEventDateModifier');
                 $datetimeBeforeEvent = $event->getStartDateTime();
                 $datetimeBeforeEvent->modify('-'.$minutesBeforeEvent.' minutes');
-                $this->notificationManager->CreateEmailNotification($datetimeBeforeEvent, $placeholders['user_email'], 'userBeforeEventEmailMessage');
-                $this->notificationManager->CreateSMSNotification($datetimeBeforeEvent, $placeholders['user_phone'], 'userBeforeEventSMSMessage');
+                
+                if (isset($placeholders['user_email'])){
+                    $this->notificationManager->CreateEmailNotification($datetimeBeforeEvent, $placeholders['user_email'], 'userBeforeEventEmailMessage');
+                }
+                
+                if (isset($placeholders['user_phone'])){
+                    $this->notificationManager->CreateSMSNotification($datetimeBeforeEvent, $placeholders['user_phone'], 'userBeforeEventSMSMessage');
+                }
             }
        }
        return $alreadyExists;
@@ -160,12 +174,18 @@ class EventManager //extends Service
      */
     public function GenerateExternalLinkForWebinarEvent(WebinarEvent $event){
         $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
-        $url = $event->getUrl().'/';        
-        $url = $url.urlencode($placeholders['user_first_name'].' '.$placeholders['user_last_name']);        
+        $url = $event->getUrl().'/';
+        
+        if (isset($placeholders['user_first_name'])){
+            $url .= urlencode($placeholders['user_first_name']);            
+            $url .= urlencode(' от '.$placeholders['sponsor_first_name'].' '.$placeholders['sponsor_last_name']);
+        }
+
         $pwd = $event->getPassword();
+            
         if (!(($pwd=='')||($pwd==null))){
-            $url = $url.'/'.md5($pwd);
-            }            
+            $url .= '/'.md5($pwd);
+            }
         return $url;
     }
     

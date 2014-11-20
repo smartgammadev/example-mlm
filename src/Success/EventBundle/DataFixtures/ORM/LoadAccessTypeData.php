@@ -1,13 +1,14 @@
 <?php
 namespace Success\EventBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Success\EventBundle\Entity\EventAccessType;
 
 
 
-class LoadAccessTypeData implements FixtureInterface {
+class LoadAccessTypeData extends AbstractFixture implements OrderedFixtureInterface {
     /**
      * {@inheritDoc}
      */
@@ -23,4 +24,12 @@ class LoadAccessTypeData implements FixtureInterface {
         
         $manager->flush();
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getOrder()
+    {
+        return 2;
+    }    
 }

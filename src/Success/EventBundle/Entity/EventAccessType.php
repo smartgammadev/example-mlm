@@ -30,7 +30,7 @@ class EventAccessType
     private $name;
     
     /**
-     * @ORM\OneToMany(targetEntity="BaseEvent", mappedBy="accessType")
+     * @ORM\OneToMany(targetEntity="Success\EventBundle\Entity\BaseEvent", mappedBy="accessType")
      */
     private $events;
 
