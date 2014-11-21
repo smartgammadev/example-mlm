@@ -23,6 +23,8 @@ set :permission_method,          :acl
 
 set :writable_dirs,              ["app/cache", "app/logs"]
 
+set :maintenance_basename, "maintenance"
+set :maintenance_template_path, "app/Resources/configs/capifony/maintenance.html.erb"
 
 role :web,        domain                         # Your HTTP server, Apache/etc
 role :app,        domain, :primary => true       # This may be the same as your `Web` server
