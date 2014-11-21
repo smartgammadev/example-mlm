@@ -1,3 +1,6 @@
+imports:
+    - { resource: admin.yml }
+
 parameters:
     success.sales_generator.manager.class: Success\SalesGeneratorBundle\Service\SalesGeneratorManager
 

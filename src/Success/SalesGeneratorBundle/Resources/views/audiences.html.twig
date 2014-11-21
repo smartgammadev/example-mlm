@@ -9,12 +9,13 @@
     <div class="container">
         <h1>Audiences</h1>
         {% for audience in audiences %}
+            {% set firstQuestionId = audience.firstQuestion is null ? '#' : path('sales_generator', {'question_id' : audience.firstQuestion.id }) %}
             <div class="panel panel-primary audience">
                 <div class="panel-heading">
                   <h3 class="panel-title">Категория №{{ audience.id }}</h3>
                 </div>
                 <div class="panel-body">
-                  <h6><a href="{{ path('sales_generator', {'question_id' : audience.id}) }}">{{ audience.name }}</a></h6>
+                  <h6><a href="{{ firstQuestionId }}">{{ audience.name }}</a></h6>
                 </div>
             </div>
         {% endfor %}

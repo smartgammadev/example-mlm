@@ -5,7 +5,6 @@ namespace Success\SalesGeneratorBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-
 /**
  * Question
  *
@@ -14,11 +13,14 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Question
 {
+    const PREVIEW_QUESTION_MAX_LENGTH = 25;
+    
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="string", length=50)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -30,9 +32,15 @@ class Question
     private $text;
     
     /**
+     * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Audience")
+     * @ORM\JoinColumn(name="audience_id", referencedColumnName="id", nullable=true)
+     */
+    private $audience;
+    
+    /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Success\SalesGeneratorBundle\Entity\Answer", mappedBy="question")
+     * @ORM\OneToMany(targetEntity="Success\SalesGeneratorBundle\Entity\Answer", mappedBy="currentQuestion", cascade={"all"}, orphanRemoval=true)
      */
     private $answers;
     
@@ -84,7 +92,30 @@ class Question
     public function getText()
     {
         return $this->text;
-    }   
+    }
+    
+    /**
+     * Set audience
+     *
+     * @param \Success\SalesGeneratorBundle\Entity\Audience $audience
+     * @return Success\SalesGeneratorBundle\Entity\Question
+     */
+    public function setAudience(\Success\SalesGeneratorBundle\Entity\Audience $audience)
+    {
+        $this->audience = $audience;
+
+        return $this;
+    }
+
+    /**
+     * Get audience
+     *
+     * @return \Success\SalesGeneratorBundle\Entity\Audience
+     */
+    public function getAudience()
+    {
+        return $this->audience;
+    }
     
     /**
      * 
@@ -94,7 +125,7 @@ class Question
     public function addAnswer(\Success\SalesGeneratorBundle\Entity\Answer $answer)
     {
         if (!$this->answers->contains($answer)) {
-            $answer->setQuestion($this);
+            $answer->setCurrentQuestion($this);
             $this->answers[] = $answer;
         }
 
@@ -106,7 +137,7 @@ class Question
      * @param \Success\SalesGeneratorBundle\Entity\Answer $answer
      */
     public function removeAnswer(\Success\SalesGeneratorBundle\Entity\Answer $answer)
-    {
+    {   
         $this->answers->removeElement($answer);
     }
 
@@ -117,5 +148,19 @@ class Question
     public function getAnswers()
     {
         return $this->answers;
+    }
+    
+    public function __toString()
+    {
+        $firstQuestion = explode('||', $this->text)[0];
+        
+        // Limit specific question to specific amount of words
+        if (strlen($firstQuestion) > self::PREVIEW_QUESTION_MAX_LENGTH) {
+            $position = strpos($this->text, ' ', self::PREVIEW_QUESTION_MAX_LENGTH);
+            $questionText = substr($firstQuestion, 0, $position) . '...';
+        } else {
+            $questionText = $firstQuestion;
+        }
+        return (string)$this->id . ' ' . $questionText;
     }
 }

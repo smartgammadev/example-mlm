@@ -21,28 +21,22 @@ class SalesGeneratorController extends Controller
     
     /**
      * @Route("/audiences", name="audiences")
-     * @Template("SuccessSalesGeneratorBundle:SalesGenerator:audiences.html.twig", vars={"audiences"})
+     * @Template("SuccessSalesGeneratorBundle::audiences.html.twig", vars={"audiences"})
      */
     public function chooseAudienceAction()
     {   
-        // $this->salesGeneratorManager->fillBase();
-        // $this->salesGeneratorManager->audiencesSS();
+//        $this->salesGeneratorManager->fillAudiences();
+//        $this->salesGeneratorManager->fillQuestionsAndAnswers(); // Fills DataBase without relations to next questions
         return ['audiences' => $audiences = $this->salesGeneratorManager->getAllAudiences()];
     }
     
     /**
      * 
      * @Route("/audience/{question_id}/", name="sales_generator", requirements={"question_id" = "\d+"})
-     * @Template("SuccessSalesGeneratorBundle:SalesGenerator:sales_generator.html.twig")
+     * @Template("SuccessSalesGeneratorBundle::sales_generator.html.twig")
      */
     public function questionAction($question_id)
-    {   
-        if (strlen((string)$question_id) > 1) {
-            
-            $question_id = round($question_id / 2.71);
-            $question_id = intval(substr((string)$question_id, 1) . substr((string)$question_id, 0, 1));
-        }
-                
+    { 
         $question = $this->salesGeneratorManager->getCurrentQuestionWithAnswers($question_id);
         return ['question' => $question];
     }

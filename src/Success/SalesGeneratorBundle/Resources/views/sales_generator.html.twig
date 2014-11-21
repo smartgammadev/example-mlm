@@ -23,13 +23,14 @@
         <div class="container">
         {% for key, answer in question.answers %}
             {% set answerIndex = key + 1 %}
+            {% set nextQuestion = answer.nextQuestion is null ? '#' : path('sales_generator', {'question_id' : answer.nextQuestion.id }) %}
             <div class="panel panel-info answer">
                 <div class="panel-heading">
                   <h3 class="panel-title">Ответ №{{ answerIndex }}</h3>
                 </div>
                 <div class="panel-body">
                   <h6>
-                      <a href="{{ path('sales_generator', {'question_id' : (((answerIndex ~ question.id) * 2.71)|round) }) }}" class="new-question">{{ answer.text }}</a>
+                      <a href="{{ nextQuestion }}" class="new-question">{{ answer.text }}</a>
                   </h6>
                 </div>
             </div>

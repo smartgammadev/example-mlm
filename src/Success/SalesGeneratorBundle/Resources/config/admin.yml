@@ -1,0 +1,26 @@
+services:
+    sonata.admin.audience:
+        class: Success\SalesGeneratorBundle\Admin\AudienceAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Sales Generator", label: "Audiences" }
+        arguments:
+            - ~
+            - Success\SalesGeneratorBundle\Entity\Audience
+            - ~
+    sonata.admin.question:
+        class: Success\SalesGeneratorBundle\Admin\QuestionAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Sales Generator", label: "Questions" }
+        arguments:
+            - ~
+            - Success\SalesGeneratorBundle\Entity\Question
+            - ~
+            
+    sonata.admin.answer:
+        class: Success\SalesGeneratorBundle\Admin\AnswerAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Sales Generator", label: "Answers" }
+        arguments:
+            - ~
+            - Success\SalesGeneratorBundle\Entity\Answer
+            - ~

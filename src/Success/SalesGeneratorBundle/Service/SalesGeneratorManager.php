@@ -11,33 +11,100 @@ class SalesGeneratorManager
     // Entity Manager
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
     
-    public function fillBase()
+    const ANSWER_REPO = 'SuccessSalesGeneratorBundle:Answer';
+    const AUDIENCE_REPO = 'SuccessSalesGeneratorBundle:Audience';
+    const QUESTION_REPO = 'SuccessSalesGeneratorBundle:Question';
+    
+    /**
+     * 
+     * @return Success/SalesGeneratorBundle/Entity/Audience
+     */
+    public function getAllAudiences()
+    {
+        return $this->em->getRepository(self::AUDIENCE_REPO)->findAll();
+    }
+    
+    /**
+     * 
+     * @param integer $question_id
+     * @return Success/SalesGeneratorBundle/Entity/Question
+     */
+    public function getCurrentQuestionWithAnswers($question_id)
+    {
+        $em = $this->em;
+        
+        $questionWithAnswers = $em->getRepository(self::QUESTION_REPO)->findOneById($question_id);
+        
+        $questionWithAnswers->setText($this->randomizeQuestion($questionWithAnswers->getText()));
+        
+        return $questionWithAnswers;
+    }
+    
+    /** Returns random question from question-string
+     * 
+     * @param \String $questionsString
+     * @return \String
+     */
+    public function randomizeQuestion($questionsString)
+    {
+        $questions = explode('||', $questionsString);
+        return $questions[rand(0, count($questions) - 1)];
+    }
+    
+    /** Removes all relations to current question and it's answers
+     * 
+     * @param Success\SalesGeneratorBundle\Entity\Question $question
+     */
+    public function removeAllQuestionRelations(\Success\SalesGeneratorBundle\Entity\Question $question)
+    {
+        $em = $this->em;
+        
+        $em->getRepository(self::ANSWER_REPO)->removeAllAnswersForQuestion($question);
+        
+        // if it's the first question in Audience, remove reference to it
+        if ($referencingAudience = $em->getRepository(self::AUDIENCE_REPO)->findOneBy(['firstQuestion' => $question->getId()])) {
+            $referencingAudience->setFirstQuestion();
+        }
+    }    
+     
+    /** Removes all relations to current audience
+     * 
+     * @param Success\SalesGeneratorBundle\Entity\Audience $audience
+     */
+    public function removeAllAudienceRelations(\Success\SalesGeneratorBundle\Entity\Audience $audience)
+    {
+        $this->em->getRepository(self::AUDIENCE_REPO)->removeReferenceToFirstQuestion($audience);
+        $this->em->getRepository(self::QUESTION_REPO)->removeAllQuestionsFromAudience($audience);
+    }
+    
+    public function fillQuestionsAndAnswers() // Without links to next questions
     {
         $em = $this->em;
         
         foreach ($this->questions as $question) {
             $id = str_replace('q', '', $question['question']['index']);
+            $audience = $em->getRepository(self::AUDIENCE_REPO)->findOneById(substr($id, 0,1));
             
-            $newQuestion = new Question();
-            $newQuestion->setId($id)
+            $currentQuestion = new Question();
+            $currentQuestion->setAudience($audience)
                     ->setText($question['question']['text']);
             
             if (isset($question['answers']))
                 foreach ($question['answers'] as $index => $text) {
                     $answer = new Answer();
                     $answer->setText($text)
-                           ->setQuestion($newQuestion);
+                           ->setCurrentQuestion($currentQuestion);
 
-                    $newQuestion->addAnswer($answer);
+                    $currentQuestion->addAnswer($answer);
                     $em->persist($answer);
                 }
                 
-            $em->persist($newQuestion);
+            $em->persist($currentQuestion);
             $em->flush();
         }        
     }
     
-    public function audiencesSS()
+    public function fillAudiences()
     {
         $audiences = [
             'Сетевики (Группа в соцсети, посвященная какой-то МЛМ-компании)',
@@ -46,34 +113,12 @@ class SalesGeneratorManager
             'AltAutomatic - Теплый рынок 2 - Тест партнерской ссылки'
         ];
         
-        foreach ($audiences as $index => $audience) {
+        foreach ($audiences as $audience) {
             $newAudience = new Audience();
             $newAudience->setName($audience);
             $this->em->persist($newAudience);
         }
         $this->em->flush();
-    }
-    
-    public function getAllAudiences()
-    {
-        return $this->em->getRepository('SuccessSalesGeneratorBundle:Audience')->findAll();
-    }
-    
-    public function getCurrentQuestionWithAnswers($question_id)
-    {
-        $em = $this->em;
-        
-        $questionWithAnswers = $em->getRepository('SuccessSalesGeneratorBundle:Question')->findOneById($question_id);
-        
-        $questionWithAnswers->setText($this->randomizeQuestion($questionWithAnswers->getText()));
-        
-        return $questionWithAnswers;
-    }
-    
-    public function randomizeQuestion($questionsString)
-    {
-        $questions = explode('||', $questionsString);
-        return $questions[rand(0, count($questions) - 1)];
     }
     
     private $questions = [[

@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class AudienceRepository extends EntityRepository
 {
+    
+    public function removeReferenceToFirstQuestion(\Success\SalesGeneratorBundle\Entity\Audience $audience)
+    {
+        $audience->setFirstQuestion();
+    }
 }
