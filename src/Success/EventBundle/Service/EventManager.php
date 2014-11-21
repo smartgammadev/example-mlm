@@ -82,7 +82,7 @@ class EventManager //extends Service
                             $eventClone = clone $repeatableEvent;
                             $eventClone->setStartDateTime($repeatDate);
                             $result[] = $eventClone;
-                    }                    
+                    }
                 }
         }
         return $result;        
@@ -277,16 +277,17 @@ class EventManager //extends Service
      * @return array Description
      */
     public function getRepeatsForEvent(BaseEvent $event, \DateTime $startDate, \DateTime $endDate)
-    {        
-        
+    {                
         if ($event->getEventRepeat() == null){
-            return null;
-            
-        } else {
-            
-            $eventRepeat = $event->getEventRepeat();            
-            
-            return $this->getDatesForRepeat($eventRepeat, $event->getStartDateTime(), $startDate, $endDate);
+            return null;            
+        } else {            
+            $eventRepeat = $event->getEventRepeat();
+            $eventRepeatEnd = $eventRepeat->getEndDateTime();
+            if ($eventRepeatEnd->getTimestamp() < $startDate->getTimestamp()){
+                return $this->getDatesForRepeat($eventRepeat, $event->getStartDateTime(), $startDate, $eventRepeatEnd);
+            } else {
+                return $this->getDatesForRepeat($eventRepeat, $event->getStartDateTime(), $startDate, $endDate);
+            }            
         }
     }
     

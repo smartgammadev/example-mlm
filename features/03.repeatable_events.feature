@@ -1,6 +1,5 @@
-@javascript
 Feature: Creation repeatable events in calendar. Repeating by day, week, month, year with given interval
-  
+  @basic @javascript
   Scenario: Create a repeatable event by day with 1 interval
     Given I am logged in as admin
     Then I want to create new event
