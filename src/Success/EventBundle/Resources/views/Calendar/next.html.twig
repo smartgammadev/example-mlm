@@ -1,0 +1,66 @@
+                    <div class="well jumbotron" id="nearest-event">
+                        <div class="row">
+                            {% if nextEvent is null %}
+                                <h3>нет ближайших мероприятий</h3>
+                            {% else %}    
+                                <div  class="col-xs-6">                                
+                                <h3>Ближайшее мероприятие</h3>
+                                <h5>Название меропиятия: </h5>
+                                <h2>{{ nextEvent.name }}</h2>
+                                <p class='event-sub'>{{ nextEvent.pattern }}</p>
+                                <p class='event-sub'>{{ nextEvent.accessType }}</p>
+                                
+                                <h5>До начала осталось: </h5>
+                                <h1><span id='timer'></span></h1>
+                                
+                                <div id="countdowntimer"><span id="future_date"><span></div>
+                                
+                                <h5>Тема:</h5>
+                                <p>{{ nextEvent.description }}</p>                                
+                                    <div>
+                                        {% if allowToVisit %}
+                                            <a id="webinar-enter-btn" href="{{ externalLink }}" class="btn btn-lg btn-danger" role="button" target="blank">Войти в Вебинар</a>
+                                            <a href="{{ path('calendar_event_signup', {'eventId' : nextEvent.id, 'template': 'calendar'}) }}" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
+                                        {% else %}
+                                            <a id="webinar-enter-btn" href="{{ externalLink }}" class="btn btn-lg btn-danger disabled" role="button" target="blank">Войти в Вебинар</a>
+                                            <a href="{{ path('calendar_event_signup', {'eventId' : nextEvent.id, 'template': 'calendar'}) }}" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            <div class="col-xs-6 centered" style='text-align: center'>
+                                {% media nextEvent.media, 'large' %}
+                            </div>
+                        {% endif %}
+                        </div>
+                    </div>
+
+<script type='text/javascript' >     
+        {% if nextEvent is null %}
+        {% else %}       
+            var dateAndTime = "{{ nextEvent.startDateTime|date('Y/m/d H:i:s') }}";
+            var startDate = "{{ currentDateTime|date('Y/m/d H:i:s') }}";
+        {% endif %}    
+</script>
+                        
+{#{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.countdown.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.countdownTimer.js') }}"></script>
+        
+    <script>        
+        {% if nextEvent is null %}
+        {% else %}                                    
+            $(function(){
+              $('#future_date').countdowntimer({                  
+                dateAndTime : "{{ nextEvent.startDateTime|date('Y/m/d H:i:s') }}",
+                startDate : "{{ currentDateTime|date('Y/m/d H:i:s') }}",
+                timeUp : timeisUp,
+                size : "lg"
+              });              
+                function timeisUp() {
+                    $('#webinar-enter-btn').removeClass('disabled');
+                    $('#future_date').text('Уже идет');
+                }                            
+            });
+        {% endif %}
+    </script>
+{% endblock javascripts %}#}
