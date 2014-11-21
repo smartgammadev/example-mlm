@@ -101,4 +101,5 @@ class WebinarEvent extends BaseEvent
     {
         return $this->description;
     }
+    
 }

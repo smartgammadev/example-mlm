@@ -135,12 +135,21 @@ class CalendarController extends Controller
         $lastDayOfWeek = clone $nowDate;
         $lastDayOfWeek->modify('+7 days');
 
-        $nextEvent = $this->eventManager->getEventsByDateRange($nowDate, $lastDayOfWeek)[0];
+        $dayEvents = $this->eventManager->getEventsByDateRange($nowDate, $lastDayOfWeek);
+        
+        if (count($dayEvents) !== 0){
+            $nextEvent = $dayEvents[0];        
+        } else {
+            $nextEvent = null;
+        }
+        
         $current = new \DateTime();
+        $allowToVisit = false;
+        $externalLink = '';
         if ($nextEvent){
             $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nextEvent);                        
             $allowToVisit = ($nextEvent->getStartDateTime()->getTimestamp() - $current->getTimestamp() < $minutesBeforeToVisitEvent*60);
-        }                
+        }
         return array('currentDateTime' => $current, 'allowToVisit' => $allowToVisit, 'externalLink' => $externalLink, 'nextEvent' => $nextEvent);
     }
     

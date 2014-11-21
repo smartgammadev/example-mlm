@@ -18,7 +18,7 @@ class EventRepeatAdmin extends Admin {
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('repeatType', 'choice', array('choices' => array('null' => 'не повторять',  'D'=>'день', 'W'=>'неделя', 'M' => 'месяц', 'Y' => 'год')))
+            ->add('repeatType', 'choice', array('choices' => array('' => 'не повторять',  'D'=>'день', 'W'=>'неделя', 'M' => 'месяц', 'Y' => 'год')))
             ->add('repeatInterval', 'integer', array())
             ->add('endDateTime', 'sonata_type_date_picker',
                 array(
@@ -27,8 +27,7 @@ class EventRepeatAdmin extends Admin {
                 ))                
         ;
     }
-
-
+    
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
 //        $datagridMapper

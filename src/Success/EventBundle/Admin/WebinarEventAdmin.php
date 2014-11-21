@@ -5,6 +5,7 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Success\EventBundle\Entity\BaseEvent;
 
 
 class WebinarEventAdmin extends Admin {
@@ -26,7 +27,7 @@ class WebinarEventAdmin extends Admin {
     ;
     }
 
-        protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
             ->with('Имя и описание вебинара')
@@ -93,4 +94,18 @@ class WebinarEventAdmin extends Admin {
         return $newInstance;
     }
     
+//    /**
+//     * @param Success\EventBundle\Entity\BaseEvent; $object
+//     */
+//    public function preUpdate($object) {        
+//        $em = $this->getModelManager()->getEntityManager($this->getClass());
+//        if($object){
+//            
+//        }
+//        
+//        if (($object)&&($object->getRepeatType() == '')){
+//            $em->remove($object);
+//            $em->flush();
+//        }
+//    }    
 }
