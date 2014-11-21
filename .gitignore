@@ -15,3 +15,4 @@ web/bundles
 *~
 /build.properties
 behat.yml
+app/config/parameters.yml
