@@ -62,7 +62,7 @@ class SalesGeneratorManager
         $em->getRepository(self::ANSWER_REPO)->removeAllAnswersForQuestion($question);
         
         // if it's the first question in Audience, remove reference to it
-        if ($referencingAudience = $em->getRepository(self::QUESTION_REPO)->findOneBy(['firstQuestion' => $question->getId()])) {
+        if ($referencingAudience = $em->getRepository(self::AUDIENCE_REPO)->findOneBy(['firstQuestion' => $question->getId()])) {
             $referencingAudience->setFirstQuestion();
         }
     }    
