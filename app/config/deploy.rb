@@ -4,7 +4,7 @@ set :user,        "4success"
 set :deploy_to,   "/home/4success/4success"
 set :app_path,    "app"
 
-set :repository,  "file:///var/www/4success"
+set :repository,  "git@gitlab.smart-gamma.com:4success/4success.git"
 set :scm,         :git
 set :branch,      "master"
 set :deploy_via,  :copy
