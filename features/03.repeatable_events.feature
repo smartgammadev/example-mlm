@@ -11,15 +11,21 @@ Feature: Creation repeatable events in calendar. Repeating by day, week, month, 
     And I fill "pattern" with "pattern"
     Then I fill "password" with "password"
     And I select "вводный вебинар" in "eventType"
-    Then I select "открытый" in "accessType"
+    Then I select "открытый" from "Access Type"
     And I select "webinar_image" in "media"
-    Then press "btn_create_and_list"
-    And I should see "создан"
+    Then I press "btn_create_and_edit"
+    And I should see "создан"    
+    Then I reset sonata unique ID
+    And I select "день" in "eventRepeat_repeatType"
+    Then I fill "eventRepeat_endDateTime" with current date plus "5" days
+    And I fill "eventRepeat_repeatInterval" with "1"    
+    And I check "eventRepeat_repeatDays_1" checkbox
+    And I check "eventRepeat_repeatDays_2" checkbox
+    And I check "eventRepeat_repeatDays_3" checkbox
+    And I check "eventRepeat_repeatDays_4" checkbox
+    And I check "eventRepeat_repeatDays_5" checkbox
+    And I check "eventRepeat_repeatDays_6" checkbox
+    And I check "eventRepeat_repeatDays_0" checkbox
 
-    Then I follow "test webinar #1"
-    And I press "Repeatable"
-    Then I fill "endDateTime" with current date plus "30" days
-    And I select "D" in "repeatType"
-    Then I fill "interval" with "1"
-    And press "btn_create_and_list"
-    Then I should see "успешно обновлен"
+    Then press "btn_update_and_list"
+    And I should see "успешно обновлен"

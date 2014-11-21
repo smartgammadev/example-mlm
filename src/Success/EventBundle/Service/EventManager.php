@@ -50,7 +50,8 @@ class EventManager //extends Service
         $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
         //$result = $repo->findAllBetweenDates($startDate,$endDate);
         
-        $nowDate = new \DateTime();        
+        $nowDate = new \DateTime();
+        
         $result = array_merge($repo->findAllBetweenDates($startDate,$endDate), $this->appendRepeatsForEvents($nowDate, $startDate, $endDate));
         
         usort($result, function($a, $b)
@@ -63,19 +64,25 @@ class EventManager //extends Service
     
     private function appendRepeatsForEvents(\DateTime $nowDate, \DateTime $startDate, \DateTime $endDate)
     {
-        $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
-        $repeatableEvents = $repo->findAllWithActiveRepeats($nowDate);
         
-        //var_dump($startDate);
-        //var_dump($endDate);
-                        
+        $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
+        
+        $repeatableEvents = $repo->findAllWithActiveRepeats($nowDate);
         $result = [];
+        
         foreach ($repeatableEvents as $repeatableEvent){
+            
             $repeatDates = $this->getRepeatsForEvent($repeatableEvent, $startDate, $endDate);
-                foreach ($repeatDates as $repeatDate){
-                    $eventClone = clone $repeatableEvent;
-                    $eventClone->setStartDateTime($repeatDate);
-                    $result[] = $eventClone;
+            $repeatDays = $repeatableEvent->getEventRepeat()->getRepeatDays();
+            
+                foreach ($repeatDates as $repeatDate) {
+                    $repeatDayOfWeek = date('w', $repeatDate->getTimestamp());
+                    if (isset($repeatDays[intval($repeatDayOfWeek)])&&
+                             ($repeatDays[intval($repeatDayOfWeek)])){
+                            $eventClone = clone $repeatableEvent;
+                            $eventClone->setStartDateTime($repeatDate);
+                            $result[] = $eventClone;
+                    }                    
                 }
         }
         return $result;        
@@ -270,8 +277,7 @@ class EventManager //extends Service
      * @return array Description
      */
     public function getRepeatsForEvent(BaseEvent $event, \DateTime $startDate, \DateTime $endDate)
-    {
-        
+    {        
         
         if ($event->getEventRepeat() == null){
             return null;
@@ -279,6 +285,7 @@ class EventManager //extends Service
         } else {
             
             $eventRepeat = $event->getEventRepeat();            
+            
             return $this->getDatesForRepeat($eventRepeat, $event->getStartDateTime(), $startDate, $endDate);
         }
     }
@@ -292,10 +299,9 @@ class EventManager //extends Service
      */    
     private function getDatesForRepeat(EventRepeat $eventRepeat, \DateTime $eventStartDate, \DateTime $startDate, \DateTime $endDate)
     {
-        if ($eventRepeat->getEndDateTime()->getTimestamp() < $endDate->getTimestamp()){
-            return null;
-            
-        }           
+//        if ($eventRepeat->getEndDateTime()->getTimestamp() < $endDate->getTimestamp()){
+//            return null;            
+//        }           
         $repeatType = $eventRepeat->getRepeatType();        
         $interval = $eventRepeat->getRepeatInterval();                
         $datesInterval = new \DateInterval('P'.$interval.$repeatType);

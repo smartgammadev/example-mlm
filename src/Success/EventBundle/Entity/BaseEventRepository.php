@@ -44,9 +44,9 @@ class BaseEventRepository extends EntityRepository
     }
     
     public function findAllWithActiveRepeats(\DateTime $nowDateTime)
-    {
+    {        
         return  $this->getEntityManager()->createQuery(
-                "select e,r from SuccessEventBundle:BaseEvent e join e.eventRepeat r  "
+                "select e, r from SuccessEventBundle:BaseEvent e inner join e.eventRepeat r "
                 . "where r.endDateTime > :now_date_time "
                 . "and e.startDateTime < :now_date_time")
                 ->setParameter("now_date_time", $nowDateTime->format('Y-m-d H:i:s'))

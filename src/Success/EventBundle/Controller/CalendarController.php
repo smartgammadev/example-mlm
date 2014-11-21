@@ -126,8 +126,8 @@ class CalendarController extends Controller
      */
     public function nextAction()
     {
-        $minutesBeforeToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');
-        $minutesAfterToVisitEvent = '20';
+        $minutesBeforeToVisitEvent = $this->settingsManager->getSettingValue('minutesBeforeToVisitEvent');
+        $minutesAfterToVisitEvent = $this->settingsManager->getSettingValue('minutesAfterToVisitEvent');
         
         $nowDate = new \DateTime('now');
         $nowDate->modify("-$minutesAfterToVisitEvent minutes");

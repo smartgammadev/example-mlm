@@ -14,10 +14,15 @@ class LoadSettingsData extends AbstractFixture implements OrderedFixtureInterfac
      */
     public function load(ObjectManager $manager)
     {
-        $minutesToVisitEvent = new Setting();
-        $minutesToVisitEvent->setName('minutesToVisitEvent');
-        $minutesToVisitEvent->setSettingValue('20');
-        $manager->persist($minutesToVisitEvent);
+        $minutesBeforeToVisitEvent = new Setting();
+        $minutesBeforeToVisitEvent->setName('minutesBeforeToVisitEvent');
+        $minutesBeforeToVisitEvent->setSettingValue('30');
+        $manager->persist($minutesBeforeToVisitEvent);
+
+        $minutesAfterToVisitEvent = new Setting();        
+        $minutesAfterToVisitEvent->setName('minutesAfterToVisitEvent');
+        $minutesAfterToVisitEvent->setSettingValue('20');
+        $manager->persist($minutesAfterToVisitEvent);
         
         $beforeEventDateModifier = new Setting();
         $beforeEventDateModifier->setName('beforeEventDateModifier');

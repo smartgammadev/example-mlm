@@ -52,6 +52,13 @@ class EventRepeat
     private $event;
     
     /**
+     * @var array
+     * @ORM\Column(name="repeat_days", type="json_array") 
+     */
+    private $repeatDays;
+    
+    
+    /**
      * Get id
      *
      * @return integer 
@@ -155,5 +162,28 @@ class EventRepeat
     public function __toString() {        
         $endDate = $this->endDateTime->format('d/m/Y H:i:s');
         return "$this->repeatType($this->repeatInterval, $endDate)";
+    }
+
+    /**
+     * Set repeatDays
+     *
+     * @param array $repeatDays
+     * @return EventRepeat
+     */
+    public function setRepeatDays($repeatDays)
+    {
+        $this->repeatDays = $repeatDays;
+
+        return $this;
+    }
+
+    /**
+     * Get repeatDays
+     *
+     * @return array 
+     */
+    public function getRepeatDays()
+    {
+        return $this->repeatDays;
     }
 }

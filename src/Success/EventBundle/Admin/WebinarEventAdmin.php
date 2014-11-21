@@ -29,9 +29,9 @@ class WebinarEventAdmin extends Admin {
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->with('Имя и описание вебинара')
-                ->add('name', 'text', array('label' => 'Webinar Name'))
-                ->add('description', 'textarea', array('label' => 'Webinar Description'))
+            ->with('Мероприятие')
+                ->add('name', 'text', array('label' => 'название'))
+                ->add('description', 'textarea', array('label' => 'описание'))
             ->end()
 
             ->with('Планирование мероприятия')
@@ -42,8 +42,7 @@ class WebinarEventAdmin extends Admin {
                             'dp_use_seconds'        => false,
                         ));
                 if ($this->id($this->getSubject())){
-                    $formMapper->add('eventRepeat', 'sonata_type_admin', array('required' => false), array('edit'=>'inline') );
-                    
+                    $formMapper->add('eventRepeat', 'sonata_type_admin', array('required' => false), array('edit'=>'inline'));                    
                 }
             $formMapper->end();
                     
@@ -94,9 +93,9 @@ class WebinarEventAdmin extends Admin {
     }
     
     /**
-     * @param Success\EventBundle\Entity\BaseEvent; $object
+     * @param Success\EventBundle\Entity\BaseEvent $object
      */
-    public function postUpdate($object) {        
+    public function preUpdate($object) {        
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $eventRepeat = $object->getEventRepeat();
         if ($eventRepeat->getRepeatType() == null){

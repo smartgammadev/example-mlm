@@ -240,7 +240,7 @@ class BaseEvent
      */
     public function __construct()
     {
-        $this->signUps = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->signUps = new ArrayCollection();
     }
 
     /**
@@ -298,4 +298,5 @@ class BaseEvent
     {
         return $this->eventRepeat;
     }
+        
 }

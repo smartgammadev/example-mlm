@@ -1,17 +1,47 @@
 <?php
 
-require_once __DIR__.'/../app/bootstrap.php.cache';
-require_once __DIR__.'/../app/AppKernel.php';
+//require_once __DIR__.'/../app/bootstrap.php.cache';
+//require_once __DIR__.'/../app/AppKernel.php';
+//
+//use Symfony\Component\HttpFoundation\Request;
+//use Symfony\Component\Debug\Debug;
+//use Symfony\Component\Debug\ErrorHandler;
+//use Symfony\Component\Debug\ExceptionHandler;
+//
+//Debug::enable();
+//ErrorHandler::register();
+//ExceptionHandler::register();
+//
+//$kernel = new AppKernel('test', true);
+//$kernel->loadClassCache();
+//$kernel->handle(Request::createFromGlobals())->send();
+
+
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;
-use Symfony\Component\Debug\ErrorHandler;
-use Symfony\Component\Debug\ExceptionHandler;
 
+// If you don't want to setup permissions the proper way, just uncomment the following PHP line
+// read http://symfony.com/doc/current/book/installation.html#configuration-and-setup for more information
+
+// This check prevents access to debug front controllers that are deployed by accident to production servers.
+// Feel free to remove this, extend it, or make something more sophisticated.
+//if (isset($_SERVER['HTTP_CLIENT_IP'])
+//    || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
+//    || !in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'fe80::1', '::1'))
+//) {
+//    header('HTTP/1.0 403 Forbidden');
+//    exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
+//}
+
+$loader = require_once __DIR__.'/../app/bootstrap.php.cache';
 Debug::enable();
-ErrorHandler::register();
-ExceptionHandler::register();
+
+require_once __DIR__.'/../app/AppKernel.php';
 
 $kernel = new AppKernel('test', true);
 $kernel->loadClassCache();
-$kernel->handle(Request::createFromGlobals())->send();
+$request = Request::createFromGlobals();
+$response = $kernel->handle($request);
+$response->send();
+$kernel->terminate($request, $response);
