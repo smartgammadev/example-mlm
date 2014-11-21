@@ -116,15 +116,92 @@ class CalendarController extends Controller
             $dayEvents = $this->eventManager->getEventsByDateRange($dayBegin, $dayEnd);
             $eventsOfWeek[] = array('date' => $date, 'events' => $dayEvents);
             $counter += count($dayEvents);
-        }
-        
-        //var_dump($eventsOfWeek);
-        //$events =  array('date' => $startDate, 'events' => $this->eventManager->getEventsByDateRange($startDate, $endDate));
-                        
+        }        
         return array('weekEventsCount' => $counter, 'eventsOfWeek' => $eventsOfWeek);
     }
     
+    /**
+     * @Route("/next", name="next_event")
+     * @Template()
+     */
+    public function nextAction()
+    {
+        $minutesBeforeToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');
+        $minutesAfterToVisitEvent = '20';
+        
+        $nowDate = new \DateTime('now');
+        $nowDate->modify("-$minutesAfterToVisitEvent minutes");
+        
+        $lastDayOfWeek = clone $nowDate;
+        $lastDayOfWeek->modify('+7 days');
+
+        $nextEvent = $this->eventManager->getEventsByDateRange($nowDate, $lastDayOfWeek)[0];
+        $current = new \DateTime();
+        if ($nextEvent){
+            $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nextEvent);                        
+            $allowToVisit = ($nextEvent->getStartDateTime()->getTimestamp() - $current->getTimestamp() < $minutesBeforeToVisitEvent*60);
+        }                
+        return array('currentDateTime' => $current, 'allowToVisit' => $allowToVisit, 'externalLink' => $externalLink, 'nextEvent' => $nextEvent);
+    }
     
+    /**
+     * @Route("/nearest", name="show_nearest_events")
+     * @Template()
+     */    
+    public function nearestAction(Request $request)
+    {        
+        $placeholders = $request->query->all();
+        $this->placeholderManager->assignPlaceholdersToSession($placeholders);
+        
+        return array();
+        
+//        $now = new \DateTime('now');
+//        $now->modify("-20 minutes");
+//        
+//        $lastDayOfWeek = clone $now;
+//        $lastDayOfWeek->modify('+7 days');
+//        $eventsToday = array('date' => $now, 'events' => $this->eventManager->getNextEventsForDate($now));
+//        
+//        
+//        $eventsOfWeek = array();
+//        $nextDay = clone $now;
+//        $nextDay->setTime(0, 0, 0);
+//        $nextDay->modify("+1 day");
+//        
+//        $interval = new \DateInterval('P1D');
+//        $daterange = new \DatePeriod($nextDay, $interval ,$lastDayOfWeek);
+//        
+//        $weekEventsCount = 0;
+//        foreach ($daterange as $date){
+//            $dayEvents = $this->eventManager->getEventsForDate($date);
+//            $weekEventsCount += count($dayEvents);
+//            $eventsOfWeek[] = array('date'=>$date, 'events'=>$dayEvents);
+//        }
+//        
+//        $nearestEvent = $this->eventManager->getNearestNextEvent($now);
+//        $current = new \DateTime('now');
+//        if ($nearestEvent){
+//            $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');
+//            $allowVisitEvent = ($nearestEvent->getStartDateTime()->getTimestamp() - $current->getTimestamp() < $minutesToVisitEvent*60);
+//            $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nearestEvent);
+//        } else{
+//            $allowVisitEvent = false;            
+//            $externalLink = '';
+//        }
+//        
+//        return array(
+//            'currentDateTime' => $current,
+//            'nearest' => $nearestEvent,
+//            'allowToVisit' => $allowVisitEvent,
+//            'externalLink' => $externalLink,
+//            'eventsToday' => $eventsToday, 
+//            'weekEventsCount' => $weekEventsCount,
+//            'eventsOfWeek' => $eventsOfWeek);
+    }    
+
+
+
+
     /**
      * @Route("/{template}/event/{eventId}/signup", name="calendar_event_signup", requirements={"eventId"="\d+"})
      * @Template()
@@ -164,63 +241,5 @@ class CalendarController extends Controller
             return array('message' => $message);            
         }
         return array('form' => $form->createView());
-    }
-
-    /**
-     * @Route("/nearest", name="show_nearest_events")
-     * @Template()
-     */    
-    public function nearestAction(Request $request)
-    {        
-        $placeholders = $request->query->all();
-        $this->placeholderManager->assignPlaceholdersToSession($placeholders);
-                
-//            $testStart = new \DateTime();
-//            $testEnd = clone $testStart;
-//            $testEnd->modify('+3 days');            
-//            var_dump($this->eventManager->getEventsByDateRange($testStart, $testEnd));                
-        
-        $now = new \DateTime('now');
-        $now->modify("-20 minutes");
-        
-        $lastDayOfWeek = clone $now; //$this->eventManager->lastDayOfWeek($now);
-        $lastDayOfWeek->modify('+7 days');
-        $eventsToday = array('date' => $now, 'events' => $this->eventManager->getNextEventsForDate($now));
-        
-        
-        $eventsOfWeek = array();
-        $nextDay = clone $now;
-        $nextDay->setTime(0, 0, 0);
-        $nextDay->modify("+1 day");
-        
-        $interval = new \DateInterval('P1D');
-        $daterange = new \DatePeriod($nextDay, $interval ,$lastDayOfWeek);
-        
-        $weekEventsCount = 0;
-        foreach ($daterange as $date){
-            $dayEvents = $this->eventManager->getEventsForDate($date);
-            $weekEventsCount += count($dayEvents);
-            $eventsOfWeek[] = array('date'=>$date, 'events'=>$dayEvents);
-        }
-        
-        $nearestEvent = $this->eventManager->getNearestNextEvent($now);
-        $current = new \DateTime('now');
-        if ($nearestEvent){            
-            $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');                        
-            $allowVisitEvent = ($nearestEvent->getStartDateTime()->getTimestamp() - $current->getTimestamp() < $minutesToVisitEvent*60);            
-            $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nearestEvent);
-        } else{
-            $allowVisitEvent = false;            
-            $externalLink = '';
-        }
-        
-        return array(
-            'currentDateTime' => $current,
-            'nearest' => $nearestEvent,
-            'allowToVisit' => $allowVisitEvent,
-            'externalLink' => $externalLink,
-            'eventsToday' => $eventsToday, 
-            'weekEventsCount' => $weekEventsCount,
-            'eventsOfWeek' => $eventsOfWeek);
     }
 }
