@@ -23,6 +23,7 @@ set :permission_method,          :acl
 
 set :writable_dirs,              ["app/cache", "app/logs"]
 
+require 'capistrano/maintenance'
 set :maintenance_basename, "maintenance"
 set :maintenance_template_path, "app/Resources/configs/capifony/maintenance.html.erb"
 
