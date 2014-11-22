@@ -30,7 +30,7 @@ class QuestionFixture extends AbstractFixture implements OrderedFixtureInterface
                 foreach ($question['answers'] as $answerIndex => $text) {
                     $newAnswer = new Answer();
                     $newAnswer->setText($text)
-                           ->setQuestion($newQuestion);
+                           ->setCurrentQuestion($newQuestion);
 
                     $newQuestion->addAnswer($newAnswer);
                     $manager->persist($newAnswer);
