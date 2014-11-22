@@ -1,44 +1,28 @@
+#default:
+#    extensions:
+#        Behat\Symfony2Extension\Extension:
+#            mink_driver: true
+#        
+#        Behat\MinkExtension\Extension:            
+#            base_url: http://4success/app_test.php
+#            selenium2: ~
+#            goutte: ~
+
 default:
-  paths:
+    paths:
         features: features
-  context:
-        class: LaMelle\Behat\FeatureContext
-  extensions:
-    Behat\Symfony2Extension\Extension:
-        mink_driver: true
-    Behat\MinkExtension\Extension:
-        #base_url: http://lamelle.tester.lan/app_test.php
-        base_url: http://lamelle.smart-gamma.com/
-        default_session: selenium2
-        browser_name: 'firefox'
-        selenium2:
-          #wd_host: win.lan:4444/wd/hub                   
-          capabilities: { "browser": "firefox", "version": "33.0"}
-          
-basic:
-    filters:
-        tags:       "@basic"
-    formatter:
-        name:       pretty
-
-advanced:
-    filters:
-        tags:       "@advanced"
-    formatter:
-        name:       progress         
-
-jenkins:
-    filters:
-        tags:       "@basic"    
-    formatter:
-        name: pretty,junit
+    context:
+        class: Success\Behat\FeatureContext
         parameters:
-            output_path: ,build/logs/behat
-            
-jenkins-advanced:
-    filters:
-        tags:       "@advanced"    
-    formatter:
-        name: pretty,junit
-        parameters:
-            output_path: ,build/logs/behat  
+            base_url: http://4success/app_test.php
+            timeout: 20
+        
+    extensions:
+        Behat\Symfony2Extension\Extension:
+            mink_driver: true
+        Behat\MinkExtension\Extension:
+            base_url: http://4success/app_test.php
+            default_session: selenium2
+            browser_name: 'firefox'
+            selenium2:
+              capabilities: { "browser": "firefox", "version": "33.0"}
