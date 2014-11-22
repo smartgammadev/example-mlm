@@ -145,7 +145,7 @@
             description="Loads Doctrine data fixtures to the database">
         <SymfonyConsole command="doctrine:fixtures:load" checkreturn="true">
             <arg name="no-interaction"/>
-            <arg name="env" value="test"/>
+            <arg name="env" value="dev"/>
         </SymfonyConsole>
     </target>
     

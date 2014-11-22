@@ -1,4 +1,4 @@
-@javascript                                                  
+@javascript @basic                                                 
 Feature: Sales Generator(frontend)
     In order to use sales generator
     as a user
