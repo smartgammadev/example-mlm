@@ -131,7 +131,7 @@
     </target>  
 
     <target name="master-merge" description="Merge develop branches to master"
-            depends="make-project-master,make-core-master"/>
+            depends="make-project-master"/>
     
     <target name="make-project-master" description="Merge project develop branche to master">
         <exec command="git checkout master;git pull --rebase origin master;git pull --rebase origin develop;git push origin master" passthru="true" checkreturn="true" logoutput="true"/>
