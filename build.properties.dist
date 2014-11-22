@@ -27,3 +27,13 @@ project.dir-app=app
 #project.deploy-maintenance-reason=Deployment
 #project.deploy-maintenance-until=10:00 AM GMT
 #project.deploy-archive=/path/to/archive.tar.gz
+
+## LaMelle
+project.dir-web=public
+project.symfony-twig-bundles=SuccessSiteBundle
+#project.dir-src=vendor/lamelle/lamelle/LaMelle
+project.dir-app-resources-configs-phpunit=${project.dir-app}/
+project.dir-app-resources-configs-phpunit-coverage=${project.dir-app}/phpunit-cover.xml
+project.file-config-parameters-ci=${project.dir-app-config}/parameters_tester.yml
+#project.file-config-test-ci=${project.dir-app-config}/config_test.yml.dist
+project.deploy-env=production
