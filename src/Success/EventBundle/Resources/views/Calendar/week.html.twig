@@ -4,7 +4,7 @@
                             {% if eventsOfWeek[i].events|length>0 %}
                                 <h4>{{ eventsOfWeek[i].date|date('l')|trans }}: {{ eventsOfWeek[i].date|date('d.m.Y') }}</h4>
                                     {% for event in eventsOfWeek[i].events %}
-                                        <div class="panel panel-danger">
+                                    <div class="panel panel-danger week-event">
                                     <div class="panel-heading">
                                         <h3>{{ event.name }}</h3>
                                     </div>

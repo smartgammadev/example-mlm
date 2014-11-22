@@ -74,8 +74,8 @@ class BaseEvent
     /**
      *
      * @var \Success\EventBundle\Entity\EventRepeat
-     * @ORM\OneToOne(targetEntity="EventRepeat", mappedBy="event", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\OneToOne(targetEntity="EventRepeat", mappedBy="event", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true, onDelete="set null")
      */
     private $eventRepeat;
 
@@ -240,7 +240,7 @@ class BaseEvent
      */
     public function __construct()
     {
-        $this->signUps = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->signUps = new ArrayCollection();
     }
 
     /**
@@ -298,4 +298,5 @@ class BaseEvent
     {
         return $this->eventRepeat;
     }
+        
 }

@@ -42,6 +42,10 @@ namespace :symfony do
   end
 end
 
+set :maintenance_basename, "maintenance"
+set :maintenance_template_path, "app/Resources/configs/capifony/maintenance.html.erb"
+
+
 logger.level = Logger::MAX_LEVEL
 
 # Be more verbose by uncommenting the following line

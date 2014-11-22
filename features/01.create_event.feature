@@ -1,7 +1,6 @@
-@javascript
 Feature: Calendar feature
   
-  @basic
+  @basic @javascript
   Scenario: Create, edit, delete events
 
     Given I am logged in as admin

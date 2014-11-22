@@ -31,7 +31,7 @@ use Behat\Behat\Context\Step;
  */
 class FeatureContext extends MinkContext implements KernelAwareInterface
 {
-    const SONATA_UNIQID='s5444ed96d21e7';
+    const SONATA_UNIQID='behat';
     
     protected $kernel;
     private $parameters;
@@ -219,7 +219,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
      * @Given /^I select "([^"]*)" in "([^"]*)"$/
      */
     public function iSelectIn($value, $filedName)
-    {
+    {         
         $this->selectOption(self::SONATA_UNIQID.'_'.$filedName, $value);
     }
     
@@ -270,6 +270,34 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
         }
         
     }
+    
+    /**
+     * @Then /^I reset sonata unique ID$/
+     */
+    public function iResetSonataUniqueId()
+    {
+        $this->visit($this->getSession()->getCurrentUrl().'?uniqid='.self::SONATA_UNIQID);
+    }
+    
+    /**
+     * @Then /^I fill "([^"]*)" with current date plus "([^"]*)" days$/
+     */
+    public function iFillWithCurrentDatePlusDays($filedName, $days)
+    {
+        $currentDate = date('c',  time()+(60*60*24*$days));
+        $this->fillField(self::SONATA_UNIQID.'_'.$filedName, $currentDate);
+        //throw new PendingException();
+    }
+    
+    
+    /**
+     * @Given /^I check "([^"]*)" checkbox$/
+     */
+    public function iCheckCheckbox($checkbox)
+    {
+        $this->checkOption(self::SONATA_UNIQID.'_'.$checkbox);
+        //throw new PendingException();
+    }    
     
     
 }
