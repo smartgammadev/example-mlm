@@ -48,7 +48,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     }    
     
 
-    /** @BeforeSuite */
+    /** BeforeSuite */
     public static function prepareForTheSuite()
     {
         $kernel = new \AppKernel("test", true);
