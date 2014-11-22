@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="la_melle" default="build">
+<project name="4success" default="build">
     <import file="build-epam-ci.xml"/>
     <!-- Targets -->
     <!-- You can customize build, build-ci, package targets by overriding them here. Also you can override any other target -->
@@ -57,7 +57,7 @@
            
     <!-- Own Targets -->
     <target name="build-ci-minimal" description="Builds the project  for the continuous integration server"
-            depends="clean,prepare,composer-validate,copy-configs-ci,dependencies-install,check-environment,symfony-doctrine-schema-recreate,symfony-doctrine-fixtures-load,apc-clear,symfony-twig-lint,phpunit,behat"/>
+            depends="clean,prepare,composer-validate,copy-configs-ci,dependencies-install,check-environment,symfony-doctrine-schema-recreate,symfony-doctrine-fixtures-load-test,apc-clear,symfony-twig-lint,phpunit,behat"/>
     
     <target name="deploy" description="Deploy to production server"
             depends="deploy-maintenance-enable,cap-production-deploy,symfony-cache-clear-prod,symfony-cache-warmup-prod,deploy-maintenance-disable"/>
