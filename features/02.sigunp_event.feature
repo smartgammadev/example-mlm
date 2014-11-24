@@ -77,3 +77,14 @@ Feature: Sign up for event in calendar
     And I should have 2 members
     Then I should have member with "user@mail" id
     And I should have member with "sponsor@mail" id
+
+    Then I go to "/admin/success/event/eventsignup/list"
+    And I follow "Удалить"
+    Then I press "Да, удалить"
+    And I should see "Элемент успешно удален."
+
+    Then I go to "/admin/success/event/webinarevent/list"
+    And I follow "test webinar #1"
+    Then I follow "Удалить"
+    And I press "Да, удалить"
+    Then I should see "Элемент успешно удален."
