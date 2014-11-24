@@ -88,3 +88,6 @@ Feature: Sign up for event in calendar
     Then I follow "Удалить"
     And I press "Да, удалить"
     Then I should see "Элемент успешно удален."
+
+    Then I go to "/calendarevents/nearest" with "user.email=stas-81@mail.ru&user.first_name=uName&user.last_name=uLastName&sponsor.email=stas-81@mail.ru&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+    And I should see "нет ближайших мероприятий"
