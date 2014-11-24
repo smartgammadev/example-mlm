@@ -14,9 +14,12 @@ Feature: Sales Generator(frontend)
          Then I should see "Вопрос"
           And I should see 3 ".answer" elements
          When I click ".new-question:first-child"
-         Then I should see 2 ".answer" elements
+         Then I wait for AJAX to finish
+          And I should see 2 ".answer" elements
          When I click ".new-question:first-child"
-         Then I should see 2 ".answer" elements
+         Then I wait for AJAX to finish
+          And I should see 2 ".answer" elements
           And I should not see "Ответ №3"
          When I click ".new-question:nth-of-type(1)"
+         Then I wait for AJAX to finish
          Then I should see 0 ".answer" elements
