@@ -21,7 +21,7 @@ default:
         Behat\Symfony2Extension\Extension:
             mink_driver: true
         Behat\MinkExtension\Extension:
-            base_url: http://4success/app_test.php
+            base_url: http://success.smart-gamma.com
             default_session: selenium2
             browser_name: 'firefox'
             selenium2:
