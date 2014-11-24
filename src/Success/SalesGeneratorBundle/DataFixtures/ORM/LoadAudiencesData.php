@@ -22,7 +22,7 @@ class AudienceFixture extends AbstractFixture implements OrderedFixtureInterface
             $newAudience = new Audience();
             $newAudience->setName($audience);
             $manager->persist($newAudience);
-            $this->addReference('SuccessAudience-'.$index, $newAudience);
+            $this->addReference('SuccessAudience-'.($index + 1), $newAudience);
         }
         $manager->flush();
     }
