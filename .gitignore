@@ -15,4 +15,6 @@ web/bundles
 *~
 /build.properties
 behat.yml
+behat.yml.dist
 app/config/parameters.yml
+app/config/parameters.yml.dist
