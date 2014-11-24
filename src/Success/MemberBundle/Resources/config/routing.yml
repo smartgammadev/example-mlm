@@ -1,3 +1,0 @@
-success_member_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: SuccessMemberBundle:Default:index }

@@ -13,7 +13,7 @@ use Sonata\AdminBundle\Form\FormMapper;
  * @author develop1
  */
 class EventRepeatAdmin extends Admin {
-
+    
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -26,8 +26,9 @@ class EventRepeatAdmin extends Admin {
                     'dp_use_current'        => false,
                 ))
 
+
             ->add('repeatDays', 'sonata_type_immutable_array', 
-                    array('label' => 'дни повторения', 
+                    array('label' => 'дни повторения', 'label_attr' => array('style' => 'display:inline'),
                         'keys' => array(
                             array(1, 'checkbox', array('label' => 'Пн')),
                             array(2, 'checkbox', array('label' => 'Вт')),
@@ -54,4 +55,17 @@ class EventRepeatAdmin extends Admin {
 //            ->addIdentifier('name')
 //        ;
     }
+    
+    public function getTemplate($name)
+    {
+        switch ($name) {
+            case 'edit':
+                return 'AcmeMyBundle::day-array-edit.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }    
+    
 }

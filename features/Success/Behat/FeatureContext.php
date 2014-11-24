@@ -207,6 +207,20 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
         $this->fillField(self::SONATA_UNIQID.'_'.$filedName, $currentDate);
     }
     
+    
+    /**
+     * @Given /^I fill "([^"]*)" with previous month date$/
+     */
+    public function iFillWithPreviousMonthDate($filedName)
+    {
+        $currentDate = new \DateTime();
+        
+        //$currentDate = date('c',  time()+(60*15));
+        //$currentDate->modify('-1 month');
+        $this->fillField(self::SONATA_UNIQID.'_'.$filedName, $currentDate);
+    }
+
+    
     /**
      * @Then /^I fill "([^"]*)" with "([^"]*)"$/
      */

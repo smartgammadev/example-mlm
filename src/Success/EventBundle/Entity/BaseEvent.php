@@ -75,7 +75,7 @@ class BaseEvent
      *
      * @var \Success\EventBundle\Entity\EventRepeat
      * @ORM\OneToOne(targetEntity="EventRepeat", mappedBy="event", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true, onDelete="set null")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $eventRepeat;
 

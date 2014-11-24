@@ -5,3 +5,11 @@ div.connection .form-actions {
 div .btn-group{
     margin-top: 10px !important;
 }
+
+.hor-input{
+    display: inline;
+}
+
+.hor-label{
+    display: inline;
+}

@@ -67,7 +67,8 @@ class EventManager //extends Service
         
         $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
         
-        $repeatableEvents = $repo->findAllWithActiveRepeats($nowDate);
+        //$repeatableEvents = $repo->findAllWithActiveRepeats($nowDate);
+        $repeatableEvents = $repo->findAllWithActiveRepeats($startDate);
         $result = [];
         
         foreach ($repeatableEvents as $repeatableEvent){
