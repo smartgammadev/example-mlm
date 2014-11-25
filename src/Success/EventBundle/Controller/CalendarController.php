@@ -127,14 +127,12 @@ class CalendarController extends Controller
     public function nextAction()
     {
         $minutesBeforeToVisitEvent = $this->settingsManager->getSettingValue('minutesBeforeToVisitEvent');
-        $minutesAfterToVisitEvent = $this->settingsManager->getSettingValue('minutesAfterToVisitEvent');
-        
+        $minutesAfterToVisitEvent = $this->settingsManager->getSettingValue('minutesAfterToVisitEvent');        
         $nowDate = new \DateTime('now');
         $nowDate->modify("-$minutesAfterToVisitEvent minutes");
         
         $lastDayOfWeek = clone $nowDate;
         $lastDayOfWeek->modify('+7 days');
-
         $dayEvents = $this->eventManager->getEventsByDateRange($nowDate, $lastDayOfWeek);
         
         if (count($dayEvents) !== 0){
@@ -144,13 +142,19 @@ class CalendarController extends Controller
         }
         
         $current = new \DateTime();
+        $userAccess = false;
         $allowToVisit = false;
         $externalLink = '';
-        if ($nextEvent){
-            $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nextEvent);                        
+        if ($nextEvent) {
+            $userAccess = $this->eventManager->getEventAccessForUser($nextEvent);
+            $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nextEvent);
             $allowToVisit = ($nextEvent->getStartDateTime()->getTimestamp() - $current->getTimestamp() < $minutesBeforeToVisitEvent*60);
         }
-        return array('currentDateTime' => $current, 'allowToVisit' => $allowToVisit, 'externalLink' => $externalLink, 'nextEvent' => $nextEvent);
+        return array('currentDateTime' => $current, 
+            'allowToVisit' => $allowToVisit,
+            'userAccess' => $userAccess,
+            'externalLink' => $externalLink, 
+            'nextEvent' => $nextEvent);
     }
     
     /**
@@ -221,6 +225,12 @@ class CalendarController extends Controller
          * @var \Success\EventBundle\Entity\BaseEvent Event for sign up
          */
         $event = $this->eventManager->getEventById($eventId);
+
+        if (!$this->eventManager->getEventAccessForUser($event)){
+            $message = 'Извините. Доступ к даному вебинару разрешен только для партнеров с VIP статусом.';
+            return array('message' => $message);
+        }
+        
         $form = $this->createForm(new SignupType($this->placeholderManager, $eventId, $this->get('router')));
         
         $form->handleRequest($request);
@@ -247,7 +257,7 @@ class CalendarController extends Controller
             } else {
                 $message = 'Поздравляем, Вы успешно зарегистрированы на вебинар!';
             }
-            return array('message' => $message);            
+            return array('message' => $message);
         }
         return array('form' => $form->createView());
     }

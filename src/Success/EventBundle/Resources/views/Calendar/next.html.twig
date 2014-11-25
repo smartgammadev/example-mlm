@@ -19,7 +19,11 @@
                                 <p>{{ nextEvent.description }}</p>                                
                                     <div>
                                         {% if allowToVisit %}
-                                            <a id="webinar-enter-btn" href="{{ externalLink }}" class="btn btn-lg btn-danger" role="button" target="blank">Войти в Вебинар</a>
+                                            {% if userAccess %}
+                                                <a id="webinar-enter-btn" href="{{ externalLink }}" class="btn btn-lg btn-danger" role="button" target="blank">Войти в Вебинар</a>
+                                            {% else %}
+                                                <a id="webinar-enter-btn" href="{{ externalLink }}" class="btn btn-lg btn-danger disabled" role="button" target="blank">Войти в Вебинар</a>
+                                            {% endif %}
                                             <a href="{{ path('calendar_event_signup', {'eventId' : nextEvent.id, 'template': 'calendar'}) }}" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
                                         {% else %}
                                             <a id="webinar-enter-btn" href="{{ externalLink }}" class="btn btn-lg btn-danger disabled" role="button" target="blank">Войти в Вебинар</a>
