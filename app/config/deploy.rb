@@ -7,7 +7,6 @@ set :app_path,    "app"
 set :repository,  "git@gitlab.smart-gamma.com:4success/4success.git"
 set :scm,         :git
 set :branch,      "master"
-set :deploy_via,  :copy
 
 set :model_manager, "doctrine"
 set :shared_files,      ["app/config/parameters.yml"]

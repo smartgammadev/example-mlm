@@ -74,8 +74,8 @@
         <exec command="cap production deploy" passthru="true" checkreturn="true" logoutput="true"/>
     </target> 
 
-    <target name="cap-staging-deploy" description="Run capifony staging deploy">
-        <exec command="cap staging deploy" passthru="true" checkreturn="true" logoutput="true"/>
+    <target name="cap-beta-deploy" description="Run capifony beta deploy">
+        <exec command="cap beta deploy" passthru="true" checkreturn="true" logoutput="true"/>
     </target> 
 
     <target name="schema-update" description="Run capifony force schema update">

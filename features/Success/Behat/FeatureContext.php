@@ -161,6 +161,14 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     }
     
     /**
+     * @Given /^I wait "(\d+)" seconds$/
+     */
+    public function iWaitSomeSeconds($secondsCount)
+    {
+        $this->getSession()->wait($secondsCount * 1000);
+    }
+    
+    /**
      * @Given /^I fill in "([^"]*)" with current date$/
      */
     public function iFillInWithCurrentDate($arg1)
