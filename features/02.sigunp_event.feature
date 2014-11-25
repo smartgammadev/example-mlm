@@ -49,7 +49,9 @@ Feature: Sign up for event in calendar
 
     Then I go to "/admin/success/event/webinarevent/list"
     And I follow "test webinar #1"
+    Then I wait for AJAX to finish
     Then I follow "Удалить"
+    Then I wait for AJAX to finish
     And I press "Да, удалить"
     Then I should see "Элемент успешно удален."
 
