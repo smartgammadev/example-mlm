@@ -25,12 +25,33 @@ Feature: User access to closed webinars must be granted or denied by {{user.busi
      Then I wait for AJAX to finish
      Then I should see "Вы успешно зарегистрированы"
       And I press "OK"
-     Then I should have 3 notifications
+     Then I should see "Войти в Вебинар" button enabled
+      And I should have 3 notifications
 
      When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
       And I follow "Записаться"
      Then I wait for AJAX to finish
-     Then I should see "Извините. Доступ к даному вебинару разрешен только для партнеров с VIP статусом."
-      And I press "OK"
+      And I should see "Извините. Доступ к даному вебинару разрешен только для партнеров с VIP статусом."
+     Then I press "OK"
+      And I should see "Войти в Вебинар" button disabled
      Then I should have 3 notifications
+
+     When I go to "/admin/success/event/eventsignup/list"
+     Then I should see "Удалить"
+      And I follow "Удалить"
+     Then I should see "Да, удалить"
+      And I press "Да, удалить"
+     Then I should see "Элемент успешно удален."
+
+     When I go to "/admin/success/event/webinarevent/list"
+     Then I should see "test webinar #1"
+      And I follow "test webinar #1"
+     Then I should see "Удалить"
+      And I follow "Удалить"
+     Then I should see "Да, удалить"
+      And I press "Да, удалить"
+     Then I should see "Элемент успешно удален."
+
+     Then I go to "/calendarevents/nearest" with "user.email=stas-81@mail.ru&user.first_name=uName&user.last_name=uLastName&sponsor.email=stas-81@mail.ru&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+      And I should see "нет ближайших мероприятий"
 

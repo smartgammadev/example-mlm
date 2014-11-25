@@ -127,14 +127,12 @@ class CalendarController extends Controller
     public function nextAction()
     {
         $minutesBeforeToVisitEvent = $this->settingsManager->getSettingValue('minutesBeforeToVisitEvent');
-        $minutesAfterToVisitEvent = $this->settingsManager->getSettingValue('minutesAfterToVisitEvent');
-        
+        $minutesAfterToVisitEvent = $this->settingsManager->getSettingValue('minutesAfterToVisitEvent');        
         $nowDate = new \DateTime('now');
         $nowDate->modify("-$minutesAfterToVisitEvent minutes");
         
         $lastDayOfWeek = clone $nowDate;
         $lastDayOfWeek->modify('+7 days');
-
         $dayEvents = $this->eventManager->getEventsByDateRange($nowDate, $lastDayOfWeek);
         
         if (count($dayEvents) !== 0){
@@ -144,13 +142,19 @@ class CalendarController extends Controller
         }
         
         $current = new \DateTime();
+        $userAccess = false;
         $allowToVisit = false;
         $externalLink = '';
-        if ($nextEvent){
-            $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nextEvent);                        
+        if ($nextEvent) {
+            $userAccess = $this->eventManager->getEventAccessForUser($nextEvent);
+            $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nextEvent);
             $allowToVisit = ($nextEvent->getStartDateTime()->getTimestamp() - $current->getTimestamp() < $minutesBeforeToVisitEvent*60);
         }
-        return array('currentDateTime' => $current, 'allowToVisit' => $allowToVisit, 'externalLink' => $externalLink, 'nextEvent' => $nextEvent);
+        return array('currentDateTime' => $current, 
+            'allowToVisit' => $allowToVisit,
+            'userAccess' => $userAccess,
+            'externalLink' => $externalLink, 
+            'nextEvent' => $nextEvent);
     }
     
     /**

@@ -253,7 +253,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     {
         $notificationsCount = $this->getEntityManager()->createQuery('select count(n) from SuccessNotificationBundle:Notification n')->getSingleScalarResult();
         if ($notificationsCount !== $arg1) {
-            $message = 'Count of notifications in DB not equals '.$arg1.', but equals '.$notificationsCount;
+            $message = 'Found '.$notificationsCount.' notifications in DB. But should be '.$arg1;
             throw new ExpectationException($message, $this->getSession());
         }        
     }
@@ -265,7 +265,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     {
         $membersCount = $this->getEntityManager()->createQuery('select count(m) from SuccessMemberBundle:Member m')->getSingleScalarResult();
         if ($membersCount !== $arg1) {
-            $message = 'Count of members in DB not equals '.$arg1.', but equals '.$membersCount;
+            $message = 'Found '.$membersCount.' members in DB. But should be '.$arg1;
             throw new ExpectationException($message, $this->getSession());
         }        
     }
@@ -279,7 +279,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
                 ->setParameter('external_id', $memberId)
                 ->getSingleScalarResult();
         if ($membersCount == 0) {
-            $message = 'Count of members with id '.$memberId.', is '.$membersCount;
+            $message = 'Member with id "'.$memberId.'", not found in DB. But should exist.';
             throw new ExpectationException($message, $this->getSession());
         }
         
@@ -311,6 +311,40 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     {
         $this->checkOption(self::SONATA_UNIQID.'_'.$checkbox);
         //throw new PendingException();
+    }    
+    
+    /**
+     * @Then /^I should see "([^"]*)" button enabled$/
+     */
+    public function iShouldSeeButtonEnabled($buttonName)
+    {
+        $button = $this->getSession()->getPage()->findLink($buttonName);
+        if ($button == null){
+            $message = 'Link with id|tittle|text|img-alt '.$buttonName.', not found on page.';
+            throw new ExpectationException($message, $this->getSession());
+        }
+        
+        if ($button->hasClass('disabled')){
+            $message = 'Link "'.$buttonName.'" is disabled. But should be enabled.';
+            throw new ExpectationException($message, $this->getSession());
+        }
+    }
+
+    /**
+     * @Given /^I should see "([^"]*)" button disabled$/
+     */
+    public function iShouldSeeButtonDisabled($buttonName)
+    {
+        $button = $this->getSession()->getPage()->findLink($buttonName);
+        if ($button == null){
+            $message = 'Link with id|tittle|text|img-alt '.$buttonName.', not found on page.';
+            throw new ExpectationException($message, $this->getSession());
+        }
+        
+        if (!$button->hasClass('disabled')){
+            $message = 'Link "'.$buttonName.'" is enabled. But should be disabled.';
+            throw new ExpectationException($message, $this->getSession());
+        }
     }    
     
     
