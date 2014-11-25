@@ -1,12 +1,11 @@
-set :application, "4success"
-set :domain,      "128.199.43.50"
-set :user,        "4success"
-set :deploy_to,   "/home/4success/4success"
-set :app_path,    "app"
+set :stages,    %w(production beta)
+set :default_stage, "beta"
+set :stage_dir,                  "app/config"
+require                          'capistrano/ext/multistage'
 
+set :app_path,    "app"
 set :repository,  "git@gitlab.smart-gamma.com:4success/4success.git"
 set :scm,         :git
-set :branch,      "master"
 
 set :model_manager, "doctrine"
 set :shared_files,      ["app/config/parameters.yml"]
@@ -25,10 +24,6 @@ set :writable_dirs,              ["app/cache", "app/logs"]
 require 'capistrano/maintenance'
 set :maintenance_basename, "maintenance"
 set :maintenance_template_path, "app/Resources/configs/capifony/maintenance.html.erb"
-
-role :web,        domain                         # Your HTTP server, Apache/etc
-role :app,        domain, :primary => true       # This may be the same as your `Web` server
-role :db,         domain, :primary => true
 
 set  :keep_releases,  5
 
