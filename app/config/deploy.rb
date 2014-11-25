@@ -1,3 +1,5 @@
+set :stages,    %w(production beta)
+set :default_stage, "beta"
 set :application, "4success"
 set :domain,      "128.199.43.50"
 set :user,        "4success"
