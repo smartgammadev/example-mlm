@@ -61,10 +61,16 @@ class EventManager //extends Service
         return $result;
     }
     
+    /**
+     * 
+     * @param \DateTime $nowDate
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     * @return Array
+     */
     
     private function appendRepeatsForEvents(\DateTime $nowDate, \DateTime $startDate, \DateTime $endDate)
-    {
-        
+    {        
         $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
         
         //$repeatableEvents = $repo->findAllWithActiveRepeats($nowDate);
@@ -99,7 +105,12 @@ class EventManager //extends Service
         $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
         return $repo->findNextNearestByDate($startDate);
     }
-
+    
+    /**
+     * 
+     * @param DateTime $startDate
+     * @return Array
+     */
     public function getEventsForDate($startDate)
     {
         $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
@@ -107,12 +118,22 @@ class EventManager //extends Service
         return $result;
     }
     
+    /**
+     * 
+     * @param DateTime $startDate
+     * @return Array
+     */    
     public function getNextEventsForDate($startDate)
     {
         $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
         return $repo->findNextByDate($startDate);
     }
 
+    /**
+     * 
+     * @param DateTime $dateOfWeek
+     * @return Array
+     */
     
     public function getAllEventsOfWeekByDate($dateOfWeek)
     {
@@ -124,6 +145,11 @@ class EventManager //extends Service
         return $repo->findAllBetweenDates($startDate, $endDate);
     }
     
+    /**
+     * 
+     * @param DateTime $dateOfWeek
+     * @return Array
+     */
     public function getNextEventsOfWeekByDate($dateOfWeek)
     {
         $endDate = $this->lastDayOfWeek($dateOfWeek);
@@ -178,7 +204,7 @@ class EventManager //extends Service
     public function SignUpMemberForEvent(Member $memberSignedUp, BaseEvent $event, \DateTime $signUpDateTime, $notifyUserBeforeEvent)
     {
        
-       $placeholders = $this->placeholderManager->getPlaceholdersFromSession();       
+       $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
        $alreadyExists = $this->resolveSignUpForMember($memberSignedUp, $event, $signUpDateTime);
        
        if (!$alreadyExists){
@@ -329,5 +355,22 @@ class EventManager //extends Service
                 }                    
             }
         return $result;
+    }
+    
+    /**
+     * @param BaseEvent $event
+     * @return boolean
+     */
+    public function getEventAccessForUser(BaseEvent $event)
+    {
+        $isOpenEvent = ($event->getAccessType()->getName() == 'открытый');
+        $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
+        
+        if (!$isOpenEvent){
+            if (!isset($placeholders['user_businessLinkFull'])||($placeholders['user_businessLinkFull']=='')){
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -221,6 +221,12 @@ class CalendarController extends Controller
          * @var \Success\EventBundle\Entity\BaseEvent Event for sign up
          */
         $event = $this->eventManager->getEventById($eventId);
+
+        if (!$this->eventManager->getEventAccessForUser($event)){
+            $message = 'Извините. Доступ к даному вебинару разрешен только для партнеров с VIP статусом.';
+            return array('message' => $message);
+        }
+        
         $form = $this->createForm(new SignupType($this->placeholderManager, $eventId, $this->get('router')));
         
         $form->handleRequest($request);
@@ -247,7 +253,7 @@ class CalendarController extends Controller
             } else {
                 $message = 'Поздравляем, Вы успешно зарегистрированы на вебинар!';
             }
-            return array('message' => $message);            
+            return array('message' => $message);
         }
         return array('form' => $form->createView());
     }
