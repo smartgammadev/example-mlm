@@ -26,7 +26,6 @@ Feature: User access to closed webinars must be granted or denied by {{user.busi
      Then I should see "Вы успешно зарегистрированы"
       And I press "OK"
      Then I should see "Войти в Вебинар" button enabled
-      And I should have 3 notifications
 
      When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
       And I follow "Записаться"
@@ -34,7 +33,6 @@ Feature: User access to closed webinars must be granted or denied by {{user.busi
       And I should see "Извините. Доступ к даному вебинару разрешен только для партнеров с VIP статусом."
      Then I press "OK"
       And I should see "Войти в Вебинар" button disabled
-     Then I should have 3 notifications
 
      When I go to "/admin/success/event/eventsignup/list"
      Then I should see "Удалить"
