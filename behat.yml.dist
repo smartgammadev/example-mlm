@@ -15,7 +15,7 @@ default:
         class: Success\Behat\FeatureContext
         parameters:
             base_url: http://success.smart-gamma.com
-            timeout: 20
+            timeout: 100
         
     extensions:
         Behat\Symfony2Extension\Extension:
