@@ -6,10 +6,15 @@ div .btn-group{
     margin-top: 10px !important;
 }
 
-.hor-input{
+div.repeat-days label.control-label{
+    padding-left: 10px;
+    padding-right: 5px;
+}
+
+div.repeat-days div.form-group{
     display: inline;
 }
 
-.hor-label{
+div.repeat-days div.sonata-ba-field{
     display: inline;
 }

@@ -32,8 +32,13 @@ class WebinarEventAdmin extends Admin {
             ->with('Мероприятие')
                 ->add('name', 'text', array('label' => 'название'))
                 ->add('description', 'textarea', array('label' => 'описание'))
+                ->add('url', 'url', array('label' => 'ссылка'))
+                ->add('eventType',  'entity', array('label' => 'тип','class' => 'Success\EventBundle\Entity\EventType'))
+                ->add('media', 'sonata_type_model', array('label' => 'изображение'),
+                        array('link_parameters' => array('context' =>'webinar_image',
+                        'provider' => 'sonata.media.provider.image')))
+                ->add('pattern', 'text', array('label' => 'Webinar Pattern'))
             ->end()
-
             ->with('Планирование мероприятия')
                 ->add('startDateTime', 'sonata_type_datetime_picker',
                             array(
@@ -42,19 +47,15 @@ class WebinarEventAdmin extends Admin {
                             'dp_use_seconds'        => false,
                         ));
                 if ($this->id($this->getSubject())){
-                    $formMapper->add('eventRepeat', 'sonata_type_admin', array('required' => false), array('edit'=>'inline'));                    
-                }
-            $formMapper->end();
+                    $formMapper->add('eventRepeat', 'sonata_type_admin', array('required' => false, 'label' => 'Повторять событие'), array('edit'=>'inline'));                    
+                    }
+                $formMapper->end();
                     
         $formMapper
-            ->add('url', 'url',array('label' => 'Webinar URL'))                
-            ->add('pattern', 'text', array('label' => 'Webinar Pattern'))
-            ->add('password', 'text', array('label' => 'Webinar Password','required' => false))
-            ->add('eventType',  'entity', array('class' => 'Success\EventBundle\Entity\EventType'))
-            ->add('accessType', 'entity', array('class' => 'Success\EventBundle\Entity\EventAccessType'))            
-            ->add('media', 'sonata_type_model', array('label' => 'Webinar Image'),
-                    array('link_parameters' => array('context' =>'webinar_image',
-                    'provider' => 'sonata.media.provider.image')))
+            ->with('Доступ')
+                ->add('accessType', 'entity', array('label' => 'тип доступа', 'class' => 'Success\EventBundle\Entity\EventAccessType'))
+                ->add('password', 'text', array('label' => 'пароль','required' => false))
+            ->end()
        ; 
     }
 
@@ -103,5 +104,17 @@ class WebinarEventAdmin extends Admin {
             $em->remove($eventRepeat);
             $em->flush();
         }
-    }    
+    }
+
+//    public function getTemplate($name)
+//    {
+//        switch ($name) {
+//            case 'edit':
+//                return 'SuccessEventBundle:Admin:edit.html.twig';
+//                break;
+//            default:
+//                return parent::getTemplate($name);
+//                break;
+//        }
+//    }
 }

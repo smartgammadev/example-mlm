@@ -1,0 +1,17 @@
+{% extends 'SonataAdminBundle:Form:form_admin_fields.html.twig' %}
+{#{% block form %}
+    <h1>cracked</h1>
+{% endblock %}#}
+{% block sonata_type_immutable_array_widget %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }}>
+            {{ form_errors(form) }}
+            <div class="repeat-days">
+                {% for key, child in form %}
+                    {{ block('sonata_type_immutable_array_widget_row') }}
+                {% endfor %}
+            </div>
+            {{ form_rest(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock sonata_type_immutable_array_widget %}

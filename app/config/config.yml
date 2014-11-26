@@ -75,10 +75,16 @@ doctrine:
                     SonataMediaBundle: ~                    
                     SonataNotificationBundle: ~                    
                     SonataUserBundle: ~
+
+sonata_doctrine_orm_admin:
+    templates:
+        form: [ SuccessEventBundle:Admin:form_admin_fields.html.twig ]
+
 sonata_admin:
     templates:
         layout:  ::standard_layout.html.twig
-        
+#    options:
+#        form_type: horizontal
     dashboard:
         groups:
             4 Success:
