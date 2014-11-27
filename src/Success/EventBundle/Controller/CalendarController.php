@@ -130,7 +130,6 @@ class CalendarController extends Controller
         $minutesAfterToVisitEvent = $this->settingsManager->getSettingValue('minutesAfterToVisitEvent');
         
         $nowDate = new \DateTime('now');
-        var_dump($nowDate);
         $nowDate->modify("-$minutesAfterToVisitEvent minutes");
         
         $lastDayOfWeek = clone $nowDate;
@@ -141,8 +140,7 @@ class CalendarController extends Controller
             $nextEvent = $dayEvents[0];        
         } else {
             $nextEvent = null;
-        }
-        
+        }        
         $current = new \DateTime();
         $userAccess = false;
         $allowToVisit = false;
@@ -169,49 +167,6 @@ class CalendarController extends Controller
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);
         
         return array();
-        
-//        $now = new \DateTime('now');
-//        $now->modify("-20 minutes");
-//        
-//        $lastDayOfWeek = clone $now;
-//        $lastDayOfWeek->modify('+7 days');
-//        $eventsToday = array('date' => $now, 'events' => $this->eventManager->getNextEventsForDate($now));
-//        
-//        
-//        $eventsOfWeek = array();
-//        $nextDay = clone $now;
-//        $nextDay->setTime(0, 0, 0);
-//        $nextDay->modify("+1 day");
-//        
-//        $interval = new \DateInterval('P1D');
-//        $daterange = new \DatePeriod($nextDay, $interval ,$lastDayOfWeek);
-//        
-//        $weekEventsCount = 0;
-//        foreach ($daterange as $date){
-//            $dayEvents = $this->eventManager->getEventsForDate($date);
-//            $weekEventsCount += count($dayEvents);
-//            $eventsOfWeek[] = array('date'=>$date, 'events'=>$dayEvents);
-//        }
-//        
-//        $nearestEvent = $this->eventManager->getNearestNextEvent($now);
-//        $current = new \DateTime('now');
-//        if ($nearestEvent){
-//            $minutesToVisitEvent = $this->settingsManager->getSettingValue('minutesToVisitEvent');
-//            $allowVisitEvent = ($nearestEvent->getStartDateTime()->getTimestamp() - $current->getTimestamp() < $minutesToVisitEvent*60);
-//            $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nearestEvent);
-//        } else{
-//            $allowVisitEvent = false;            
-//            $externalLink = '';
-//        }
-//        
-//        return array(
-//            'currentDateTime' => $current,
-//            'nearest' => $nearestEvent,
-//            'allowToVisit' => $allowVisitEvent,
-//            'externalLink' => $externalLink,
-//            'eventsToday' => $eventsToday, 
-//            'weekEventsCount' => $weekEventsCount,
-//            'eventsOfWeek' => $eventsOfWeek);
     }    
 
 
@@ -221,7 +176,7 @@ class CalendarController extends Controller
      * @Route("/{template}/event/{eventId}/signup", name="calendar_event_signup", requirements={"eventId"="\d+"})
      * @Template()
      */
-    public function signupAction($eventId, Request $request) 
+    public function signupAction($eventId, Request $request)
     {
         /**
          * @var \Success\EventBundle\Entity\BaseEvent Event for sign up
@@ -233,8 +188,7 @@ class CalendarController extends Controller
             return array('message' => $message);
         }
         
-        $form = $this->createForm(new SignupType($this->placeholderManager, $eventId, $this->get('router')));
-        
+        $form = $this->createForm(new SignupType($this->placeholderManager, $eventId, $this->get('router')));        
         $form->handleRequest($request);
         
         if ($form->isValid()) {
