@@ -205,6 +205,14 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     {
         $this->visit('admin/success/event/webinarevent/create?uniqid='.self::SONATA_UNIQID);
     }
+
+    /**
+     * @Then /^I want to create new audience$/
+     */
+    public function iWantToCreateNewAudience()
+    {
+        $this->visit('admin/success/salesgenerator/audience/create?uniqid='.self::SONATA_UNIQID);
+    }
     
     /**
      * @Then /^I fill "([^"]*)" with current date plus "([^"]*)" minutes$/
