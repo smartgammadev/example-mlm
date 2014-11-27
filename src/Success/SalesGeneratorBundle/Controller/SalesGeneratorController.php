@@ -6,6 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 use JMS\DiExtraBundle\Annotation as DI;
 
 use Success\SalesGeneratorBundle\Entity\Answer,
@@ -39,5 +42,26 @@ class SalesGeneratorController extends Controller
     { 
         $question = $this->salesGeneratorManager->getCurrentQuestionWithAnswers($question_id);
         return ['question' => $question];
+    }
+    
+    /**
+     * @Route("/tree", name="tree_view")
+     * @Template("SuccessSalesGeneratorBundle::tree_view.html.twig")
+     */
+    public function treeViewAction()
+    {
+        return ['audiences' => $audiences = $this->salesGeneratorManager->getAllAudiences()];
+    }
+    
+    /**
+     * @Route("/get-question", name="get_question")
+     */
+    public function getQuestion(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $question_id = $request->request->get('question_id');
+        
+        $question = $this->salesGeneratorManager->getQuestionAsArray($question_id);
+        
+        return new JsonResponse($question);
     }
 }

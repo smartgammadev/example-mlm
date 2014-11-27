@@ -1,0 +1,69 @@
+{% extends "SuccessSiteBundle::basic_layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/successsalesgenerator/css/style.min.css') }}" />
+{% endblock stylesheets %}
+
+{% block content %}
+    <div id="jstree"></div>
+{% endblock content %}
+
+{% block javascripts %}
+        {{ parent() }}
+        <script type="text/javascript" src="{{ asset('bundles/successsalesgenerator/js/jstree.min.js') }}"></script>
+        <script type="text/javascript">            
+            $(function () {
+                $.jstree.defaults.core.themes.variant = "large";
+                $('#jstree').jstree({
+                    'core' : {
+                        'check_callback': true,
+                        'data' : [
+                            { "id" : "rootNode", "parent" : "#", "text" : "Audiences", "state" : { "opened" : "true" } },
+                            {% for audience in audiences %}
+                                { "id" : "node-{{ audience.firstQuestion.id }}", "parent" : "rootNode", "text" : "{{ audience.name }}", "type":"audience" },
+                            {% endfor %}
+                        ],
+                    },
+                    "types" : {
+                        "audience" : {
+                            "icon" : "glyphicon glyphicon-tag"
+                        },
+                        "question" : {
+                            "icon" : "glyphicon glyphicon-question-sign"
+                        },
+                        "answer"   : {
+                            "icon" : "glyphicon glyphicon-ok-sign"
+                        },
+                        "default" : {
+                            "icon" : "glyphicon glyphicon-list"
+                        }
+                    },
+                    "plugins" : [ "types" ]
+                });
+                $("#jstree").on('select_node.jstree', function(event, data) {
+                    var jstree = $('#jstree').jstree(true),
+                        parent = $('#jstree').jstree('get_selected')[0];
+                    
+                    if (jstree.get_children_dom(data.node).length === 0 ) {
+                        $.ajax({
+                            url : '{{ path("get_question") }}',
+                            type : 'POST',
+                            data : {
+                               'question_id' : data.node.id.substring(5)
+                            },
+                            dataType: 'JSON',
+                            success : function(question) {
+                                newParent = jstree.create_node(parent, { "text" : question.text, "state" : { "opened" : "true"}, "type" : "question"});
+                                $('#jstree').jstree('open_node', '#'+parent);
+                                question.answers.forEach(function(answer, index) {
+                                    answer = { "id" : "node-" + answer.nextQuestion, "text" : answer.text, "type": "answer" }
+                                    jstree.create_node(newParent, answer);
+                                });
+                            }
+                       })
+                    }
+                });
+            });
+        </script>
+    {% endblock javascripts %}

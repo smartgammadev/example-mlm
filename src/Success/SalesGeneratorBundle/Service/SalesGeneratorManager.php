@@ -33,11 +33,48 @@ class SalesGeneratorManager
     {
         $em = $this->em;
         
-        $questionWithAnswers = $em->getRepository(self::QUESTION_REPO)->findOneById($question_id);
+        $question = $em->getRepository(self::QUESTION_REPO)->findOneById($question_id);
         
-        $questionWithAnswers->setText($this->randomizeQuestion($questionWithAnswers->getText()));
+        $question->setText($this->randomizeQuestion($question->getText()));
         
-        return $questionWithAnswers;
+        if (!$question) {
+            throw $this->createNotFoundException('No question found for id ' . $question_id);
+        }
+        
+//        $questionWithAnswers = $this->questionToArray($question);
+    
+        return $question;
+    }
+    
+    public function getQuestionAsArray($question_id)
+    {
+        $question = $this->getCurrentQuestionWithAnswers($question_id);
+        
+        $questionArray = ["text" => $question->getText()];        
+        foreach ($question->getAnswers() as $answerIndex => $answer) {
+            $questionArray["answers"][$answerIndex]["id"] = $answer->getId();
+            $questionArray["answers"][$answerIndex]["text"] = $answer->getText();
+            $questionArray["answers"][$answerIndex]["nextQuestion"] = $answer->getNextQuestion()->getId();
+        }
+        
+        return $questionArray;
+    }
+    
+    /**
+     * 
+     * @return Success/SalesGeneratorBundle/Entity/Question
+     */
+    public function getAllQuestionsWithAnswers()
+    {
+        $em = $this->em;
+        
+        $questionsWithAnswers = $em->getRepository(self::QUESTION_REPO)->findAll();
+        
+        foreach ($questionsWithAnswers as $question) {
+            $question->setText($this->randomizeQuestion($question->getText()));
+        }
+        
+        return $questionsWithAnswers;
     }
     
     /** Returns random question from question-string
@@ -75,6 +112,12 @@ class SalesGeneratorManager
     {
         $this->em->getRepository(self::AUDIENCE_REPO)->removeReferenceToFirstQuestion($audience);
         $this->em->getRepository(self::QUESTION_REPO)->removeAllQuestionsFromAudience($audience);
+    }
+    
+    public function questionToArray($question)
+    {
+        var_dump($question);
+        return $result;
     }
     
     public function fillQuestionsAndAnswers() // Without links to next questions
