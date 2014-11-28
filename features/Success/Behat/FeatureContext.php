@@ -19,11 +19,14 @@ use Gamma\Framework\Behat\PagesContext,
     Gamma\Framework\Behat\ApiContext;
 use Behat\Behat\Context\Step;
 
+use Success\Behat\Application;
+
+
 //
 // Require 3rd-party libraries here:
 //
-//   require_once 'PHPUnit/Autoload.php';
-//   require_once 'PHPUnit/Framework/Assert/Functions.php';
+require_once 'PHPUnit/Autoload.php';
+require_once 'PHPUnit/Framework/Assert/Functions.php';
 //
 
 /**
@@ -35,6 +38,8 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     
     protected $kernel;
     private $parameters;
+    private  $application;
+    private $tester;
 
     
     /**
@@ -45,8 +50,34 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     public function __construct(array $parameters)
     {
         $this->parameters = $parameters;
+    }
+
+
+    /**
+     * @When /^I run "([^"]*)" command$/
+     */
+    public function iRunCommand($name)
+    {
+
+        $kernel = new \AppKernel("test", true);
+        $kernel->boot();
+
+        $this->application = new \Symfony\Bundle\FrameworkBundle\Console\Application($kernel);
+        $this->application->add(new \Success\NotificationBundle\Command\ProcessEmailCommand());
+
+        $command = $this->application->find($name);
+        
+        $this->tester = new \Symfony\Component\Console\Tester\CommandTester($command);
+        $this->tester->execute(array('command' => $command->getName()));
+    }
+
+    /**
+     * @Then /^I should see console output "([^"]*)"$/
+     */
+    public function iShouldSeeConsoleOutput($regexp)
+    {
+        assertRegExp($regexp, $this->tester->getDisplay());
     }    
-    
 
     /** BeforeSuite */
     public static function prepareForTheSuite()
@@ -204,6 +235,14 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     public function iWantToCreateNewEvent()
     {
         $this->visit('admin/success/event/webinarevent/create?uniqid='.self::SONATA_UNIQID);
+    }
+
+    /**
+     * @Then /^I want to create new audience$/
+     */
+    public function iWantToCreateNewAudience()
+    {
+        $this->visit('admin/success/salesgenerator/audience/create?uniqid='.self::SONATA_UNIQID);
     }
     
     /**

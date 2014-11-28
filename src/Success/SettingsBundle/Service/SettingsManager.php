@@ -24,7 +24,7 @@ class SettingsManager
     public function getSettingValue($name){
         $repo = $this->em->getRepository('SuccessSettingsBundle:Setting');
         $setting = $repo->findOneBy(array('name' => $name));
-        
+
         if (!$setting){
             throw new \Exception('Seting with name="'.$name.'" was not found');
         }

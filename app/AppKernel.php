@@ -69,9 +69,8 @@ class AppKernel extends Kernel
     }
     
 
-//    public function init()
-//    {
-//        date_default_timezone_set('Europe/Moscow');
-//        parent::init();
-//    }
+    public function init()
+    {
+        ini_set('date.timezone', 'Europe/Moscow');
+    }
 }
