@@ -50,7 +50,10 @@ class SalesGeneratorManager
     {
         $question = $this->getCurrentQuestionWithAnswers($question_id);
         
-        $questionArray = ["text" => $question->getText()];        
+        $questionArray = [
+            "id" => $question->getId(),
+            "text" => $question->getText()
+        ];
         foreach ($question->getAnswers() as $answerIndex => $answer) {
             $questionArray["answers"][$answerIndex]["id"] = $answer->getId();
             $questionArray["answers"][$answerIndex]["text"] = $answer->getText();

@@ -12,7 +12,83 @@
 {% block javascripts %}
         {{ parent() }}
         <script type="text/javascript" src="{{ asset('bundles/successsalesgenerator/js/jstree.min.js') }}"></script>
-        <script type="text/javascript">            
+        <script type="text/javascript">     
+            function customMenu(node) {                
+                var type = $("#jstree").jstree(true).get_type(node),
+                id = node.id.substring(type.length + 1),
+                itemActions = {
+                    "audience" : {
+                        "create" : function(audience_id) {
+                            return "{{ path("admin_success_salesgenerator_question_create") }}";
+                        },
+                        "edit" : function(audience_id) {
+                            return "{{ path("admin_success_salesgenerator_audience_edit", {"id" : "_id_" }) }}".replace("_id_", audience_id);
+                        },
+                        "delete" : function(audience_id) {
+                            return "{{ path("admin_success_salesgenerator_audience_delete", {"id" : "_id_"}) }}".replace("_id_", audience_id);
+                        }
+                    },
+                    "question" : {
+                        "create" : function(question_id) {
+                            return "{{ path("admin_success_salesgenerator_answer_create") }}";
+                        },
+                        "edit" : function(question_id) {
+                            return "{{ path("admin_success_salesgenerator_question_edit", {"id" : "_id_" }) }}".replace("_id_", question_id);
+                        },
+                        "delete" : function(question_id) {
+                            return "{{ path("admin_success_salesgenerator_question_delete", {"id" : "_id_"}) }}".replace("_id_", question_id);
+                        }
+                    },
+                    "answer" : {
+                        "edit" : function(answer_id) {
+                            return "{{ path("admin_success_salesgenerator_answer_edit", {"id" : "_id_" }) }}".replace("_id_", answer_id);
+                        },
+                        "delete" : function(answer_id) {
+                            return "{{ path("admin_success_salesgenerator_answer_delete", {"id" : "_id_"}) }}".replace("_id_", answer_id);
+                        }
+                    }
+                },
+                allItems = {
+                    editItem : {
+                        label : "Edit " + type,
+                        action: function () {
+                            window.location.href = itemActions[type].edit(id);
+                        }
+                    },
+                    createQuestion: {
+                        label: "Create question",
+                        action: function () {
+                            window.location.href = itemActions[type].create(id);
+                        }
+                    },
+                    deleteItem: {
+                        label: "Delete " + type,
+                        action: function () {
+                            window.location.href = itemActions[type].delete(id);
+                        }
+                    }
+                },
+                contextMenuItems = {
+                    'deleteItem' : allItems.deleteItem
+                };
+                
+                switch(type) {
+                    case "audience":
+                        contextMenuItems['editItem'] = allItems.editItem;
+                        contextMenuItems['createQuestion'] = allItems.createQuestion;
+                        break;
+                    case "question":
+                        contextMenuItems['editItem'] = allItems.editItem;
+                        break;
+                    case "answer":
+                        break;
+                    default:
+                        break;
+                }
+
+                return contextMenuItems;
+            }
+            
             $(function () {
                 $.jstree.defaults.core.themes.variant = "large";
                 $('#jstree').jstree({
@@ -21,7 +97,7 @@
                         'data' : [
                             { "id" : "rootNode", "parent" : "#", "text" : "Audiences", "state" : { "opened" : "true" } },
                             {% for audience in audiences %}
-                                { "id" : "node-{{ audience.firstQuestion.id }}", "parent" : "rootNode", "text" : "{{ audience.name }}", "type":"audience" },
+                                { "id" : "audience-{{ audience.id }}", "li_attr" : { "data-next" : {{ audience.firstQuestion.id }} }, "parent" : "rootNode", "text" : "{{ audience.name }}", "type":"audience" },
                             {% endfor %}
                         ],
                     },
@@ -39,10 +115,11 @@
                             "icon" : "glyphicon glyphicon-list"
                         }
                     },
-                    "plugins" : [ "types" ]
+                    "contextmenu" : { "items" : customMenu },
+                    "plugins" : [ "types", "contextmenu" ]
                 });
                 $("#jstree").on('select_node.jstree', function(event, data) {
-                    var jstree = $('#jstree').jstree(true),
+                    var jstree = $('#jstree').jstree(true);
                         parent = $('#jstree').jstree('get_selected')[0];
                     
                     if (jstree.get_children_dom(data.node).length === 0 ) {
@@ -50,16 +127,20 @@
                             url : '{{ path("get_question") }}',
                             type : 'POST',
                             data : {
-                               'question_id' : data.node.id.substring(5)
+                               'question_id' : data.node.li_attr["data-next"]
                             },
                             dataType: 'JSON',
                             success : function(question) {
-                                newParent = jstree.create_node(parent, { "text" : question.text, "state" : { "opened" : "true"}, "type" : "question"});
+                                questionNode = {"id" : "question-" + question.id, "text" : question.text, "state" : { "opened" : "true"}, "type" : "question"};
+                                newParent = jstree.create_node(parent, questionNode);
+                                
                                 $('#jstree').jstree('open_node', '#'+parent);
-                                question.answers.forEach(function(answer, index) {
-                                    answer = { "id" : "node-" + answer.nextQuestion, "text" : answer.text, "type": "answer" }
-                                    jstree.create_node(newParent, answer);
-                                });
+                                if (question.answers) {
+                                    question.answers.forEach(function(answer, index) {
+                                        answerNode = { "id" : "answer-" + answer.id, "li_attr" : { "data-next" : answer.nextQuestion }, "text" : answer.text, "type": "answer" };
+                                        jstree.create_node(newParent, answerNode);
+                                    });
+                                }
                             }
                        })
                     }
