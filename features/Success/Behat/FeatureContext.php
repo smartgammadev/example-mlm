@@ -25,8 +25,8 @@ use Success\Behat\Application;
 //
 // Require 3rd-party libraries here:
 //
-//   require_once 'PHPUnit/Autoload.php';
-//   require_once 'PHPUnit/Framework/Assert/Functions.php';
+require_once 'PHPUnit/Autoload.php';
+require_once 'PHPUnit/Framework/Assert/Functions.php';
 //
 
 /**
@@ -39,6 +39,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     protected $kernel;
     private $parameters;
     private  $application;
+    private $tester;
 
     
     /**
@@ -65,18 +66,18 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
         $this->application->add(new \Success\NotificationBundle\Command\ProcessEmailCommand());
 
         $command = $this->application->find($name);
-        //$command .= " -env=test";
-
-        $command->addOption('ent','test');
-
-//        echo $command->getAliases();
-
+        
         $this->tester = new \Symfony\Component\Console\Tester\CommandTester($command);
         $this->tester->execute(array('command' => $command->getName()));
-
-
     }
-    
+
+    /**
+     * @Then /^I should see console output "([^"]*)"$/
+     */
+    public function iShouldSeeConsoleOutput($regexp)
+    {
+        assertRegExp($regexp, $this->tester->getDisplay());
+    }    
 
     /** BeforeSuite */
     public static function prepareForTheSuite()
