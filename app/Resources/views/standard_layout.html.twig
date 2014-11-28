@@ -2,4 +2,10 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/successevent/css/admin.style.css') }}" type="text/css" media="all" />    
-{% endblock %}
+{% endblock stylesheets %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    {{ parent() }}
+{% endblock javascripts %}

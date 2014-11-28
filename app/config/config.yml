@@ -87,8 +87,8 @@ sonata_admin:
 #        form_type: horizontal
     dashboard:
         blocks:
-            - { position: bottom, type: sonata.block.service.treeview }
             - { position: left, type: sonata.admin.block.admin_list }
+            - { position: left, type: sonata.block.service.treeview }
         groups:
             4 Success:
                 items: 
@@ -187,3 +187,6 @@ sonata_media:
 ornicar_apc:
     host: %domain%
     web_dir: %kernel.root_dir%/../web
+    
+fos_js_routing:
+    routes_to_expose: [ ^((?!_admin_).)*$ ]
