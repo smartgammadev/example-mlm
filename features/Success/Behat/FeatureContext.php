@@ -4,6 +4,9 @@ namespace Success\Behat;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Output\ConsoleOutput;
+
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Behat\Context\BehatContext,
     Behat\Behat\Exception\PendingException;
@@ -52,6 +55,17 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
         $this->parameters = $parameters;
     }
 
+    protected static function runConsole($app, $command, Array $options = array())
+    {
+        $output = new ConsoleOutput();
+        $output->writeln(sprintf('<comment>    > Command </comment> <info><fg=blue>%s</fg=blue></info>', $command));
+ 
+        $options["-e"] = "test";
+        $options["-q"] = null;
+        $options = array_merge($options, array('command' => $command));
+ 
+        return $app->run(new \Symfony\Component\Console\Input\ArrayInput($options), $output);
+    }    
 
     /**
      * @When /^I run "([^"]*)" command$/
@@ -79,7 +93,8 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
         assertRegExp($regexp, $this->tester->getDisplay());
     }    
 
-    /** BeforeSuite */
+    
+    /** @BeforeSuite */
     public static function prepareForTheSuite()
     {
         $kernel = new \AppKernel("test", true);
