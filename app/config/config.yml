@@ -86,6 +86,9 @@ sonata_admin:
 #    options:
 #        form_type: horizontal
     dashboard:
+        blocks:
+            - { position: bottom, type: sonata.block.service.treeview }
+            - { position: left, type: sonata.admin.block.admin_list }
         groups:
             4 Success:
                 items: 
@@ -98,10 +101,10 @@ sonata_admin:
                 items:
                     - sonata.user.admin.user
                     - sonata.user.admin.group
-            Sales Generator:
-                items:
-                    - sonata.admin.audience
-                    - sonata.admin.question
+#            Sales Generator:
+#                items:
+#                    - sonata.admin.audience
+#                    - sonata.admin.question
 #                    - sonata.admin.answer
         
 sonata_notification:
@@ -128,9 +131,9 @@ sonata_block:
         sonata.admin.block.admin_list:
             contexts:   [admin]
         sonata.user.block.menu:    # used to display the menu in profile pages
-        sonata.user.block.account: # used to display menu option (login option)        
-        # Your other blocks
-        
+        sonata.user.block.account: # used to display menu option (login option)
+        sonata.block.service.treeview:
+        # Your other blocks        
         
 sonata_user:
     security_acl: true

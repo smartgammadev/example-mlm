@@ -9,3 +9,11 @@ services:
         class: %success.sales_generator.manager.class%
         calls:
              - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+             
+    sonata.block.service.treeview:
+        class: Success\SalesGeneratorBundle\Block\TreeViewBlockService
+        tags:
+            - { name: sonata.block }
+        arguments: [sonata.block.service.treeview, '@templating']
+        calls:
+             - [setSalesGeneratorManager, ["@success.sales_generator.manager"]]
