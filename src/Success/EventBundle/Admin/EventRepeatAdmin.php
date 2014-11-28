@@ -39,4 +39,12 @@ class EventRepeatAdmin extends Admin {
             ->remove('_delete')
         ;
     }    
+    
+    public function getFormTheme()
+    {
+        return array_merge(
+            parent::getFormTheme(),
+            array('SuccessEventBundle:Admin:form_admin_fields.html.twig')
+        );
+    }
 }

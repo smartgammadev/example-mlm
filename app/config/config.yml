@@ -76,9 +76,9 @@ doctrine:
                     SonataNotificationBundle: ~                    
                     SonataUserBundle: ~
 
-sonata_doctrine_orm_admin:
-    templates:
-        form: [ SuccessEventBundle:Admin:form_admin_fields.html.twig ]
+#sonata_doctrine_orm_admin:
+#    templates:
+#        form: [ SuccessEventBundle:Admin:form_admin_fields.html.twig ]
 
 sonata_admin:
     templates:
