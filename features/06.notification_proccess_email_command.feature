@@ -1,6 +1,6 @@
 Feature: Process Email Cron Command
 
-  @basic @command  @mink:symfony2
+  @mink:symfony2 @basic @command 
   Scenario: Running notify:process_email command
     When  I run "notify:process_email" command
     Then I should see console output "/Processing mail/"

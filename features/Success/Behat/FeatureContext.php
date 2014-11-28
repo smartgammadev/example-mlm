@@ -24,10 +24,8 @@ use Behat\Behat\Context\Step;
 
 use Success\Behat\Application;
 
-
-
 use Behat\Mink\Exception\UnsupportedDriverActionException;
-//use Behat\Symfony2Extension\Driver\KernelDriver;
+use Behat\Symfony2Extension\Driver\KernelDriver;
 
 use PHPUnit_Framework_ExpectationFailedException as AssertException;
 //
@@ -35,7 +33,6 @@ use PHPUnit_Framework_ExpectationFailedException as AssertException;
 //
 require_once 'PHPUnit/Autoload.php';
 require_once 'PHPUnit/Framework/Assert/Functions.php';
-//
 
 /**
  * Features context.
@@ -116,8 +113,12 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
                 'supported by %s', $driver
             );
         }
-
-        $profile = $driver->getClient()->getProfile();
+//echo get_class($driver->getClient());
+   //    $profile = $driver->getClient()->getProfile();
+        $kernel = new \AppKernel("test", true);
+        $kernel->boot();
+        
+        $profile = $kernel->getContainer()->get('profiler')->loadProfileFromResponse(new \Symfony\Component\HttpFoundation\Response);
         if (false === $profile) {
             throw new \RuntimeException(
                 'The profiler is disabled. Activate it by setting '.
@@ -195,6 +196,9 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     {
         if (4 === $event->getResult()) {
             $driver = $this->getSession()->getDriver();
+            if($driver instanceof KernelDriver){
+                return;
+            }
             if (!($driver instanceof Selenium2Driver)) {
                 throw new UnsupportedDriverActionException('Taking screenshots is not supported by %s, use Selenium2Driver instead.', $driver);
 

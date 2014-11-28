@@ -21,12 +21,16 @@ framework:
     test: ~
     session:
         storage_id: session.storage.mock_file
-    profiler:
-        collect: false
+    #profiler:
+    #    collect: false
+    #    only_exceptions: false
+    profiler: 
+        enabled: true
+        #only_exceptions: false 
 
 web_profiler:
-    toolbar: false
-    intercept_redirects: false
+    toolbar: true
+    intercept_redirects: true
 
 swiftmailer:
     disable_delivery: true
