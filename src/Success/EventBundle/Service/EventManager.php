@@ -327,11 +327,8 @@ class EventManager //extends Service
      */    
     private function getDatesForRepeat(EventRepeat $eventRepeat, \DateTime $eventStartDate, \DateTime $startDate, \DateTime $endDate)
     {
-//        if ($eventRepeat->getEndDateTime()->getTimestamp() < $endDate->getTimestamp()){
-//            return null;            
-//        }           
-        $repeatType = $eventRepeat->getRepeatType();        
-        $interval = $eventRepeat->getRepeatInterval();                
+        $repeatType = $eventRepeat->getRepeatType();
+        $interval = $eventRepeat->getRepeatInterval();
         $datesInterval = new \DateInterval('P'.$interval.$repeatType);
         $repeatDates = $this->getDatesForInterval($datesInterval, $eventStartDate, $startDate, $endDate);
         return $repeatDates;
