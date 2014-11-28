@@ -88,7 +88,7 @@ $("#jstree").on('select_node.jstree', function(event, data) {
     
     if (jstree.get_children_dom(data.node).length === 0 ) {
         $.ajax({
-            url : Routing.generate("get_question"),
+            url : Routing.generate("admin_sonata_get_question"),
             type : 'POST',
             data : {
                'question_id' : data.node.li_attr["data-next"]

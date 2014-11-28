@@ -15,7 +15,6 @@ services:
             - ~
             - Success\SalesGeneratorBundle\Entity\Question
             - ~
-            
     sonata.admin.answer:
         class: Success\SalesGeneratorBundle\Admin\AnswerAdmin
         tags:

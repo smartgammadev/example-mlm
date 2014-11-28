@@ -29,48 +29,26 @@ class TreeViewBlockService extends BaseBlockService
     
     public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
     {
-        $errorElement
-            ->with('settings.url')
-                ->assertNotNull([])
-                ->assertNotBlank()
-            ->end()
-            ->with('settings.title')
-                ->assertNotNull([])
-                ->assertNotBlank()
-                ->assertMaxLength(['limit' => 50])
-            ->end();
     }
     
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->add('settings', 'sonata_type_immutable_array', [
-            'keys' => [
-                ['url', 'url', ['required' => false]],
-                ['title', 'text', ['required' => false]],
-            ]
-        ]);
     }
     
     public function setDefaultSettings(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults([
-            'url'      => "/tree",
-            'title'    => 'Sales generator tree view',
             'template' => 'SuccessSalesGeneratorBundle:Block:tree_view_block.html.twig',
+            'title' => 'Sales generator tree view',
+            'audiences' => $this->salesGeneratorManager->getAllAudiences()
         ]);
     }
     
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
-        // merge settings
-        $settings = $blockContext->getSettings();
-
-        $audiences = $this->salesGeneratorManager->getAllAudiences();
-
         return $this->renderResponse($blockContext->getTemplate(), [
-            'audiences'     => $audiences,
-            'block'     => $blockContext->getBlock(),
-            'settings'  => $settings
+            'block' => $blockContext->getBlock(),
+            'settings' => $blockContext->getSettings()
         ], $response);
     }
 }

@@ -13,12 +13,15 @@
                     'check_callback': true,
                     'data' : [
                         { "id" : "rootNode", "parent" : "#", "text" : "Audiences", "state" : { "opened" : "true" } },
-                        {% for audience in audiences %}
+                        {% for audience in settings.audiences %}
                             { "id" : "audience-{{ audience.id }}", "li_attr" : { "data-next" : {{ audience.firstQuestion.id }} }, "parent" : "rootNode", "text" : "{{ audience.name }}", "type":"audience" },
                         {% endfor %}
                     ],
                 },
                 "types" : {
+                    "default" : {
+                        "icon" : "glyphicon glyphicon-tags"
+                    },
                     "audience" : {
                         "icon" : "glyphicon glyphicon-tag"
                     },
@@ -27,9 +30,6 @@
                     },
                     "answer"   : {
                         "icon" : "glyphicon glyphicon-ok-sign"
-                    },
-                    "default" : {
-                        "icon" : "glyphicon glyphicon-list"
                     }
                 },
                 "contextmenu" : { 

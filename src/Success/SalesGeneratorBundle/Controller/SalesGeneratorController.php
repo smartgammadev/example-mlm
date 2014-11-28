@@ -45,8 +45,7 @@ class SalesGeneratorController extends Controller
     }
     
     /**
-     * @Route("/tree", name="tree_view")
-     * @Template("SuccessSalesGeneratorBundle::tree_view.html.twig")
+     * @Route("/admin/treeview/get-audiences", name="admin_sonata_get_audiences")
      */
     public function treeViewAction()
     {
@@ -54,7 +53,7 @@ class SalesGeneratorController extends Controller
     }
     
     /**
-     * @Route("/get-question", name="get_question")
+     * @Route("/admin/treeview/get-question", name="admin_sonata_get_question")
      */
     public function getQuestion(\Symfony\Component\HttpFoundation\Request $request)
     {
