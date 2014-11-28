@@ -18,7 +18,7 @@ class SettingsManager
 
     /**
      * 
-     * @param type $name 
+     * @param type $name
      * @return string
      */
     public function getSettingValue($name){
