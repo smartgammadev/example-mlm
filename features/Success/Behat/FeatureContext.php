@@ -333,21 +333,6 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     }
 
     /**
-     * @Then /^I should have member with "([^"]*)" id$/
-     */
-    public function iShouldHaveMemberWithId($memberId)
-    {
-        $membersCount = $this->getEntityManager()->createQuery('select count(m) from SuccessMemberBundle:Member m where m.externalId=:external_id')
-                ->setParameter('external_id', $memberId)
-                ->getSingleScalarResult();
-        if ($membersCount == 0) {
-            $message = 'Member with id "'.$memberId.'", not found in DB. But should exist.';
-            throw new ExpectationException($message, $this->getSession());
-        }
-        
-    }
-    
-    /**
      * @Then /^I reset sonata unique ID$/
      */
     public function iResetSonataUniqueId()
@@ -408,6 +393,58 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
             throw new ExpectationException($message, $this->getSession());
         }
     }    
+
     
+    /**
+     * @Then /^I should have (\d+) email notification to "([^"]*)"$/
+     */
+    public function iShouldHaveEmailNotificationTo($count, $destination)
+    {
+        $notificationsCount = $this->getEntityManager()
+                ->createQuery('select count(n) from SuccessNotificationBundle:EmailNotification n where n.destination=:destination')
+                ->setParameter('destination', $destination)
+                ->getSingleScalarResult();
+        
+        if ($notificationsCount !== $count) {
+            $message = 'Found '.$notificationsCount.' to "'.$destination.'" notifications in DB. But should be '.$count;
+            throw new ExpectationException($message, $this->getSession());
+        }        
+
+    }
+
+
+    /**
+     * @Then /^I should have (\d+) SMS notification to "([^"]*)"$/
+     */
+    public function iShouldHaveSmsNotificationTo($count, $destination)
+    {
+        $notificationsCount = $this->getEntityManager()
+                ->createQuery('select count(n) from SuccessNotificationBundle:SMSNotification n where n.destination=:destination')
+                ->setParameter('destination', $destination)
+                ->getSingleScalarResult();
+        
+        if ($notificationsCount !== $count) {
+            $message = 'Found '.$notificationsCount.' to "'.$destination.'" notifications in DB. But should be '.$count;
+            throw new ExpectationException($message, $this->getSession());
+        }
+    }
+
+
+    
+    
+    /**
+     * @Then /^I should have member with id "([^"]*)"$/
+     */
+    public function iShouldHaveMemberWithId($memberId)
+    {
+         $membersCount = $this->getEntityManager()->createQuery('select count(m) from SuccessMemberBundle:Member m where m.externalId=:external_id')
+                ->setParameter('external_id', $memberId)
+                ->getSingleScalarResult();
+        if ($membersCount == 0) {
+            $message = 'Member with id "'.$memberId.'", not found in DB. But should exist.';
+            throw new ExpectationException($message, $this->getSession());
+        }
+
+    }
     
 }

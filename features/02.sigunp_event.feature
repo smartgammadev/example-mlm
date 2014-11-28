@@ -1,7 +1,7 @@
 
 Feature: Sign up for event in calendar
   
-  @basic @javascript
+  @basic @javascript @signup
   Scenario: Create and sign up for created event
 
    Given I am logged in as admin
@@ -18,7 +18,7 @@ Feature: Sign up for event in calendar
     Then I press "btn_create_and_list"
      And I should see "создан"
 
-    When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+    When I go to "/calendarevents/nearest" with "user.email=user1@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor1@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should see "Записаться"
      And I follow "Записаться"
     Then I wait for AJAX to finish
@@ -26,9 +26,10 @@ Feature: Sign up for event in calendar
     Then I wait for AJAX to finish
     Then I should see "Вы успешно зарегистрированы"
      And I press "OK"
-    Then I should have 3 notifications
+    Then I should have 2 email notification to "user1@mail"
+     And I should have 1 email notification to "sponsor1@mail"
 
-    When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+    When I go to "/calendarevents/nearest" with "user.email=user1@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor1@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should see "Записаться"
      And I follow "Записаться"
     Then I wait for AJAX to finish
@@ -36,7 +37,10 @@ Feature: Sign up for event in calendar
     Then I wait for AJAX to finish
     Then I should see "Вы уже зарегистрированы"
      And I press "OK"
-    Then I should have 3 notifications
+    Then I should have 2 email notification to "user1@mail"
+     And I should have 1 email notification to "sponsor1@mail"
+    Then I should have member with id "user1@mail"
+     And I should have member with id "sponsor1@mail"
 
     When I go to "/admin/success/event/webinarevent/list"
     Then I should see "test webinar #1"
@@ -76,17 +80,20 @@ Feature: Sign up for event in calendar
     Then I press "btn_create_and_list"
      And I should see "создан"
 
-    When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor@mail&sponsor.first_name=sName&sponsor.last_name=sLastName&user.phone=12345678&sponsor.phone=12345678" placeholders
+    When I go to "/calendarevents/nearest" with "user.email=user2@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor2@mail&sponsor.first_name=sName&sponsor.last_name=sLastName&user.phone=012345678&sponsor.phone=112345678" placeholders
      And I follow "Записаться"
     Then I wait for AJAX to finish
      And I press "signup_Записаться"
     Then I wait for AJAX to finish
     Then I should see "Вы успешно зарегистрированы"
      And I press "OK"
-    Then I should have 8 notifications
-     And I should have 2 members
-    Then I should have member with "user@mail" id
-     And I should have member with "sponsor@mail" id
+
+    Then I should have 2 email notification to "user2@mail"
+     And I should have 1 email notification to "sponsor2@mail"
+    Then I should have 1 SMS notification to "012345678"
+     And I should have 1 SMS notification to "112345678"
+    Then I should have member with id "user2@mail"
+     And I should have member with id "sponsor2@mail"
 
     When I go to "/admin/success/event/eventsignup/list"
     Then I should see "Удалить"
