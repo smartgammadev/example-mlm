@@ -19,6 +19,9 @@ use Gamma\Framework\Behat\PagesContext,
     Gamma\Framework\Behat\ApiContext;
 use Behat\Behat\Context\Step;
 
+use Success\Behat\Application;
+
+
 //
 // Require 3rd-party libraries here:
 //
@@ -35,6 +38,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     
     protected $kernel;
     private $parameters;
+    private  $application;
 
     
     /**
@@ -45,7 +49,33 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     public function __construct(array $parameters)
     {
         $this->parameters = $parameters;
-    }    
+    }
+
+
+    /**
+     * @When /^I run "([^"]*)" command$/
+     */
+    public function iRunCommand($name)
+    {
+
+        $kernel = new \AppKernel("test", true);
+        $kernel->boot();
+
+        $this->application = new \Symfony\Bundle\FrameworkBundle\Console\Application($kernel);
+        $this->application->add(new \Success\NotificationBundle\Command\ProcessEmailCommand());
+
+        $command = $this->application->find($name);
+        //$command .= " -env=test";
+
+        $command->addOption('ent','test');
+
+//        echo $command->getAliases();
+
+        $this->tester = new \Symfony\Component\Console\Tester\CommandTester($command);
+        $this->tester->execute(array('command' => $command->getName()));
+
+
+    }
     
 
     /** BeforeSuite */
