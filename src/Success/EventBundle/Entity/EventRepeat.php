@@ -3,6 +3,7 @@
 namespace Success\EventBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validation\Constraints AS Assert;
 
 /**
  * EventRepeat
@@ -33,6 +34,7 @@ class EventRepeat
      * @var integer
      *
      * @ORM\Column(name="repeatInterval", type="integer")
+     * 
      */
     private $repeatInterval;
 
@@ -99,7 +101,6 @@ class EventRepeat
     public function setRepeatInterval($repeatInterval)
     {
         $this->repeatInterval = $repeatInterval;
-
         return $this;
     }
 

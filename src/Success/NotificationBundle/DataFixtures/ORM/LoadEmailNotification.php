@@ -18,7 +18,7 @@ class LoadEmailNotification extends AbstractFixture implements OrderedFixtureInt
 
         $notifyEmail1 = new EmailNotification();
         $notifyEmail1->setName('userSignUpEmailMessage');
-        $notifyEmail1->setDestination('test@mail.com');
+        $notifyEmail1->setDestination('testCommand@mail.com');
         $notifyEmail1->setIsSent(0);
         $notifyEmail1->setIsFailed(0);
         $notifyEmail1->setStartDateTime(new \DateTime());
