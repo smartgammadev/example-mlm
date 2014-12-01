@@ -48,7 +48,7 @@ class SalesGeneratorController extends Controller
      * @Route("/admin/treeview/get-audiences", name="admin_sonata_get_audiences")
      */
     public function treeViewAction()
-    {
+    {   
         return ['audiences' => $audiences = $this->salesGeneratorManager->getAllAudiences()];
     }
     
