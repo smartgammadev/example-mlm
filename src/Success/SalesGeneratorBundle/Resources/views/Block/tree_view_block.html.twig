@@ -1,43 +1,25 @@
 {% extends sonata_block.templates.block_base %}
 
 {% block block %}
-    <link rel="stylesheet" href="{{ asset('bundles/successsalesgenerator/css/style.min.css') }}" />
-    <h3 class="box-title">{{ settings.title }}</h3>
-    <div id="jstree"></div>
-    <script type="text/javascript" src="{{ asset('bundles/successsalesgenerator/js/jstree.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/successsalesgenerator/js/tree_view.js') }}"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#jstree').jstree({
-                'core' : {
-                    'check_callback': true,
-                    'data' : [
-                        { "id" : "rootNode", "parent" : "#", "text" : "Audiences", "state" : { "opened" : "true" } },
-                        {% for audience in settings.audiences %}
-                            { "id" : "audience-{{ audience.id }}", "li_attr" : { "data-next" : {{ audience.firstQuestion.id }} }, "parent" : "rootNode", "text" : "{{ audience.name }}", "type":"audience" },
-                        {% endfor %}
-                    ],
-                },
-                "types" : {
-                    "default" : {
-                        "icon" : "glyphicon glyphicon-tags"
-                    },
-                    "audience" : {
-                        "icon" : "glyphicon glyphicon-tag"
-                    },
-                    "question" : {
-                        "icon" : "glyphicon glyphicon-question-sign"
-                    },
-                    "answer"   : {
-                        "icon" : "glyphicon glyphicon-ok-sign"
-                    }
-                },
-                "contextmenu" : { 
-                    "items" : contextMenu,
-                    "select_node" : false,
-                },
-                "plugins" : [ "types", "contextmenu", "search" ]
-            }); 
-        });
-    </script>
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Tree view</h3>
+        </div>
+        <div class="box-body">
+            <table class="table table-hover">
+                <tbody>
+                    <tr>
+                        <td class="sonata-ba-list-label">Audiences</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{{ path("admin_sonata_get_audiences") }}" class="btn btn-link btn-flat">
+                                    <span class="glyphicon glyphicon-align-left"></span> View as tree
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock block %}

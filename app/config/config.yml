@@ -81,6 +81,7 @@ doctrine:
 #        form: [ SuccessEventBundle:Admin:form_admin_fields.html.twig ]
 
 sonata_admin:
+    title: 4 Success
     templates:
         layout:  ::standard_layout.html.twig
 #    options:
@@ -101,11 +102,11 @@ sonata_admin:
                 items:
                     - sonata.user.admin.user
                     - sonata.user.admin.group
-#            Sales Generator:
-#                items:
-#                    - sonata.admin.audience
-#                    - sonata.admin.question
-#                    - sonata.admin.answer
+            Sales Generator:
+                items:
+                    - sonata.admin.audience
+                    - sonata.admin.question
+                    - sonata.admin.treeview
         
 sonata_notification:
     backend: sonata.notification.backend.runtime

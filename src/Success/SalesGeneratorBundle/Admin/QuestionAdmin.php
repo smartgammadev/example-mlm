@@ -12,6 +12,9 @@ use Sonata\AdminBundle\Admin\Admin,
  */
 class QuestionAdmin extends Admin
 {    
+    protected $baseRouteName = 'questions';    
+    protected $baseRoutePattern = 'questions';
+    
     protected $datagridValues = array(
         '_page' => 1,
         '_sort_order' => 'ASC',

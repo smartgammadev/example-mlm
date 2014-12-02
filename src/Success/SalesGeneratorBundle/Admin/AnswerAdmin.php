@@ -11,8 +11,10 @@ use Sonata\AdminBundle\Admin\Admin,
  * @author develop1
  */
 class AnswerAdmin extends Admin
-{
-        
+{    
+    protected $baseRouteName = 'answers';    
+    protected $baseRoutePattern = 'answers';
+    
     protected function configureFormFields(FormMapper $formMapper)
     {
         // Pass following question's id as 'data' parameter in the following operator

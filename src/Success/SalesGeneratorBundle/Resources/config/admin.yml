@@ -15,11 +15,11 @@ services:
             - ~
             - Success\SalesGeneratorBundle\Entity\Question
             - ~
-    sonata.admin.answer:
-        class: Success\SalesGeneratorBundle\Admin\AnswerAdmin
+    sonata.admin.treeview:
+        class: Success\SalesGeneratorBundle\Admin\TreeViewAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Sales Generator", label: "Answers" }
+            - { name: sonata.admin, manager_type: orm, group: "Sales Generator", label: "Tree view" }
         arguments:
             - ~
-            - Success\SalesGeneratorBundle\Entity\Answer
             - ~
+            - SuccessSalesGeneratorBundle:TreeViewAdmin
