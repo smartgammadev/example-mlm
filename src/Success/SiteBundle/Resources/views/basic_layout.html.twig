@@ -41,13 +41,13 @@
     {% endblock header %}
     <!--  Header ends -->
 
-    {#{% block content %}{% endblock %}
+    {% block content %}{% endblock %}
 
     <!-- Footer starts -->
     {% block footer %}
         <footer>
             {% include "SuccessSiteBundle::footer.html.twig" %}    
         </footer>
-    {% endblock footer %}#}
+    {% endblock footer %}
     <!-- Footer ends -->
 {% endblock body %}
