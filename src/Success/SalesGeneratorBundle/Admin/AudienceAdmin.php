@@ -18,9 +18,6 @@ class AudienceAdmin extends Admin
      */
     private $salesGeneratorManager;
     
-    protected $baseRouteName = 'audiences';    
-    protected $baseRoutePattern = 'audiences';
-    
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
