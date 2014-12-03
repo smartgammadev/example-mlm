@@ -39,7 +39,7 @@ class TreeViewBlockService extends BaseBlockService
     {
         $resolver->setDefaults([
             'template' => 'SuccessSalesGeneratorBundle:Block:tree_view_block.html.twig',
-            'title' => 'Sales generator tree view',
+            'title' => 'View sales generator as tree',
             'audiences' => $this->salesGeneratorManager->getAllAudiences()
         ]);
     }
