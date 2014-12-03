@@ -46,6 +46,7 @@ class SalesGeneratorController extends Controller
     
     /**
      * @Route("/admin/treeview/get-audiences", name="admin_sonata_get_audiences")
+     * @Template("SuccessSalesGeneratorBundle:Admin:tree_view.html.twig")
      */
     public function treeViewAction()
     {   

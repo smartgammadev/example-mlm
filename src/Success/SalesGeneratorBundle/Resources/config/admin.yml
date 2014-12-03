@@ -18,7 +18,7 @@ services:
     sonata.admin.answer:
         class: Success\SalesGeneratorBundle\Admin\AnswerAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Sales Generator", label: "Answers" }
+            - { name: sonata.admin, manager_type: orm, group: "Sales Generator", label: "Answer" }
         arguments:
             - ~
             - Success\SalesGeneratorBundle\Entity\Answer

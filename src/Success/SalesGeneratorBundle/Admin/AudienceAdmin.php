@@ -18,6 +18,9 @@ class AudienceAdmin extends Admin
      */
     private $salesGeneratorManager;
     
+    protected $baseRouteName = 'audiences';    
+    protected $baseRoutePattern = 'audiences';
+    
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -48,7 +51,6 @@ class AudienceAdmin extends Admin
     public function configureRoutes(RouteCollection $collection)
     {
         $collection->remove('batch');
-
     }
     
     /** Remove all questions in $audience

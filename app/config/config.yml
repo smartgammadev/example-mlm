@@ -81,14 +81,15 @@ doctrine:
 #        form: [ SuccessEventBundle:Admin:form_admin_fields.html.twig ]
 
 sonata_admin:
+    title: 4 Success
     templates:
         layout:  ::standard_layout.html.twig
 #    options:
 #        form_type: horizontal
     dashboard:
         blocks:
-            - { position: left, type: sonata.admin.block.admin_list }
-            - { position: left, type: sonata.block.service.treeview }
+            - { position: bottom, type: sonata.block.service.treeview, class: col-md-12 }
+            - { position: top, type: sonata.admin.block.admin_list, class: col-md-12 }            
         groups:
             4 Success:
                 items: 
@@ -101,10 +102,10 @@ sonata_admin:
                 items:
                     - sonata.user.admin.user
                     - sonata.user.admin.group
-#            Sales Generator:
-#                items:
-#                    - sonata.admin.audience
-#                    - sonata.admin.question
+            Sales Generator:
+                items:
+                    - sonata.admin.audience
+                    - sonata.admin.question
 #                    - sonata.admin.answer
         
 sonata_notification:
