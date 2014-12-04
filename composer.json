@@ -14,7 +14,10 @@
         "psr-0": { 
             "": "src/",
             "Success\\Behat": "features/"
-        }
+        },
+        "classmap": [
+            "app/AppKernel.php"
+        ]
     },
     "require": {
         "php": ">=5.3.3",

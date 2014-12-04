@@ -87,7 +87,7 @@ class EventManager //extends Service
         //$repeatableEvents = $repo->findAllWithActiveRepeats($nowDate);
         $repeatableEvents = $repo->findAllWithActiveRepeats($startDate);
         $result = [];
-        
+      
         foreach ($repeatableEvents as $repeatableEvent){
             
             $repeatDates = $this->getRepeatsForEvent($repeatableEvent, $startDate, $endDate);
