@@ -91,7 +91,7 @@ Feature: Creation repeatable events in calendar. Repeating by day, week, month, 
     Then I should not see "test webinar #1"
      And I should see "нет ближайших мероприятий"
 
-  @basic @javascript
+  @basic @javascript @repeat_event
   Scenario: Create a repeatable event by week with 1 week interval
     Given I am logged in as admin
      Then I want to create new event
