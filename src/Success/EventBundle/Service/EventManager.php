@@ -7,6 +7,9 @@ use Success\EventBundle\Entity\WebinarEvent;
 use Success\MemberBundle\Entity\Member;
 use Success\EventBundle\Entity\EventSignUp;
 use Success\EventBundle\Entity\EventRepeat;
+use Success\NotificationBundle\Service\NotificationManager;
+use Success\SettingsBundle\Service\SettingsManager;
+use Success\PlaceholderBundle\Service\PlaceholderManager;
 
 class EventManager //extends Service
 {
@@ -25,21 +28,27 @@ class EventManager //extends Service
      * @var \Success\SettingsBundle\Service\SettingsManager
      */
     private $settingsManager;
-    
-        
+            
     /**
      *
      * @var \Success\PlaceholderBundle\Service\PlaceholderManager
      */
     private $placeholderManager;
-    
-    public function __construct($notificationManager, $settingsManager, $placeholderManager)
-    {
-        $this->notificationManager = $notificationManager;
-        $this->settingsManager = $settingsManager;
-        $this->placeholderManager = $placeholderManager;
-    }
 
+    public function setNotificationManager(NotificationManager $notificationManager)
+    {
+        $this->notificationManager = $notificationManager;    
+    }
+    
+    public function setSettingsManager(SettingsManager $settingsManager)
+    {
+        $this->settingsManager = $settingsManager;
+    }
+    
+    public function setPlaceholderManager(PlaceholderManager $placeholderManager)
+    {
+        $this->placeholderManager = $placeholderManager;
+    }    
 
     /**
      * @param Datetime $startDate 

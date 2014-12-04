@@ -7,9 +7,11 @@ parameters:
 services:
     success.event.event_manager:
         class: %success.event.event_manager.class%
-        arguments: [ @success.notification.notification_manager, @success.settings.settings_manager, @success.placeholder.placeholder_manager]
         calls:
              - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+             - [setNotificationManager, ["@success.notification.notification_manager"]]
+             - [setPlaceholderManager, ["@success.placeholder.placeholder_manager"]]
+             - [setSettingsManager, ["@success.settings.settings_manager"]]
      
     success.event.calendar_event_listener:
         class: Success\EventBundle\EventListener\CalendarEventListener
