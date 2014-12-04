@@ -121,8 +121,7 @@ class MemberManager {
             $memberData->setPlaceholder($placeholder);
             $memberData->setMemberData($data);
             $this->em->flush();
-        }
-        
+        }        
         return $memberData;        
     }
     

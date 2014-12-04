@@ -50,6 +50,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
             new Sonata\IntlBundle\SonataIntlBundle(),
             new Ornicar\ApcBundle\OrnicarApcBundle(),
+            new Trsteel\CkeditorBundle\TrsteelCkeditorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
