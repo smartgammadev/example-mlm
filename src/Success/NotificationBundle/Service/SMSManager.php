@@ -1,7 +1,8 @@
 <?php
 namespace Success\NotificationBundle\Service;
 
-class SMSManager {
+class SMSManager 
+{
     private $gateService;
     
     public function __construct($gateService) 
