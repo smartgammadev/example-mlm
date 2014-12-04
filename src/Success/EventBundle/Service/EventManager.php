@@ -12,6 +12,8 @@ class EventManager //extends Service
 {
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
     
+    const OPEN_ACCESS_TYPE_FLAG = 'открытый';
+    
     /**
      *
      * @var \Success\NotificationBundle\Service\NotificationManager
@@ -94,71 +96,7 @@ class EventManager //extends Service
         }
         return $result;        
     }
-    
-    /**
-     * @param Datetime $startDate
-     * @return \Success\EventBundle\Entity\BaseEvent
-     */
-    public function getNearestNextEvent($startDate)
-    {
-        /* @var $repo \Success\EventBundle\Entity\BaseEventRepository */
-        $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
-        return $repo->findNextNearestByDate($startDate);
-    }
-    
-    /**
-     * 
-     * @param DateTime $startDate
-     * @return Array
-     */
-    public function getEventsForDate($startDate)
-    {
-        $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
-        $result = $repo->findAllByDate($startDate);
-        return $result;
-    }
-    
-    /**
-     * 
-     * @param DateTime $startDate
-     * @return Array
-     */    
-    public function getNextEventsForDate($startDate)
-    {
-        $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
-        return $repo->findNextByDate($startDate);
-    }
-
-    /**
-     * 
-     * @param DateTime $dateOfWeek
-     * @return Array
-     */
-    
-    public function getAllEventsOfWeekByDate($dateOfWeek)
-    {
-        $startDate = $this->firstDayOfWeek($dateOfWeek);
-        $endDate = $this->lastDayOfWeek($dateOfWeek);
-        
-        /* @var $repo \Success\EventBundle\Entity\BaseEventRepository */
-        $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");        
-        return $repo->findAllBetweenDates($startDate, $endDate);
-    }
-    
-    /**
-     * 
-     * @param DateTime $dateOfWeek
-     * @return Array
-     */
-    public function getNextEventsOfWeekByDate($dateOfWeek)
-    {
-        $endDate = $this->lastDayOfWeek($dateOfWeek);
-        
-        /* @var $repo \Success\EventBundle\Entity\BaseEventRepository */
-        $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");        
-        return $repo->findAllBetweenDates($dateOfWeek, $endDate);        
-    }
-    
+ 
     /**
      * @param $eventId
      * @return \Success\EventBundle\Entity\BaseEvent
@@ -201,9 +139,8 @@ class EventManager //extends Service
      * @param boolean $notifyUserBeforeEvent
      * @return boolean True if already exists, false if created
      */        
-    public function SignUpMemberForEvent(Member $memberSignedUp, BaseEvent $event, \DateTime $signUpDateTime, $notifyUserBeforeEvent)
-    {
-       
+    public function signUpMemberForEvent(Member $memberSignedUp, BaseEvent $event, \DateTime $signUpDateTime, $notifyUserBeforeEvent)
+    {     
        $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
        $alreadyExists = $this->resolveSignUpForMember($memberSignedUp, $event, $signUpDateTime);
        
@@ -233,11 +170,12 @@ class EventManager //extends Service
        }
        return $alreadyExists;
     }
+    
     /**
      * @param BaseEvent $event
      * @return string Url
      */
-    public function GenerateExternalLinkForWebinarEvent(WebinarEvent $event){
+    public function generateExternalLinkForWebinarEvent(WebinarEvent $event){
         $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
         $url = $event->getUrl().'/';
         
@@ -254,49 +192,16 @@ class EventManager //extends Service
         return $url;
     }
     
-    
     /**
-     * @param \DateTime $dateOfWeek
-     * @return \DateTime first day of week where $dateOfWeek in
-     */
-    private function firstDayOfWeek(\DateTime $dateOfWeek)
-    {
-        $thisDate = new \DateTime();
-        $thisDate->setTimestamp($dateOfWeek->getTimestamp());
-        $thisDay = strftime("%u", $thisDate->getTimestamp());                
-        $firstDayOfWeekTimestamp = $thisDate->modify('-'.($thisDay-1).' days')->getTimestamp();        
-        $firstDateOfWeek = new \DateTime();
-        $firstDateOfWeek->setTimestamp(mktime(0, 0, 0, date("m", $firstDayOfWeekTimestamp) , date("d", $firstDayOfWeekTimestamp), date("Y", $firstDayOfWeekTimestamp)));        
-        //echo $firstDateOfWeek->format('Y-m-d H:i:s');        
-        return $firstDateOfWeek;
-    }
-
-    /**
-     * @param \DateTime $dateOfWeek
-     * @return \DateTime last day of week where $dateOfWeek in
-     */    
-    public function lastDayOfWeek(\DateTime $dateOfWeek)
-    {
-        $thisDate = new \DateTime();
-        $thisDate->setTimestamp($dateOfWeek->getTimestamp());
-        $thisDay = strftime("%u", $thisDate->getTimestamp());                
-        $lastDayOfWeekTimestamp = $thisDate->modify('+'.(7-$thisDay).' days')->getTimestamp();        
-        $lastDateOfWeek = new \DateTime();
-        $lastDateOfWeek->setTimestamp(mktime(23, 59, 59, date("m", $lastDayOfWeekTimestamp) , date("d", $lastDayOfWeekTimestamp), date("Y", $lastDayOfWeekTimestamp)));
-        //echo $lastDateOfWeek->format('Y-m-d H:i:s');
-        return $lastDateOfWeek;
-    }
-    
-    
-    
+     * @return BaseEvent[] 
+     */  
     public function getAllRepatableEvents()
     {
         $repo = $this->em->getRepository('SuccessEventBundle:BaseEvent');
         $now = new \DateTime();
         return $repo->findAllWithActiveRepeats($now);
     }
-    
-    
+       
     /**
      * @param BaseEvent $event
      * @param \DateTime $startDate
@@ -360,7 +265,7 @@ class EventManager //extends Service
      */
     public function getEventAccessForUser(BaseEvent $event)
     {
-        $isOpenEvent = ($event->getAccessType()->getName() == 'открытый');
+        $isOpenEvent = ($event->getAccessType()->getName() == self::OPEN_ACCESS_TYPE_FLAG);
         $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
         
         if (!$isOpenEvent){

@@ -66,7 +66,7 @@ class CalendarController extends Controller
         $allowVisitEvent = ($event->getStartDateTime()->getTimestamp() - $now->getTimestamp() < $minutesToVisitEvent*60);
         $isPastEvent = $event->getStartDateTime()->getTimestamp() < $now->getTimestamp();                        
         
-        $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($event);
+        $externalLink = $this->eventManager->generateExternalLinkForWebinarEvent($event);
         return array('event' => $event,
                     'allowVisitEvent' => $allowVisitEvent,
                     'isPastEvent' => $isPastEvent,
@@ -147,7 +147,7 @@ class CalendarController extends Controller
         $externalLink = '';
         if ($nextEvent) {
             $userAccess = $this->eventManager->getEventAccessForUser($nextEvent);
-            $externalLink = $this->eventManager->GenerateExternalLinkForWebinarEvent($nextEvent);
+            $externalLink = $this->eventManager->generateExternalLinkForWebinarEvent($nextEvent);
             $allowToVisit = ($nextEvent->getStartDateTime()->getTimestamp() - $current->getTimestamp() < $minutesBeforeToVisitEvent*60);
         }
         return array('currentDateTime' => $current, 
@@ -168,9 +168,6 @@ class CalendarController extends Controller
         
         return array();
     }    
-
-
-
 
     /**
      * @Route("/{template}/event/{eventId}/signup", name="calendar_event_signup", requirements={"eventId"="\d+"})
@@ -208,7 +205,7 @@ class CalendarController extends Controller
             $this->placeholderManager->assignPlaceholdersToSession($placeholders);
             $this->memberManager->updateMemberData($placeholders);
 
-            if ($this->eventManager->SignUpMemberForEvent($memberSignedUp, $event, $now, $notifyUserBeforeEvent)){
+            if ($this->eventManager->signUpMemberForEvent($memberSignedUp, $event, $now, $notifyUserBeforeEvent)){
                 $message = 'Вы уже зарегистрированы на этот вебинар.';
             } else {
                 $message = 'Поздравляем, Вы успешно зарегистрированы на вебинар!';
