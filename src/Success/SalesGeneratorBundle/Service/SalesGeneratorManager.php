@@ -40,8 +40,6 @@ class SalesGeneratorManager
         if (!$question) {
             throw $this->createNotFoundException('No question found for id ' . $question_id);
         }
-        
-//        $questionWithAnswers = $this->questionToArray($question);
     
         return $question;
     }
@@ -115,12 +113,6 @@ class SalesGeneratorManager
     {
         $this->em->getRepository(self::AUDIENCE_REPO)->removeReferenceToFirstQuestion($audience);
         $this->em->getRepository(self::QUESTION_REPO)->removeAllQuestionsFromAudience($audience);
-    }
-    
-    public function questionToArray($question)
-    {
-        var_dump($question);
-        return $result;
     }
     
     public function fillQuestionsAndAnswers() // Without links to next questions

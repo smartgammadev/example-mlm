@@ -64,4 +64,16 @@ class SalesGeneratorController extends Controller
         
         return new JsonResponse($question);
     }
+    
+    /**
+     * @Route("/refresh-question", methods={"POST"}, name="refresh-question")
+     */
+    public function refreshQuestionAction(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $question_id = $request->request->get('question_id');
+        
+        $question = $this->salesGeneratorManager->getCurrentQuestionWithAnswers($question_id)->getText();
+        
+        return new JsonResponse($question);
+    }
 }

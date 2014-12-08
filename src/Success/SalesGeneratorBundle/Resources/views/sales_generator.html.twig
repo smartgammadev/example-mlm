@@ -5,17 +5,34 @@
     <link rel="stylesheet" href="{{ asset('bundles/successsalesgenerator/css/sales_generator.css') }}" />
 {% endblock stylesheets %}
 
+{% block javascripts %}
+        {{ parent() }}
+        <script type="text/javascript" src="{{ asset('bundles/successsalesgenerator/js/sales_generator.js') }}"></script>
+        <script type="text/javascript">
+            $('.refresh-question').on('click', function(event) {
+               $.ajax({
+                    url : '{{ path('refresh-question') }}',
+                    type : 'POST',
+                    data : {
+                      'question_id' : $(this).attr('id')
+                    },
+                    success : function(question) {
+                        $("#question-text").html(question);
+                    }
+               });
+            });
+        </script>
+    {% endblock javascripts %}
+
 {% block content %}
     <div class="container">
-        <h1>Sales generator</h1>
-
         <div class="panel panel-primary question">
             <div class="panel-heading">
-              <h3 class="panel-title">Вопрос</h3>
+              <h3 class="panel-title">Вопрос <span class="glyphicon glyphicon-refresh pull-right refresh-question" id="{{ question.id }}"></span></h3>
             </div>
             <div class="panel-body">
               <h6>
-                  <p>{{ question.text }}</p>
+                  <p id="question-text">{{ question.text }}</p>
               </h6>
             </div>
         </div>
@@ -38,9 +55,7 @@
         </div>
     </div>
     
-    {% block javascripts %}
-        {{ parent() }}
-        <script type="text/javascript" src="{{ asset('bundles/successsalesgenerator/js/sales_generator.js') }}"></script>
-    {% endblock javascripts %}
+    
 {% endblock content %}
+
 {% block footer %}{% endblock footer %}
