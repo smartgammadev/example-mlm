@@ -20,8 +20,7 @@ class PlaceholderManager
     
     public function assignPlaceholdersToSession(array $placeholders)
     {
-        //print_r($this->request);
-        
+        //print_r($this->request);        
         $session = $this->request->getSession();
         $session->set('placeholders', $placeholders);
     }
@@ -37,7 +36,7 @@ class PlaceholderManager
      * @return array[][placeholder Entity][value sting]
      */  
     public function getPlaceholdersValuesFormSession()
-    {   
+    {
         /* @var $session \Symfony\Component\HttpFoundation\Session\Session */
         $session = $this->request->getSession();
         $placeholders = $session->get('placeholders');
@@ -57,7 +56,7 @@ class PlaceholderManager
         $session = $this->request->getSession();
         $placeholders = $session->get('placeholders');
         foreach ($placeholders as $pattern => $value){
-            $ph = $this->ResolveExternalPlaceholder($pattern);
+            $ph = $this->resolveExternalPlaceholder($pattern);
             if($ph->getPassToExternalLink()){
                 $result[] = array('placeholder'=>$ph, 'value'=>$value);
             }
@@ -67,11 +66,11 @@ class PlaceholderManager
 
     public function getPlaceholdersValuesByTypePattern($typePattern)
     {
-        $session = $this->request->getSession();
+        $session = $this->request->getSession();        
         $placeholders = $session->get('placeholders');
         
         foreach ($placeholders as $pattern => $value){
-            $ph = $this->ResolveExternalPlaceholder($pattern);
+            $ph = $this->resolveExternalPlaceholder($pattern);
             if($ph->getPlaceholderType()->getPattern() == $typePattern){
                 $result[] = array('placeholder'=>$ph, 'value'=>$value);
             }
@@ -125,7 +124,7 @@ class PlaceholderManager
     /**
      * @return Array
      */
-    public function GetPlaceholderTypes() 
+    public function getPlaceholderTypes() 
     {
         $repo = $this->em->getRepository('SuccessPlaceholderBundle:PlaceholderType');
         return $repo->findAll();

@@ -9,14 +9,13 @@ use Success\MemberBundle\Entity\MemberData;
 class MemberManager {
     
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
+    use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
     
-    private $placeholderManager;
     private $memberIdentityPlaceholder;// = 'email';
     
-    public function __construct(PlaceholderManager $placeholderManager, $memberIdentityPlaceholder)
+    public function __construct()
     {
-        $this->placeholderManager = $placeholderManager;        
-        $this->memberIdentityPlaceholder = $memberIdentityPlaceholder;
+        $this->memberIdentityPlaceholder = 'email';//$memberIdentityPlaceholder;
     }
      
     /**
@@ -24,7 +23,7 @@ class MemberManager {
      * @param type $externalId string(255)
      * @return Success\MemberBundle\Entity\Member
      */
-    public function GetMemberByExternalId($externalId)
+    public function getMemberByExternalId($externalId)
     {
         $repo = $this->em->getRepository('SuccessMemberBundle:Member');
         return $repo->findOneBy(array('externalId'=>$externalId));
@@ -37,7 +36,7 @@ class MemberManager {
      */
     public function resolveMemberByExternalId($externalId)
     {
-        $member = $this->GetMemberByExternalId($externalId);
+        $member = $this->getMemberByExternalId($externalId);
 
         if (!$member){
             $member = new Member();
@@ -64,7 +63,7 @@ class MemberManager {
     
     /**
      * 
-     * @param array $placeholderData
+     * @param array $placeholdersData
      * @return array
      */
     private function findPlaceholdersToSearchMember(array $placeholdersData)

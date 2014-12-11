@@ -27,7 +27,8 @@ class CalendarEventListener
 
         // load events using your custom logic here,
         // for instance, retrieving events from a repository
-        $cEvents = $this->eventManager->getEventsByDateRange($startDate, $endDate);
+        
+        $cEvents = $this->eventManager->getEventsByDateRange($startDate, $endDate);        
         $this->addEventToCalendar($cEvents, $calendarEvent);
     }
     
@@ -38,6 +39,8 @@ class CalendarEventListener
      */
     private function addEventToCalendar(array $cEvents, CalendarEvent $calendarEvent)
     {
+        //var_dump($cEvents);
+        
         foreach($cEvents as $cEvent) {
                
             $eventEntity = new EventEntity($cEvent->getName(), $cEvent->getStartDateTime(), null, true);

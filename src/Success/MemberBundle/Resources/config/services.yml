@@ -5,6 +5,7 @@ parameters:
 services:
     success.member.member_manager:
         class: %success_member.member_manager.class%
-        arguments: ["@success.placeholder.placeholder_manager", %memberIdentityPlaceholder%]
+        arguments: [%memberIdentityPlaceholder%]
         calls:
              - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+             - [setPlaceholderManager, ["@success.placeholder.placeholder_manager"]]
