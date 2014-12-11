@@ -3,7 +3,7 @@
 namespace Success\EventBundle\Tests\Services;
 
 use Gamma\PhpUnit\Tester\Test\ServiceTest;
-use LaMelle\ImageBundle\Mocks\Repository\ImageRepositoryMock;
+//use LaMelle\ImageBundle\Mocks\Repository\ImageRepositoryMock;
 
 class EventManagerTest extends ServiceTest
 {
@@ -38,7 +38,7 @@ class EventManagerTest extends ServiceTest
     {
         parent::setUp();
         
-//        if ($this->isMockEmulation) {
+        if ($this->isMockEmulation) {
 /*
             $this->fotoliaImage = new \LaMelle\FotoliaBundle\Entity\Image;
             $this->pantherImage = new \LaMelle\PanthermediaBundle\Entity\Image;
@@ -82,10 +82,13 @@ class EventManagerTest extends ServiceTest
             \LaMelle\PanthermediaBundle\Entity\SourceFile::setWebFiles($this->container->getParameter('lamelle.panther.config.web_files')); 
              * 
              */
+            
+        } else {
             $this->instance->setEntityManager($this->container->get('doctrine.orm.entity_manager'));
             $this->instance->setNotificationManager($this->container->get('success.notification.notification_manager'));
             $this->instance->setPlaceholderManager($this->container->get('success.placeholder.placeholder_manager'));
-            $this->instance->setSettingsManager($this->container->get('success.settings.settings_manager'));          
+            $this->instance->setSettingsManager($this->container->get('success.settings.settings_manager'));                      
+        }
         //} 
     }   
     
@@ -94,11 +97,29 @@ class EventManagerTest extends ServiceTest
      */
     public function testGetEventsByDateRange()
     {
-        $result = $this->instance->getEventsByDateRange(new \DateTime(), new \DateTime());
-
+        $startDateTime = new \DateTime(); 
+        $startDateTime->modify('-2 days');
+        $result = $this->instance->getEventsByDateRange($startDateTime, new \DateTime());
+        $this->getMock('Success\EventBundle\Entity\BaseEvent');
+        
         $this->assertNotNull($result);
-       // $this->assertInstanceOf('Success\EventBundle\Entity\Baseevent', $result[0]);
+        $this->assertInstanceOf('Success\EventBundle\Entity\BaseEvent', $result[0]);        
     }
 
- 
+    /**
+     * @covers \Success\EventBundle\Service\EventManager::appendRepeatsForEvents
+     */
+    public function testAppendRepeatsForEvents()
+    {
+        $startDateTime = new \DateTime();
+        $endDateTime = new \DateTime();
+                
+        $endDateTime->modify('+7 days');
+        
+        $result = $this->instance->appendRepeatsForEvents(new \DateTime, $startDateTime, $endDateTime);        
+        
+        $this->assertNotNull($result);
+        $this->assertInstanceOf('Success\EventBundle\Entity\BaseEvent', $result[0]);
+    }
+    
 }

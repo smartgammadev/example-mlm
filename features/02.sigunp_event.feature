@@ -5,6 +5,7 @@ Feature: Sign up for event in calendar
   Scenario: Create and sign up for created event
 
    Given I am logged in as admin
+     And I have no events
     Then I want to create new event
      And I fill "startDateTime" with current date plus "15" minutes
     Then I fill "url" with "https://go.myownconference.ru/4SuccessTeam"

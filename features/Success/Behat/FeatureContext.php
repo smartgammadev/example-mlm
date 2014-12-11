@@ -204,8 +204,31 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     public function getService($id)
     {
         return $this->getContainer()->get($id);
-    }    
+    }
     
+    /**
+     * @Given /^I have no events$/
+     */
+    public function iHaveNoEvents()
+    {
+        $em = $this->getEntityManager();
+        $signUps = $em->getRepository('Success\EventBundle\Entity\EventSignUp')->findAll();
+        $events = $em->getRepository('Success\EventBundle\Entity\BaseEvent')->findAll();
+        $eventRepeats = $em->getRepository('Success\EventBundle\Entity\EventRepeat')->findAll();
+        
+        foreach ($eventRepeats as $eventRepeat){
+            $em->remove($eventRepeat);
+        }
+        
+        foreach ($signUps as $signUp){
+            $em->remove($signUp);
+        }
+        
+        foreach ($events as $event){
+            $em->remove($event);
+        }
+        $em->flush();
+    }
     
     /**
      * @Given /^I am logged in as admin$/

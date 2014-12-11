@@ -2,6 +2,7 @@ Feature: Creation repeatable events in calendar. Repeating by day, week, month, 
   @basic @javascript
   Scenario: Create a repeatable event by day with 1 day interval
    Given I am logged in as admin
+     And I have no events
     Then I want to create new event
      And I fill "startDateTime" with current date plus "15" minutes
     Then I fill "url" with "https://go.myownconference.ru/4SuccessTeam"

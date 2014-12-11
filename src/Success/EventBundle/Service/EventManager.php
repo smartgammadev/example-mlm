@@ -7,49 +7,16 @@ use Success\EventBundle\Entity\WebinarEvent;
 use Success\MemberBundle\Entity\Member;
 use Success\EventBundle\Entity\EventSignUp;
 use Success\EventBundle\Entity\EventRepeat;
-use Success\NotificationBundle\Service\NotificationManager;
-use Success\SettingsBundle\Service\SettingsManager;
-use Success\PlaceholderBundle\Service\PlaceholderManager;
 
 class EventManager //extends Service
 {
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
+    use \Success\EventBundle\Traits\SetPlaceholderManagerTrait;
+    use \Success\EventBundle\Traits\SetNotificationManagerTrait;
+    use \Success\EventBundle\Traits\SetSettingsManagerTrait;
     
     const OPEN_ACCESS_TYPE_FLAG = 'открытый';
     
-    /**
-     *
-     * @var \Success\NotificationBundle\Service\NotificationManager
-     */
-    private $notificationManager;
-    
-    /**
-     *
-     * @var \Success\SettingsBundle\Service\SettingsManager
-     */
-    private $settingsManager;
-            
-    /**
-     *
-     * @var \Success\PlaceholderBundle\Service\PlaceholderManager
-     */
-    private $placeholderManager;
-
-    public function setNotificationManager(NotificationManager $notificationManager)
-    {
-        $this->notificationManager = $notificationManager;    
-    }
-    
-    public function setSettingsManager(SettingsManager $settingsManager)
-    {
-        $this->settingsManager = $settingsManager;
-    }
-    
-    public function setPlaceholderManager(PlaceholderManager $placeholderManager)
-    {
-        $this->placeholderManager = $placeholderManager;
-    }    
-
     /**
      * @param Datetime $startDate 
      * @param Datetime $endDate
@@ -80,7 +47,7 @@ class EventManager //extends Service
      * @return Array
      */
     
-    private function appendRepeatsForEvents(\DateTime $nowDate, \DateTime $startDate, \DateTime $endDate)
+    public function appendRepeatsForEvents(\DateTime $nowDate, \DateTime $startDate, \DateTime $endDate)
     {        
         $repo = $this->em->getRepository("SuccessEventBundle:BaseEvent");
         
@@ -88,13 +55,11 @@ class EventManager //extends Service
         $repeatableEvents = $repo->findAllWithActiveRepeats($startDate);
         $result = [];
       
-        foreach ($repeatableEvents as $repeatableEvent){
-            
+        foreach ($repeatableEvents as $repeatableEvent){            
             $repeatDates = $this->getRepeatsForEvent($repeatableEvent, $startDate, $endDate);
-            $repeatDays = $repeatableEvent->getEventRepeat()->getRepeatDays();
-            
+            $repeatDays = $repeatableEvent->getEventRepeat()->getRepeatDays();            
                 foreach ($repeatDates as $repeatDate) {
-                    $repeatDayOfWeek = date('w', $repeatDate->getTimestamp());
+                    $repeatDayOfWeek = date('w', $repeatDate->getTimestamp());                    
                     if (isset($repeatDays[intval($repeatDayOfWeek)])&&
                              ($repeatDays[intval($repeatDayOfWeek)])){
                             $eventClone = clone $repeatableEvent;
@@ -150,10 +115,10 @@ class EventManager //extends Service
      */        
     public function signUpMemberForEvent(Member $memberSignedUp, BaseEvent $event, \DateTime $signUpDateTime, $notifyUserBeforeEvent)
     {     
-       $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
-       $alreadyExists = $this->resolveSignUpForMember($memberSignedUp, $event, $signUpDateTime);
-       
-       if (!$alreadyExists){
+        $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
+        $alreadyExists = $this->resolveSignUpForMember($memberSignedUp, $event, $signUpDateTime);
+
+        if (!$alreadyExists){
             if (isset($placeholders['sponsor_email'])){
                 $this->notificationManager->CreateEmailNotification($signUpDateTime, $placeholders['sponsor_email'], 'sponsorSignUpEmailMessage');
             }
@@ -215,13 +180,13 @@ class EventManager //extends Service
      * @param BaseEvent $event
      * @param \DateTime $startDate
      * @param \DateTime $endDate
-     * @return array Description
+     * @return array 
      */
     public function getRepeatsForEvent(BaseEvent $event, \DateTime $startDate, \DateTime $endDate)
     {                
         if ($event->getEventRepeat() == null){
             return null;            
-        } else {            
+        } else {
             $eventRepeat = $event->getEventRepeat();
             $eventRepeatEnd = $eventRepeat->getEndDateTime();
             if ($eventRepeatEnd->getTimestamp() < $startDate->getTimestamp()){
