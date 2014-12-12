@@ -30,7 +30,7 @@ class Audience
     private $name;
     
     /**
-     * @ORM\OneToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Question")
+     * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Question")
      * @ORM\JoinColumn(name="first_question_id", referencedColumnName="id", nullable=true)
      */
     private $firstQuestion;
