@@ -9,8 +9,6 @@ Feature: Audience backend  crud feature
     Then I select "6 В современном..." in "firstQuestion"
     And I press "btn_create_and_list"
     Then I should see "создан"
-
-    Given  I am logged in as admin
     Then I want to create new audience
     And I fill "name" with "New Test Audience"
     Then I select "1 Доброго времени..." in "firstQuestion"
@@ -26,4 +24,3 @@ Feature: Audience backend  crud feature
     Then I should see "Вы действительно хотите удалить выбранный элемент?"
     And  I press "Да, удалить"
     Then I should see "Элемент успешно удален."
-
