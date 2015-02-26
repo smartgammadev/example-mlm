@@ -2,8 +2,7 @@
     "name": "symfony/framework-standard-edition",
     "license": "MIT",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
-    
+    "description": "The \"Symfony Standard Edition\" distribution",    
     "repositories": [
         {
             "type": "composer",
@@ -47,7 +46,8 @@
         "sonata-project/intl-bundle": "~2.2",
         "ornicar/apc-bundle": "~1.0",
         "epam/ci-bundle": "~1.0",
-        "Trsteel/ckeditor-bundle": "~1.6"
+        "Trsteel/ckeditor-bundle": "~1.6",
+        "drak/native-session": "*"
     },
     "require-dev": {
         "behat/behat": "2.4.*@stable",

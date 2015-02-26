@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "08570e834c4213b2b7037dc2502960d8",
+    "hash": "d74290efa696c82ec106e6d57e2e75ef",
     "packages": [
         {
             "name": "adesigns/calendar-bundle",
@@ -854,6 +854,45 @@
                 "orm"
             ],
             "time": "2014-10-06 13:22:50"
+        },
+        {
+            "name": "drak/native-session",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/drak/NativeSession.git",
+                "reference": "f2b14ad483605a8d4b898c260bec7512347ca600"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/drak/NativeSession/zipball/f2b14ad483605a8d4b898c260bec7512347ca600",
+                "reference": "f2b14ad483605a8d4b898c260bec7512347ca600",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "symfony/http-foundation": ">=2.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Drak": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Karma Dordrak",
+                    "email": "drak@zikula.org",
+                    "homepage": "http://zikula.org",
+                    "role": "OO & PSR-4 migration"
+                }
+            ],
+            "description": "Native session handlers for Symfony2",
+            "time": "2013-03-11 11:07:59"
         },
         {
             "name": "epam/ci-bundle",
@@ -5318,6 +5357,7 @@
         "gamma/fixtures-generator": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.3"
     },

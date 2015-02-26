@@ -76,9 +76,9 @@ security:
             context:             user
             form_login:
                 provider:       fos_userbundle
-                login_path:     /login
+                login_path:     /forum/login
                 use_forward:    false
-                check_path:     /login_check
+                check_path:     /forum/login_check
                 failure_path:   null
             logout:             true
             anonymous:          true
@@ -86,9 +86,9 @@ security:
 
     access_control:
         # URL of FOSUserBundle which need to be available to anonymous users
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/forum/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/forum/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/forum/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
         # Admin login page needs to be access without credential
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
