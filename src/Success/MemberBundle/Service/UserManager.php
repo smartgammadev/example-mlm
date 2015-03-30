@@ -6,25 +6,26 @@ use Success\MemberBundle\Entity\Member;
 use Success\PlaceholderBundle\Service\PlaceholderManager;
 use Success\PlaceholderBundle\Entity\BasePlaceholder;
 use Success\MemberBundle\Entity\MemberData;
+use Application\Sonata\UserBundle\Entity\User;
 
-class MemberManager
+class UserManager
 {
 
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
     use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
 
-    private $memberIdentityPlaceholder; // = 'email';
+    private $userIdentityPlaceholder;
 
     public function __construct()
     {
-        $this->memberIdentityPlaceholder = 'email'; //$memberIdentityPlaceholder;
+        $this->userIdentityPlaceholder = 'email';
     }
 
     /**
      * @param type $externalId string(255)
      * @return Success\MemberBundle\Entity\Member
      */
-    public function getMemberByExternalId($externalId)
+    public function getUserByExternalId($externalId)
     {
         $repo = $this->em->getRepository('SuccessMemberBundle:Member');
         return $repo->findOneBy(array('externalId' => $externalId));
@@ -61,7 +62,6 @@ class MemberManager
     }
 
     /**
-     * 
      * @param array $placeholdersData
      * @return array
      */

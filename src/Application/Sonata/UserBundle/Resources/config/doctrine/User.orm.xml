@@ -9,7 +9,11 @@
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
         </id>
-
+        
+        <one-to-one field="memberData" target-entity="Success\MemberBundle\Entity\MemberData">
+            <join-column name="memberDataId" referenced-column-name="id" on-delete="CASCADE" on-update="CASCADE"/>
+        </one-to-one>
+                
     </entity>
 
 </doctrine-mapping>

@@ -37,4 +37,32 @@ class User extends BaseUser
     {
         return $this->id;
     }
+    
+    /**
+     * @var \Success\MemberBundle\Entity\MemberData
+     */
+    private $memberData;
+
+    /**
+     * Set memberData
+     *
+     * @param \Success\MemberBundle\Entity\MemberData $memberData
+     * @return User
+     */
+    public function setMemberData(\Success\MemberBundle\Entity\MemberData $memberData = null)
+    {
+        $this->memberData = $memberData;
+
+        return $this;
+    }
+
+    /**
+     * Get memberData
+     *
+     * @return \Success\MemberBundle\Entity\MemberData
+     */
+    public function getMemberData()
+    {
+        return $this->memberData;
+    }
 }

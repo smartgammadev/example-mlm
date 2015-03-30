@@ -45,9 +45,7 @@
         "sensio/buzz-bundle": "dev-master",
         "sonata-project/intl-bundle": "~2.2",
         "ornicar/apc-bundle": "~1.0",
-        "epam/ci-bundle": "~1.0",
-        "Trsteel/ckeditor-bundle": "~1.6",
-        "drak/native-session": "*"
+        "epam/ci-bundle": "~1.0"
     },
     "require-dev": {
         "behat/behat": "2.4.*@stable",
