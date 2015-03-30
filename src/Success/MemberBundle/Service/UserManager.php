@@ -6,13 +6,20 @@ use Success\MemberBundle\Entity\Member;
 use Success\PlaceholderBundle\Service\PlaceholderManager;
 use Success\PlaceholderBundle\Entity\BasePlaceholder;
 use Success\MemberBundle\Entity\MemberData;
-use Application\Sonata\UserBundle\Entity\User;
+use Application\Sonata\UserBundle\Entity\User as FosUser;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class UserManager
 {
 
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
+    
+    use \Gamma\Framework\Traits\DI\SetRequestTrait;
+
     use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
+
+    use \Success\MemberBundle\Traits\SetSecurityContextTrait;
 
     private $userIdentityPlaceholder;
 
@@ -27,26 +34,28 @@ class UserManager
      */
     public function getUserByExternalId($externalId)
     {
-        $repo = $this->em->getRepository('SuccessMemberBundle:Member');
-        return $repo->findOneBy(array('externalId' => $externalId));
+        $repo = $this->em->getRepository('ApplicationSonataUserBundle:User');
+        return $repo->findOneBy(array('username' => $externalId));
     }
 
     /**
      * @param sting $externalId
      * @return Success\MemberBundle\Entity\Member
      */
-    public function resolveMemberByExternalId($externalId)
+    public function resolveUserByExternalId($externalId)
     {
-        $member = $this->getMemberByExternalId($externalId);
+        $user = $this->getUserByExternalId($externalId);
 
-        if (!$member) {
-            $member = new Member();
-            $member->setExternalId($externalId);
-            $this->em->persist($member);
+        if (!$user) {
+            $user = new FosUser();
+            $user->setEmail($externalId);
+            $user->setUsername($externalId);
+            $user->setPlainPassword(md5($externalId));
+            $user->setEnabled(true);
+            $this->em->persist($user);
             $this->em->flush();
         }
-
-        return $member;
+        return $user;
     }
 
     /**
@@ -121,19 +130,11 @@ class UserManager
         return $memberData;
     }
 
-    /**
-     * @Route("/login-token/{token}/{userHash}", name="participant_autologin_token")
-     * @ParamConverter("autologinToken", class="MyBundle:AutologinToken")
-     * @Template()
-     */
-    public function autoLoginAction(Request $request, AutologinToken $autologinToken, $userHash)
+    public function loginUser(FosUser $user)
     {
-        $user = $autologinToken->getUser();
-        $providerKey = $this->container->getParameter('fos_user.firewall_name');
-        $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
-        $this->get('security.context')->setToken($token);
-        $event = new InteractiveLoginEvent($request, $token);
-        $this->get("event_dispatcher")->dispatch("security.authentication", $event);
-        return $this->redirect($autologinToken->getUrl());
+        $token = new UsernamePasswordToken($user, null, "main");
+        $this->securityContext->setToken($token);
+        //$event = new InteractiveLoginEvent($this->request, $token);
+        //$this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
     }
 }

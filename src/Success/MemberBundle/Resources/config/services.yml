@@ -9,3 +9,11 @@ services:
         calls:
              - [setEntityManager, ["@doctrine.orm.entity_manager"]]
              - [setPlaceholderManager, ["@success.placeholder.placeholder_manager"]]
+             
+    success.member.user_manager:
+        class: Success\MemberBundle\Service\UserManager
+        arguments: [%memberIdentityPlaceholder%]
+        calls:
+             - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+             - [setPlaceholderManager, ["@success.placeholder.placeholder_manager"]]             
+             - [setSecurityContext, ["@security.context"]]
