@@ -28,11 +28,9 @@ Feature: Creation repeatable events in calendar. Repeating by day, week, month, 
      And I check "eventRepeat_repeatDays_0" checkbox
     Then I press "btn_update_and_list"
      And I should see "успешно обновлен"
-
     When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should see 1 ".day-event" elements
-     And I should see 5 ".week-event" elements
-
+     And I should see 6 ".week-event" elements
     When I go to "/admin/success/event/webinarevent/list"
     Then I should see "test webinar #1"
      And I follow "test webinar #1"
@@ -41,7 +39,6 @@ Feature: Creation repeatable events in calendar. Repeating by day, week, month, 
     Then I should see "Да, удалить"
      And I press "Да, удалить"
     Then I should see "Элемент успешно удален."
-
     When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should not see "test webinar #1"
      And I should see "нет ближайших мероприятий"

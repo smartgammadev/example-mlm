@@ -19,12 +19,21 @@ class EventRepeatAdmin extends Admin {
         $formMapper            
             ->add('repeatType', 'choice', array('label' => 'тип', 'choices' => array(null => 'не повторять',  'D'=>'день', 'W'=>'неделя', 'M' => 'месяц', 'Y' => 'год')))               
             ->add('repeatInterval', 'integer', array('label' => 'интервал'))
-            ->add('endDateTime', 'sonata_type_date_picker',
-                array(
-                    'label' => 'окончание',
-                    'dp_side_by_side'       => true,
-                    'dp_use_current'        => false,
+//            ->add('endDateTime', 'sonata_type_date_picker',
+//                array(
+//                    'label' => 'окончание',
+//                    'dp_side_by_side'       => true,
+//                    'dp_use_current'        => false,
+//                ))
+                ->add('endDateTime', 'sonata_type_datetime_picker', array(
+                    'format' => 'YYYY-MM-dd HH:mm:ss ZZ',
+                    'dp_side_by_side' => true,
+                    'dp_use_current' => false,
+                    'dp_use_seconds' => true,
+                    'model_timezone' => 'Europe/Moscow',
+                    'view_timezone' => 'Europe/Moscow',
                 ))
+                
             ->add('repeatDays', 'sonata_type_immutable_array', 
                     array('label' => 'дни повторения', 'label_attr' => array('style' => 'display:inline'),
                         'keys' => array(
