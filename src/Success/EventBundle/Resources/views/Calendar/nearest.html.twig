@@ -11,27 +11,24 @@
 
 {% block body %}
     <div class="modal fade" id="calendar-modal-event" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" id="modal-content">
+        <div class="modal-dialog">
+            <div class="modal-content" id="modal-content"></div>
         </div>
-    </div>
-    </div>    
-            <div id="main-row" class="row" >
-                <div class="col-xs-12">
-                    {{ render_esi( path('next_event') ) }}
-                </div>
+    </div>  
+    
+        <div class="container-fluid">
+            <div class="row-fluid">
+                {{ render_esi( path('next_event') ) }}
             </div>
-
-            <div id="main-row" class="row">
-                <div class="col-xs-6">
+            <div class="row-fluid">
+                <div class="col-md-6 col-sm-6 col-xs-12 day-events no-padding no-margin">
                     {{ render_esi( path('day_events') ) }}
                 </div>
-                    
-                <div class="col-xs-6">
+                <div class="col-md-6 col-sm-6 col-xs-12 week-events no-padding no-margin">
                     {{ render_esi( path('week_events') ) }}
                 </div>
             </div>
-        
+        </div>
 {% endblock %}
 
 {% block javascripts %}

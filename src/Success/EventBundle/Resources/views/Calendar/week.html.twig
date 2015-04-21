@@ -9,27 +9,28 @@
                                         <h3>{{ event.name }}</h3>
                                     </div>
                                     <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <p class="event-descr">
-                                                    {% media event.media, 'small' %}
-                                                    {{ event.description }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                                
-                                        <div class="row">                                                
-                                        <div class="col-xs-7">
-                                                <p class='event-sub'><h5>{{ event.pattern }}</h5>
+                                            <div class="col-xs-6 week-event">
+                                                <p class="event-descr">{{ event.description }}</p>
+                                                <p class='event-sub'>
+                                                    <h5>{{ event.pattern }}</h5>
                                                     <h5>доступ: {{ event.accessType }}</h5>
-                                                </p>                                            
-                                                <h5 class="time-event-label">время проведения:</h5>
-                                                <h2 class="event-time">{{ event.startDateTime|date('H:i') }}<span class='time-zone'>(МСК)</span></h2>                                        
-                                        </div>
-                                        
+                                                    <h5>время проведения: </h5>
+                                                    <h2>{{ event.startDateTime|date('H:i') }}<span class='time-zone'>(МСК)</span></h2>
+                                                </p>
+                                                
+                                            </div>
+                                            <div class="col-xs-6 col-event-image week-event">
+                                                {#{% media event.media, 'small' %}#}
+                                                <img class="event-image img-responsive" src="{% path event.media, 'small' %}" alt="todays-webinar">
+                                                <div class='event-signup week-event'>                                                    
+                                                    <a href="{{ path('calendar_event_signup', {'eventId' : event.id, 'template': 'calendar'}) }}" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
+                                                </div>
+                                            </div>                                                
+                                                
+                                        <div class="row">
                                         <div class="col-xs-5 vbottom">
                                                 <div class="event-signup">
-                                                    <a href="{{ path('calendar_event_signup', {'eventId' : event.id, 'template': 'calendar'}) }}" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
+{#                                                    <a href="{{ path('calendar_event_signup', {'eventId' : event.id, 'template': 'calendar'}) }}" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>#}
                                                 </div>                                                                                                                                                                                    
                                         </div>
 

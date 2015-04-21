@@ -42,11 +42,11 @@ table.event-table form .submit-btn {
     background-color: rgba(0, 149, 149, 0.5);
 }
 
-/*.panel-default > .panel-heading {
+.panel-default > .panel-heading {
   color: #333;
   background-color: #f5f5f5;
   border-color: #ddd;
-}*/
+}
 
 .panel-default > .panel-heading {
   background-color: rgba(0, 149, 149, 0.5);
@@ -89,6 +89,7 @@ table.event-table form .submit-btn {
 #nearest-event #timer{
     color: rgba(0, 149, 149, 1);
 }
+
 .container {
     max-width: 900px;
     width: 900px;
@@ -99,10 +100,10 @@ table.event-table form .submit-btn {
 #main-row {
   width: 860px;
 }
-.col-xs-6, .col-xs-12{
+/*.col-xs-6, .col-xs-12{
     padding-left: 15px;
     padding-right: 0px;
-}
+}*/
 .event-descr {
     padding-right: 15px;
 }
@@ -113,16 +114,47 @@ table.event-table form .submit-btn {
     display: inline;
 }
 
+.day-events {
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
+.week-events {
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
+
+.day-event {
+    margin-right: 15px;
+}
+
+.week-event {
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
+
+
+.event-image {
+/*    padding-right: 15px;*/
+}
+
+.col-event-image {
+    text-align: -webkit-right;
+    text-align: -moz-right;
+}
+
+
+
+
 .event-time{
     display: inline;
 }
 .event-signup{
     text-align: right; 
     padding-top: 15px;
+    padding-right: 15px;
 }
 
 .time-event-label{
-
     display: inline;
 }
 
