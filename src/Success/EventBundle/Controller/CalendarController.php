@@ -42,12 +42,6 @@ class CalendarController extends Controller
     private $memberManager;
 
     /**
-     * @var \Success\MemberBundle\Service\UserManager
-     * @DI\Inject("success.member.user_manager")
-     */
-    private $userManager;
-
-    /**
      * @Route("/{template}/{slug}", name="show_calendar")
      * @Template()
      */
@@ -208,10 +202,10 @@ class CalendarController extends Controller
                     $placeholders[$pattern] = $value;
                 }
             }
-            $now = new \DateTime('now');
-            $memberSignedUp = $this->memberManager->resolveMemberByExternalId($placeholders['user_email']);
-            $userSignedUp = $this->userManager->resolveUserByExternalId($placeholders['user_email']);
-            $this->userManager->loginUser($userSignedUp);
+            $now = new \DateTime();
+            $memberSignedUp = $this->memberManager->resolveMemberByExternalId($placeholders['user_email'], $placeholders['sponsor_email']);
+            
+            
             $this->placeholderManager->assignPlaceholdersToSession($placeholders);
             $this->memberManager->updateMemberData($placeholders);
             if ($this->eventManager->signUpMemberForEvent($memberSignedUp, $event, $now, $notifyUserBeforeEvent)) {

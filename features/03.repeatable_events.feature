@@ -29,7 +29,7 @@ Feature: Creation repeatable events in calendar. Repeating by day, week, month, 
      And I check "eventRepeat_repeatDays_0" iCheckbox
     Then I press "btn_update_and_list"
      And I should see " Элемент успешно обновлен"
-    When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+    When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=main.sponsor@mail.com&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should see 1 ".day-webinar" elements
      And I should see 6 ".week-webinar" elements
     When I go to "/admin/success/event/webinarevent/list"
@@ -40,7 +40,7 @@ Feature: Creation repeatable events in calendar. Repeating by day, week, month, 
     Then I should see "Да, удалить"
      And I press "Да, удалить"
     Then I should see "Элемент успешно удален."
-    When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+    When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=main.sponsor@mail.com&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should not see "test webinar #1"
      And I should see "нет ближайших мероприятий"
 
@@ -73,7 +73,7 @@ Feature: Creation repeatable events in calendar. Repeating by day, week, month, 
     Then I press "btn_update_and_list"
      And I should see "успешно обновлен"
 
-    When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+    When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=main.sponsor@mail.com&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should see 1 ".day-webinar" elements
      And I should see 3 ".week-webinar" elements
 
@@ -86,7 +86,7 @@ Feature: Creation repeatable events in calendar. Repeating by day, week, month, 
      And I press "Да, удалить"
     Then I should see "Элемент успешно удален."
 
-    When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+    When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=main.sponsor@mail.com&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should not see "test webinar #1"
      And I should see "нет ближайших мероприятий"
 
@@ -119,7 +119,7 @@ Feature: Creation repeatable events in calendar. Repeating by day, week, month, 
      Then I press "btn_update_and_list"
       And I should see "успешно обновлен"
 
-    When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+    When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=main.sponsor@mail.com&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should see 1 ".day-webinar" elements
      And I should see 1 ".week-webinar" elements
 
@@ -131,6 +131,6 @@ Feature: Creation repeatable events in calendar. Repeating by day, week, month, 
     Then I should see "Да, удалить"
      And I press "Да, удалить"
     Then I should see "Элемент успешно удален."
-    When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+    When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=main.sponsor@mail.com&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should not see "test webinar #1"
      And I should see "нет ближайших мероприятий"

@@ -33,7 +33,7 @@ class Member
      * @ORM\OneToMany(targetEntity="MemberData", mappedBy="member")
      */
     private $data;
-    
+
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="Success\EventBundle\Entity\EventSignUp", mappedBy="member")
@@ -41,9 +41,20 @@ class Member
     private $signUpEvents;
 
     /**
+     * @ORM\OneToMany(targetEntity="Member", mappedBy="sponsor")
+     */
+    private $referals;
+    
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Member", inversedBy="children")
+     * @ORM\JoinColumn(name="sponsor_id", referencedColumnName="id", nullable=false)
+     */
+    private $sponsor;
+
+    /**
      * Get id
-     *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -66,12 +77,13 @@ class Member
     /**
      * Get externalId
      *
-     * @return string 
+     * @return string
      */
     public function getExternalId()
     {
         return $this->externalId;
     }
+
     /**
      * Constructor
      */
@@ -79,6 +91,7 @@ class Member
     {
         $this->data = new ArrayCollection();
         $this->signsUp = new ArrayCollection();
+        $this->referals = new ArrayCollection();
     }
 
     /**
@@ -107,14 +120,12 @@ class Member
     /**
      * Get data
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getData()
     {
         return $this->data;
     }
-
-
 
     /**
      * Add signUpEvents
@@ -142,14 +153,68 @@ class Member
     /**
      * Get signUpEvents
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSignUpEvents()
     {
         return $this->signUpEvents;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->externalId;
+    }
+
+    /**
+     * Add referals
+     *
+     * @param \Success\MemberBundle\Entity\Member $referals
+     * @return Member
+     */
+    public function addReferal(\Success\MemberBundle\Entity\Member $referals)
+    {
+        $this->referals[] = $referals;
+
+        return $this;
+    }
+
+    /**
+     * Remove referals
+     *
+     * @param \Success\MemberBundle\Entity\Member $referals
+     */
+    public function removeReferal(\Success\MemberBundle\Entity\Member $referals)
+    {
+        $this->referals->removeElement($referals);
+    }
+
+    /**
+     * Get referals
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReferals()
+    {
+        return $this->referals;
+    }
+
+    /**
+     * Set sponsor
+     * @param \Success\MemberBundle\Entity\Member $sponsor
+     * @return Member
+     */
+    public function setSponsor(\Success\MemberBundle\Entity\Member $sponsor = null)
+    {
+        $this->sponsor = $sponsor;
+
+        return $this;
+    }
+
+    /**
+     * Get sponsor
+     * @return \Success\MemberBundle\Entity\Member
+     */
+    public function getSponsor()
+    {
+        return $this->sponsor;
     }
 }

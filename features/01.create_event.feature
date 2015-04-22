@@ -31,7 +31,7 @@ Feature: Calendar feature
     Then I press "btn_create_and_list"
      And I should see "Элемент создан успешно"
 
-    When I go to "/calendarevents/nearest" with "user.email=stas-81@mail.ru&user.first_name=uName&user.last_name=uLastName&sponsor.email=stas-81@mail.ru&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+    When I go to "/calendarevents/nearest" with "user.email=stas-81@mail.ru&user.first_name=uName&user.last_name=uLastName&sponsor.email=main.sponsor@mail.com&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should see "test webinar #1"
      And I should see "test webinar #2"
     Then I should see "Войти в Вебинар"
@@ -55,7 +55,7 @@ Feature: Calendar feature
      And I press "Да, удалить"
     Then I should see "Элемент успешно удален."
 
-    Then I go to "/calendarevents/nearest" with "user.email=stas-81@mail.ru&user.first_name=uName&user.last_name=uLastName&sponsor.email=stas-81@mail.ru&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+    Then I go to "/calendarevents/nearest" with "user.email=stas-81@mail.ru&user.first_name=uName&user.last_name=uLastName&sponsor.email=main.sponsor@mail.com&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
      And I should not see "test webinar #1"
     Then I should not see "test webinar #2"
      And I should see "нет ближайших мероприятий"

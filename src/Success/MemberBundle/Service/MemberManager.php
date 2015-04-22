@@ -13,11 +13,14 @@ class MemberManager
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
     use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
 
-    private $memberIdentityPlaceholder; // = 'email';
+    private $memberIdentityPlaceholder;
+    
+    private $sponsorIdPlaceholder;
 
     public function __construct()
     {
-        $this->memberIdentityPlaceholder = 'email'; //$memberIdentityPlaceholder;
+        $this->memberIdentityPlaceholder = 'email';
+        $this->sponsorIdPlaceholder = 'sponsor_email';
     }
 
     /**
@@ -27,20 +30,20 @@ class MemberManager
     public function getMemberByExternalId($externalId)
     {
         $repo = $this->em->getRepository('SuccessMemberBundle:Member');
-        return $repo->findOneBy(array('externalId' => $externalId));
+        return $repo->findOneBy(['externalId' => $externalId]);
     }
 
     /**
      * @param sting $externalId
      * @return Success\MemberBundle\Entity\Member
      */
-    public function resolveMemberByExternalId($externalId)
+    public function resolveMemberByExternalId($externalId, $sponsorExternalId = null)
     {
         $member = $this->getMemberByExternalId($externalId);
-
         if (!$member) {
             $member = new Member();
             $member->setExternalId($externalId);
+            $member->setSponsor($this->getMemberByExternalId($sponsorExternalId));
             $this->em->persist($member);
             $this->em->flush();
         }
@@ -61,7 +64,6 @@ class MemberManager
     }
 
     /**
-     * 
      * @param array $placeholdersData
      * @return array
      */
@@ -86,7 +88,8 @@ class MemberManager
     {
         foreach ($placeholdersToSearchMember as $searchPlaceholder) {
             $member = $this->resolveMemberByExternalId($searchPlaceholder['externalId']);
-            $placeholdersMemberData = $this->placeholderManager->getPlaceholdersValuesByTypePattern($searchPlaceholder['pattern']);
+            $placeholdersMemberData =
+                $this->placeholderManager->getPlaceholdersValuesByTypePattern($searchPlaceholder['pattern']);
 
             foreach ($placeholdersMemberData as $phData) {
                 $this->resolveUpdateOrCreateMember($member, $phData['placeholder'], $phData['value']);

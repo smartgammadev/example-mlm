@@ -19,7 +19,7 @@ Feature: Sign up for event in calendar
     Then I press "btn_create_and_list"
      And I should see "создан"
 
-    When I go to "/calendarevents/nearest" with "user.email=user1@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor1@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+    When I go to "/calendarevents/nearest" with "user.email=user1@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=main.sponsor@mail.com&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should see "Записаться"
      And I follow "Записаться"
     Then I wait for AJAX to finish
@@ -28,9 +28,9 @@ Feature: Sign up for event in calendar
     Then I should see "Вы успешно зарегистрированы"
      And I press "OK"
     Then I should have 2 email notification to "user1@mail"
-     And I should have 1 email notification to "sponsor1@mail"
+     And I should have 1 email notification to "main.sponsor@mail.com"
 
-    When I go to "/calendarevents/nearest" with "user.email=user1@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor1@mail&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+    When I go to "/calendarevents/nearest" with "user.email=user1@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=main.sponsor@mail.com&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should see "Записаться"
      And I follow "Записаться"
     Then I wait for AJAX to finish
@@ -39,9 +39,9 @@ Feature: Sign up for event in calendar
     Then I should see "Вы уже зарегистрированы"
      And I press "OK"
     Then I should have 2 email notification to "user1@mail"
-     And I should have 1 email notification to "sponsor1@mail"
+     And I should have 1 email notification to "main.sponsor@mail.com"
     Then I should have member with id "user1@mail"
-     And I should have member with id "sponsor1@mail"
+     And I should have member with id "main.sponsor@mail.com"
 
     When I go to "/admin/success/event/webinarevent/list"
     Then I should see "test webinar #1"
@@ -81,7 +81,7 @@ Feature: Sign up for event in calendar
     Then I press "btn_create_and_list"
      And I should see "создан"
 
-    When I go to "/calendarevents/nearest" with "user.email=user2@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=sponsor2@mail&sponsor.first_name=sName&sponsor.last_name=sLastName&user.phone=012345678&sponsor.phone=112345678" placeholders
+    When I go to "/calendarevents/nearest" with "user.email=user2@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=main.sponsor@mail.com&sponsor.first_name=sName&sponsor.last_name=sLastName&user.phone=012345678&sponsor.phone=112345678" placeholders
      And I follow "Записаться"
     Then I wait for AJAX to finish
      And I press "signup_Записаться"
@@ -90,11 +90,10 @@ Feature: Sign up for event in calendar
      And I press "OK"
 
     Then I should have 2 email notification to "user2@mail"
-     And I should have 1 email notification to "sponsor2@mail"
+     And I should have 2 email notification to "main.sponsor@mail.com"
     Then I should have 1 SMS notification to "012345678"
      And I should have 1 SMS notification to "112345678"
     Then I should have member with id "user2@mail"
-     And I should have member with id "sponsor2@mail"
 
     When I go to "/admin/success/event/eventsignup/list"
     Then I should see "Удалить"
@@ -111,5 +110,5 @@ Feature: Sign up for event in calendar
     Then I press "Да, удалить"
      And I should see "Элемент успешно удален."
 
-    When I go to "/calendarevents/nearest" with "user.email=stas-81@mail.ru&user.first_name=uName&user.last_name=uLastName&sponsor.email=stas-81@mail.ru&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+    When I go to "/calendarevents/nearest" with "user.email=stas-81@mail.ru&user.first_name=uName&user.last_name=uLastName&sponsor.email=main.sponsor@mail.com&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should see "нет ближайших мероприятий"
