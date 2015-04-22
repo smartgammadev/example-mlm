@@ -1,7 +1,7 @@
                     <h4>Мероприятия сегодня ({{(eventsToday.events|length)}})</h4>                    
                     <h4>{{ eventsToday.date|date('l')|trans }}: {{ eventsToday.date|date('d.m.Y') }}</h4>
                         {% for event in eventsToday.events %}
-                                <div class="panel panel-default day-event">
+                                <div class="panel panel-default day-event day-webinar">
                                     <div class="panel-heading">                                        
                                             <h3>{{ event.name }}</h3>
                                     </div>

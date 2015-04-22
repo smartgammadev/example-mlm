@@ -1,7 +1,7 @@
 
 Feature: Sign up for event in calendar
   
-  @basic @javascript @signup
+  @test @basic @javascript @signup
   Scenario: Create and sign up for created event
 
    Given I am logged in as admin

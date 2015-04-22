@@ -1,6 +1,6 @@
 Feature: Calendar feature
   
-  @basic @javascript
+  @basic @javascript @now
   Scenario: Create, edit, delete events
 
     Given I am logged in as admin
@@ -16,7 +16,7 @@ Feature: Calendar feature
      Then I select "открытый" in "accessType"
       And I select "webinar_image" in "media"
      Then I press "btn_create_and_list"
-      And I should see "создан"
+      And I should see "Элемент создан успешно"
 
     Then I want to create new event
      And I fill "startDateTime" with current date plus "60" minutes
@@ -29,7 +29,7 @@ Feature: Calendar feature
     Then I select "открытый" in "accessType"
      And I select "webinar_image" in "media"
     Then I press "btn_create_and_list"
-     And I should see "создан"
+     And I should see "Элемент создан успешно"
 
     When I go to "/calendarevents/nearest" with "user.email=stas-81@mail.ru&user.first_name=uName&user.last_name=uLastName&sponsor.email=stas-81@mail.ru&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should see "test webinar #1"

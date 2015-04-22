@@ -1,42 +1,42 @@
-                    {% set daysCount = eventsOfWeek|length-1 %}
-                    <h4>Мероприятия недели ({{ weekEventsCount }})</h4>
-                        {% for i in 0..daysCount %}
-                            {% if eventsOfWeek[i].events|length>0 %}
-                                <h4>{{ eventsOfWeek[i].date|date('l')|trans }}: {{ eventsOfWeek[i].date|date('d.m.Y') }}</h4>
-                                    {% for event in eventsOfWeek[i].events %}
-                                    <div class="panel panel-danger week-event">
-                                    <div class="panel-heading">
-                                        <h3>{{ event.name }}</h3>
-                                    </div>
-                                    <div class="panel-body">
-                                            <div class="col-xs-6 week-event">
-                                                <p class="event-descr">{{ event.description }}</p>
-                                                <p class='event-sub'>
-                                                    <h5>{{ event.pattern }}</h5>
-                                                    <h5>доступ: {{ event.accessType }}</h5>
-                                                    <h5>время проведения: </h5>
-                                                    <h2>{{ event.startDateTime|date('H:i') }}<span class='time-zone'>(МСК)</span></h2>
-                                                </p>
-                                                
-                                            </div>
-                                            <div class="col-xs-6 col-event-image week-event">
-                                                {#{% media event.media, 'small' %}#}
-                                                <img class="event-image img-responsive" src="{% path event.media, 'small' %}" alt="todays-webinar">
-                                                <div class='event-signup week-event'>                                                    
-                                                    <a href="{{ path('calendar_event_signup', {'eventId' : event.id, 'template': 'calendar'}) }}" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
-                                                </div>
-                                            </div>                                                
-                                                
-                                        <div class="row">
-                                        <div class="col-xs-5 vbottom">
-                                                <div class="event-signup">
-{#                                                    <a href="{{ path('calendar_event_signup', {'eventId' : event.id, 'template': 'calendar'}) }}" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>#}
-                                                </div>                                                                                                                                                                                    
-                                        </div>
+{% set daysCount = eventsOfWeek|length-1 %}
+<h4>Мероприятия недели ({{ weekEventsCount }})</h4>
+{% for i in 0..daysCount %}
+    {% if eventsOfWeek[i].events|length>0 %}
+        <h4>{{ eventsOfWeek[i].date|date('l')|trans }}: {{ eventsOfWeek[i].date|date('d.m.Y') }}</h4>
+        {% for event in eventsOfWeek[i].events %}
+            <div class="panel panel-danger week-event week-webinar">
+                <div class="panel-heading">
+                    <h3>{{ event.name }}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-xs-6 week-event">
+                        <p class="event-descr">{{ event.description }}</p>
+                        <p class='event-sub'>
+                        <h5>{{ event.pattern }}</h5>
+                        <h5>доступ: {{ event.accessType }}</h5>
+                        <h5>время проведения: </h5>
+                        <h2>{{ event.startDateTime|date('H:i') }}<span class='time-zone'>(МСК)</span></h2>
+                        </p>
 
-                                        </div>                                                                                            
-                                    </div>
-                                        </div>                                                                    
-                                    {% endfor %}
-                            {% endif %}
-                        {% endfor %}
+                    </div>
+                    <div class="col-xs-6 col-event-image week-event">
+                        {#{% media event.media, 'small' %}#}
+                        <img class="event-image img-responsive" src="{% path event.media, 'small' %}" alt="todays-webinar">
+                        <div class='event-signup week-event'>                                                    
+                            <a href="{{ path('calendar_event_signup', {'eventId' : event.id, 'template': 'calendar'}) }}" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>
+                        </div>
+                    </div>                                                
+
+                    <div class="row">
+                        <div class="col-xs-5 vbottom">
+                            <div class="event-signup">
+                                {#                                                    <a href="{{ path('calendar_event_signup', {'eventId' : event.id, 'template': 'calendar'}) }}" class="modal-btn btn btn-lg btn-danger" role="button" data-toggle="modal" data-target="#calendar-modal-event">Записаться</a>#}
+                            </div>                                                                                                                                                                                    
+                        </div>
+
+                    </div>                                                                                            
+                </div>
+            </div>                                                                    
+        {% endfor %}
+    {% endif %}
+{% endfor %}

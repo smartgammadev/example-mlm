@@ -132,8 +132,8 @@ class UserManager
 
     public function loginUser(FosUser $user)
     {
-        $token = new UsernamePasswordToken($user, null, "main");
-        $this->securityContext->setToken($token);
+        //$token = new UsernamePasswordToken($user, null, "main");
+        //$this->securityContext->setToken($token);
         //$event = new InteractiveLoginEvent($this->request, $token);
         //$this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
     }

@@ -1,12 +1,11 @@
 <?php
+
 namespace Success\Behat;
 
 use Symfony\Component\HttpKernel\KernelInterface;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
-
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
-
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Behat\Context\BehatContext,
     Behat\Behat\Exception\PendingException;
@@ -21,16 +20,12 @@ use Behat\Mink\Mink,
 use Gamma\Framework\Behat\PagesContext,
     Gamma\Framework\Behat\ApiContext;
 use Behat\Behat\Context\Step;
-
 use Success\Behat\Application;
-
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Symfony2Extension\Driver\KernelDriver;
-
 use PHPUnit_Framework_ExpectationFailedException as AssertException;
-
-
 use Behat\CommonContexts\SymfonyMailerContext;
+
 //
 // Require 3rd-party libraries here:
 //
@@ -42,14 +37,14 @@ require_once 'PHPUnit/Framework/Assert/Functions.php';
  */
 class FeatureContext extends MinkContext implements KernelAwareInterface
 {
-    const SONATA_UNIQID='behat';
-    
+
+    const SONATA_UNIQID = 'behat';
+
     protected $kernel;
     private $parameters;
-    private  $application;
+    private $application;
     private $tester;
 
-    
     /**
      * Initializes context with parameters from behat.yml.
      *
@@ -64,21 +59,19 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
 
         $this->useContext('symfony_mailer', new \Behat\CommonContexts\SymfonyMailerContext($kernel));
         $this->useContext('mink_redirect', new \Behat\CommonContexts\MinkRedirectContext($kernel));
-
     }
 
     protected static function runConsole($app, $command, Array $options = array())
     {
         $output = new ConsoleOutput();
         $output->writeln(sprintf('<comment>    > Command </comment> <info><fg=blue>%s</fg=blue></info>', $command));
- 
+
         $options["-e"] = "test";
         $options["-q"] = null;
         $options = array_merge($options, array('command' => $command));
- 
+
         return $app->run(new \Symfony\Component\Console\Input\ArrayInput($options), $output);
     }
-
 
     /** @BeforeSuite */
     public static function prepareForTheSuite()
@@ -94,7 +87,6 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
         self::runConsole($app, "doctrine:fixtures:load", array("--no-interaction" => true));
     }
 
-
     /**
      * @When /^I run "([^"]*)" command$/
      */
@@ -108,11 +100,10 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
         $this->application->add(new \Success\NotificationBundle\Command\ProcessEmailCommand());
 
         $command = $this->application->find($name);
-        
+
         $this->tester = new \Symfony\Component\Console\Tester\CommandTester($command);
         $this->tester->execute(array('command' => $command->getName()));
     }
-
 
     /**
      * @Then /^I should see console output "([^"]*)"$/
@@ -120,9 +111,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     public function iShouldSeeConsoleOutput($regexp)
     {
         assertRegExp($regexp, $this->tester->getDisplay());
-    }    
-
-    
+    }
 
     /**
      * Take screenshot when step fails.
@@ -134,7 +123,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     {
         if (4 === $event->getResult()) {
             $driver = $this->getSession()->getDriver();
-            if($driver instanceof KernelDriver){
+            if ($driver instanceof KernelDriver) {
                 return;
             }
             if (!($driver instanceof Selenium2Driver)) {
@@ -142,15 +131,15 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
 
                 return;
             }
-            $directory = 'build/behat/'.$event->getLogicalParent()->getFeature()->getTitle().'.'.$event->getLogicalParent()->getTitle();
+            $directory = 'build/behat/' . $event->getLogicalParent()->getFeature()->getTitle() . '.' . $event->getLogicalParent()->getTitle();
             if (!is_dir($directory)) {
                 mkdir($directory, 0777, true);
             }
             $filename = sprintf('%s_%s_%s.%s', $this->getMinkParameter('browser_name'), date('c'), uniqid('', true), 'png');
-            file_put_contents($directory.'/'.$filename, $driver->getScreenshot());
+            file_put_contents($directory . '/' . $filename, $driver->getScreenshot());
         }
     }
-    
+
     /**
      * Sets HttpKernel instance.
      * This method will be automatically called by Symfony2Extension ContextInitializer.
@@ -162,7 +151,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
         $this->kernel = $kernel;
     }
 
- /**
+    /**
      * Get repository by name.
      *
      * @param string $resource
@@ -173,7 +162,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     {
         return $this->getEntityManager()->getRepository($resource);
     }
-    
+
     /**
      * Get entity manager.
      *
@@ -183,7 +172,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     {
         return $this->getService('doctrine')->getManager();
     }
-    
+
     /**
      * Returns Container instance.
      *
@@ -205,7 +194,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     {
         return $this->getContainer()->get($id);
     }
-    
+
     /**
      * @Given /^I have no events$/
      */
@@ -215,21 +204,21 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
         $signUps = $em->getRepository('Success\EventBundle\Entity\EventSignUp')->findAll();
         $events = $em->getRepository('Success\EventBundle\Entity\BaseEvent')->findAll();
         $eventRepeats = $em->getRepository('Success\EventBundle\Entity\EventRepeat')->findAll();
-        
-        foreach ($eventRepeats as $eventRepeat){
+
+        foreach ($eventRepeats as $eventRepeat) {
             $em->remove($eventRepeat);
         }
-        
-        foreach ($signUps as $signUp){
+
+        foreach ($signUps as $signUp) {
             $em->remove($signUp);
         }
-        
-        foreach ($events as $event){
+
+        foreach ($events as $event) {
             $em->remove($event);
         }
         $em->flush();
     }
-    
+
     /**
      * @Given /^I am logged in as admin$/
      */
@@ -243,12 +232,20 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
 
     /**
      * @Given /^I wait for AJAX to finish$/
-     */    
+     */
     public function iWaitForAjaxToFinish()
     {
         $this->getSession()->wait(3000);
     }
-    
+
+    /**
+     * @Given /^I wait (\d+) seconds$/
+     */
+    public function iWaitSeconds($secondsCount)
+    {
+        $this->getSession()->wait($secondsCount * 1000);
+    }
+
     /**
      * @Given /^I wait "(\d+)" seconds$/
      */
@@ -256,18 +253,18 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     {
         $this->getSession()->wait($secondsCount * 1000);
     }
-    
+
     /**
      * @Given /^I fill in "([^"]*)" with current date$/
      */
     public function iFillInWithCurrentDate($arg1)
     {
         //$session = $this->getSession();
-        $currentDate = date('c',  time());
+        $currentDate = date('c', time());
         $this->fillField($arg1, $currentDate);
         //throw new PendingException();
     }
-    
+
     /**
      * @When /^I click "([^"]*)"$/
      */
@@ -280,19 +277,19 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
             $element = $this->getSession()->getPage()->find('css', $selector);
         }
 
-        if (null === $element){
+        if (null === $element) {
             throw new ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', $selector);
         }
-        
+
         $this->getSession()->getDriver()->click($element->getXPath());
     }
-    
+
     /**
      * @Then /^I want to create new event$/
      */
     public function iWantToCreateNewEvent()
     {
-        $this->visit('admin/success/event/webinarevent/create?uniqid='.self::SONATA_UNIQID);
+        $this->visit('admin/success/event/webinarevent/create?uniqid=' . self::SONATA_UNIQID);
     }
 
     /**
@@ -300,55 +297,53 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
      */
     public function iWantToCreateNewAudience()
     {
-        $this->visit('admin/success/salesgenerator/audience/create?uniqid='.self::SONATA_UNIQID);
+        $this->visit('admin/success/salesgenerator/audience/create?uniqid=' . self::SONATA_UNIQID);
     }
-    
+
     /**
      * @Then /^I fill "([^"]*)" with current date plus "([^"]*)" minutes$/
      */
     public function iFillWithCurrentDatePlusMinutes($filedName, $minutes)
     {
-        $currentDate = date('c',  time()+(60*$minutes));
-        $this->fillField(self::SONATA_UNIQID.'_'.$filedName, $currentDate);
+        $currentDate = new \DateTime();
+        $currentDate->modify("+{$minutes} minutes");
+        $this->fillField(self::SONATA_UNIQID . '_' . $filedName, $currentDate->format('Y-m-d H:i:s').' +0300');
     }
-    
-    
+
     /**
      * @Given /^I fill "([^"]*)" with previous month date$/
      */
     public function iFillWithPreviousMonthDate($filedName)
     {
         $currentDate = new \DateTime();
-        
+
         //$currentDate = date('c',  time()+(60*15));
         //$currentDate->modify('-1 month');
-        $this->fillField(self::SONATA_UNIQID.'_'.$filedName, $currentDate);
+        $this->fillField(self::SONATA_UNIQID . '_' . $filedName, $currentDate);
     }
 
-    
     /**
      * @Then /^I fill "([^"]*)" with "([^"]*)"$/
      */
     public function iFillWith($filedName, $value)
     {
-        $this->fillField(self::SONATA_UNIQID.'_'.$filedName, $value);
+        $this->fillField(self::SONATA_UNIQID . '_' . $filedName, $value);
     }
-   
+
     /**
      * @Given /^I select "([^"]*)" in "([^"]*)"$/
      */
     public function iSelectIn($value, $filedName)
-    {         
-        $this->selectOption(self::SONATA_UNIQID.'_'.$filedName, $value);
+    {
+        $this->selectOption(self::SONATA_UNIQID . '_' . $filedName, $value);
     }
-    
-    
+
     /**
      * @Then /^I go to "([^"]*)" with "([^"]*)" placeholders$/
      */
     public function iGoToWithPlaceholders($url, $placeholders)
     {
-        $this->visit($url.'?'.$placeholders);
+        $this->visit($url . '?' . $placeholders);
     }
 
     /**
@@ -358,11 +353,11 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     {
         $notificationsCount = $this->getEntityManager()->createQuery('select count(n) from SuccessNotificationBundle:Notification n')->getSingleScalarResult();
         if ($notificationsCount !== $arg1) {
-            $message = 'Found '.$notificationsCount.' notifications in DB. But should be '.$arg1;
+            $message = 'Found ' . $notificationsCount . ' notifications in DB. But should be ' . $arg1;
             throw new ExpectationException($message, $this->getSession());
-        }        
+        }
     }
-    
+
     /**
      * @Given /^I should have (\d+) members$/
      */
@@ -370,9 +365,9 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     {
         $membersCount = $this->getEntityManager()->createQuery('select count(m) from SuccessMemberBundle:Member m')->getSingleScalarResult();
         if ($membersCount !== $arg1) {
-            $message = 'Found '.$membersCount.' members in DB. But should be '.$arg1;
+            $message = 'Found ' . $membersCount . ' members in DB. But should be ' . $arg1;
             throw new ExpectationException($message, $this->getSession());
-        }        
+        }
     }
 
     /**
@@ -380,42 +375,52 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
      */
     public function iResetSonataUniqueId()
     {
-        $this->visit($this->getSession()->getCurrentUrl().'?uniqid='.self::SONATA_UNIQID);
+        $this->visit($this->getSession()->getCurrentUrl() . '?uniqid=' . self::SONATA_UNIQID);
     }
-    
+
     /**
      * @Then /^I fill "([^"]*)" with current date plus "([^"]*)" days$/
      */
     public function iFillWithCurrentDatePlusDays($filedName, $days)
     {
-        $currentDate = date('c',  time()+(60*60*24*$days));
-        $this->fillField(self::SONATA_UNIQID.'_'.$filedName, $currentDate);
-        //throw new PendingException();
+        $currentDate = new \DateTime();
+        $currentDate->modify("+{$days} days");
+        $this->fillField(self::SONATA_UNIQID . '_' . $filedName, $currentDate->format('Y-m-d H:i:s').' +0300');
     }
-    
     
     /**
      * @Given /^I check "([^"]*)" checkbox$/
      */
     public function iCheckCheckbox($checkbox)
     {
-        $this->checkOption(self::SONATA_UNIQID.'_'.$checkbox);
-        //throw new PendingException();
-    }    
+        $this->checkOption(self::SONATA_UNIQID . '_' . $checkbox);
+    }
     
+    /**
+     * @Given /^I check "([^"]*)" iCheckbox$/
+     */
+    public function iCheckIcheckbox($iCheckId)
+    {
+        $selector = '#'.self::SONATA_UNIQID . '_' . $iCheckId;
+        $javascript = "$('{$selector}').iCheck('check');";
+        $this->getSession()->getDriver()->evaluateScript($javascript);
+    }
+    
+    
+
     /**
      * @Then /^I should see "([^"]*)" button enabled$/
      */
     public function iShouldSeeButtonEnabled($buttonName)
     {
         $button = $this->getSession()->getPage()->findLink($buttonName);
-        if ($button == null){
-            $message = 'Link with id|tittle|text|img-alt '.$buttonName.', not found on page.';
+        if ($button == null) {
+            $message = 'Link with id|tittle|text|img-alt ' . $buttonName . ', not found on page.';
             throw new ExpectationException($message, $this->getSession());
         }
-        
-        if ($button->hasClass('disabled')){
-            $message = 'Link "'.$buttonName.'" is disabled. But should be enabled.';
+
+        if ($button->hasClass('disabled')) {
+            $message = 'Link "' . $buttonName . '" is disabled. But should be enabled.';
             throw new ExpectationException($message, $this->getSession());
         }
     }
@@ -426,18 +431,17 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     public function iShouldSeeButtonDisabled($buttonName)
     {
         $button = $this->getSession()->getPage()->findLink($buttonName);
-        if ($button == null){
-            $message = 'Link with id|tittle|text|img-alt '.$buttonName.', not found on page.';
+        if ($button == null) {
+            $message = 'Link with id|tittle|text|img-alt ' . $buttonName . ', not found on page.';
             throw new ExpectationException($message, $this->getSession());
         }
-        
-        if (!$button->hasClass('disabled')){
-            $message = 'Link "'.$buttonName.'" is enabled. But should be disabled.';
-            throw new ExpectationException($message, $this->getSession());
-        }
-    }    
 
-    
+        if (!$button->hasClass('disabled')) {
+            $message = 'Link "' . $buttonName . '" is enabled. But should be disabled.';
+            throw new ExpectationException($message, $this->getSession());
+        }
+    }
+
     /**
      * @Then /^I should have (\d+) email notification to "([^"]*)"$/
      */
@@ -447,14 +451,12 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
                 ->createQuery('select count(n) from SuccessNotificationBundle:EmailNotification n where n.destination=:destination')
                 ->setParameter('destination', $destination)
                 ->getSingleScalarResult();
-        
+
         if ($notificationsCount !== $count) {
-            $message = 'Found '.$notificationsCount.' to "'.$destination.'" notifications in DB. But should be '.$count;
+            $message = 'Found ' . $notificationsCount . ' to "' . $destination . '" notifications in DB. But should be ' . $count;
             throw new ExpectationException($message, $this->getSession());
-        }        
-
+        }
     }
-
 
     /**
      * @Then /^I should have (\d+) SMS notification to "([^"]*)"$/
@@ -465,29 +467,24 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
                 ->createQuery('select count(n) from SuccessNotificationBundle:SMSNotification n where n.destination=:destination')
                 ->setParameter('destination', $destination)
                 ->getSingleScalarResult();
-        
+
         if ($notificationsCount !== $count) {
-            $message = 'Found '.$notificationsCount.' to "'.$destination.'" notifications in DB. But should be '.$count;
+            $message = 'Found ' . $notificationsCount . ' to "' . $destination . '" notifications in DB. But should be ' . $count;
             throw new ExpectationException($message, $this->getSession());
         }
     }
 
-
-    
-    
     /**
      * @Then /^I should have member with id "([^"]*)"$/
      */
     public function iShouldHaveMemberWithId($memberId)
     {
-         $membersCount = $this->getEntityManager()->createQuery('select count(m) from SuccessMemberBundle:Member m where m.externalId=:external_id')
+        $membersCount = $this->getEntityManager()->createQuery('select count(m) from SuccessMemberBundle:Member m where m.externalId=:external_id')
                 ->setParameter('external_id', $memberId)
                 ->getSingleScalarResult();
         if ($membersCount == 0) {
-            $message = 'Member with id "'.$memberId.'", not found in DB. But should exist.';
+            $message = 'Member with id "' . $memberId . '", not found in DB. But should exist.';
             throw new ExpectationException($message, $this->getSession());
         }
-
     }
-    
 }
