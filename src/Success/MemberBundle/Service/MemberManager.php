@@ -7,6 +7,7 @@ use Success\PlaceholderBundle\Service\PlaceholderManager;
 use Success\PlaceholderBundle\Entity\BasePlaceholder;
 use Success\MemberBundle\Entity\MemberData;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class MemberManager
 {
@@ -16,6 +17,7 @@ class MemberManager
     
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
     use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
+    use \Success\MemberBundle\Traits\SetSecurityContextTrait;
 
     /**
      * @param type $externalId string(255)
@@ -96,7 +98,7 @@ class MemberManager
      * @param string $data
      * @return \Success\MemberBundle\Entity\MemberData
      */
-    public function resolveUpdateOrCreateMember(Member $member, BasePlaceholder $placeholder, $data)
+    private function resolveMemberData(Member $member, BasePlaceholder $placeholder, $data)
     {
         $repo = $this->em->getRepository('SuccessMemberBundle:MemberData');
         $memberData = $repo->findOneBy(array('member' => $member->getId(), 'placeholder' => $placeholder->getId()));
@@ -107,12 +109,10 @@ class MemberManager
             $memberData->setPlaceholder($placeholder);
             $memberData->setMemberData($data);
             $this->em->persist($memberData);
-            $this->em->flush();
         } else {
             $memberData->setMember($member);
             $memberData->setPlaceholder($placeholder);
             $memberData->setMemberData($data);
-            $this->em->flush();
         }
         return $memberData;
     }
@@ -165,6 +165,22 @@ class MemberManager
     }
     
     /**
+     * @param Member $member
+     */
+    public function doLoginMember(Member $member)
+    {
+        //TODO: implement security cchecks via referer, cookie, etc..
+        $token = new UsernamePasswordToken(
+            $member,
+            $member->getPassword(),
+            "success.member.member_provider",
+            $member->getRoles()
+        );
+        $this->securityContext->setToken($token);
+    }
+
+
+    /**
      * @param String $externalId
      * @param Member $sponsorMember
      * @return Member
@@ -175,7 +191,19 @@ class MemberManager
         $member->setExternalId($externalId);
         $member->setSponsor($sponsorMember);
         $this->em->persist($member);
+        $this->updateMemberDataFromPlaceholders(self::USER_PLACEHOLDER_TYPE_NAME, $member);
+        
         $this->em->flush();
         return $member;
+    }
+    
+    private function updateMemberDataFromPlaceholders($placeholderTypeName, Member $member)
+    {
+        $placeholdersData = $this->placeholderManager->getPlaceholdersValuesFormSession();
+        foreach ($placeholdersData as $placeholderData) {
+            if ($placeholderData['placeholder']->getPlaceholderType()->getPattern() == $placeholderTypeName) {
+                $this->resolveMemberData($member, $placeholderData['placeholder'], $placeholderData['value']);
+            }
+        }
     }
 }

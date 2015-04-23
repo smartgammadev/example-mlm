@@ -168,14 +168,8 @@ class CalendarController extends Controller
     {
         $placeholders = $request->query->all();
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);
-        
         $member = $this->memberManager->resolveUserMemberFromPlaceholders();
-        //var_dump($member);die;
-        $token = new UsernamePasswordToken($member, $member->getPassword(), "public", $member->getRoles());
-        $this->get("security.context")->setToken($token);
-        //$this->get('security.context')->
-        
-        
+        $this->memberManager->doLoginMember($member);
         return [];
     }
 
@@ -186,7 +180,7 @@ class CalendarController extends Controller
     public function signupAction($eventId, Request $request)
     {
         /**
-         * @var \Success\EventBundle\Entity\BaseEvent Event for sign up
+         * @var \Success\EventBundle\Entity\BaseEvent $event
          */
         $event = $this->eventManager->getEventById($eventId);
 
@@ -202,6 +196,7 @@ class CalendarController extends Controller
             $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
             $formdata = $form->getData();
             $notifyUserBeforeEvent = false;
+            
             foreach ($formdata as $pattern => $value) {
                 if (($pattern == 'notify') && ($value == true)) {
                     $notifyUserBeforeEvent = true;
@@ -210,11 +205,9 @@ class CalendarController extends Controller
                 }
             }
             $now = new \DateTime();
-            $memberSignedUp = $this->memberManager->resolveMemberByExternalId($placeholders['user_email'], $placeholders['sponsor_email']);
-            
-            
             $this->placeholderManager->assignPlaceholdersToSession($placeholders);
-            $this->memberManager->updateMemberData($placeholders);
+            $memberSignedUp = $this->memberManager->resolveUserMemberFromPlaceholders();
+                        
             if ($this->eventManager->signUpMemberForEvent($memberSignedUp, $event, $now, $notifyUserBeforeEvent)) {
                 $message = 'Вы уже зарегистрированы на этот вебинар.';
             } else {

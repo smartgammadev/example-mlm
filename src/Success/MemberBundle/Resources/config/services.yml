@@ -9,9 +9,9 @@ services:
         calls:
              - [setEntityManager, ["@doctrine.orm.entity_manager"]]
              - [setPlaceholderManager, ["@success.placeholder.placeholder_manager"]]
+             - [setSecurityContext, ["@security.context"]]
 
     success.member.member_provider:
         class: Success\MemberBundle\Security\MemberProvider
         calls:
              - [setEntityManager, ["@doctrine.orm.entity_manager"]]
-             - [setMemberManager, ["@success.member.member_manager"]]

@@ -25,11 +25,10 @@ class PlaceholderManager
 
     public function assignPlaceholdersToSession(array $placeholders)
     {
-        //print_r($this->request);
         $session = $this->request->getSession();
         $session->set('placeholders', $placeholders);
     }
-
+    
     public function getPlaceholdersFromSession()
     {
         $session = $this->request->getSession();
@@ -83,7 +82,6 @@ class PlaceholderManager
     }
 
     /**
-     * 
      * @param string $fullName string like sponsor_first_name
      * @return Success\PlaceholderBundle\Entity\ExternalPlaceholder
      */
@@ -97,7 +95,8 @@ class PlaceholderManager
         $placeholderTypeRepo = $this->em->getRepository('SuccessPlaceholderBundle:PlaceholderType');
 
         $placeholderType = $placeholderTypeRepo->findOneBy(
-                array('pattern' => $placeholderTypePattern));
+            array('pattern' => $placeholderTypePattern)
+        );
 
         if (!$placeholderType) {
             $placeholderType = new PlaceholderType();
@@ -107,7 +106,8 @@ class PlaceholderManager
             $persisted = true;
         }
         $placeholder = $placeholderRepo->findOneBy(
-                array('pattern' => $placeholderPattern, 'placeholderType' => $placeholderType->getId()));
+            array('pattern' => $placeholderPattern, 'placeholderType' => $placeholderType->getId())
+        );
         if (!$placeholder) {
             $placeholder = new ExternalPlaceholder();
             $placeholder->setPattern($placeholderPattern);

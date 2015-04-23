@@ -10,11 +10,12 @@ use Success\MemberBundle\Entity\Member;
 class MemberProvider implements UserProviderInterface
 {
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
-    use \Success\MemberBundle\Traits\SetMemberManagerTrait;
-
+    
     public function loadUserByUsername($externalId)
     {
-        $member = $this->memberManager->getMemberByExternalId($externalId);
+        $repo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $member = $repo->findOneBy(['externalId' => $externalId]);
+        
         if ($member) {
             return $member;
         }
