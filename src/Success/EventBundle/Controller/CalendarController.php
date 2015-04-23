@@ -168,8 +168,15 @@ class CalendarController extends Controller
     {
         $placeholders = $request->query->all();
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);
-
-        return array();
+        
+        $member = $this->memberManager->resolveUserMemberFromPlaceholders();
+        //var_dump($member);die;
+        $token = new UsernamePasswordToken($member, $member->getPassword(), "public", $member->getRoles());
+        $this->get("security.context")->setToken($token);
+        //$this->get('security.context')->
+        
+        
+        return [];
     }
 
     /**

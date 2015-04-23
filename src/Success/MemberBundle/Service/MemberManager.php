@@ -6,22 +6,16 @@ use Success\MemberBundle\Entity\Member;
 use Success\PlaceholderBundle\Service\PlaceholderManager;
 use Success\PlaceholderBundle\Entity\BasePlaceholder;
 use Success\MemberBundle\Entity\MemberData;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MemberManager
 {
-
+    const MEMBER_IDENTITY_PLACEHOLDER = 'email';
+    const SPONSOR_PLACEHOLDER_TYPE_NAME = 'sponsor';
+    const USER_PLACEHOLDER_TYPE_NAME = 'user';
+    
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
     use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
-
-    private $memberIdentityPlaceholder;
-    
-    private $sponsorIdPlaceholder;
-
-    public function __construct()
-    {
-        $this->memberIdentityPlaceholder = 'email';
-        $this->sponsorIdPlaceholder = 'sponsor_email';
-    }
 
     /**
      * @param type $externalId string(255)
@@ -72,7 +66,7 @@ class MemberManager
         $placeholdersToSearchMember = array();
 
         foreach ($placeholdersData as $phData) {
-            if ($phData['placeholder']->getPattern() == $this->memberIdentityPlaceholder) {
+            if ($phData['placeholder']->getPattern() == self::MEMBER_IDENTITY_PLACEHOLDER) {
                 $placeholdersToSearchMember[] = array('externalId' => $phData['value'],
                     'pattern' => $phData['placeholder']->getPlaceholderType()->getPattern());
             }
@@ -88,8 +82,7 @@ class MemberManager
     {
         foreach ($placeholdersToSearchMember as $searchPlaceholder) {
             $member = $this->resolveMemberByExternalId($searchPlaceholder['externalId']);
-            $placeholdersMemberData =
-                $this->placeholderManager->getPlaceholdersValuesByTypePattern($searchPlaceholder['pattern']);
+            $placeholdersMemberData = $this->placeholderManager->getPlaceholdersValuesByTypePattern($searchPlaceholder['pattern']);
 
             foreach ($placeholdersMemberData as $phData) {
                 $this->resolveUpdateOrCreateMember($member, $phData['placeholder'], $phData['value']);
@@ -123,20 +116,66 @@ class MemberManager
         }
         return $memberData;
     }
-
+    
     /**
-     * @Route("/login-token/{token}/{userHash}", name="participant_autologin_token")
-     * @ParamConverter("autologinToken", class="MyBundle:AutologinToken")
-     * @Template()
+     * @return Member
+     * @throws NotFoundHttpException
      */
-    public function autoLoginAction(Request $request, AutologinToken $autologinToken, $userHash)
+    private function getSponsorMemberFromPlaceholders()
     {
-        $user = $autologinToken->getUser();
-        $providerKey = $this->container->getParameter('fos_user.firewall_name');
-        $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
-        $this->get('security.context')->setToken($token);
-        $event = new InteractiveLoginEvent($request, $token);
-        $this->get("event_dispatcher")->dispatch("security.authentication", $event);
-        return $this->redirect($autologinToken->getUrl());
+        $placeholdersData = $this->placeholderManager->getPlaceholdersValuesFormSession();
+        foreach ($placeholdersData as $placeholderData) {
+            if ($placeholderData['placeholder']->getFullPattern() ==
+                    self::SPONSOR_PLACEHOLDER_TYPE_NAME.'_'.self::MEMBER_IDENTITY_PLACEHOLDER) {
+                $sponsorExternalId = $placeholderData['value'];
+            }
+        }
+        if (!isset($sponsorExternalId)) {
+            throw new NotFoundHttpException('Sponsor identity not found in placeholders. Link is not valid.');
+        }
+        
+        $sponsorMember = $this->getMemberByExternalId($sponsorExternalId);
+        if (!$sponsorMember) {
+            throw new NotFoundHttpException('Sponsor provided in placeholders not found. Link is not valid.');
+        }
+        return $sponsorMember;
+    }
+    
+    /**
+     * @return Member
+     * @throws NotFoundHttpException
+     */
+    public function resolveUserMemberFromPlaceholders()
+    {
+        $placeholdersData = $this->placeholderManager->getPlaceholdersValuesFormSession();
+        foreach ($placeholdersData as $placeholderData) {
+            if ($placeholderData['placeholder']->getFullPattern() ==
+                    self::USER_PLACEHOLDER_TYPE_NAME.'_'.self::MEMBER_IDENTITY_PLACEHOLDER) {
+                $userExternalId = $placeholderData['value'];
+            }
+        }
+        if (!isset($userExternalId)) {
+            throw new NotFoundHttpException('User identity not found in placeholders. Link is not valid.');
+        }
+        $userMember = $this->getMemberByExternalId($userExternalId);
+        if (!$userMember) {
+            $userMember = $this->createIncomingMember($userExternalId, $this->getSponsorMemberFromPlaceholders());
+        }
+        return $userMember;
+    }
+    
+    /**
+     * @param String $externalId
+     * @param Member $sponsorMember
+     * @return Member
+     */
+    private function createIncomingMember($externalId, Member $sponsorMember)
+    {
+        $member = new Member();
+        $member->setExternalId($externalId);
+        $member->setSponsor($sponsorMember);
+        $this->em->persist($member);
+        $this->em->flush();
+        return $member;
     }
 }

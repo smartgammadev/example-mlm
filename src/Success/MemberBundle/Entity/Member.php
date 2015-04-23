@@ -4,6 +4,7 @@ namespace Success\MemberBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Member
@@ -11,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Success\MemberBundle\Entity\MemberRepository")
  */
-class Member
+class Member implements UserInterface
 {
     /**
      * @var integer
@@ -51,6 +52,31 @@ class Member
      * @ORM\JoinColumn(name="sponsor_id", referencedColumnName="id")
      */
     private $sponsor;
+
+    public function getPassword()
+    {
+        ;
+    }
+    
+    public function getSalt()
+    {
+        ;
+    }
+    
+    public function getUsername()
+    {
+        return $this->externalId;
+    }
+    
+    public function getRoles()
+    {
+        return ($this->referals->count() > 0 ? ['ROLE_SPONSOR'] : ['ROLE_USER']);
+    }
+    
+    public function eraseCredentials()
+    {
+        ;
+    }
 
     /**
      * Get id
