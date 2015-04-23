@@ -16,6 +16,8 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
  */
 class CalendarController extends Controller
 {
+    
+    const WAEBINAR_ACCESS_DENIED_MESSAGE = 'Извините. Доступ к даному вебинару разрешен только для партнеров с VIP статусом.';
 
     /**
      * @var \Success\EventBundle\Service\EventManager
@@ -185,7 +187,7 @@ class CalendarController extends Controller
         $event = $this->eventManager->getEventById($eventId);
 
         if (!$this->eventManager->getEventAccessForUser($event)) {
-            $message = 'Извините. Доступ к даному вебинару разрешен только для партнеров с VIP статусом.';
+            $message = self::WAEBINAR_ACCESS_DENIED_MESSAGE;
             return array('message' => $message);
         }
 
@@ -196,7 +198,6 @@ class CalendarController extends Controller
             $placeholders = $this->placeholderManager->getPlaceholdersFromSession();
             $formdata = $form->getData();
             $notifyUserBeforeEvent = false;
-            
             foreach ($formdata as $pattern => $value) {
                 if (($pattern == 'notify') && ($value == true)) {
                     $notifyUserBeforeEvent = true;

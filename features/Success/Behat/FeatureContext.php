@@ -487,4 +487,74 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
             throw new ExpectationException($message, $this->getSession());
         }
     }
+    
+    /**
+     * @Given /^I am not logged$/
+     */
+    public function iAmNotLogged()
+    {
+        $securityContext = $this->getContainer()->get('security.context');
+        $securityContext->setToken(new \Symfony\Component\Security\Core\Authentication\Token\AnonymousToken('user', 'anon.', []));
+    }
+    
+    /**
+     * @Given /^the following events exist:$/
+     */
+    public function theFollowingEventsExist(TableNode $table)
+    {
+        $em = $this->getEntityManager();
+        /**
+         * @var \Doctrine\ORM\Repository $eventRepo $accessTypeRepo
+         */
+        $eventRepo = $em->getRepository('SuccessEventBundle:WebinarEvent');
+        $webinarEvents = $eventRepo->findAll();
+        foreach ($webinarEvents as $event) {
+            $em->remove($event);
+        }
+        $accessTypeRepo = $em->getRepository('SuccessEventBundle:EventAccessType');
+        $eventTypeRepo = $em->getRepository('SuccessEventBundle:EventType');
+        
+        $hash = $table->getHash();
+        $hours = 0;
+        foreach ($hash as $row) {
+            $date = new \DateTime();
+            $hours++;
+            $date->modify("+{$hours} hours");
+            $event = new \Success\EventBundle\Entity\WebinarEvent();
+            $event->setName($row['name']);
+            $event->setStartDateTime($date);
+            $event->setDescription($row['description']);
+            $event->setPattern('pattern');
+            
+            $accessType = $accessTypeRepo->findOneBy(['name' => $row['access_type']]);
+            $eventType = $eventTypeRepo->findOneBy(['name' => $row['type']]);
+            
+            $event->setAccessType($accessType);
+            $event->setEventType($eventType);
+            $event->setUrl('http://www.url.com');
+            $em->persist($event);
+        }
+        $em->flush();
+    }
+    
+    /**
+     * @Given /^I must be logged in as "([^"]*)"$/
+     */
+    public function iMustBeLoggedInAs($userName)
+    {
+        /**
+         * @var \Symfony\Component\Security\Core\SecurityContext $securityContext
+         */
+        $member = $this->getContainer()->get('security.context')->getToken()->getUser();
+        var_dump($member);
+        die;
+    }
+
+    /**
+     * @Given /^My sponsor should be "([^"]*)"$/
+     */
+    public function mySponsorShouldBe($arg1)
+    {
+        throw new PendingException();
+    }
 }

@@ -55,12 +55,10 @@ class Member implements UserInterface
 
     public function getPassword()
     {
-        ;
     }
     
     public function getSalt()
     {
-        ;
     }
     
     public function getUsername()
@@ -70,7 +68,7 @@ class Member implements UserInterface
     
     public function getRoles()
     {
-        return ($this->referals->count() > 0 ? ['ROLE_SPONSOR'] : ['ROLE_USER']);
+        return ($this->referals->count() > 0 ? ['ROLE_4SUCCESS_SPONSOR'] : ['ROLE_4SUCCESS_USER']);
     }
     
     public function eraseCredentials()
