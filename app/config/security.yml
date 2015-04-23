@@ -1,7 +1,7 @@
 security:
     encoders:
         Application\Sonata\UserBundle\Entity\User: sha512    
-        Success\MemberBundle\Entity\Member: sha512
+        Success\MemberBundle\Entity\Member: bcrypt
 
     role_hierarchy:
         ROLE_ADMIN:       [ROLE_USER, ROLE_SONATA_ADMIN]
@@ -16,8 +16,13 @@ security:
     providers:
         fos_userbundle:
             id: fos_user.user_manager
+            
         success_memberbundle:
-            id: success.member.member_provider
+            entity:
+                class: SuccessMemberBundle:Member
+                property: externalId
+#        success_memberbundle:
+#            id: success.member.member_provider
 
     firewalls:
         dev:
@@ -37,20 +42,14 @@ security:
             anonymous:          true
             
         4success:
-            pattern:             /success.*
+            pattern:             ^/
             form_login:
                 provider:       success_memberbundle
-                login_path:     /success/login
-                check_path:     /success/login_check
             logout:             true
             anonymous:          true
 
 
     access_control:
-        # URL of FOSUserBundle which need to be available to anonymous users
-        - { path: ^/forum/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/forum/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/forum/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
         # Admin login page needs to be access without credential
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }

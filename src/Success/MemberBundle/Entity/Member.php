@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Success\MemberBundle\Entity\MemberRepository")
  */
-class Member implements UserInterface
+class Member implements UserInterface, \Serializable
 {
     /**
      * @var integer
@@ -240,5 +240,23 @@ class Member implements UserInterface
     public function getSponsor()
     {
         return $this->sponsor;
+    }
+    
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->externalId,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->externalId,
+        ) = unserialize($serialized);
     }
 }
