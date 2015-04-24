@@ -1,3 +1,6 @@
+imports:
+    - { resource: admin.yml }
+
 services:
     success.pricing.pricing_manager:
         class: Success\PricingBundle\Service\PricingManager

@@ -108,7 +108,7 @@ sonata_admin:
                     - sonata.admin.webinar_signup                    
                     - sonata.admin.external_placeholder                    
                     - sonata.admin.setting_admin
-                    #- sonata.admin.placeholder_type
+                    - sonata.admin.pricing_admin
             Users:
                 items:
                     - sonata.user.admin.user

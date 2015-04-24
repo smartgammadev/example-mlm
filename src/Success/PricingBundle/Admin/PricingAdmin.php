@@ -1,19 +1,26 @@
 <?php
 
-namespace Success\EventBundle\Admin;
+namespace Success\PricingBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class EventAccessTypeAdmin extends Admin
+class PricingAdmin extends Admin
 {
+
+    protected function configureRoutes(\Sonata\AdminBundle\Route\RouteCollection $collection)
+    {
+        parent::configureRoutes($collection);
+        $collection->remove('create');
+        $collection->remove('delete');
+    }
 
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-                ->add('name', 'text', array('label' => 'Event Access Type'))
+                ->add('name', 'text', array('label' => 'Pricing Name'))
         ;
     }
 
@@ -29,5 +36,10 @@ class EventAccessTypeAdmin extends Admin
         $listMapper
                 ->addIdentifier('name')
         ;
+    }
+    
+    public function getNewInstance()
+    {
+        //parent::getNewInstance();
     }
 }
