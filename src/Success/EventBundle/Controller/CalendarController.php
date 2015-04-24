@@ -17,7 +17,8 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 class CalendarController extends Controller
 {
     
-    const WAEBINAR_ACCESS_DENIED_MESSAGE = 'Извините. Доступ к даному вебинару разрешен только для партнеров с VIP статусом.';
+    const WAEBINAR_ACCESS_DENIED_MESSAGE =
+        'Извините. Доступ к даному вебинару разрешен только для партнеров с VIP статусом.';
 
     /**
      * @var \Success\EventBundle\Service\EventManager
