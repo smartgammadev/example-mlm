@@ -52,6 +52,7 @@ class AppKernel extends Kernel
             new Ornicar\ApcBundle\OrnicarApcBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Success\TreasureBundle\SuccessTreasureBundle(),
+            new Success\PricingBundle\SuccessPricingBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -4,11 +4,12 @@ namespace Success\PlaceholderBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Success\PlaceholderBundle\Entity\BasePlaceholder;
+ 
 /**
  * PlaceholderType
  *
- * @ORM\Table(name="p_placeholder_type")
+ * @ORM\Table(name="ph_placeholder_type")
  * @ORM\Entity()
  */
 class PlaceholderType
@@ -45,7 +46,7 @@ class PlaceholderType
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -68,7 +69,7 @@ class PlaceholderType
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -80,7 +81,7 @@ class PlaceholderType
      */
     public function __construct()
     {
-        $this->events = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     /**
@@ -89,7 +90,7 @@ class PlaceholderType
      * @param \Success\PlaceholderBundle\Entity\BasePlaceholder $placeholders
      * @return PlaceholderType
      */
-    public function addPlaceholder(\Success\PlaceholderBundle\Entity\BasePlaceholder $placeholders)
+    public function addPlaceholder(BasePlaceholder $placeholders)
     {
         $this->placeholders[] = $placeholders;
 
@@ -101,7 +102,7 @@ class PlaceholderType
      *
      * @param \Success\PlaceholderBundle\Entity\BasePlaceholder $placeholders
      */
-    public function removePlaceholder(\Success\PlaceholderBundle\Entity\BasePlaceholder $placeholders)
+    public function removePlaceholder(BasePlaceholder $placeholders)
     {
         $this->placeholders->removeElement($placeholders);
     }
@@ -109,7 +110,7 @@ class PlaceholderType
     /**
      * Get placeholders
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPlaceholders()
     {
@@ -137,7 +138,7 @@ class PlaceholderType
     /**
      * Get pattern
      *
-     * @return string 
+     * @return string
      */
     public function getPattern()
     {

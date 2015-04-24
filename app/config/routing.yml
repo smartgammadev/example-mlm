@@ -1,3 +1,7 @@
+success_pricing:
+    resource: "@SuccessPricingBundle/Resources/config/routing.yml"
+    prefix:   /
+
 success_treasure:
     resource: "@SuccessTreasureBundle/Resources/config/routing.yml"
     prefix:   /

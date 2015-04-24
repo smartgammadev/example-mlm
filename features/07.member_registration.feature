@@ -17,7 +17,7 @@ Feature: Member registration and loging
      And member "main.sponsor@mail.com" should be sponsor
      And member "new_user@email.email" should be user
      And sponsor of "new_user@email.email" member should be "main.sponsor@mail.com"
-     And sponsor "main.sponsor@mail.com" should have 1 referals
+     And sponsor "main.sponsor@mail.com" should have 5 referals
     When I go to "/calendarevents/nearest" with "user.email=another_new_user@email.email&user.first_name=userFirstName&user.last_name=userLastName&sponsor.email=main.sponsor@mail.com&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
     Then I should have member with id "another_new_user@email.email"
      And member "main.sponsor@mail.com" should be sponsor
