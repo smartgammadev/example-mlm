@@ -40,15 +40,26 @@ class MemberManager
      */
     public function resolveMemberByExternalId($externalId, $sponsorExternalId = null)
     {
-        $member = $this->getMemberByExternalId($externalId);
-        if (!$member) {
+        try {
+            $member = $this->getMemberByExternalId($externalId);
+        } catch (NotFoundHttpException $ex) {
             $member = new Member();
             $member->setExternalId($externalId);
             $member->setSponsor($this->getMemberByExternalId($sponsorExternalId));
             $this->em->persist($member);
             $this->em->flush();
         }
-
+//        
+//        
+//        
+//        if (!$member) {
+//            $member = new Member();
+//            $member->setExternalId($externalId);
+//            $member->setSponsor($this->getMemberByExternalId($sponsorExternalId));
+//            $this->em->persist($member);
+//            $this->em->flush();
+//        }
+//
         return $member;
     }
 

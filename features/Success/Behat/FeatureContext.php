@@ -603,7 +603,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
         $sponsor = $memberRepo->findOneBy(['externalId' => $sponsorExternalId]);
         if (count($sponsor->getReferals()) != $referalsCount) {
             $message = sprintf(
-                'Member "%s" should have "%s" referals, but it has "%s"',
+                'Member "%s" should have %s referals, but it has %s',
                 $sponsorExternalId,
                 $referalsCount,
                 count($sponsor->getReferals())

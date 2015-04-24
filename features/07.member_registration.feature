@@ -23,4 +23,3 @@ Feature: Member registration and loging
      And member "main.sponsor@mail.com" should be sponsor
      And member "another_new_user@email.email" should be user
      And sponsor of "another_new_user@email.email" member should be "main.sponsor@mail.com"
-     And sponsor "main.sponsor@mail.com" should have 2 referals
