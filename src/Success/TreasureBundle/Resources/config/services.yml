@@ -1,0 +1,7 @@
+parameters:
+#    success_treasure.example.class: Success\TreasureBundle\Example
+
+services:
+#    success_treasure.example:
+#        class: %success_treasure.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
