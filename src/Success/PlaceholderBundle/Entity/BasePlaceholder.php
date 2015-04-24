@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * BasePlaceholder
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Success\PlaceholderBundle\Entity\BasePlaceholderRepository")
+ * @ORM\Table(name="p_base_placeholder")
+ * @ORM\Entity()
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"base_placeholder" = "BasePlaceholder", "external_placeholder" = "ExternalPlaceholder"})

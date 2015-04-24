@@ -44,12 +44,14 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\AopBundle\JMSAopBundle(),
-            new Success\SiteBundle\SuccessSiteBundle(),            
+            new Success\SiteBundle\SuccessSiteBundle(),
             new Success\MemberBundle\SuccessMemberBundle(),
             new Success\SalesGeneratorBundle\SuccessSalesGeneratorBundle(),
             new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
             new Sonata\IntlBundle\SonataIntlBundle(),
             new Ornicar\ApcBundle\OrnicarApcBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new Success\TreasureBundle\SuccessTreasureBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

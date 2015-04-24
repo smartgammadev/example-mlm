@@ -1,17 +1,19 @@
 <?php
 
 namespace Success\PlaceholderBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * PlaceholderType
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Success\PlaceholderBundle\Entity\PlaceholderTypeRepository")
+ * @ORM\Table(name="p_placeholder_type")
+ * @ORM\Entity()
  */
 class PlaceholderType
 {
+
     /**
      * @var integer
      *
@@ -34,13 +36,12 @@ class PlaceholderType
      * @ORM\Column(name="pattern", type="string", unique=true, length=50)
      */
     private $pattern;
-    
-    
+
     /**
      * @ORM\OneToMany(targetEntity="BasePlaceholder", mappedBy="placeholderType")
      */
     private $placeholders;
-    
+
     /**
      * Get id
      *
@@ -73,6 +74,7 @@ class PlaceholderType
     {
         return $this->name;
     }
+
     /**
      * Constructor
      */
@@ -113,8 +115,9 @@ class PlaceholderType
     {
         return $this->placeholders;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->name;
     }
 

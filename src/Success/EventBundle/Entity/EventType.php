@@ -8,11 +8,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * EventType
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Success\EventBundle\Entity\EventTypeRepository")
+ * @ORM\Table(name="e_event_type")
+ * @ORM\Entity()
  */
 class EventType
 {
+
     /**
      * @var integer
      *
@@ -28,7 +29,7 @@ class EventType
      * @ORM\Column(name="name", type="string", length=100)
      */
     private $name;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Success\EventBundle\Entity\BaseEvent", mappedBy="eventType")
      */
@@ -37,7 +38,7 @@ class EventType
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -60,13 +61,13 @@ class EventType
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
         return $this->name;
     }
-    
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
@@ -98,14 +99,15 @@ class EventType
     /**
      * Get events
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getEvents()
     {
         return $this->events;
     }
-    
-    public function __toString(){
-        return $this -> name;
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

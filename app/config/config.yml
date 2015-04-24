@@ -75,6 +75,17 @@ doctrine:
                     SonataMediaBundle: ~                    
                     SonataNotificationBundle: ~                    
                     SonataUserBundle: ~
+                    gedmo_tree:
+                        type: annotation
+                        prefix: Gedmo\Tree\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                        alias: GedmoTree # this one is optional and will default to the name set for the mapping
+                        is_bundle: false                    
+stof_doctrine_extensions:
+    default_locale: "%locale%"
+    orm:
+        default:
+            tree: true
 
 #sonata_doctrine_orm_admin:
 #    templates:

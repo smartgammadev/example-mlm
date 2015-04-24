@@ -12,57 +12,54 @@ use Doctrine\ORM\EntityRepository;
  */
 class BaseEventRepository extends EntityRepository
 {
-    public function findAllByDate(\DateTime $startDate) 
+
+    public function findAllByDate(\DateTime $startDate)
     {
-        $fromDate = clone $startDate; 
+        $fromDate = clone $startDate;
         $fromDate->setTime(0, 0, 0);
         $toDate = clone $fromDate;
-        $toDate->modify('+1 day');                
+        $toDate->modify('+1 day');
         return $this->findAllBetweenDates($fromDate, $toDate);
     }
-    
-    public function findNextByDate(\DateTime $startDate) 
+
+    public function findNextByDate(\DateTime $startDate)
     {
-        $fromDate = clone $startDate; 
+        $fromDate = clone $startDate;
         $toDate = clone $fromDate;
         $toDate->modify('+1 day');
         $toDate->setTime(0, 0, 1);
-        //echo 'from date:'.$fromDate->format('Y-m-d H:i:s').'<br>';
-        //echo 'to date:'.$toDate->format('Y-m-d H:i:s').'<br>';
         return $this->findAllBetweenDates($fromDate, $toDate);
     }
-    
-    
-    public function findAllBetweenDates(\DateTime $startDate,\DateTime $endDate) 
+
+    public function findAllBetweenDates(\DateTime $startDate, \DateTime $endDate)
     {
         $result = $this->getEntityManager()->createQuery(
-                "select e from SuccessEventBundle:BaseEvent e where e.startDateTime BETWEEN :start_date AND :end_date ORDER BY e.startDateTime ASC")
+                        "select e from SuccessEventBundle:BaseEvent e where e.startDateTime BETWEEN :start_date AND :end_date ORDER BY e.startDateTime ASC")
                 ->setParameter("start_date", $startDate->format('Y-m-d H:i:s'))
                 ->setParameter("end_date", $endDate->format('Y-m-d H:i:s'))
-                ->getResult();                        
+                ->getResult();
         return $result;
     }
-    
+
     public function findAllWithActiveRepeats(\DateTime $nowDateTime)
-    {        
-        return  $this->getEntityManager()->createQuery(
-                "select e, r from SuccessEventBundle:BaseEvent e inner join e.eventRepeat r "
-                . "where r.endDateTime > :now_date_time "
-                . "and e.startDateTime < :now_date_time")
-                ->setParameter("now_date_time", $nowDateTime->format('Y-m-d H:i:s'))
-                ->getResult();
+    {
+        return $this->getEntityManager()->createQuery(
+                                "select e, r from SuccessEventBundle:BaseEvent e inner join e.eventRepeat r "
+                                . "where r.endDateTime > :now_date_time "
+                                . "and e.startDateTime < :now_date_time")
+                        ->setParameter("now_date_time", $nowDateTime->format('Y-m-d H:i:s'))
+                        ->getResult();
     }
-    
-    
+
     public function findNextNearestByDate(\DateTime $startDate)
     {
         $dql = 'select e from SuccessEventBundle:BaseEvent e where e.startDateTime > :start_date ORDER BY e.startDateTime ASC';
         $result = $this->getEntityManager()->createQuery($dql)
-                    ->setParameter('start_date', $startDate->format('Y-m-d H:i:s'))
-                    ->setFirstResult(0)
-                    ->setMaxResults(1)
-                    ->getResult();
-        if (count($result)!==0){
+                ->setParameter('start_date', $startDate->format('Y-m-d H:i:s'))
+                ->setFirstResult(0)
+                ->setMaxResults(1)
+                ->getResult();
+        if (count($result) !== 0) {
             return $result[0];
         } else {
             return null;

@@ -7,11 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EventSignUp
  *
- * @ORM\Table()
+ * @ORM\Table(name="e_event_signup")
  * @ORM\Entity
  */
 class EventSignUp
 {
+
     /**
      * @var integer
      *
@@ -34,17 +35,17 @@ class EventSignUp
      * @ORM\JoinColumn(name="member_id", referencedColumnName="id")
      */
     private $member;
-    
+
     /**
      * @var \Success\EventBundle\Entity\BaseEvent
      * @ORM\ManyToOne(targetEntity="BaseEvent", inversedBy="signUps")
-     */    
+     */
     private $event;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -67,7 +68,7 @@ class EventSignUp
     /**
      * Get signUpDateTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getSignUpDateTime()
     {
@@ -90,7 +91,7 @@ class EventSignUp
     /**
      * Get member
      *
-     * @return \Success\MemberBundle\Entity\Member 
+     * @return \Success\MemberBundle\Entity\Member
      */
     public function getMember()
     {
@@ -113,7 +114,7 @@ class EventSignUp
     /**
      * Get event
      *
-     * @return \Success\EventBundle\Entity\BaseEvent 
+     * @return \Success\EventBundle\Entity\BaseEvent
      */
     public function getEvent()
     {

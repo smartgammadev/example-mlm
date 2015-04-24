@@ -8,11 +8,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * EventAccessType
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Success\EventBundle\Entity\EventAccessTypeRepository")
+ * @ORM\Table(name="e_event_access_type")
+ * @ORM\Entity()
  */
 class EventAccessType
 {
+
     /**
      * @var integer
      *
@@ -28,7 +29,7 @@ class EventAccessType
      * @ORM\Column(name="name", type="string", length=100)
      */
     private $name;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Success\EventBundle\Entity\BaseEvent", mappedBy="accessType")
      */
@@ -37,7 +38,7 @@ class EventAccessType
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -60,14 +61,13 @@ class EventAccessType
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
         return $this->name;
     }
-    
-    
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
@@ -99,15 +99,15 @@ class EventAccessType
     /**
      * Get events
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getEvents()
     {
         return $this->events;
     }
-    
-    public function __toString(){
-        return $this -> name;
-    }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

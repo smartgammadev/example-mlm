@@ -4,10 +4,11 @@ namespace Success\EventBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * BaseEvent
  *
- * @ORM\Table()
+ * @ORM\Table(name="e_base_event")
  * @ORM\Entity(repositoryClass="Success\EventBundle\Entity\BaseEventRepository")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
@@ -15,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class BaseEvent
 {
+
     /**
      * @var integer
      *
@@ -44,7 +46,7 @@ class BaseEvent
      * @ORM\Column(name="startDateTime", type="datetime")
      */
     private $startDateTime;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Success\EventBundle\Entity\EventType", inversedBy="events")
      * @ORM\JoinColumn(name="event_type_id", referencedColumnName="id")
@@ -56,21 +58,20 @@ class BaseEvent
      * @ORM\JoinColumn(name="access_type_id", referencedColumnName="id")
      */
     private $accessType;
-    
-    
+
     /**
      * @var \Application\Sonata\MediaBundle\Entity\Media
      * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"}, fetch="LAZY")
      * @ORM\JoinColumn(name="media", referencedColumnName="id")
      */
     private $media;
-    
+
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="EventSignUp", mappedBy="event")
      */
     private $signUps;
-    
+
     /**
      *
      * @var \Success\EventBundle\Entity\EventRepeat
@@ -79,11 +80,10 @@ class BaseEvent
      */
     private $eventRepeat;
 
-    
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -106,7 +106,7 @@ class BaseEvent
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -129,7 +129,7 @@ class BaseEvent
     /**
      * Get pattern
      *
-     * @return string 
+     * @return string
      */
     public function getPattern()
     {
@@ -152,7 +152,7 @@ class BaseEvent
     /**
      * Get startDateTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartDateTime()
     {
@@ -176,7 +176,7 @@ class BaseEvent
     /**
      * Get eventType
      *
-     * @return \Success\EventBundle\Entity\EventType 
+     * @return \Success\EventBundle\Entity\EventType
      */
     public function getEventType()
     {
@@ -199,18 +199,17 @@ class BaseEvent
     /**
      * Get accessType
      *
-     * @return \Success\EventBundle\Entity\EventAccessType 
+     * @return \Success\EventBundle\Entity\EventAccessType
      */
     public function getAccessType()
     {
         return $this->accessType;
     }
-    
-    public function __toString() 
+
+    public function __toString()
     {
-        return $this -> name;
+        return $this->name;
     }
-    
 
     /**
      * Set media
@@ -228,7 +227,7 @@ class BaseEvent
     /**
      * Get media
      *
-     * @return \Application\Sonata\MediaBundle\Entity\Media 
+     * @return \Application\Sonata\MediaBundle\Entity\Media
      */
     public function getMedia()
     {
@@ -269,7 +268,7 @@ class BaseEvent
     /**
      * Get signUps
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSignUps()
     {
@@ -292,11 +291,10 @@ class BaseEvent
     /**
      * Get eventRepeat
      *
-     * @return \Success\EventBundle\Entity\EventRepeat 
+     * @return \Success\EventBundle\Entity\EventRepeat
      */
     public function getEventRepeat()
     {
         return $this->eventRepeat;
     }
-        
 }

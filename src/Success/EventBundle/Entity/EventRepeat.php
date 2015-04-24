@@ -7,12 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EventRepeat
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Success\EventBundle\Entity\EventRepeatRepository")
+ * @ORM\Table(name="e_event_repeat")
+ * @ORM\Entity()
  * @ORM\HasLifecycleCallbacks
  */
 class EventRepeat
 {
+
     /**
      * @var integer
      *
@@ -33,7 +34,6 @@ class EventRepeat
      * @var integer
      *
      * @ORM\Column(name="repeatInterval", type="integer")
-     * 
      */
     private $repeatInterval;
 
@@ -44,25 +44,23 @@ class EventRepeat
      */
     private $endDateTime;
 
-    
     /**
-     * @var type 
+     * @var type
      * @ORM\OneToOne(targetEntity="BaseEvent", inversedBy="eventRepeat")
      * @ORM\JoinColumn(name="event_id", referencedColumnName="id", onDelete="set null")
      */
     private $event;
-    
+
     /**
      * @var array
-     * @ORM\Column(name="repeat_days", type="json_array") 
+     * @ORM\Column(name="repeat_days", type="json_array")
      */
     private $repeatDays;
-    
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -84,7 +82,7 @@ class EventRepeat
     /**
      * Get repeatType
      *
-     * @return string 
+     * @return string
      */
     public function getRepeatType()
     {
@@ -106,7 +104,7 @@ class EventRepeat
     /**
      * Get repeatInterval
      *
-     * @return integer 
+     * @return integer
      */
     public function getRepeatInterval()
     {
@@ -129,7 +127,7 @@ class EventRepeat
     /**
      * Get endDateTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndDateTime()
     {
@@ -152,14 +150,15 @@ class EventRepeat
     /**
      * Get event
      *
-     * @return \Success\EventBundle\Entity\BaseEvent 
+     * @return \Success\EventBundle\Entity\BaseEvent
      */
     public function getEvent()
     {
         return $this->event;
     }
-    
-    public function __toString() {        
+
+    public function __toString()
+    {
         $endDate = $this->endDateTime->format('d/m/Y H:i:s');
         return "$this->repeatType($this->repeatInterval, $endDate)";
     }

@@ -5,12 +5,13 @@ namespace Success\MemberBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Gedmo\Mapping\Annotation\Tree as Tree;
 
 /**
  * Member
- *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Success\MemberBundle\Entity\MemberRepository")
+ * @Tree(type="nested")
+ * @ORM\Table(name="m_member")
+ * @ORM\Entity()
  */
 class Member implements UserInterface, \Serializable
 {
@@ -49,11 +50,24 @@ class Member implements UserInterface, \Serializable
     
     
     /**
+     * @Gedmo\Mapping\Annotation\TreeParent
      * @ORM\ManyToOne(targetEntity="Member", inversedBy="referals")
-     * @ORM\JoinColumn(name="sponsor_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="sponsor_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $sponsor;
+    
+    /**
+     * @Gedmo\Mapping\Annotation\TreeLeft
+     * @Doctrine\ORM\Mapping\Column(type="integer")
+     */
+    private $lft;
 
+    /**
+     * @Gedmo\Mapping\Annotation\TreeRight
+     * @Doctrine\ORM\Mapping\Column(type="integer")
+     */
+    private $rgt;
+    
     public function getPassword()
     {
     }
@@ -259,5 +273,51 @@ class Member implements UserInterface, \Serializable
             $this->id,
             $this->externalId,
         ) = unserialize($serialized);
+    }
+
+    /**
+     * Set lft
+     *
+     * @param integer $lft
+     * @return Member
+     */
+    public function setLft($lft)
+    {
+        $this->lft = $lft;
+
+        return $this;
+    }
+
+    /**
+     * Get lft
+     *
+     * @return integer 
+     */
+    public function getLft()
+    {
+        return $this->lft;
+    }
+
+    /**
+     * Set rgt
+     *
+     * @param integer $rgt
+     * @return Member
+     */
+    public function setRgt($rgt)
+    {
+        $this->rgt = $rgt;
+
+        return $this;
+    }
+
+    /**
+     * Get rgt
+     *
+     * @return integer 
+     */
+    public function getRgt()
+    {
+        return $this->rgt;
     }
 }

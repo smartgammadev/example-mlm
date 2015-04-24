@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * NotificationLog
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Success\NotificationBundle\Entity\NotificationLogRepository")
+ * @ORM\Table(name="n_notification_log")
+ * @ORM\Entity()
  */
 class NotificationLog
 {

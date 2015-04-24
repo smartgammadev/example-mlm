@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ExternalPlaceholder
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Success\PlaceholderBundle\Entity\ExternalPlaceholderRepository")
+ * @ORM\Entity()
  */
 class ExternalPlaceholder extends BasePlaceholder
 {
