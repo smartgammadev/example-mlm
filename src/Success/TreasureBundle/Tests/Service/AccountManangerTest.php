@@ -3,17 +3,6 @@ namespace Success\TreasureBundle\Tests\Services;
 
 use Gamma\PhpUnit\Tester\Test\ServiceTest;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * Description of AccountManangerTest
- *
- * @author develop1
- */
 class AccountManangerTest extends ServiceTest
 {
     

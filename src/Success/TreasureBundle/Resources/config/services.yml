@@ -1,7 +1,5 @@
-parameters:
-#    success_treasure.example.class: Success\TreasureBundle\Example
-
 services:
-#    success_treasure.example:
-#        class: %success_treasure.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    success.treasure.account_manager:
+        class: Success\TreasureBundle\Service\AccountMananger
+        calls:
+            - [setEntityManager, ['@doctrine.orm.entity_manager']]

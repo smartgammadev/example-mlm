@@ -3,13 +3,14 @@
 namespace Success\PricingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Success\PricingBundle\Entity\PricingValues;
+use Success\PricingBundle\Entity\PricingValue;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Pricing
  *
  * @ORM\Table(name="p_pricing")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Success\PricingBundle\Entity\Repository\PricingRepository")
  */
 class Pricing
 {
@@ -23,20 +24,24 @@ class Pricing
     private $id;
 
     /**
+     * @var string
+     * @ORM\Column(name="pricing_name", type="string", nullable=false)
+     */
+    private $name;
+
+    /**
      * @var integer
      *
-     * @ORM\Column(name="levelsUp", type="integer", nullable=false)
+     * @ORM\Column(name="levels_up", type="integer", nullable=false)
      */
     private $levelsUp;
     
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="PricingValues", mappedBy="pricing")
+     * @ORM\OneToMany(targetEntity="PricingValue", mappedBy="pricing")
      */
     private $pricingValues;
-    
-
 
     /**
      * Get id
@@ -75,7 +80,7 @@ class Pricing
      */
     public function __construct()
     {
-        $this->pricingValues = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->pricingValues = new ArrayCollection();
     }
 
     /**
@@ -84,7 +89,7 @@ class Pricing
      * @param \Success\PricingBundle\Entity\PricingValues $pricingValues
      * @return Pricing
      */
-    public function addPricingValue(\Success\PricingBundle\Entity\PricingValues $pricingValues)
+    public function addPricingValue(PricingValue $pricingValues)
     {
         $this->pricingValues[] = $pricingValues;
 
@@ -96,18 +101,40 @@ class Pricing
      *
      * @param \Success\PricingBundle\Entity\PricingValues $pricingValues
      */
-    public function removePricingValue(\Success\PricingBundle\Entity\PricingValues $pricingValues)
+    public function removePricingValue(PricingValues $pricingValues)
     {
         $this->pricingValues->removeElement($pricingValues);
     }
 
     /**
      * Get pricingValues
-     *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPricingValues()
     {
         return $this->pricingValues;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Pricing
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

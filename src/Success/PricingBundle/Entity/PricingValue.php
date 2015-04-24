@@ -11,7 +11,7 @@ use Success\PricingBundle\Entity\Pricing;
  * @ORM\Table(name="p_pricing_values")
  * @ORM\Entity
  */
-class PricingValues
+class PricingValue
 {
 
     /**
