@@ -39,6 +39,8 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
 {
 
     const SONATA_UNIQID = 'behat';
+    const ROLE_SPONSOR = 'ROLE_4SUCCESS_SPONSOR';
+    const ROLE_USER = 'ROLE_4SUCCESS_USER';
 
     protected $kernel;
     private $parameters;
@@ -153,9 +155,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
 
     /**
      * Get repository by name.
-     *
      * @param string $resource
-     *
      * @return RepositoryInterface
      */
     public function getRepository($resource)
@@ -538,23 +538,77 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     }
     
     /**
-     * @Given /^I must be logged in as "([^"]*)"$/
+     * @Given /^sponsor of "([^"]*)" member should be "([^"]*)"$/
      */
-    public function iMustBeLoggedInAs($userName)
+    public function sponsorOfMemberShouldBe($userExternalId, $sponsorExternalId)
     {
-        /**
-         * @var \Symfony\Component\Security\Core\SecurityContext $securityContext
-         */
-        $member = $this->getContainer()->get('security.context')->getToken()->getUser();
-        var_dump($member);
-        die;
+        $memberRepo = $this->getRepository('SuccessMemberBundle:Member');
+        $userMember = $memberRepo->findOneBy(['externalId' => $userExternalId]);
+        if ($userMember->getSponsor()->getExternalId() != $sponsorExternalId) {
+            $message = sprintf(
+                'Sponsor of "%s" member is %s, but should be %s.',
+                $userExternalId,
+                $userMember->getSponsor()->getExternalId(),
+                $sponsorExternalId
+            );
+            throw new ExpectationException($message);
+        }
+        
+    }
+    
+    /**
+     * @Given /^member "([^"]*)" should be sponsor$/
+     */
+    public function memberShouldBeSponsor($memberExternalId)
+    {
+        $memberRepo = $this->getRepository('SuccessMemberBundle:Member');
+        $member = $memberRepo->findOneBy(['externalId' => $memberExternalId]);
+        $roles = $member->getRoles();
+        if ($roles[0] != self::ROLE_SPONSOR) {
+            $message = sprintf(
+                'Role of "%s" member should be "%s", but it is "%s"',
+                $memberExternalId,
+                self::ROLE_SPONSOR,
+                $roles[0]
+            );
+            throw new ExpectationException($message, $this->getSession());
+        }
     }
 
     /**
-     * @Given /^My sponsor should be "([^"]*)"$/
+     * @Given /^member "([^"]*)" should be user$/
      */
-    public function mySponsorShouldBe($arg1)
+    public function memberShouldBeUser($memberExternalId)
     {
-        throw new PendingException();
+        $memberRepo = $this->getRepository('SuccessMemberBundle:Member');
+        $member = $memberRepo->findOneBy(['externalId' => $memberExternalId]);
+        $roles = $member->getRoles();
+        if ($roles[0] != self::ROLE_USER) {
+            $message = sprintf(
+                'Role of "%s" member should be "%s", but it is "%s"',
+                $memberExternalId,
+                self::ROLE_USER,
+                $roles[0]
+            );
+            throw new ExpectationException($message, $this->getSession());
+        }
+    }
+    
+    /**
+     * @Given /^sponsor "([^"]*)" should have (\d+) referals$/
+     */
+    public function sponsorShouldHaveReferals($sponsorExternalId, $referalsCount)
+    {
+        $memberRepo = $this->getRepository('SuccessMemberBundle:Member');
+        $sponsor = $memberRepo->findOneBy(['externalId' => $sponsorExternalId]);
+        if (count($sponsor->getReferals()) != $referalsCount) {
+            $message = sprintf(
+                'Member "%s" should have "%s" referals, but it has "%s"',
+                $sponsorExternalId,
+                $referalsCount,
+                count($sponsor->getReferals())
+            );
+            throw new ExpectationException($message, $this->getSession());
+        }
     }
 }

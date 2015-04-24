@@ -4,6 +4,7 @@ namespace Success\MemberBundle\Service;
 
 use Success\MemberBundle\Entity\Member;
 use Success\PlaceholderBundle\Service\PlaceholderManager;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Success\PlaceholderBundle\Entity\BasePlaceholder;
 use Success\MemberBundle\Entity\MemberData;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -26,7 +27,11 @@ class MemberManager
     public function getMemberByExternalId($externalId)
     {
         $repo = $this->em->getRepository('SuccessMemberBundle:Member');
-        return $repo->findOneBy(['externalId' => $externalId]);
+        $member = $repo->findOneBy(['externalId' => $externalId]);
+        if (!$member) {
+            throw new NotFoundHttpException();
+        }
+        return $member;
     }
 
     /**
@@ -133,9 +138,9 @@ class MemberManager
         if (!isset($sponsorExternalId)) {
             throw new NotFoundHttpException('Sponsor identity not found in placeholders. Link is not valid.');
         }
-        
-        $sponsorMember = $this->getMemberByExternalId($sponsorExternalId);
-        if (!$sponsorMember) {
+        try {
+            $sponsorMember = $this->getMemberByExternalId($sponsorExternalId);
+        } catch (NotFoundHttpException $ex) {
             throw new NotFoundHttpException('Sponsor provided in placeholders not found. Link is not valid.');
         }
         return $sponsorMember;
@@ -157,8 +162,9 @@ class MemberManager
         if (!isset($userExternalId)) {
             throw new NotFoundHttpException('User identity not found in placeholders. Link is not valid.');
         }
-        $userMember = $this->getMemberByExternalId($userExternalId);
-        if (!$userMember) {
+        try {
+            $userMember = $this->getMemberByExternalId($userExternalId);
+        } catch (NotFoundHttpException $ex) {
             $userMember = $this->createIncomingMember($userExternalId, $this->getSponsorMemberFromPlaceholders());
         }
         return $userMember;
@@ -178,7 +184,17 @@ class MemberManager
         );
         $this->securityContext->setToken($token);
     }
-
+    
+    public function doLogout()
+    {
+        $token = new AnonymousToken('user', 'anon.');
+        $this->securityContext->setToken($token);
+    }
+    
+    public function getLoggedInMember()
+    {
+        return $this->securityContext->getToken()->getUser();
+    }
 
     /**
      * @param String $externalId

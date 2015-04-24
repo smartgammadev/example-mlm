@@ -1,13 +1,3 @@
-#default:
-#    extensions:
-#        Behat\Symfony2Extension\Extension:
-#            mink_driver: true
-#        
-#        Behat\MinkExtension\Extension:            
-#            base_url: http://success.smart-gamma.com
-#            selenium2: ~
-#            goutte: ~
-
 default:
     paths:
         features: features

@@ -170,9 +170,12 @@ class CalendarController extends Controller
     {
         $placeholders = $request->query->all();
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);
+        
+        /**
+         * @var \Success\MemberBundle\Entity\Member $member
+         */
         $member = $this->memberManager->resolveUserMemberFromPlaceholders();
-        $this->memberManager->doLoginMember($member);
-        return [];
+        return ['memberExternalId' => $member->getExternalId()];
     }
 
     /**
@@ -210,9 +213,11 @@ class CalendarController extends Controller
             $memberSignedUp = $this->memberManager->resolveUserMemberFromPlaceholders();
                         
             if ($this->eventManager->signUpMemberForEvent($memberSignedUp, $event, $now, $notifyUserBeforeEvent)) {
-                $message = 'Вы уже зарегистрированы на этот вебинар.';
+                $message =
+                    'Вы уже зарегистрированы на этот вебинар.';
             } else {
-                $message = 'Поздравляем, Вы успешно зарегистрированы на вебинар!';
+                $message =
+                    'Поздравляем, Вы успешно зарегистрированы на вебинар!';
             }
             return array('message' => $message);
         }

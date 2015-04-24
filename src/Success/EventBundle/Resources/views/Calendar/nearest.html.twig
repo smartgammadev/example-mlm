@@ -15,66 +15,72 @@
             <div class="modal-content" id="modal-content"></div>
         </div>
     </div>  
-    
-        <div class="container-fluid">
-            <div class="row-fluid">
-                {{ render_esi( path('next_event') ) }}
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+            {{ render_esi( path('next_event') ) }}
+        </div>
+        <div class="row-fluid">
+            <div class="col-md-6 col-sm-6 col-xs-12 day-events no-padding no-margin">
+                {{ render_esi( path('day_events') ) }}
             </div>
-            <div class="row-fluid">
-                <div class="col-md-6 col-sm-6 col-xs-12 day-events no-padding no-margin">
-                    {{ render_esi( path('day_events') ) }}
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12 week-events no-padding no-margin">
-                    {{ render_esi( path('week_events') ) }}
-                </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 week-events no-padding no-margin">
+                {{ render_esi( path('week_events') ) }}
             </div>
         </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}          
     <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.countdown.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.countdownTimer.js') }}"></script>    
+    <script type="text/javascript" src="{{ asset('bundles/successevent/js/jquery.countdownTimer.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/successmember/js/userLogin.js') }}"></script>
     <script type="text/javascript">
-            $(function(){
-              $('#future_date').countdowntimer({                  
-                dateAndTime : dateAndTime,
-                startDate : startDate,
-                timeUp : timeisUp,
-                size : "lg"
-              });              
-                function timeisUp() {
-                    $('#webinar-enter-btn').removeClass('disabled');
-                    $('#future_date').text('Уже идет');
-                }                            
+        $(function () {
+            $('#future_date').countdowntimer({
+                dateAndTime: dateAndTime,
+                startDate: startDate,
+                timeUp: timeisUp,
+                size: "lg"
             });
-        
-
-      $('body').on('hidden.bs.modal', '.modal', function () {
-        $('#modal-content').empty();
-      });
-      
-      $('body').on('click','.modal-btn',function(){
-
-        // scrolling feature
-        var eventsIframe = document.getElementById('events-calendar');        
-     
-        parent.postMessage("scroll_up", "*");
-        //$("html, body").animate({ scrollTop: 0 }, "slow");        
-        link = $(this).attr('href');
-        $('#modal-content').load(
-            link,
-            function(response, status, xhr) {
-            if (status === 'error') {
-                $('#modal-content').html('<h2>Whoops!</h2><p>Sorry, but there was an error:' + xhr.status + ' ' + xhr.statusText+ '</p>');                
-                }
-            return this;
+            function timeisUp() {
+                $('#webinar-enter-btn').removeClass('disabled');
+                $('#future_date').text('Уже идет');
             }
-          );
-      });
-    </script> 
+        });
 
-    
+
+        $('body').on('hidden.bs.modal', '.modal', function () {
+            $('#modal-content').empty();
+        });
+
+        $('body').on('click', '.modal-btn', function () {
+
+            // scrolling feature
+            var eventsIframe = document.getElementById('events-calendar');
+
+            parent.postMessage("scroll_up", "*");
+            //$("html, body").animate({ scrollTop: 0 }, "slow");        
+            link = $(this).attr('href');
+            $('#modal-content').load(
+                    link,
+                    function (response, status, xhr) {
+                        if (status === 'error') {
+                            $('#modal-content').html('<h2>Whoops!</h2><p>Sorry, but there was an error:' + xhr.status + ' ' + xhr.statusText + '</p>');
+                        }
+                        return this;
+                    }
+            );
+        });
+    </script>
+    <script>
+        $( document ).ready(function() {
+            memberLogin('{{ memberExternalId }}');
+        });
+    </script>
+
+
 {% endblock %}
 
 

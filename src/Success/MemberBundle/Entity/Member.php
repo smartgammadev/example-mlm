@@ -42,6 +42,7 @@ class Member implements UserInterface, \Serializable
     private $signUpEvents;
 
     /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="Member", mappedBy="sponsor")
      */
     private $referals;
@@ -214,7 +215,7 @@ class Member implements UserInterface, \Serializable
 
     /**
      * Get referals
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getReferals()
     {

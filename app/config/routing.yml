@@ -4,8 +4,9 @@ success_sales_generator:
     prefix:   /
 
 success_member:
-    resource: "@SuccessMemberBundle/Resources/config/routing.yml"
-    prefix:   /
+    resource: "@SuccessMemberBundle/Controller/"
+    type:     annotation
+    prefix:   /member
 
 success_site:
     resource: "@SuccessSiteBundle/Controller/"
