@@ -9,7 +9,7 @@ use Success\MemberBundle\Entity\Member;
  * AccountOperation
  *
  * @ORM\Table(name="t_account_operation")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Success\TreasureBundle\Entity\Repository\AccountOperationRepository")
  */
 class AccountOperation
 {
@@ -23,12 +23,20 @@ class AccountOperation
     private $id;
 
     /**
-     * @var string
-     *
+     * @ORM\Column(name="date_operation", type="datetime", nullable=false)
+     */
+    private $dateOperation;
+    
+    /**
      * @ORM\Column(name="amount", type="decimal", precision=10, scale=2)
      */
     private $amount;
+
+    /**
+     * @ORM\Column(name="sub_account", type="string", nullable=false)
+     */
     
+    private $subAccount;
     
     /**
      * @ORM\ManyToOne(targetEntity="\Success\MemberBundle\Entity\Member")
@@ -36,6 +44,7 @@ class AccountOperation
      */
     private $member;
 
+    
 
     /**
      * Get id
@@ -48,8 +57,6 @@ class AccountOperation
 
     /**
      * Set amount
-     *
-     * @param string $amount
      * @return AccountOperation
      */
     public function setAmount($amount)
@@ -62,7 +69,7 @@ class AccountOperation
     /**
      * Get amount
      *
-     * @return string
+     * @return float
      */
     public function getAmount()
     {
@@ -90,5 +97,51 @@ class AccountOperation
     public function getMember()
     {
         return $this->member;
+    }
+
+    /**
+     * Set dateOperation
+     *
+     * @param \DateTime $dateOperation
+     * @return AccountOperation
+     */
+    public function setDateOperation($dateOperation)
+    {
+        $this->dateOperation = $dateOperation;
+
+        return $this;
+    }
+
+    /**
+     * Get dateOperation
+     *
+     * @return \DateTime
+     */
+    public function getDateOperation()
+    {
+        return $this->dateOperation;
+    }
+
+    /**
+     * Set subAccount
+     *
+     * @param string $subAccount
+     * @return AccountOperation
+     */
+    public function setSubAccount($subAccount)
+    {
+        $this->subAccount = $subAccount;
+
+        return $this;
+    }
+
+    /**
+     * Get subAccount
+     *
+     * @return string 
+     */
+    public function getSubAccount()
+    {
+        return $this->subAccount;
     }
 }

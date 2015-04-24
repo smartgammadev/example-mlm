@@ -7,11 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Setting
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Success\SettingsBundle\Entity\SettingRepository")
+ * @ORM\Table(name="st_setting")
+ * @ORM\Entity()
  */
 class Setting
 {
+
     /**
      * @var integer
      *
@@ -35,11 +36,10 @@ class Setting
      */
     private $settingValue;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -62,16 +62,15 @@ class Setting
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
         return $this->name;
     }
 
-
-    
-    public function __toString() {
+    public function __toString()
+    {
         return $this->name;
     }
 
@@ -91,7 +90,7 @@ class Setting
     /**
      * Get settingValue
      *
-     * @return string 
+     * @return string
      */
     public function getSettingValue()
     {

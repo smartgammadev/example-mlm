@@ -4,20 +4,6 @@ namespace Success\MemberBundle\Tests\Services;
 
 use Gamma\PhpUnit\Tester\Test\ServiceTest;
 
-//use LaMelle\ImageBundle\Mocks\Repository\ImageRepositoryMock;
-
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * Description of MemberManagerTest
- *
- * @author develop1
- */
 class MemberManagerTest extends ServiceTest
 {
 
@@ -57,7 +43,7 @@ class MemberManagerTest extends ServiceTest
     /**
      * @covers \Success\MemberBundle\Service\MemberManager::resolveMemberByExternalId($externalId)
      */
-    public function testResolveNotFoundMemberByExternalId()
+    public function testResolveMemberByExternalId()
     {
         $result = $this->instance->resolveMemberByExternalId('fake_mail@fake_domain.fake', 'main.sponsor@mail.com');
         $this->assertNotNull($result);
