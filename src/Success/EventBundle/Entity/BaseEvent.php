@@ -68,7 +68,7 @@ class BaseEvent
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventSignUp", mappedBy="event")
+     * @ORM\OneToMany(targetEntity="EventSignUp", mappedBy="event", cascade={"persist", "remove"})
      */
     private $signUps;
 

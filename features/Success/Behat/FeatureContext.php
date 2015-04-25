@@ -276,11 +276,9 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         $eventTypeRepo = $this->em->getRepository('SuccessEventBundle:EventType');
         
         $hash = $table->getHash();
-        $hours = 0;
         foreach ($hash as $row) {
             $date = new \DateTime();
-            $hours++;
-            $date->modify("+{$hours} hours");
+            $date->modify($row['date_modifier']);
             $event = new \Success\EventBundle\Entity\WebinarEvent();
             $event->setName($row['name']);
             $event->setStartDateTime($date);
@@ -369,12 +367,14 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
     {
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
         $sponsor = $memberRepo->findOneBy(['externalId' => $sponsorExternalId]);
-        if (count($sponsor->getReferals()) != $referalsCount) {
+        $childCount = $memberRepo->childCount($sponsor);
+        
+        if ($childCount != (integer)$referalsCount) {
             $message = sprintf(
                 'Member "%s" should have %s referals, but it has %s',
                 $sponsorExternalId,
                 $referalsCount,
-                count($sponsor->getReferals())
+                $childCount
             );
             throw new ExpectationException($message, $this->getSession());
         }
