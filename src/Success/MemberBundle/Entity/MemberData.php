@@ -30,7 +30,7 @@ class MemberData
     
     /**
      * @ORM\ManyToOne(targetEntity="Member", inversedBy="data")
-     * @ORM\JoinColumn(name="member_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="member_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $member;
 

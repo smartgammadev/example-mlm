@@ -97,13 +97,13 @@ class EventManagerTest extends ServiceTest
      */
     public function testGetEventsByDateRange()
     {
-//        $startDateTime = new \DateTime(); 
-//        $startDateTime->modify('-2 days');
-//        $result = $this->instance->getEventsByDateRange($startDateTime, new \DateTime());
-//        $this->getMock('Success\EventBundle\Entity\BaseEvent');
-//        
-//        $this->assertNotNull($result);
-//        $this->assertInstanceOf('Success\EventBundle\Entity\BaseEvent', $result[0]);        
+        $startDateTime = new \DateTime(); 
+        $startDateTime->modify('-2 days');
+        $result = $this->instance->getEventsByDateRange($startDateTime, new \DateTime());
+        $this->getMock('Success\EventBundle\Entity\BaseEvent');
+        
+        $this->assertNotNull($result);
+        $this->assertInstanceOf('Success\EventBundle\Entity\BaseEvent', $result[0]);        
     }
 
     /**
@@ -111,15 +111,15 @@ class EventManagerTest extends ServiceTest
      */
     public function testAppendRepeatsForEvents()
     {
-//        $startDateTime = new \DateTime();
-//        $endDateTime = new \DateTime();
-//                
-//        $endDateTime->modify('+7 days');
-//        
-//        $result = $this->instance->appendRepeatsForEvents(new \DateTime, $startDateTime, $endDateTime);        
-//        
-//        $this->assertNotNull($result);
-//        $this->assertInstanceOf('Success\EventBundle\Entity\BaseEvent', $result[0]);
+        $startDateTime = new \DateTime();
+        $endDateTime = new \DateTime();
+                
+        $endDateTime->modify('+7 days');
+        
+        $result = $this->instance->appendRepeatsForEvents(new \DateTime, $startDateTime, $endDateTime);        
+        
+        $this->assertNotNull($result);
+        $this->assertInstanceOf('Success\EventBundle\Entity\BaseEvent', $result[0]);
     }
     
 }

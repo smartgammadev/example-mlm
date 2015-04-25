@@ -379,4 +379,22 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
             throw new ExpectationException($message, $this->getSession());
         }
     }
+    
+    /**
+     * @Given there is no new members in DB
+     */
+    public function thereIsNoNewMembersInDb()
+    {
+        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $members = $memberRepo->findAll();
+        
+        foreach ($members as $member) {
+            if ($member->getExternalId() != 'main.sponsor@mail.com') {
+                $this->em->remove($member);                
+            }
+        }
+        $this->em->flush();
+    }
+    
+    
 }
