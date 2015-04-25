@@ -18,8 +18,12 @@ class AudienceFixture extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
+        $metadata = $manager->getClassMetaData('Success\SalesGeneratorBundle\Entity\Audience');
+        $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);        
+        
         foreach ($this->audiences as $index => $audience) {
             $newAudience = new Audience();
+            $newAudience->setId($index + 1);
             $newAudience->setName($audience);
             $manager->persist($newAudience);
             $this->addReference('SuccessAudience-'.($index + 1), $newAudience);

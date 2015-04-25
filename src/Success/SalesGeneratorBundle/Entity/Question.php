@@ -32,8 +32,8 @@ class Question
     private $text;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Audience")
-     * @ORM\JoinColumn(name="audience_id", referencedColumnName="id", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Audience", cascade={"remove"})
+     * @ORM\JoinColumn(name="audience_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $audience;
     
@@ -57,6 +57,16 @@ class Question
     public function getId()
     {
         return $this->id;
+    }
+    
+    /**
+     * @param integer $id
+     * @return Question
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**

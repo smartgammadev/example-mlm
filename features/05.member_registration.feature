@@ -3,9 +3,8 @@ Feature: Member registration and loging
   @basic @javascript
   Scenario: Any member must be registerd and logged in by simple signup to event. 
             Data should be taken from placeholders.
-
+    Given there is no events in DB    
     Given I am not logged
-      And I have no events
     Given the following events exist:
         | name         | access_type | description        | type            |
         | Test Event 1 | открытый    | test description 1 | вводный вебинар |

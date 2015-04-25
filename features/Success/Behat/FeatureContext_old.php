@@ -553,7 +553,6 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
             );
             throw new ExpectationException($message);
         }
-        
     }
     
     /**

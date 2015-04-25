@@ -3,9 +3,9 @@ Feature: Sign up for event in calendar
   
   @test @basic @javascript @signup
   Scenario: Create and sign up for created event
-
+   Given there is no events in DB
+   Given there is no notifications in DB
    Given I am logged in as admin
-     And I have no events
     Then I want to create new event
      And I fill "startDateTime" with current date plus "15" minutes
     Then I fill "url" with "https://go.myownconference.ru/4SuccessTeam"

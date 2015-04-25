@@ -31,7 +31,7 @@ class Audience
     
     /**
      * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Question")
-     * @ORM\JoinColumn(name="first_question_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="first_question_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $firstQuestion;
     
@@ -48,6 +48,16 @@ class Audience
     public function getId()
     {
         return $this->id;
+    }
+    
+    /**
+     * @param integer $id
+     * @return Audience
+     */
+    public function setId($id) 
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**

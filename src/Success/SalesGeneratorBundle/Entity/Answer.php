@@ -29,14 +29,14 @@ class Answer
     private $text;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Question", inversedBy="answers", cascade={"persist"})
-     * @ORM\JoinColumn(name="current_question_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Question", inversedBy="answers", cascade={"remove", "persist"})
+     * @ORM\JoinColumn(name="current_question_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $currentQuestion;
     
     /**
      * @ORM\ManyToOne(targetEntity="Success\SalesGeneratorBundle\Entity\Question", cascade={"persist"})
-     * @ORM\JoinColumn(name="next_question_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="next_question_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $nextQuestion;
     
