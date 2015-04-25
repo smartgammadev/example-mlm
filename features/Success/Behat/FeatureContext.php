@@ -2,290 +2,91 @@
 
 namespace Success\Behat;
 
-use Symfony\Component\HttpKernel\KernelInterface;
-use Behat\Symfony2Extension\Context\KernelAwareInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Output\ConsoleOutput;
 use Behat\MinkExtension\Context\MinkContext;
-use Behat\Behat\Context\BehatContext,
-    Behat\Behat\Exception\PendingException;
-use Behat\Gherkin\Node\PyStringNode,
-    Behat\Gherkin\Node\TableNode;
-use Behat\Mink\Exception\ElementHtmlException,
-    Behat\Mink\Exception\ExpectationException,
-    Behat\Mink\Exception\ElementNotFoundException;
-use Behat\Mink\Mink,
-    Behat\Mink\Session,
-    Behat\Mink\Driver\Selenium2Driver;
-use Gamma\Framework\Behat\PagesContext,
-    Gamma\Framework\Behat\ApiContext;
-use Behat\Behat\Context\Step;
-use Success\Behat\Application;
-use Behat\Mink\Exception\UnsupportedDriverActionException;
-use Behat\Symfony2Extension\Driver\KernelDriver;
-use PHPUnit_Framework_ExpectationFailedException as AssertException;
-use Behat\CommonContexts\SymfonyMailerContext;
-
-//
-// Require 3rd-party libraries here:
-//
-require_once 'PHPUnit/Autoload.php';
-require_once 'PHPUnit/Framework/Assert/Functions.php';
+use Behat\Behat\Context\SnippetAcceptingContext;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * Features context.
  */
-class FeatureContext extends MinkContext implements KernelAwareInterface
+class FeatureContext extends MinkContext implements SnippetAcceptingContext
 {
-
     const SONATA_UNIQID = 'behat';
     const ROLE_SPONSOR = 'ROLE_4SUCCESS_SPONSOR';
-    const ROLE_USER = 'ROLE_4SUCCESS_USER';
-
-    protected $kernel;
-    private $parameters;
-    private $application;
-    private $tester;
-
+    const ROLE_USER = 'ROLE_4SUCCESS_USER';    
+    
     /**
-     * Initializes context with parameters from behat.yml.
      *
-     * @param array $parameters
+     * @var \Doctrine\ORM\EntityManager $em
      */
-    public function __construct(array $parameters)
+    private $em;
+    
+    public function __construct(Kernel $kernel)
     {
-        $this->parameters = $parameters;
-
-        $kernel = new \AppKernel("test", true);
-        $kernel->boot();
-
-        $this->useContext('symfony_mailer', new \Behat\CommonContexts\SymfonyMailerContext($kernel));
-        $this->useContext('mink_redirect', new \Behat\CommonContexts\MinkRedirectContext($kernel));
+        $this->em = $kernel->getContainer()->get('doctrine.orm.entity_manager');;
     }
-
-    protected static function runConsole($app, $command, Array $options = array())
-    {
-        $output = new ConsoleOutput();
-        $output->writeln(sprintf('<comment>    > Command </comment> <info><fg=blue>%s</fg=blue></info>', $command));
-
-        $options["-e"] = "test";
-        $options["-q"] = null;
-        $options = array_merge($options, array('command' => $command));
-
-        return $app->run(new \Symfony\Component\Console\Input\ArrayInput($options), $output);
-    }
-
-    /** @BeforeSuite */
-    public static function prepareForTheSuite()
-    {
-
-        $kernel = new \AppKernel("test", true);
-        $kernel->boot();
-
-        $app = new \Symfony\Bundle\FrameworkBundle\Console\Application($kernel);
-        $app->setAutoExit(false);
-        self::runConsole($app, "doctrine:schema:drop", array("--force" => true));
-        self::runConsole($app, "doctrine:schema:create");
-        self::runConsole($app, "doctrine:fixtures:load", array("--no-interaction" => true));
-    }
-
+    
     /**
-     * @When /^I run "([^"]*)" command$/
+     * @Then I wait for AJAX to finish
      */
-    public function iRunCommand($name)
+    public function iWaitForAjaxToFinish()
     {
-
-        $kernel = new \AppKernel("test", true);
-        $kernel->boot();
-
-        $this->application = new \Symfony\Bundle\FrameworkBundle\Console\Application($kernel);
-        $this->application->add(new \Success\NotificationBundle\Command\ProcessEmailCommand());
-
-        $command = $this->application->find($name);
-
-        $this->tester = new \Symfony\Component\Console\Tester\CommandTester($command);
-        $this->tester->execute(array('command' => $command->getName()));
+        $this->getSession()->wait(1000);
+        
     }
-
+    
     /**
-     * @Then /^I should see console output "([^"]*)"$/
+     * @When I click :arg1
      */
-    public function iShouldSeeConsoleOutput($regexp)
+    public function iClick($selector)
     {
-        assertRegExp($regexp, $this->tester->getDisplay());
-    }
-
-    /**
-     * Take screenshot when step fails.
-     * Works only with Selenium2Driver.
-     *
-     *  @AfterStep
-     */
-    public function takeScreenshotAfterFailedStep($event)
-    {
-        if (4 === $event->getResult()) {
-            $driver = $this->getSession()->getDriver();
-            if ($driver instanceof KernelDriver) {
-                return;
-            }
-            if (!($driver instanceof Selenium2Driver)) {
-                throw new UnsupportedDriverActionException('Taking screenshots is not supported by %s, use Selenium2Driver instead.', $driver);
-
-                return;
-            }
-            $directory = 'build/behat/' . $event->getLogicalParent()->getFeature()->getTitle() . '.' . $event->getLogicalParent()->getTitle();
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
-            }
-            $filename = sprintf('%s_%s_%s.%s', $this->getMinkParameter('browser_name'), date('c'), uniqid('', true), 'png');
-            file_put_contents($directory . '/' . $filename, $driver->getScreenshot());
+        try {
+            $element = $this->getSession()->getPage()->find('css', "#" . $selector);
+        } catch (\Exception $e) {
+            $element = $this->getSession()->getPage()->find('css', $selector);
         }
-    }
-
-    /**
-     * Sets HttpKernel instance.
-     * This method will be automatically called by Symfony2Extension ContextInitializer.
-     *
-     * @param KernelInterface $kernel
-     */
-    public function setKernel(KernelInterface $kernel)
-    {
-        $this->kernel = $kernel;
-    }
-
-    /**
-     * Get repository by name.
-     * @param string $resource
-     * @return RepositoryInterface
-     */
-    public function getRepository($resource)
-    {
-        return $this->getEntityManager()->getRepository($resource);
-    }
-
-    /**
-     * Get entity manager.
-     *
-     * @return \Doctrine\ORM\EntityManager
-     */
-    public function getEntityManager()
-    {
-        return $this->getService('doctrine')->getManager();
-    }
-
-    /**
-     * Returns Container instance.
-     *
-     * @return ContainerInterface
-     */
-    public function getContainer()
-    {
-        return $this->kernel->getContainer();
-    }
-
-    /**
-     * Get service by id.
-     *
-     * @param string $id
-     *
-     * @return object
-     */
-    public function getService($id)
-    {
-        return $this->getContainer()->get($id);
-    }
-
-    /**
-     * @Given /^I have no events$/
-     */
-    public function iHaveNoEvents()
-    {
-        $em = $this->getEntityManager();
-        $signUps = $em->getRepository('Success\EventBundle\Entity\EventSignUp')->findAll();
-        $events = $em->getRepository('Success\EventBundle\Entity\BaseEvent')->findAll();
-        $eventRepeats = $em->getRepository('Success\EventBundle\Entity\EventRepeat')->findAll();
-
-        foreach ($eventRepeats as $eventRepeat) {
-            $em->remove($eventRepeat);
+        if (null === $element) {
+            throw new ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', $selector);
         }
-
-        foreach ($signUps as $signUp) {
-            $em->remove($signUp);
-        }
-
-        foreach ($events as $event) {
-            $em->remove($event);
-        }
-        $em->flush();
+        $this->getSession()->getDriver()->click($element->getXPath());
     }
-
+    
     /**
-     * @Given /^I am logged in as admin$/
+     * @Given I am logged in as admin
      */
     public function iAmLoggedInAsAdmin()
     {
         $this->visit('/admin/login');
         $this->fillField('username', 'admin');
         $this->fillField('password', 'admin');
-        $this->pressButton('_submit');
+        $this->pressButton('_submit');        
     }
 
     /**
-     * @Given /^I wait for AJAX to finish$/
+     * @Given I have no events
      */
-    public function iWaitForAjaxToFinish()
+    public function iHaveNoEvents()
     {
-        $this->getSession()->wait(3000);
-    }
+        $signUps = $this->em->getRepository('Success\EventBundle\Entity\EventSignUp')->findAll();
+        $events = $this->em->getRepository('Success\EventBundle\Entity\BaseEvent')->findAll();
+        $eventRepeats = $this->em->getRepository('Success\EventBundle\Entity\EventRepeat')->findAll();
 
-    /**
-     * @Given /^I wait (\d+) seconds$/
-     */
-    public function iWaitSeconds($secondsCount)
-    {
-        $this->getSession()->wait($secondsCount * 1000);
-    }
-
-    /**
-     * @Given /^I wait "(\d+)" seconds$/
-     */
-    public function iWaitSomeSeconds($secondsCount)
-    {
-        $this->getSession()->wait($secondsCount * 1000);
-    }
-
-    /**
-     * @Given /^I fill in "([^"]*)" with current date$/
-     */
-    public function iFillInWithCurrentDate($arg1)
-    {
-        //$session = $this->getSession();
-        $currentDate = date('c', time());
-        $this->fillField($arg1, $currentDate);
-        //throw new PendingException();
-    }
-
-    /**
-     * @When /^I click "([^"]*)"$/
-     */
-    public function iClick($selector)
-    {
-        /* first by id then by css selector */
-        try {
-            $element = $this->getSession()->getPage()->find('css', "#" . $selector);
-        } catch (\Exception $e) {
-            $element = $this->getSession()->getPage()->find('css', $selector);
+        foreach ($eventRepeats as $eventRepeat) {
+            $this->em->remove($eventRepeat);
         }
 
-        if (null === $element) {
-            throw new ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', $selector);
+        foreach ($signUps as $signUp) {
+            $this->em->remove($signUp);
         }
 
-        $this->getSession()->getDriver()->click($element->getXPath());
+        foreach ($events as $event) {
+            $this->em->remove($event);
+        }
+        $this->em->flush();
     }
 
     /**
-     * @Then /^I want to create new event$/
+     * @Then I want to create new event
      */
     public function iWantToCreateNewEvent()
     {
@@ -293,15 +94,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     }
 
     /**
-     * @Then /^I want to create new audience$/
-     */
-    public function iWantToCreateNewAudience()
-    {
-        $this->visit('admin/success/salesgenerator/audience/create?uniqid=' . self::SONATA_UNIQID);
-    }
-
-    /**
-     * @Then /^I fill "([^"]*)" with current date plus "([^"]*)" minutes$/
+     * @Then I fill :arg1 with current date plus :arg2 minutes
      */
     public function iFillWithCurrentDatePlusMinutes($filedName, $minutes)
     {
@@ -311,27 +104,15 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     }
 
     /**
-     * @Given /^I fill "([^"]*)" with previous month date$/
-     */
-    public function iFillWithPreviousMonthDate($filedName)
-    {
-        $currentDate = new \DateTime();
-
-        //$currentDate = date('c',  time()+(60*15));
-        //$currentDate->modify('-1 month');
-        $this->fillField(self::SONATA_UNIQID . '_' . $filedName, $currentDate);
-    }
-
-    /**
-     * @Then /^I fill "([^"]*)" with "([^"]*)"$/
+     * @Then I fill :arg1 with :arg2
      */
     public function iFillWith($filedName, $value)
     {
         $this->fillField(self::SONATA_UNIQID . '_' . $filedName, $value);
     }
-
+    
     /**
-     * @Given /^I select "([^"]*)" in "([^"]*)"$/
+     * @Then I select :arg1 in :arg2
      */
     public function iSelectIn($value, $filedName)
     {
@@ -339,276 +120,10 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     }
 
     /**
-     * @Then /^I go to "([^"]*)" with "([^"]*)" placeholders$/
+     * @When I go to :arg1 with :arg2 placeholders
      */
     public function iGoToWithPlaceholders($url, $placeholders)
     {
         $this->visit($url . '?' . $placeholders);
-    }
-
-    /**
-     * @Then /^I should have (\d+) notifications$/
-     */
-    public function iShouldHaveNotifications($arg1)
-    {
-        $notificationsCount = $this->getEntityManager()->createQuery('select count(n) from SuccessNotificationBundle:Notification n')->getSingleScalarResult();
-        if ($notificationsCount !== $arg1) {
-            $message = 'Found ' . $notificationsCount . ' notifications in DB. But should be ' . $arg1;
-            throw new ExpectationException($message, $this->getSession());
-        }
-    }
-
-    /**
-     * @Given /^I should have (\d+) members$/
-     */
-    public function iShouldHaveMembers($arg1)
-    {
-        $membersCount = $this->getEntityManager()->createQuery('select count(m) from SuccessMemberBundle:Member m')->getSingleScalarResult();
-        if ($membersCount !== $arg1) {
-            $message = 'Found ' . $membersCount . ' members in DB. But should be ' . $arg1;
-            throw new ExpectationException($message, $this->getSession());
-        }
-    }
-
-    /**
-     * @Then /^I reset sonata unique ID$/
-     */
-    public function iResetSonataUniqueId()
-    {
-        $this->visit($this->getSession()->getCurrentUrl() . '?uniqid=' . self::SONATA_UNIQID);
-    }
-
-    /**
-     * @Then /^I fill "([^"]*)" with current date plus "([^"]*)" days$/
-     */
-    public function iFillWithCurrentDatePlusDays($filedName, $days)
-    {
-        $currentDate = new \DateTime();
-        $currentDate->modify("+{$days} days");
-        $this->fillField(self::SONATA_UNIQID . '_' . $filedName, $currentDate->format('Y-m-d H:i:s').' +0300');
-    }
-    
-    /**
-     * @Given /^I check "([^"]*)" checkbox$/
-     */
-    public function iCheckCheckbox($checkbox)
-    {
-        $this->checkOption(self::SONATA_UNIQID . '_' . $checkbox);
-    }
-    
-    /**
-     * @Given /^I check "([^"]*)" iCheckbox$/
-     */
-    public function iCheckIcheckbox($iCheckId)
-    {
-        $selector = '#'.self::SONATA_UNIQID . '_' . $iCheckId;
-        $javascript = "$('{$selector}').iCheck('check');";
-        $this->getSession()->getDriver()->evaluateScript($javascript);
-    }
-    
-    
-
-    /**
-     * @Then /^I should see "([^"]*)" button enabled$/
-     */
-    public function iShouldSeeButtonEnabled($buttonName)
-    {
-        $button = $this->getSession()->getPage()->findLink($buttonName);
-        if ($button == null) {
-            $message = 'Link with id|tittle|text|img-alt ' . $buttonName . ', not found on page.';
-            throw new ExpectationException($message, $this->getSession());
-        }
-
-        if ($button->hasClass('disabled')) {
-            $message = 'Link "' . $buttonName . '" is disabled. But should be enabled.';
-            throw new ExpectationException($message, $this->getSession());
-        }
-    }
-
-    /**
-     * @Given /^I should see "([^"]*)" button disabled$/
-     */
-    public function iShouldSeeButtonDisabled($buttonName)
-    {
-        $button = $this->getSession()->getPage()->findLink($buttonName);
-        if ($button == null) {
-            $message = 'Link with id|tittle|text|img-alt ' . $buttonName . ', not found on page.';
-            throw new ExpectationException($message, $this->getSession());
-        }
-
-        if (!$button->hasClass('disabled')) {
-            $message = 'Link "' . $buttonName . '" is enabled. But should be disabled.';
-            throw new ExpectationException($message, $this->getSession());
-        }
-    }
-
-    /**
-     * @Then /^I should have (\d+) email notification to "([^"]*)"$/
-     */
-    public function iShouldHaveEmailNotificationTo($count, $destination)
-    {
-        $notificationsCount = $this->getEntityManager()
-                ->createQuery('select count(n) from SuccessNotificationBundle:EmailNotification n where n.destination=:destination')
-                ->setParameter('destination', $destination)
-                ->getSingleScalarResult();
-
-        if ($notificationsCount !== $count) {
-            $message = 'Found ' . $notificationsCount . ' to "' . $destination . '" notifications in DB. But should be ' . $count;
-            throw new ExpectationException($message, $this->getSession());
-        }
-    }
-
-    /**
-     * @Then /^I should have (\d+) SMS notification to "([^"]*)"$/
-     */
-    public function iShouldHaveSmsNotificationTo($count, $destination)
-    {
-        $notificationsCount = $this->getEntityManager()
-                ->createQuery('select count(n) from SuccessNotificationBundle:SMSNotification n where n.destination=:destination')
-                ->setParameter('destination', $destination)
-                ->getSingleScalarResult();
-
-        if ($notificationsCount !== $count) {
-            $message = 'Found ' . $notificationsCount . ' to "' . $destination . '" notifications in DB. But should be ' . $count;
-            throw new ExpectationException($message, $this->getSession());
-        }
-    }
-
-    /**
-     * @Then /^I should have member with id "([^"]*)"$/
-     */
-    public function iShouldHaveMemberWithId($memberId)
-    {
-        $membersCount = $this->getEntityManager()->createQuery('select count(m) from SuccessMemberBundle:Member m where m.externalId=:external_id')
-                ->setParameter('external_id', $memberId)
-                ->getSingleScalarResult();
-        if ($membersCount == 0) {
-            $message = 'Member with id "' . $memberId . '", not found in DB. But should exist.';
-            throw new ExpectationException($message, $this->getSession());
-        }
-    }
-    
-    /**
-     * @Given /^I am not logged$/
-     */
-    public function iAmNotLogged()
-    {
-        $securityContext = $this->getContainer()->get('security.context');
-        $securityContext->setToken(new \Symfony\Component\Security\Core\Authentication\Token\AnonymousToken('user', 'anon.', []));
-    }
-    
-    /**
-     * @Given /^the following events exist:$/
-     */
-    public function theFollowingEventsExist(TableNode $table)
-    {
-        $em = $this->getEntityManager();
-        /**
-         * @var \Doctrine\ORM\Repository $eventRepo $accessTypeRepo
-         */
-        $eventRepo = $em->getRepository('SuccessEventBundle:WebinarEvent');
-        $webinarEvents = $eventRepo->findAll();
-        foreach ($webinarEvents as $event) {
-            $em->remove($event);
-        }
-        $accessTypeRepo = $em->getRepository('SuccessEventBundle:EventAccessType');
-        $eventTypeRepo = $em->getRepository('SuccessEventBundle:EventType');
-        
-        $hash = $table->getHash();
-        $hours = 0;
-        foreach ($hash as $row) {
-            $date = new \DateTime();
-            $hours++;
-            $date->modify("+{$hours} hours");
-            $event = new \Success\EventBundle\Entity\WebinarEvent();
-            $event->setName($row['name']);
-            $event->setStartDateTime($date);
-            $event->setDescription($row['description']);
-            $event->setPattern('pattern');
-            
-            $accessType = $accessTypeRepo->findOneBy(['name' => $row['access_type']]);
-            $eventType = $eventTypeRepo->findOneBy(['name' => $row['type']]);
-            
-            $event->setAccessType($accessType);
-            $event->setEventType($eventType);
-            $event->setUrl('http://www.url.com');
-            $em->persist($event);
-        }
-        $em->flush();
-    }
-    
-    /**
-     * @Given /^sponsor of "([^"]*)" member should be "([^"]*)"$/
-     */
-    public function sponsorOfMemberShouldBe($userExternalId, $sponsorExternalId)
-    {
-        $memberRepo = $this->getRepository('SuccessMemberBundle:Member');
-        $userMember = $memberRepo->findOneBy(['externalId' => $userExternalId]);
-        if ($userMember->getSponsor()->getExternalId() != $sponsorExternalId) {
-            $message = sprintf(
-                'Sponsor of "%s" member is %s, but should be %s.',
-                $userExternalId,
-                $userMember->getSponsor()->getExternalId(),
-                $sponsorExternalId
-            );
-            throw new ExpectationException($message);
-        }
-        
-    }
-    
-    /**
-     * @Given /^member "([^"]*)" should be sponsor$/
-     */
-    public function memberShouldBeSponsor($memberExternalId)
-    {
-        $memberRepo = $this->getRepository('SuccessMemberBundle:Member');
-        $member = $memberRepo->findOneBy(['externalId' => $memberExternalId]);
-        $roles = $member->getRoles();
-        if ($roles[0] != self::ROLE_SPONSOR) {
-            $message = sprintf(
-                'Role of "%s" member should be "%s", but it is "%s"',
-                $memberExternalId,
-                self::ROLE_SPONSOR,
-                $roles[0]
-            );
-            throw new ExpectationException($message, $this->getSession());
-        }
-    }
-
-    /**
-     * @Given /^member "([^"]*)" should be user$/
-     */
-    public function memberShouldBeUser($memberExternalId)
-    {
-        $memberRepo = $this->getRepository('SuccessMemberBundle:Member');
-        $member = $memberRepo->findOneBy(['externalId' => $memberExternalId]);
-        $roles = $member->getRoles();
-        if ($roles[0] != self::ROLE_USER) {
-            $message = sprintf(
-                'Role of "%s" member should be "%s", but it is "%s"',
-                $memberExternalId,
-                self::ROLE_USER,
-                $roles[0]
-            );
-            throw new ExpectationException($message, $this->getSession());
-        }
-    }
-    
-    /**
-     * @Given /^sponsor "([^"]*)" should have (\d+) referals$/
-     */
-    public function sponsorShouldHaveReferals($sponsorExternalId, $referalsCount)
-    {
-        $memberRepo = $this->getRepository('SuccessMemberBundle:Member');
-        $sponsor = $memberRepo->findOneBy(['externalId' => $sponsorExternalId]);
-        if (count($sponsor->getReferals()) != $referalsCount) {
-            $message = sprintf(
-                'Member "%s" should have %s referals, but it has %s',
-                $sponsorExternalId,
-                $referalsCount,
-                count($sponsor->getReferals())
-            );
-            throw new ExpectationException($message, $this->getSession());
-        }
     }
 }

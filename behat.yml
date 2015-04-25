@@ -1,21 +1,15 @@
 default:
-    paths:
-        features: features
-    context:
-        class: Success\Behat\FeatureContext
-        parameters:
-            base_url: http://4success/
-            timeout: 20
-        
+    suites:
+        default:
+            contexts:
+                - Success\Behat\FeatureContext:
+                    kernel:   '@kernel'
     extensions:
-        Behat\Symfony2Extension\Extension:
-            mink_driver: true
-        Behat\MinkExtension\Extension:
-            base_url: http://4success/
-            default_session: selenium2
-            browser_name: 'firefox'
-            selenium2:
-              capabilities: { "browser": "firefox", "version": "33.0"}
+        Behat\Symfony2Extension: ~
+        Behat\MinkExtension:
+            base_url: http://4success
+            selenium2: ~
+
 basic:
     filters:
         tags:       "@basic"
