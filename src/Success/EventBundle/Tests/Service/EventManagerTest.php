@@ -92,11 +92,11 @@ class EventManagerTest extends ServiceTest
         //} 
     }   
     
-//    /**
-//     * @covers \Success\EventBundle\Service\EventManager::getEventsByDateRange
-//     */
-//    public function testGetEventsByDateRange()
-//    {
+    /**
+     * @covers \Success\EventBundle\Service\EventManager::getEventsByDateRange
+     */
+    public function testGetEventsByDateRange()
+    {
 //        $startDateTime = new \DateTime(); 
 //        $startDateTime->modify('-2 days');
 //        $result = $this->instance->getEventsByDateRange($startDateTime, new \DateTime());
@@ -104,13 +104,13 @@ class EventManagerTest extends ServiceTest
 //        
 //        $this->assertNotNull($result);
 //        $this->assertInstanceOf('Success\EventBundle\Entity\BaseEvent', $result[0]);        
-//    }
-//
-//    /**
-//     * @covers \Success\EventBundle\Service\EventManager::appendRepeatsForEvents
-//     */
-//    public function testAppendRepeatsForEvents()
-//    {
+    }
+
+    /**
+     * @covers \Success\EventBundle\Service\EventManager::appendRepeatsForEvents
+     */
+    public function testAppendRepeatsForEvents()
+    {
 //        $startDateTime = new \DateTime();
 //        $endDateTime = new \DateTime();
 //                
@@ -120,6 +120,6 @@ class EventManagerTest extends ServiceTest
 //        
 //        $this->assertNotNull($result);
 //        $this->assertInstanceOf('Success\EventBundle\Entity\BaseEvent', $result[0]);
-//    }
+    }
     
 }
