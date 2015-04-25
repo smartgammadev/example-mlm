@@ -9,8 +9,20 @@ services:
         calls:
              - [setEntityManager, ["@doctrine.orm.entity_manager"]]
              - [setPlaceholderManager, ["@success.placeholder.placeholder_manager"]]
+             
+    success.member.login_manager:
+        class: Success\MemberBundle\Service\MemberLoginManager
+        calls:     
+             - [setRedisClient, ["@snc_redis.token_client"]]             
              - [setSecurityContext, ["@security.context"]]
 
+    success.member.twig_extension:
+        class: Success\MemberBundle\Twig\SuccessMemberExtension
+        calls:     
+             - [setMemberLoginManager, ["@success.member.login_manager"]]
+        tags:
+            - { name: twig.extension }             
+             
     success.member.member_provider:
         class: Success\MemberBundle\Security\MemberProvider
         calls:

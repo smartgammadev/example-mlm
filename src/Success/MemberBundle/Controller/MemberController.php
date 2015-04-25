@@ -20,6 +20,12 @@ class MemberController extends Controller
     private $memberManager;
     
     /**
+     * @var \Success\MemberBundle\Service\MemberLoginManager $memberLoginManager
+     * @DI\Inject("success.member.login_manager")
+     */        
+    private $memberLoginManager;    
+    
+    /**
      * @Route("/login", name="member_login")
      * @Method({"POST"})
      * @Template()
@@ -28,6 +34,8 @@ class MemberController extends Controller
     {
         $response = new Response();
         $externalId = $request->request->get('id');
+        $secret = $request->request->get('secret');
+        
         if (!$request->isXmlHttpRequest()) {
             $response->setStatusCode(403);
             return $response;
@@ -36,11 +44,17 @@ class MemberController extends Controller
             $member = $this->memberManager->getMemberByExternalId($externalId);
         } catch (NotFoundHttpException $ex) {
             $response->setStatusCode(403);
-            $member = $this->memberManager->doLogout();
+            $member = $this->memberLoginManager->doLogout();
             return $response;
         }
-        $this->memberManager->doLoginMember($member);
-        $response->setStatusCode(200);
-        return $response;
+        
+        if ($this->memberLoginManager->doLoginMember($member, $secret)) {
+            $response->setStatusCode(200);
+            return $response;
+        } else {
+            $response->setStatusCode(403);
+            $member = $this->memberLoginManager->doLogout();
+            return $response;            
+        }
     }
 }

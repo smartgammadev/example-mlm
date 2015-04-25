@@ -10,7 +10,7 @@ trait SetPlaceholderManagerTrait {
     
     /**
      *
-     * @var \Success\PlaceholderBundle\Service\PlaceholderManager
+     * @var \Success\PlaceholderBundle\Service\PlaceholderManager $placeholderManager
      */
     private $placeholderManager;
     

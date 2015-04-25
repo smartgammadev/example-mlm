@@ -46,7 +46,9 @@
         "sonata-project/intl-bundle": "~2.2",
         "ornicar/apc-bundle": "~1.0",
         "epam/ci-bundle": "~1.0",
-        "stof/doctrine-extensions-bundle": "~1.1"
+        "stof/doctrine-extensions-bundle": "~1.1",
+        "snc/redis-bundle": "1.1.x-dev",
+        "predis/predis": "0.8.x-dev"
     },
     "require-dev": {
         "behat/behat": "@stable",

@@ -18,7 +18,6 @@ class MemberManager
     
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
     use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
-    use \Success\MemberBundle\Traits\SetSecurityContextTrait;
 
     /**
      * @param type $externalId string(255)
@@ -33,7 +32,7 @@ class MemberManager
         }
         return $member;
     }
-
+    
     /**
      * @param sting $externalId
      * @return Success\MemberBundle\Entity\Member
@@ -170,32 +169,6 @@ class MemberManager
             $userMember = $this->createIncomingMember($userExternalId, $this->getSponsorMemberFromPlaceholders());
         }
         return $userMember;
-    }
-    
-    /**
-     * @param Member $member
-     */
-    public function doLoginMember(Member $member)
-    {
-        //TODO: implement security cchecks via referer, cookie, etc..
-        $token = new UsernamePasswordToken(
-            $member,
-            $member->getPassword(),
-            "success.member.member_provider",
-            $member->getRoles()
-        );
-        $this->securityContext->setToken($token);
-    }
-    
-    public function doLogout()
-    {
-        $token = new AnonymousToken('user', 'anon.');
-        $this->securityContext->setToken($token);
-    }
-    
-    public function getLoggedInMember()
-    {
-        return $this->securityContext->getToken()->getUser();
     }
 
     /**

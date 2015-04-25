@@ -53,6 +53,7 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Success\TreasureBundle\SuccessTreasureBundle(),
             new Success\PricingBundle\SuccessPricingBundle(),
+            new Snc\RedisBundle\SncRedisBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -39,7 +39,7 @@ class CalendarController extends Controller
     private $placeholderManager;
 
     /**
-     * @var \Success\MemberBundle\Service\MemberManager
+     * @var \Success\MemberBundle\Service\MemberManager $memberManager
      * @DI\Inject("success.member.member_manager")
      */
     private $memberManager;

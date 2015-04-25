@@ -202,3 +202,24 @@ ornicar_apc:
     
 fos_js_routing:
     routes_to_expose: [ ^((?!_admin_).)*$ ]
+    
+snc_redis:
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn: redis://localhost
+            logging: %kernel.debug%
+        token:
+            type: predis
+            alias: token
+            dsn: redis://localhost/1
+            
+        session:
+            type: predis
+            alias: session
+            dsn: redis://localhost/2            
+    session:
+        client: session
+        prefix: success
+        ttl: 1200
