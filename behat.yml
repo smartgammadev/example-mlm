@@ -5,9 +5,14 @@ default:
                 - Success\Behat\FeatureContext:
                     kernel:   '@kernel'
     extensions:
-        Behat\Symfony2Extension: ~
+        Behat\Symfony2Extension: 
         Behat\MinkExtension:
             base_url: http://4success
+            default_session: selenium2
+            browser_name: 'firefox'
+            selenium2:
+                capabilities: { "browser": "firefox", "version": "33.0"}
+            
             selenium2: ~
 
 basic:
