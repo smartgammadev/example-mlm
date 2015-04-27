@@ -108,6 +108,9 @@ sonata_admin:
                     - sonata.admin.webinar_signup                    
                     - sonata.admin.external_placeholder                    
                     - sonata.admin.setting_admin
+            Partners:
+                items:
+                    - sonata.admin.member_admin
             Settings:       
                 items:
                     - sonata.admin.referal_pricing_admin

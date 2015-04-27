@@ -151,4 +151,27 @@ class ReferalPricingValue
         return $this->pricing;
     }
     
+
+    /**
+     * Set pricing
+     *
+     * @param \Success\PricingBundle\Entity\ReferalPricing $pricing
+     * @return ReferalPricingValue
+     */
+    public function setPricing(\Success\PricingBundle\Entity\ReferalPricing $pricing)
+    {
+        $this->pricing = $pricing;
+
+        return $this;
+    }
+
+    /**
+     * Get pricing
+     *
+     * @return \Success\PricingBundle\Entity\ReferalPricing 
+     */
+    public function getPricing()
+    {
+        return $this->pricing;
+    }
 }

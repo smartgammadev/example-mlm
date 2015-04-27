@@ -42,6 +42,12 @@ class ReferalPricing
      * @ORM\OneToMany(targetEntity="ReferalPricingValue", mappedBy="pricing", cascade={"all"}, orphanRemoval=true)
      */
     private $pricingValues;
+    
+    /**
+     * @var \DateTime $created
+     * @ORM\Column(name="created", type="datetime", nullable=false)
+     */
+    private $created;
 
     /**
      * Get id
@@ -81,6 +87,7 @@ class ReferalPricing
     public function __construct()
     {
         $this->pricingValues = new ArrayCollection();
+        $this->created = new \DateTime();
     }
 
     /**
@@ -136,5 +143,28 @@ class ReferalPricing
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return ReferalPricing
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
     }
 }
