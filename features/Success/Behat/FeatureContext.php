@@ -8,21 +8,23 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Behat\Gherkin\Node\TableNode;
+
 /**
  * Features context.
  */
 class FeatureContext extends MinkContext implements SnippetAcceptingContext
 {
+
     const SONATA_UNIQID = 'behat';
     const ROLE_SPONSOR = 'ROLE_4SUCCESS_SPONSOR';
-    const ROLE_USER = 'ROLE_4SUCCESS_USER';    
-    
+    const ROLE_USER = 'ROLE_4SUCCESS_USER';
+
     /**
      *
      * @var \Doctrine\ORM\EntityManager $em
      */
     private $em;
-    
+
     /**
      *
      * @var \Symfony\Component\Security\Core\SecurityContext $securityContext
@@ -34,16 +36,15 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         $this->em = $kernel->getContainer()->get('doctrine.orm.entity_manager');
         $this->securityContext = $kernel->getContainer()->get('security.context');
     }
-    
+
     /**
      * @Then I wait for AJAX to finish
      */
     public function iWaitForAjaxToFinish()
     {
         $this->getSession()->wait(3000);
-        
     }
-    
+
     /**
      * @When I click :arg1
      */
@@ -59,7 +60,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         }
         $this->getSession()->getDriver()->click($element->getXPath());
     }
-    
+
     /**
      * @Given I am logged in as admin
      */
@@ -68,9 +69,9 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         $this->visit('/admin/login');
         $this->fillField('username', 'admin');
         $this->fillField('password', 'admin');
-        $this->pressButton('_submit');        
+        $this->pressButton('_submit');
     }
-   
+
     /**
      * @Given there is no events in DB
      */
@@ -101,7 +102,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
     {
         
     }
-    
+
     /**
      * @Then I want to create new audience
      */
@@ -109,8 +110,6 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
     {
         $this->visit('admin/success/salesgenerator/audience/create?uniqid=' . self::SONATA_UNIQID);
     }
-    
-    
 
     /**
      * @Then I want to create new event
@@ -127,7 +126,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
     {
         $currentDate = new \DateTime();
         $currentDate->modify("+{$minutes} minutes");
-        $this->fillField(self::SONATA_UNIQID . '_' . $filedName, $currentDate->format('Y-m-d H:i:s').' +0300');
+        $this->fillField(self::SONATA_UNIQID . '_' . $filedName, $currentDate->format('Y-m-d H:i:s') . ' +0300');
     }
 
     /**
@@ -137,7 +136,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
     {
         $this->fillField(self::SONATA_UNIQID . '_' . $filedName, $value);
     }
-    
+
     /**
      * @Then I select :arg1 in :arg2
      */
@@ -153,7 +152,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
     {
         $this->visit($url . '?' . $placeholders);
     }
-    
+
     /**
      * @Then I reset sonata unique ID
      */
@@ -169,7 +168,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
     {
         $currentDate = new \DateTime();
         $currentDate->modify("+{$days} days");
-        $this->fillField(self::SONATA_UNIQID . '_' . $filedName, $currentDate->format('Y-m-d H:i:s').' +0300');
+        $this->fillField(self::SONATA_UNIQID . '_' . $filedName, $currentDate->format('Y-m-d H:i:s') . ' +0300');
     }
 
     /**
@@ -177,11 +176,11 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
      */
     public function iCheckIcheckbox($iCheckId)
     {
-        $selector = '#'.self::SONATA_UNIQID . '_' . $iCheckId;
+        $selector = '#' . self::SONATA_UNIQID . '_' . $iCheckId;
         $javascript = "$('{$selector}').iCheck('check');";
         $this->getSession()->getDriver()->evaluateScript($javascript);
     }
-    
+
     /**
      * @Then I should have member with id :arg1
      */
@@ -195,7 +194,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
             throw new ExpectationException($message, $this->getSession());
         }
     }
-    
+
     /**
      * @Then I should have :arg2 email notification to :arg1
      */
@@ -211,7 +210,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
             throw new ExpectationException($message, $this->getSession());
         }
     }
-    
+
     /**
      * @Then I should have :arg2 SMS notification to :arg1
      */
@@ -227,7 +226,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
             throw new \Behat\Mink\Exception\ExpectationException($message, $this->getSession());
         }
     }
-    
+
     /**
      * @Then I should see :arg1 button enabled
      */
@@ -261,7 +260,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
             throw new ExpectationException($message, $this->getSession());
         }
     }
-    
+
     /**
      * @Given the following events exist:
      */
@@ -274,7 +273,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         }
         $accessTypeRepo = $this->em->getRepository('SuccessEventBundle:EventAccessType');
         $eventTypeRepo = $this->em->getRepository('SuccessEventBundle:EventType');
-        
+
         $hash = $table->getHash();
         foreach ($hash as $row) {
             $date = new \DateTime();
@@ -284,10 +283,10 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
             $event->setStartDateTime($date);
             $event->setDescription($row['description']);
             $event->setPattern('pattern');
-            
+
             $accessType = $accessTypeRepo->findOneBy(['name' => $row['access_type']]);
             $eventType = $eventTypeRepo->findOneBy(['name' => $row['type']]);
-            
+
             $event->setAccessType($accessType);
             $event->setEventType($eventType);
             $event->setUrl('http://www.url.com');
@@ -295,7 +294,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         }
         $this->em->flush();
     }
-    
+
     /**
      * @Given I am not logged
      */
@@ -303,7 +302,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
     {
         $this->securityContext->setToken(new AnonymousToken('user', 'anon.', []));
     }
-    
+
     /**
      * @Then member :arg1 should be sponsor
      */
@@ -314,10 +313,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         $roles = $member->getRoles();
         if ($roles[0] != self::ROLE_SPONSOR) {
             $message = sprintf(
-                'Role of "%s" member should be "%s", but it is "%s"',
-                $memberExternalId,
-                self::ROLE_SPONSOR,
-                $roles[0]
+                    'Role of "%s" member should be "%s", but it is "%s"', $memberExternalId, self::ROLE_SPONSOR, $roles[0]
             );
             throw new ExpectationException($message, $this->getSession());
         }
@@ -351,10 +347,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         $userMember = $memberRepo->findOneBy(['externalId' => $userExternalId]);
         if ($userMember->getSponsor()->getExternalId() != $sponsorExternalId) {
             $message = sprintf(
-                'Sponsor of "%s" member is %s, but should be %s.',
-                $userExternalId,
-                $userMember->getSponsor()->getExternalId(),
-                $sponsorExternalId
+                    'Sponsor of "%s" member is %s, but should be %s.', $userExternalId, $userMember->getSponsor()->getExternalId(), $sponsorExternalId
             );
             throw new ExpectationException($message);
         }
@@ -368,18 +361,15 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
         $sponsor = $memberRepo->findOneBy(['externalId' => $sponsorExternalId]);
         $childCount = $memberRepo->childCount($sponsor);
-        
-        if ($childCount != (integer)$referalsCount) {
+
+        if ($childCount != (integer) $referalsCount) {
             $message = sprintf(
-                'Member "%s" should have %s referals, but it has %s',
-                $sponsorExternalId,
-                $referalsCount,
-                $childCount
+                    'Member "%s" should have %s referals, but it has %s', $sponsorExternalId, $referalsCount, $childCount
             );
             throw new ExpectationException($message, $this->getSession());
         }
     }
-    
+
     /**
      * @Given there is no new members in DB
      */
@@ -387,14 +377,12 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
     {
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
         $members = $memberRepo->findAll();
-        
+
         foreach ($members as $member) {
             if ($member->getExternalId() != 'main.sponsor@mail.com') {
-                $this->em->remove($member);                
+                $this->em->remove($member);
             }
         }
         $this->em->flush();
     }
-    
-    
 }
