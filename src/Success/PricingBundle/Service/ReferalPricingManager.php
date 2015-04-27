@@ -91,6 +91,8 @@ class ReferalPricingManager
             $this->em->persist($newPricingValue);
         }
         $this->em->flush();
+        
+        return $referalPricing;
     }
     
     public function removeLevelsFromReferalPricing(ReferalPricing $referalPricing, $countOfLevelsToRemove)
@@ -98,8 +100,7 @@ class ReferalPricingManager
         for ($level = 0; $level <= $countOfLevelsToRemove-1; $level++) {
             $referalPricing->removePricingValue($referalPricing->getPricingValues()->last());
         }
-        
         $this->em->flush();
-        
+        return $referalPricing;
     }
 }

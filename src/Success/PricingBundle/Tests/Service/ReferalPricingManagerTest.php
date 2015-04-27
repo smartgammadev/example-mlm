@@ -18,20 +18,43 @@ class ReferalPricingManangerTest extends ServiceTest
         $this->instance->setEntityManager($this->container->get('doctrine.orm.entity_manager'));
     }
     
-    public function testCreateNewReferalPricing()
+    public function testCopyReferalPricingFromCurrent()
     {
-        $result = $this->instance->createNewReferalPricing('default');
+        $result = $this->instance->copyReferalPricingFromCurrent();
         $this->assertNotNull($result);
         $this->assertInstanceOf('Success\PricingBundle\Entity\ReferalPricing', $result);
-        $this->assertEquals($result->getName(), 'default');
     }
     
     public function testGetCurrentReferalPricing()
     {
-        $this->instance->createNewReferalPricing('new pricing');
         $result = $this->instance->getCurrentReferalPricing();
         $this->assertNotNull($result);
         $this->assertInstanceOf('Success\PricingBundle\Entity\ReferalPricing', $result);
-        $this->assertEquals($result->getName(), 'new pricing');
+    }
+    
+    public function testAddLevelsToReferalPricing()
+    {
+        $referalPricing = $this->instance->getCurrentReferalPricing();
+        $oldLevels = $referalPricing->getPricingValues()->count();
+        
+        $result = $this->instance->addLevelsToReferalPricing($referalPricing, 2);
+        $this->assertNotNull($result);
+        $this->assertInstanceOf('Success\PricingBundle\Entity\ReferalPricing', $result);
+        
+        $newLevels = $result->getPricingValues()->count();
+        $this->assertEquals($oldLevels + 2, $newLevels);
+    }
+    
+    public function testRemoveLevelsFromReferalPricing()
+    {
+        $referalPricing = $this->instance->getCurrentReferalPricing();
+        $oldLevels = $referalPricing->getPricingValues()->count();
+        
+        $result = $this->instance->removeLevelsFromReferalPricing($referalPricing, 2);
+        $this->assertNotNull($result);
+        $this->assertInstanceOf('Success\PricingBundle\Entity\ReferalPricing', $result);
+        
+        $newLevels = $result->getPricingValues()->count();
+        $this->assertEquals($oldLevels - 2, $newLevels);
     }
 }
