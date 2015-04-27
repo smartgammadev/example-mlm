@@ -48,5 +48,34 @@ class MemberManagerTest extends ServiceTest
         $result = $this->instance->resolveMemberByExternalId('fake_mail@fake_domain.fake', 'main.sponsor@mail.com');
         $this->assertNotNull($result);
         $this->assertInstanceOf('Success\MemberBundle\Entity\Member', $result);
+        
+        $resultNew = $this->instance->getMemberByExternalId('fake_mail@fake_domain.fake');
+        $this->assertNotNull($resultNew);
+        $this->assertInstanceOf('Success\MemberBundle\Entity\Member', $resultNew);
+        
+        $sponsorExternalId = $resultNew->getSponsor()->getExternalId();
+        $this->assertEquals($sponsorExternalId, 'main.sponsor@mail.com');
+    }
+    
+    /**
+     * @covers \Success\MemberBundle\Service\MemberManager::getMemberByExternalId($externalId)
+     */
+    public function testGetMemberByExternalId()
+    {
+        $result = $this->instance->getMemberByExternalId('main.sponsor@mail.com');
+        $this->assertNotNull($result);
+        $this->assertInstanceOf('Success\MemberBundle\Entity\Member', $result);
+    }
+    
+    /**
+     * @covers \Success\MemberBundle\Service\MemberManager::getMemberByExternalId($externalId)
+     */
+    public function testNotFoundGetMemberByExternalId()
+    {
+        try {
+            $this->instance->getMemberByExternalId('any-fake-member@anywhere-fake.fake');
+        } catch (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $ex) {
+            $this->assertInstanceOf('Symfony\Component\HttpKernel\Exception\NotFoundHttpException', $ex);
+        }
     }
 }
