@@ -47,7 +47,7 @@ class EventRepeat
     /**
      * @var type
      * @ORM\OneToOne(targetEntity="BaseEvent", inversedBy="eventRepeat")
-     * @ORM\JoinColumn(name="event_id", referencedColumnName="id", onDelete="set null")
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $event;
 

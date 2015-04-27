@@ -74,7 +74,7 @@ class MemberManagerTest extends ServiceTest
     {
         try {
             $this->instance->getMemberByExternalId('any-fake-member@anywhere-fake.fake');
-        } catch (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $ex) {
+        } catch (\Symfony\Component\HttpKernel\Exception\HttpException $ex) {
             $this->assertInstanceOf('Symfony\Component\HttpKernel\Exception\NotFoundHttpException', $ex);
         }
     }
