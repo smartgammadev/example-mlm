@@ -200,11 +200,7 @@ sonata_media:
         local:
             directory:  %kernel.root_dir%/../web/uploads/media
             create:     false
-            
-ornicar_apc:
-    host: %domain%
-    web_dir: %kernel.root_dir%/../web
-    
+   
 fos_js_routing:
     routes_to_expose: [ ^((?!_admin_).)*$ ]
     
@@ -228,3 +224,8 @@ snc_redis:
         client: session
         prefix: success
         ttl: 1200
+
+accelerator_cache:
+    mode: curl
+    host: %domain%
+    web_dir: %kernel.root_dir%/../web        

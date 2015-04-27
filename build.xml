@@ -102,7 +102,7 @@
     
     <target name="apc-clear"
             description="Clear APC cache">
-        <SymfonyConsole command="apc:clear --env=dev" checkreturn="true">
+        <SymfonyConsole command="cache:accelerator:clear --env=dev" checkreturn="true">
         </SymfonyConsole>
     </target>   
 <!--

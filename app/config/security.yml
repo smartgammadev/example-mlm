@@ -21,9 +21,6 @@ security:
             entity:
                 class: SuccessMemberBundle:Member
                 property: externalId
-#        success_memberbundle:
-#            id: success.member.member_provider
-
     firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
@@ -50,7 +47,6 @@ security:
 
 
     access_control:
-
         # Admin login page needs to be access without credential
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }

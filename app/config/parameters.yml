@@ -12,4 +12,4 @@ parameters:
     mailer_password: null
     locale: ru
     secret: ThisTokenIsNotSoSecretChangeIt
-    domain: 128.199.43.50
+    domain: 4success

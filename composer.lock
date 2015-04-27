@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8bbbdb998e19911c5992c3521b9f30d5",
+    "hash": "de4e42e297a52569b38fca72bdcfefd2",
     "packages": [
         {
             "name": "adesigns/calendar-bundle",
@@ -2034,7 +2034,7 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "Knplabs",
+                    "name": "KnpLabs",
                     "homepage": "http://knplabs.com"
                 },
                 {
@@ -2495,58 +2495,6 @@
             "time": "2015-03-06 10:47:58"
         },
         {
-            "name": "ornicar/apc-bundle",
-            "version": "1.0.4",
-            "target-dir": "Ornicar/ApcBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ornicar/ApcBundle.git",
-                "reference": "d7119284726d14d23d2a2345871689fd2437612b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ornicar/ApcBundle/zipball/d7119284726d14d23d2a2345871689fd2437612b",
-                "reference": "d7119284726d14d23d2a2345871689fd2437612b",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/framework-bundle": ">=2.1,<3.0"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.0": "1.0.x-dev",
-                    "dev-master": "1.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Ornicar\\ApcBundle": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Thibault Duplessis",
-                    "homepage": "https://github.com/ornicar"
-                },
-                {
-                    "name": "Contributors",
-                    "homepage": "https://github.com/ornicar/ApcBundle/contributors"
-                }
-            ],
-            "description": "Provides a command line task to clear APC cache from the console",
-            "homepage": "https://github.com/ornicar/ApcBundle",
-            "keywords": [
-                "apc",
-                "task"
-            ],
-            "time": "2014-11-03 12:21:20"
-        },
-        {
             "name": "phpcollection/phpcollection",
             "version": "0.4.0",
             "source": {
@@ -2970,6 +2918,60 @@
             ],
             "description": "A security checker for your composer.lock",
             "time": "2014-07-08 18:12:35"
+        },
+        {
+            "name": "smart-core/accelerator-cache-bundle",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Smart-Core/AcceleratorCacheBundle.git",
+                "reference": "8664ac12da10faab76a3b3cdd861997f88530f01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Smart-Core/AcceleratorCacheBundle/zipball/8664ac12da10faab76a3b3cdd861997f88530f01",
+                "reference": "8664ac12da10faab76a3b3cdd861997f88530f01",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.1",
+                "symfony/framework-bundle": ">=2.1"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.0": "1.0.x-dev",
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SmartCore\\Bundle\\AcceleratorCacheBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thibault Duplessis",
+                    "homepage": "https://github.com/ornicar"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/Smart-Core/AcceleratorCacheBundle/contributors"
+                }
+            ],
+            "description": "Provides a command line task to clear PHP Accelerators cache from the console",
+            "homepage": "https://github.com/Smart-Core/AcceleratorCacheBundle",
+            "keywords": [
+                "Opcache",
+                "apc",
+                "task",
+                "wincache"
+            ],
+            "time": "2015-01-21 15:47:44"
         },
         {
             "name": "snc/redis-bundle",

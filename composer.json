@@ -44,11 +44,11 @@
         "jms/di-extra-bundle": "~1.4",
         "sensio/buzz-bundle": "dev-master",
         "sonata-project/intl-bundle": "~2.2",
-        "ornicar/apc-bundle": "~1.0",
         "epam/ci-bundle": "~1.0",
         "stof/doctrine-extensions-bundle": "~1.1",
         "snc/redis-bundle": "1.1.x-dev",
-        "predis/predis": "0.8.x-dev"
+        "predis/predis": "0.8.x-dev",
+        "smart-core/accelerator-cache-bundle": "~1.0"
     },
     "require-dev": {
         "behat/behat": "@stable",

@@ -49,11 +49,11 @@ class AppKernel extends Kernel
             new Success\SalesGeneratorBundle\SuccessSalesGeneratorBundle(),
             new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
             new Sonata\IntlBundle\SonataIntlBundle(),
-            new Ornicar\ApcBundle\OrnicarApcBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Success\TreasureBundle\SuccessTreasureBundle(),
             new Success\PricingBundle\SuccessPricingBundle(),
             new Snc\RedisBundle\SncRedisBundle(),
+            new SmartCore\Bundle\AcceleratorCacheBundle\AcceleratorCacheBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
