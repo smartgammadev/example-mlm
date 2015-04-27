@@ -3,16 +3,16 @@
 namespace Success\PricingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Success\PricingBundle\Entity\PricingValue;
+use Success\PricingBundle\Entity\ReferalPricingValue;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Pricing
  *
- * @ORM\Table(name="p_pricing")
- * @ORM\Entity(repositoryClass="Success\PricingBundle\Entity\Repository\PricingRepository")
+ * @ORM\Table(name="p_referal_pricing")
+ * @ORM\Entity(repositoryClass="Success\PricingBundle\Entity\Repository\ReferalPricingRepository")
  */
-class Pricing
+class ReferalPricing
 {
     /**
      * @var integer
@@ -39,7 +39,7 @@ class Pricing
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="PricingValue", mappedBy="pricing")
+     * @ORM\OneToMany(targetEntity="ReferalPricingValue", mappedBy="pricing", cascade={"all"}, orphanRemoval=true)
      */
     private $pricingValues;
 
@@ -86,10 +86,10 @@ class Pricing
     /**
      * Add pricingValues
      *
-     * @param \Success\PricingBundle\Entity\PricingValues $pricingValues
+     * @param \Success\PricingBundle\Entity\ReferalPricingValue $pricingValues
      * @return Pricing
      */
-    public function addPricingValue(PricingValue $pricingValues)
+    public function addPricingValue(ReferalPricingValue $pricingValues)
     {
         $this->pricingValues[] = $pricingValues;
 
@@ -99,16 +99,16 @@ class Pricing
     /**
      * Remove pricingValues
      *
-     * @param \Success\PricingBundle\Entity\PricingValues $pricingValues
+     * @param \Success\PricingBundle\Entity\ReferalPricingValue $pricingValue
      */
-    public function removePricingValue(PricingValues $pricingValues)
+    public function removePricingValue(ReferalPricingValue $pricingValue)
     {
-        $this->pricingValues->removeElement($pricingValues);
+        $this->pricingValues->removeElement($pricingValue);
     }
 
     /**
      * Get pricingValues
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getPricingValues()
     {
@@ -131,7 +131,7 @@ class Pricing
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {

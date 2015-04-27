@@ -3,15 +3,15 @@
 namespace Success\PricingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Success\PricingBundle\Entity\Pricing;
+use Success\PricingBundle\Entity\ReferalPricing;
 
 /**
  * PricingValues
  *
- * @ORM\Table(name="p_pricing_values")
+ * @ORM\Table(name="p_referal_pricing_value")
  * @ORM\Entity
  */
-class PricingValue
+class ReferalPricingValue
 {
 
     /**
@@ -45,8 +45,8 @@ class PricingValue
     private $profitValue;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Pricing", inversedBy="pricingValues")
-     * @ORM\JoinColumn(name="pricing_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
+     * @ORM\ManyToOne(targetEntity="ReferalPricing", inversedBy="pricingValues", cascade={"persist"})
+     * @ORM\JoinColumn(name="referal_pricing_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
      */
     private $pricing;
 
@@ -131,10 +131,10 @@ class PricingValue
     /**
      * Set pricing
      *
-     * @param \Success\PricingBundle\Entity\Pricing $pricing
+     * @param \Success\PricingBundle\Entity\ReferalPricing $pricing
      * @return PricingValues
      */
-    public function setPricing(Pricing $pricing)
+    public function setReferalPricing(ReferalPricing $pricing)
     {
         $this->pricing = $pricing;
 
@@ -144,10 +144,11 @@ class PricingValue
     /**
      * Get pricing
      *
-     * @return \Success\PricingBundle\Entity\Pricing
+     * @return \Success\PricingBundle\Entity\ReferalPricing
      */
-    public function getPricing()
+    public function getReferalPricing()
     {
         return $this->pricing;
     }
+    
 }

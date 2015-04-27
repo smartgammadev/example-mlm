@@ -7,39 +7,27 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class PricingAdmin extends Admin
+class ReferalPricingValueAdmin extends Admin
 {
-
-    protected function configureRoutes(\Sonata\AdminBundle\Route\RouteCollection $collection)
-    {
-        parent::configureRoutes($collection);
-        $collection->remove('create');
-        $collection->remove('delete');
-    }
-
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-                ->add('name', 'text', array('label' => 'Pricing Name'))
+                ->add('isAbsoluteValue', 'choice', ['required' => true, 'choices' => [true => 'absolute', false => 'percent',]])
+                ->add('level', null, ['read_only' => true])
+                ->add('profitValue', 'number', [])
         ;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-                ->add('name')
+                ->add('level', 'number', [])
         ;
     }
 
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-                ->addIdentifier('name')
-        ;
-    }
-    
-    public function getNewInstance()
-    {
-        //parent::getNewInstance();
+                ->add('level', 'number', []);
     }
 }

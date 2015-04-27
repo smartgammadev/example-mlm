@@ -4,14 +4,14 @@ namespace Success\PricingBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class PricingRepository extends EntityRepository
+class ReferalPricingRepository extends EntityRepository
 {
-    public function findCurrentPricing()
+    public function findCurrentReferalPricing()
     {
         $result =
             $this->getEntityManager()->createQueryBuilder()
                 ->select('p')
-                ->from('SuccessPricingBundle:Pricing', 'p')
+                ->from('SuccessPricingBundle:ReferalPricing', 'p')
                 ->orderBy('p.id', 'DESC')
                 ->setMaxResults(1)
                 ->getQuery()

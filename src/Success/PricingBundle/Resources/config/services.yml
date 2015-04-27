@@ -2,7 +2,7 @@ imports:
     - { resource: admin.yml }
 
 services:
-    success.pricing.pricing_manager:
-        class: Success\PricingBundle\Service\PricingManager
+    success.pricing.referal_pricing_manager:
+        class: Success\PricingBundle\Service\ReferalPricingManager
         calls:
             - [setEntityManager, ['@doctrine.orm.entity_manager']]

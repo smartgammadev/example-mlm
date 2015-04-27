@@ -1,9 +1,21 @@
 services:
-    sonata.admin.pricing_admin:
-        class: Success\PricingBundle\Admin\PricingAdmin
+    sonata.admin.referal_pricing_admin:
+        class: Success\PricingBundle\Admin\ReferalPricingAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Pricing"}
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Referal Pricing"}
         arguments:
             - ~
-            - Success\PricingBundle\Entity\Pricing
-            - SuccessPricingBundle:PricingAdmin
+            - Success\PricingBundle\Entity\ReferalPricing
+            - SuccessPricingBundle:ReferalPricingAdmin
+        calls:
+            - [setReferalPricingManager, ['@success.pricing.referal_pricing_manager']]
+            - [setEntityManager, ['@doctrine.orm.entity_manager']]
+
+    sonata.admin.referal_pricing_value_admin:
+        class: Success\PricingBundle\Admin\ReferalPricingValueAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Referal Pricing Value"}
+        arguments:
+            - ~
+            - Success\PricingBundle\Entity\ReferalPricingValue
+            - ~

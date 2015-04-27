@@ -3,13 +3,13 @@ namespace Success\PricingBundle\Tests\Services;
           
 use Gamma\PhpUnit\Tester\Test\ServiceTest;
 
-class PricingManangerTest extends ServiceTest
+class ReferalPricingManangerTest extends ServiceTest
 {
     /**
      * Target class name for the instance creation
      * @var mixed $instance
      */
-    protected $targetClassName = 'Success\PricingBundle\Service\PricingManager';
+    protected $targetClassName = 'Success\PricingBundle\Service\ReferalPricingManager';
                                   
     
     protected function setUp()
@@ -18,20 +18,20 @@ class PricingManangerTest extends ServiceTest
         $this->instance->setEntityManager($this->container->get('doctrine.orm.entity_manager'));
     }
     
-    public function testCreateNewPricing()
+    public function testCreateNewReferalPricing()
     {
-        $result = $this->instance->createNewPricing('default');
+        $result = $this->instance->createNewReferalPricing('default');
         $this->assertNotNull($result);
-        $this->assertInstanceOf('Success\PricingBundle\Entity\Pricing', $result);
+        $this->assertInstanceOf('Success\PricingBundle\Entity\ReferalPricing', $result);
         $this->assertEquals($result->getName(), 'default');
     }
     
-    public function testGetCurrentPricing()
+    public function testGetCurrentReferalPricing()
     {
-        $this->instance->createNewPricing('new pricing');
-        $result = $this->instance->getCurrentPricing();
+        $this->instance->createNewReferalPricing('new pricing');
+        $result = $this->instance->getCurrentReferalPricing();
         $this->assertNotNull($result);
-        $this->assertInstanceOf('Success\PricingBundle\Entity\Pricing', $result);
+        $this->assertInstanceOf('Success\PricingBundle\Entity\ReferalPricing', $result);
         $this->assertEquals($result->getName(), 'new pricing');
     }
 }
