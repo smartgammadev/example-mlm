@@ -227,7 +227,7 @@ class MemberManager
         if (strlen($lastName.$firstName) ==  0) {
             return $member->getExternalId();
         }
-        return sprintf("%s %s (%s)", $firstName, $lastName, $member->getExternalId());
+        return sprintf("%s %s", $firstName, $lastName);
         
     }
     
@@ -261,5 +261,16 @@ class MemberManager
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
         $childCount = $memberRepo->childCount($sponsor);
         return $childCount;
+    }
+    
+    /**
+     * @param Member $sponsor
+     * @return array
+     */
+    public function getMemberReferals(Member $sponsor)
+    {
+        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $result = $memberRepo->children($sponsor);
+        return $result;
     }
 }
