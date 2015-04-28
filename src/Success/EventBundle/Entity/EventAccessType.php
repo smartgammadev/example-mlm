@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * EventAccessType
  *
- * @ORM\Table(name="e_event_access_type")
+ * @ORM\Table()
  * @ORM\Entity()
  */
 class EventAccessType

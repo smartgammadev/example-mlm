@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Question
  *
- * @ORM\Table(name="sg_questions")
+ * @ORM\Table()
  * @ORM\Entity(repositoryClass="Success\SalesGeneratorBundle\Entity\QuestionRepository")
  */
 class Question

@@ -9,7 +9,7 @@ use Success\PlaceholderBundle\Entity\BasePlaceholder;
 /**
  * PlaceholderType
  *
- * @ORM\Table(name="ph_placeholder_type")
+ * @ORM\Table()
  * @ORM\Entity()
  */
 class PlaceholderType

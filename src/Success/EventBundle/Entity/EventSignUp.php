@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EventSignUp
  *
- * @ORM\Table(name="e_event_signup")
+ * @ORM\Table()
  * @ORM\Entity
  */
 class EventSignUp

@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Audience
  *
- * @ORM\Table(name="sg_audience")
+ * @ORM\Table()
  * @ORM\Entity(repositoryClass="Success\SalesGeneratorBundle\Entity\AudienceRepository")
  */
 class Audience

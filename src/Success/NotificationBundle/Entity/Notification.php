@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Notification
  *
- * @ORM\Table(name="n_notification")
+ * @ORM\Table()
  * @ORM\Entity(repositoryClass="Success\NotificationBundle\Entity\NotificationRepository")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")

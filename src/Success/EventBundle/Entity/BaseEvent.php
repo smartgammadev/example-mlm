@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * BaseEvent
  *
- * @ORM\Table(name="e_base_event")
+ * @ORM\Table()
  * @ORM\Entity(repositoryClass="Success\EventBundle\Entity\BaseEventRepository")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")

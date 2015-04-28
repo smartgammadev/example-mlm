@@ -236,7 +236,7 @@ class MemberManager
      * @param ExternalPlaceholder $placeholder
      * @return MemberData
      */
-    private function getMemberData(Member $member, ExternalPlaceholder $placeholder)
+    public function getMemberData(Member $member, ExternalPlaceholder $placeholder)
     {
         $repo = $this->em->getRepository('SuccessMemberBundle:MemberData');
         $memberData = $repo->findOneBy(['member' => $member->getId(), 'placeholder' => $placeholder->getId()]);

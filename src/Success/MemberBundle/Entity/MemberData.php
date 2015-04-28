@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * MemberData
  *
-* @ORM\Table(name="m_member_data")
+* @ORM\Table()
  * @ORM\Entity()
  */
 class MemberData
