@@ -20,13 +20,11 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
     const ROLE_USER = 'ROLE_4SUCCESS_USER';
 
     /**
-     *
      * @var \Doctrine\ORM\EntityManager $em
      */
     private $em;
 
     /**
-     *
      * @var \Symfony\Component\Security\Core\SecurityContext $securityContext
      */
     private $securityContext;

@@ -16,7 +16,7 @@ class LoadMemberData extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $member1 = new Member();
-        $member1->setExternalId('main.sponsor@mail.com');
+        $member1->setExternalId('4success.bz@gmail.com');
         $manager->persist($member1);
         $manager->flush();
     }

@@ -188,6 +188,10 @@ class MemberManager
         return $member;
     }
     
+    /**
+     * @param type $placeholderTypeName
+     * @param Member $member
+     */
     private function updateMemberDataFromPlaceholders($placeholderTypeName, Member $member)
     {
         $placeholdersData = $this->placeholderManager->getPlaceholdersValuesFormSession();
@@ -196,5 +200,19 @@ class MemberManager
                 $this->resolveMemberData($member, $placeholderData['placeholder'], $placeholderData['value']);
             }
         }
+    }
+    
+    /**
+     * @param Member $sponsor
+     * @return integer
+     */
+    public function getMemberReferalCount(Member $sponsor)
+    {
+        /**
+         * @var $memberRepo \Gedmo\Tree\Entity\Repository\NestedTreeRepository
+         */
+        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $childCount = $memberRepo->childCount($sponsor);
+        return $childCount;
     }
 }

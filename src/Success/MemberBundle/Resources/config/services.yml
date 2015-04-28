@@ -20,6 +20,7 @@ services:
         class: Success\MemberBundle\Twig\SuccessMemberExtension
         calls:     
              - [setMemberLoginManager, ["@success.member.login_manager"]]
+             - [setMemberManager, ["@success.member.member_manager"]]
         tags:
             - { name: twig.extension }             
              

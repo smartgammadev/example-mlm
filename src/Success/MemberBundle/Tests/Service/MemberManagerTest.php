@@ -78,4 +78,15 @@ class MemberManagerTest extends ServiceTest
             $this->assertInstanceOf('Symfony\Component\HttpKernel\Exception\NotFoundHttpException', $ex);
         }
     }
+    
+    /**
+     * @covers \Success\MemberBundle\Service\MemberManager::getMemberReferalCount($sponsor)
+     */
+    public function testGetMemberReferalCount()
+    {
+        $sponsor = $this->instance->getMemberByExternalId('main.sponsor@mail.com');
+        $referealsCount = $this->instance->getMemberReferalCount($sponsor);
+        $this->assertInternalType("int", $referealsCount);
+        $this->assertTrue($referealsCount >= 0);
+    }
 }
