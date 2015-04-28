@@ -6,9 +6,9 @@ use Success\MemberBundle\Entity\Member;
 
 class SuccessMemberExtension extends \Twig_Extension
 {
-
     use \Success\MemberBundle\Traits\SetMemberLoginManagerTrait;
     use \Success\MemberBundle\Traits\SetMemberManagerTrait;
+    use \Success\PricingBundle\Traits\ProductPricingManagerTrait;
 
     /**
      * {@inheritdoc}
@@ -19,6 +19,7 @@ class SuccessMemberExtension extends \Twig_Extension
             'loginSecret' => new \Twig_Function_Method($this, 'getLoginSecret'),
             'referalsCount' => new \Twig_Function_Method($this, 'getMembersReferalsCount'),
             'memberName' => new \Twig_Function_Method($this, 'getMemberName'),
+            'memberOwnedProduct' => new \Twig_Function_Method($this, 'getMemberPricingProductName'),
         );
     }
 
@@ -32,6 +33,16 @@ class SuccessMemberExtension extends \Twig_Extension
         return $this->memberManager->getMemberReferalCount($member);
     }
     
+    public function getMemberPricingProductName(Member $member)
+    {
+        $memberProductPricing = $this->productPricingManager->getCurrentProductPricingForMember($member);
+        if ($memberProductPricing) {
+            return sprintf('%s - $%s', $memberProductPricing->getProductPricing()->getProductName(), $memberProductPricing->getPricePaid());
+        }
+        return null;
+    }
+
+
     public function getMemberName($member)
     {
         if ($member instanceof Member) {

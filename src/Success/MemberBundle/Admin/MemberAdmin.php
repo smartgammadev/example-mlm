@@ -33,6 +33,7 @@ class MemberAdmin extends Admin
                 ->add('memberName', null, ['template' => 'SuccessMemberBundle:Sonata:Fields/member_name.html.twig'])
                 ->add('sponsorName', null, ['template' => 'SuccessMemberBundle:Sonata:Fields/sponsor_name.html.twig'])
                 ->add('referalsCount', null, ['template' => 'SuccessMemberBundle:Sonata:Fields/member_refs_count.html.twig'])
+                ->add('productPricing', null, ['template' => 'SuccessMemberBundle:Sonata:Fields/member_product_pricing_name.html.twig'])
                 
         ;
     }

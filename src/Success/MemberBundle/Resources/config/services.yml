@@ -21,6 +21,7 @@ services:
         calls:     
              - [setMemberLoginManager, ["@success.member.login_manager"]]
              - [setMemberManager, ["@success.member.member_manager"]]
+             - [setProductPricingManager, ["@success.pricing.product_pricing_manager"]]
         tags:
             - { name: twig.extension }             
              

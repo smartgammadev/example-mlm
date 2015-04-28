@@ -21,6 +21,7 @@ class ProductPricingAdmin extends Admin
         $listMapper
                 ->add('productName')
                 ->add('created')
+                ->add('productPrice')
                 ->add('_action', 'actions', array(
                     'actions' => array(
                         'edit' => array(),
