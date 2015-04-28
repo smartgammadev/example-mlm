@@ -24,13 +24,20 @@ class ProductPricing
     /**
      * @var string
      *
-     * @ORM\Column(name="productName", type="string", length=255)
+     * @ORM\Column(name="is_active", type="boolean", length=255)
+     */
+    private $isActive;    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="product_name", type="string", length=255)
      */
     private $productName;
 
     /**
      * @var string
-     * @ORM\Column(name="productPrice", type="decimal", precision=10, scale=2)
+     * @ORM\Column(name="product_price", type="decimal", precision=10, scale=2)
      */
     private $productPrice;
 
@@ -126,5 +133,28 @@ class ProductPricing
     public function getCreated()
     {
         return $this->created;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     * @return ProductPricing
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean 
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
     }
 }
