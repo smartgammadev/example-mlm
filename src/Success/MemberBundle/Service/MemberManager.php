@@ -13,6 +13,10 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 class MemberManager
 {
     const MEMBER_IDENTITY_PLACEHOLDER = 'email';
+    
+    const MEMBER_FIRSTNAME_PLACEHOLDER = 'first_name';
+    const MEMBER_LASTNAME_PLACEHOLDER = 'last_name';
+    
     const SPONSOR_PLACEHOLDER_TYPE_NAME = 'sponsor';
     const USER_PLACEHOLDER_TYPE_NAME = 'user';
     
@@ -200,6 +204,15 @@ class MemberManager
                 $this->resolveMemberData($member, $placeholderData['placeholder'], $placeholderData['value']);
             }
         }
+    }
+    
+    /**
+     * @param Member $member
+     * @return string
+     */
+    public function getMemberRepresentiveName(Member $member)
+    {
+        
     }
     
     /**

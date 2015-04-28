@@ -377,7 +377,7 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
         $members = $memberRepo->findAll();
 
         foreach ($members as $member) {
-            if ($member->getExternalId() != 'main.sponsor@mail.com') {
+            if ($member->getExternalId() != '4success.bz@gmail.com') {
                 $this->em->remove($member);
             }
         }
