@@ -24,10 +24,10 @@ class ProductPricingManagerTest extends ServiceTest
     
     public function testGetActiveProductPricingByName()
     {
-        $productPricing = $this->instance->getActiveProductPricingByName('default');
+        $productPricing = $this->instance->getActiveProductPricingByName('V.I.P.');
         $this->assertNotNull($productPricing);
         $this->assertInstanceOf('Success\PricingBundle\Entity\ProductPricing', $productPricing);
-        $this->assertEquals('default', $productPricing->getProductName());
+        $this->assertEquals('V.I.P.', $productPricing->getProductName());
         $this->assertTrue($productPricing->getIsActive());
     }
 
@@ -40,7 +40,7 @@ class ProductPricingManagerTest extends ServiceTest
     
     public function testAssignProductPricingToMember()
     {
-        $productPricing = $this->instance->getActiveProductPricingByName('default');
+        $productPricing = $this->instance->getActiveProductPricingByName('V.I.P.');
         $member = $this->memberManager->getMemberByExternalId('4success.bz@gmail.com');
         $result = $this->instance->assignProductPricingToMember($productPricing, $member);
         $this->assertNotNull($result);
