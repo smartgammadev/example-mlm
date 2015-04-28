@@ -19,3 +19,12 @@ services:
             - ~
             - Success\PricingBundle\Entity\ReferalPricingValue
             - ~
+            
+    sonata.admin.product_pricing_admin:
+        class: Success\PricingBundle\Admin\ProductPricingAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Product Pricing"}
+        arguments:
+            - ~
+            - Success\PricingBundle\Entity\ProductPricing
+            - ~

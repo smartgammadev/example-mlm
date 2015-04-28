@@ -114,6 +114,7 @@ sonata_admin:
             Settings:       
                 items:
                     - sonata.admin.referal_pricing_admin
+                    - sonata.admin.product_pricing_admin
             Users:
                 items:
                     - sonata.user.admin.user

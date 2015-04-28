@@ -81,6 +81,7 @@ class ReferalPricing
     {
         return $this->levelsUp;
     }
+    
     /**
      * Constructor
      */

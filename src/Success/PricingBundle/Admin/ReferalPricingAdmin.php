@@ -11,7 +11,6 @@ class ReferalPricingAdmin extends Admin
 {
 
     use \Success\PricingBundle\Traits\ReferalPricingManagerTrait;
-
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
 
     protected function configureRoutes(\Sonata\AdminBundle\Route\RouteCollection $collection)
@@ -78,8 +77,6 @@ class ReferalPricingAdmin extends Admin
         if ($newLevelsUp < $oldLevelsUp) {
             $countOfLevelsToRemove = $oldLevelsUp - $newLevelsUp;
             $this->referalPricingManager->removeLevelsFromReferalPricing($object, $countOfLevelsToRemove);
-//            var_dump($countOfLevelsToRemove);
-//            die('remove');
         }
     }
 }
