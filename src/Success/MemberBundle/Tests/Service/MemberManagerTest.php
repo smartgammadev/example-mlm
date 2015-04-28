@@ -45,7 +45,7 @@ class MemberManagerTest extends ServiceTest
      */
     public function testResolveMemberByExternalId()
     {
-        $result = $this->instance->resolveMemberByExternalId('fake_mail@fake_domain.fake', 'main.sponsor@mail.com');
+        $result = $this->instance->resolveMemberByExternalId('fake_mail@fake_domain.fake', '4success.bz@gmail.com');
         $this->assertNotNull($result);
         $this->assertInstanceOf('Success\MemberBundle\Entity\Member', $result);
         
@@ -54,7 +54,7 @@ class MemberManagerTest extends ServiceTest
         $this->assertInstanceOf('Success\MemberBundle\Entity\Member', $resultNew);
         
         $sponsorExternalId = $resultNew->getSponsor()->getExternalId();
-        $this->assertEquals($sponsorExternalId, 'main.sponsor@mail.com');
+        $this->assertEquals($sponsorExternalId, '4success.bz@gmail.com');
     }
     
     /**
@@ -62,7 +62,7 @@ class MemberManagerTest extends ServiceTest
      */
     public function testGetMemberByExternalId()
     {
-        $result = $this->instance->getMemberByExternalId('main.sponsor@mail.com');
+        $result = $this->instance->getMemberByExternalId('4success.bz@gmail.com');
         $this->assertNotNull($result);
         $this->assertInstanceOf('Success\MemberBundle\Entity\Member', $result);
     }
@@ -84,7 +84,7 @@ class MemberManagerTest extends ServiceTest
      */
     public function testGetMemberReferalCount()
     {
-        $sponsor = $this->instance->getMemberByExternalId('main.sponsor@mail.com');
+        $sponsor = $this->instance->getMemberByExternalId('4success.bz@gmail.com');
         $referealsCount = $this->instance->getMemberReferalCount($sponsor);
         $this->assertInternalType("int", $referealsCount);
         $this->assertTrue($referealsCount >= 0);

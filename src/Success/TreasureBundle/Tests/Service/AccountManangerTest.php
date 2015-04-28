@@ -45,6 +45,6 @@ class AccountManangerTest extends ServiceTest
          * @var Success\MemberBundle\Service\MemberManager $memberManager
          */
         $memberManager = $this->container->get('success.member.member_manager');
-        return $memberManager->getMemberByExternalId('main.sponsor@mail.com');
+        return $memberManager->getMemberByExternalId('4success.bz@gmail.com');
     }
 }
