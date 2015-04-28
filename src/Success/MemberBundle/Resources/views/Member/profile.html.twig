@@ -7,9 +7,7 @@
         <div class="row-fluid">
             <div class="col-md-12 no-padding no-margin well jumbotron">
                 <h2>{{ memberName(member) }}</h2>
-                <h3>Мой статус</h3>
                 <h4>баланс: ${{ balance }}</h4>
-                
                     <a class="btn btn-info" href="#">пополнить счет</a>
                     <a class="btn btn-info" href="#">мои оплаты</a>
                     <h4>текущий тариф:
@@ -19,9 +17,15 @@
                         </span>
                     </h4>                    
                     <h4>сменить тариф</h4>
-                    <a class="btn btn-success" href="#">базовый</a>
-                    <a class="btn btn-success" href="#">стандарт</a>
-                    <a class="btn btn-success" href="#">VIP</a>
+                    {% for productPricing in productPricings %}
+                        <div class="col-md-1 center-block center center-cell">
+                            <h4>
+                                ${{ productPricing.productPrice }}
+                            </h4>
+                            <a class="btn btn-success" href="#">{{ productPricing.productName }}</a>
+                        </div>
+                        {#{{ dump(productPricing) }}#}
+                    {% endfor %}
             </div>
             <div class="col-md-12 no-padding no-margin well jumbotron">
                 <h3>Моя команда</h3>

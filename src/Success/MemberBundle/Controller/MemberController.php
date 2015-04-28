@@ -35,6 +35,13 @@ class MemberController extends Controller
     private $accountManager;
 
     /**
+     * @var \Success\PricingBundle\Service\ProductPricingMananger $productPricingManager
+     * @DI\Inject("success.pricing.product_pricing_manager")
+     */
+    private $productPricingManager;
+    
+    
+    /**
      * @Route("/login", name="member_login")
      * @Method({"POST"})
      * @Template()
@@ -77,10 +84,11 @@ class MemberController extends Controller
         if ($member instanceof Member) {
             $memberBalance = $this->accountManager->getOverallAccountBalance($member);
             $memberReferals = $this->memberManager->getMemberReferals($member);
-            
+            $activeProductPricings = $this->productPricingManager->getActiveProductPricings();
             return
                 [
                     'member' => $member,
+                    'productPricings' => $activeProductPricings,
                     'referals' => $memberReferals,
                     'balance' => ($memberBalance == null ? 0 : $memberBalance->getAmount()),
                 ];

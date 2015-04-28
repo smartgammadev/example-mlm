@@ -13,6 +13,7 @@ class ProductPricingAdmin extends Admin
         $formMapper
             ->add('productName', 'text', [])
             ->add('productPrice', 'number', [])
+            ->add('isActive')
         ;
     }
     

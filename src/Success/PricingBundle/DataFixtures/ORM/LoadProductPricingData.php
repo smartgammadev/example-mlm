@@ -9,16 +9,40 @@ use Success\PricingBundle\Entity\ProductPricing;
 
 class LoadProductPricingData extends AbstractFixture implements OrderedFixtureInterface
 {
+    private $fixtrues = [
+        [
+            'id' => 1,
+            'isActive' => true,
+            'productName' => 'базовый',
+            'productPrice' => 30.00,
+        ],
+        [
+            'id' => 2,
+            'isActive' => true,
+            'productName' => 'стандарт',
+            'productPrice' => 60.00,
+        ],
+        [
+            'id' => 1,
+            'isActive' => true,
+            'productName' => 'V.I.P.',
+            'productPrice' => 90.00,
+        ],
+    ];
+    
     /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        $newProductPricing = new ProductPricing();
-        $newProductPricing->setIsActive(true);
-        $newProductPricing->setProductName('default');
-        $newProductPricing->setProductPrice(30);
-        $manager->persist($newProductPricing);
+        foreach ($this->fixtrues as $fixture) {
+            extract($fixture);
+            $newProductPricing = new ProductPricing();
+            $newProductPricing->setIsActive($isActive);
+            $newProductPricing->setProductName($productName);
+            $newProductPricing->setProductPrice($productPrice);
+            $manager->persist($newProductPricing);
+        }
         $manager->flush();
     }
 

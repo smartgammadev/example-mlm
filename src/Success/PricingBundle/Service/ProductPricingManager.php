@@ -42,6 +42,15 @@ class ProductPricingManager
     }
     
     /**
+     * @return Array
+     */
+    public function getActiveProductPricings()
+    {
+        $repo = $this->em->getRepository('SuccessPricingBundle:ProductPricing');
+        return $repo->findBy(['isActive' => true]);
+    }
+    
+    /**
      * @param Member $member
      * @return ProductPricingMember
      */
