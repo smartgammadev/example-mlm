@@ -18,6 +18,7 @@ class SuccessMemberExtension extends \Twig_Extension
         return array(
             'loginSecret' => new \Twig_Function_Method($this, 'getLoginSecret'),
             'referalsCount' => new \Twig_Function_Method($this, 'getMembersReferalsCount'),
+            'memberName' => new \Twig_Function_Method($this, 'getMemberName'),
         );
     }
 
@@ -29,6 +30,14 @@ class SuccessMemberExtension extends \Twig_Extension
     public function getMembersReferalsCount(Member $member)
     {
         return $this->memberManager->getMemberReferalCount($member);
+    }
+    
+    public function getMemberName($member)
+    {
+        if ($member instanceof Member) {
+            return $this->memberManager->getMemberName($member);
+        }
+        return '';
     }
 
     public function getName()

@@ -89,4 +89,11 @@ class MemberManagerTest extends ServiceTest
         $this->assertInternalType("int", $referealsCount);
         $this->assertTrue($referealsCount >= 0);
     }
+    
+    public function testGetMemberName()
+    {
+        $member = $this->instance->getMemberByExternalId('4success.bz@gmail.com');
+        $memberName = $this->instance->getMemberName($member);
+        $this->assertInternalType("string", $memberName);
+    }
 }

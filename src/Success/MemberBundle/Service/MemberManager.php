@@ -9,6 +9,7 @@ use Success\PlaceholderBundle\Entity\BasePlaceholder;
 use Success\MemberBundle\Entity\MemberData;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Success\PlaceholderBundle\Entity\ExternalPlaceholder;
 
 class MemberManager
 {
@@ -49,7 +50,7 @@ class MemberManager
             $member = new Member();
             $sponsor = $this->getMemberByExternalId($sponsorExternalId);
             $member->setExternalId($externalId);
-            $member->setSponsor($sponsor);            
+            $member->setSponsor($sponsor);
             $this->em->persist($member);
             $sponsor->addReferal($sponsor);
             $this->em->flush();
@@ -210,10 +211,43 @@ class MemberManager
      * @param Member $member
      * @return string
      */
-    public function getMemberRepresentiveName(Member $member)
+    public function getMemberName(Member $member)
     {
+        /**
+         * @var $placeholder \Success\PlaceholderBundle\Entity\ExternalPlaceholder
+         */
+        $firstNamePlaceholder =
+            $this->placeholderManager->resolveExternalPlaceholder(self::USER_PLACEHOLDER_TYPE_NAME.'_'.self::MEMBER_FIRSTNAME_PLACEHOLDER);
+        $lastNamePlaceholder =
+            $this->placeholderManager->resolveExternalPlaceholder(self::USER_PLACEHOLDER_TYPE_NAME.'_'.self::MEMBER_LASTNAME_PLACEHOLDER);
+        
+        $firstName = $this->getMemberData($member, $firstNamePlaceholder);
+        $lastName = $this->getMemberData($member, $lastNamePlaceholder);
+        
+        if (strlen($lastName.$firstName) ==  0) {
+            return $member->getExternalId();
+        }
+        return sprintf("%s %s (%s)", $firstName, $lastName, $member->getExternalId());
         
     }
+    
+    /**
+     * @param Member $member
+     * @param ExternalPlaceholder $placeholder
+     * @return MemberData
+     */
+    private function getMemberData(Member $member, ExternalPlaceholder $placeholder)
+    {
+        $repo = $this->em->getRepository('SuccessMemberBundle:MemberData');
+        $memberData = $repo->findOneBy(['member' => $member->getId(), 'placeholder' => $placeholder->getId()]);
+        
+        if (!$memberData) {
+            return '';
+        }
+        
+        return $memberData->getMemberData();
+    }
+    
     
     /**
      * @param Member $sponsor
