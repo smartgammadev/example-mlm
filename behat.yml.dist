@@ -31,7 +31,7 @@ advanced:
 jenkins:
     formatters:
         pretty: [build/logs/behat]
-        junit: [build/logs/behat]
+        progress: [build/logs/behat]
             
 jenkins-advanced:
     filters:
