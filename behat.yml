@@ -29,8 +29,8 @@ advanced:
 
 jenkins:
     formatters:
-        pretty: ~
-        junit: [build/log/behat]
+        #pretty: ~
+        junit: [build/log/behat/]
 
 #build:
 #    output:
