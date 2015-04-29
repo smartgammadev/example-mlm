@@ -29,8 +29,6 @@ advanced:
         name:       progress         
 
 jenkins:
-    filters:
-        tags:       "@basic"    
     formatter:
         name: pretty,junit
         parameters:
