@@ -64,7 +64,7 @@
        
     <target name="behat" description="Run behat test">
         
-        <exec command="${project.dir-bin}/behat --config behat.yml.dist --format junit --out ${project.basedir}/build/log/behat" passthru="true" checkreturn="true" logoutput="true"/>
+        <exec command="${project.dir-bin}/behat --config behat.yml.dist --profile jenkins" passthru="true" checkreturn="true" logoutput="true"/>
     </target>   
 
     <target name="behat-advanced" description="Run behat test with advaned filter">
