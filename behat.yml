@@ -28,12 +28,23 @@ advanced:
         name:       progress         
 
 jenkins:
-    filters:
-        tags:       "@basic"    
-    formatter:
-        name: pretty,junit
-        parameters:
-            output_path: ,build/logs/behat
+    formatters:
+        pretty: [build/logs/behat]
+        junit: [build/logs/behat]
+
+#build:
+#    output:
+#        name: progress,junit,html
+#        parameters:
+#            output_path: ,ci/build/behat/junit,ci/build/behat/index.html
+
+#jenkins:
+#    filters:
+#        tags:       "@basic"    
+#    formatter:
+#        name: pretty,junit
+#        parameters:
+#            output_path: ,build/logs/behat
             
 jenkins-advanced:
     filters:
