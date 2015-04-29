@@ -29,7 +29,7 @@ advanced:
         name:       progress         
 
 jenkins:
-    formatter:
+    output:
         name: pretty,junit
         parameters:
             output_path: ,build/logs/behat
