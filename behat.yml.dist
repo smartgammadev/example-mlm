@@ -29,10 +29,9 @@ advanced:
         name:       progress         
 
 jenkins:
-    output:
-        name: pretty,junit
-        parameters:
-            output_path: ,build/logs/behat
+    formatters:
+        pretty: [build/logs/behat]
+        junit: [build/logs/behat]
             
 jenkins-advanced:
     filters:
