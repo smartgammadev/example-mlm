@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "de4e42e297a52569b38fca72bdcfefd2",
+    "hash": "33751adb61e1e19e7b8348434045427a",
     "packages": [
         {
             "name": "adesigns/calendar-bundle",
@@ -54,16 +54,16 @@
         },
         {
             "name": "behat/behat",
-            "version": "v3.0.15",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/Behat.git",
-                "reference": "b35ae3d45332d80c532af69cc36f780a9397a996"
+                "reference": "d4c821ca70c600ddeb75fcd365e3bd30eaba7194"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Behat/zipball/b35ae3d45332d80c532af69cc36f780a9397a996",
-                "reference": "b35ae3d45332d80c532af69cc36f780a9397a996",
+                "url": "https://api.github.com/repos/Behat/Behat/zipball/d4c821ca70c600ddeb75fcd365e3bd30eaba7194",
+                "reference": "d4c821ca70c600ddeb75fcd365e3bd30eaba7194",
                 "shasum": ""
             },
             "require": {
@@ -131,7 +131,7 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2015-02-22 14:10:33"
+            "time": "2015-04-21 14:59:58"
         },
         {
             "name": "behat/common-contexts",
@@ -5602,7 +5602,7 @@
         "sensio/buzz-bundle": 20,
         "snc/redis-bundle": 20,
         "predis/predis": 20,
-        "behat/behat": 0,
+        "behat/behat": 20,
         "behat/mink": 0,
         "jms/debugging-bundle": 20,
         "doctrine/doctrine-migrations-bundle": 20,

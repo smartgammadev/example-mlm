@@ -51,7 +51,7 @@
         "smart-core/accelerator-cache-bundle": "~1.0"
     },
     "require-dev": {
-        "behat/behat": "@stable",
+        "behat/behat": "dev-master",
         "behat/mink": "@stable",
         "behat/symfony2-extension": "*",
         "behat/mink-extension": "*",

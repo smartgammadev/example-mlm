@@ -12,7 +12,7 @@ use Behat\Gherkin\Node\TableNode;
 /**
  * Features context.
  */
-class FeatureContext extends MinkContext implements SnippetAcceptingContext
+class FeatureContext extends MinkContext
 {
 
     const SONATA_UNIQID = 'behat';
