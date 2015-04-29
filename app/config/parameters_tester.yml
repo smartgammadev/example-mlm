@@ -14,3 +14,7 @@ parameters:
     elastic_host : localhost
     elastic_port : 9200
     domain: success.smart-gamma.com
+    tigerr_api_base_url: https://platform.tigerrr.com/api/v1
+    tigerr_api_key: 42a61d10
+    tigerr_api_signature: c7f6b0204fb17045c02b663b9c809bfa4f5c6f1d
+    
