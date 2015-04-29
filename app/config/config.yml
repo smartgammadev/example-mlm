@@ -108,10 +108,10 @@ sonata_admin:
                     - sonata.admin.webinar_signup                    
                     - sonata.admin.external_placeholder                    
                     - sonata.admin.setting_admin
-            Partners:
+            Партнеры:
                 items:
                     - sonata.admin.member_admin
-            Settings:       
+            Настройка:       
                 items:
                     - sonata.admin.referal_pricing_admin
                     - sonata.admin.product_pricing_admin

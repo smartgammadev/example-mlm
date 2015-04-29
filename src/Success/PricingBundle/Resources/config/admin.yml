@@ -2,7 +2,7 @@ services:
     sonata.admin.referal_pricing_admin:
         class: Success\PricingBundle\Admin\ReferalPricingAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Referal Pricing"}
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Реф. выплаты"}
         arguments:
             - ~
             - Success\PricingBundle\Entity\ReferalPricing
@@ -14,7 +14,7 @@ services:
     sonata.admin.referal_pricing_value_admin:
         class: Success\PricingBundle\Admin\ReferalPricingValueAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Referal Pricing Value"}
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Реферальные выплаты"}
         arguments:
             - ~
             - Success\PricingBundle\Entity\ReferalPricingValue
@@ -23,7 +23,7 @@ services:
     sonata.admin.product_pricing_admin:
         class: Success\PricingBundle\Admin\ProductPricingAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Product Pricing"}
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Пакеты"}
         arguments:
             - ~
             - Success\PricingBundle\Entity\ProductPricing

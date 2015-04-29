@@ -29,3 +29,7 @@ services:
         class: Success\MemberBundle\Security\MemberProvider
         calls:
              - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+             
+    success.member.tigerr_helper:
+        class: Success\MemberBundle\Service\TigerrApiHelper
+        arguments: [%tigerr_api_base_url%, %tigerr_api_key%, %tigerr_api_signature%]
