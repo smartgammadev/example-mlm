@@ -30,8 +30,8 @@ advanced:
 
 jenkins:
     formatters:
-        pretty: [build/logs/behat]
-        progress: [build/logs/behat]
+        pretty: ~
+        junit: [build/log/behat]
             
 jenkins-advanced:
     filters:
