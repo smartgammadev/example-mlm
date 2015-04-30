@@ -37,7 +37,6 @@ class ProductPricingManagerTest extends ServiceTest
         $this->assertNull($productPricing);
     }
     
-    
     public function testAssignProductPricingToMember()
     {
         $productPricing = $this->instance->getActiveProductPricingByName('V.I.P.');

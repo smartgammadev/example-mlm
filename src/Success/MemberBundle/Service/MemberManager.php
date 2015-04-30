@@ -273,4 +273,20 @@ class MemberManager
         $result = $memberRepo->children($sponsor);
         return $result;
     }
+
+    /**
+     * @param Member $member
+     * @param type $level
+     * @return Member
+     */
+    public function getMemberSponsorOfLevel(Member $member, $level)
+    {
+        if ($member->getSponsor() == null) {
+            return null;
+        }
+        if ($level == 0) {
+            return $member->getSponsor();
+        }
+        return $this->getMemberSponsorOfLevel($member->getSponsor(), $level - 1);
+    }
 }

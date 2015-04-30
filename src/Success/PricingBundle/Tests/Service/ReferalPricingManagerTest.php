@@ -10,12 +10,16 @@ class ReferalPricingManangerTest extends ServiceTest
      * @var mixed $instance
      */
     protected $targetClassName = 'Success\PricingBundle\Service\ReferalPricingManager';
+    
+    /* @var $memberManager \Success\MemberBundle\Service\MemberManager */
+    private $memberManager;
                                   
     
     protected function setUp()
     {
         parent::setUp();
         $this->instance->setEntityManager($this->container->get('doctrine.orm.entity_manager'));
+        $this->memberManager = $this->container->get('success.member.member_manager');
     }
     
     public function testCopyReferalPricingFromCurrent()
@@ -56,5 +60,14 @@ class ReferalPricingManangerTest extends ServiceTest
         
         $newLevels = $result->getPricingValues()->count();
         $this->assertEquals($oldLevels - 2, $newLevels);
+    }
+    
+    public function testProcessReferalPricingForMember()
+    {
+        $this->memberManager->resolveMemberByExternalId('fake_mail@fake_domain.fake', '4success.bz@gmail.com');
+        $this->memberManager->resolveMemberByExternalId('fake_mail1@fake_domain.fake1', 'fake_mail@fake_domain.fake');
+        $member = $this->memberManager->resolveMemberByExternalId('fake_mail2@fake_domain.fake2', 'fake_mail1@fake_domain.fake1');
+        
+        $this->instance->processReferalPricingForMember($member, 90);
     }
 }

@@ -3,6 +3,7 @@ namespace Success\PricingBundle\Service;
 
 use Success\PricingBundle\Entity\ReferalPricing;
 use Success\PricingBundle\Entity\ReferalPricingValue;
+use Success\MemberBundle\Entity\Member;
 
 class ReferalPricingManager
 {
@@ -12,7 +13,9 @@ class ReferalPricingManager
 
 
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
-
+    use \Success\TreasureBundle\Traits\SetAccountManagerTrait;
+    use \Success\MemberBundle\Traits\SetMemberManagerTrait;
+    
     /**
      * @param type $name
      * @param type $levelsUp
@@ -102,5 +105,31 @@ class ReferalPricingManager
         }
         $this->em->flush();
         return $referalPricing;
+    }
+    
+    /**
+     * @param Member $member
+     * @param decimal $baseValue
+     */
+    public function processReferalPricingForMember(Member $member, $baseValue)
+    {
+        $referalPricing = $this->getCurrentReferalPricing();
+        foreach ($referalPricing->getPricingValues() as $pricingValue) {
+            $profitAmount = $this->calculateReferalPricingProfit(
+                $pricingValue->getIsAbsoluteValue(),
+                $pricingValue->getProfitValue(),
+                $baseValue
+            );
+            $sponsor = $this->memberManager->getMemberSponsorOfLevel($member, $pricingValue->getLevel());
+            $this->accountManager->doAccountOperation($sponsor, $profitAmount, 'referal');
+        }
+    }
+    
+    private function calculateReferalPricingProfit($isAbsolute, $profitValue, $base)
+    {
+        if ($isAbsolute) {
+            return $profitValue;
+        }
+        return ($base/100)*$profitValue;
     }
 }

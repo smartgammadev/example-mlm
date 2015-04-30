@@ -8,6 +8,7 @@ use Success\PricingBundle\Entity\ProductPricingMember;
 class ProductPricingManager
 {
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
+    use \Success\TreasureBundle\Traits\SetAccountManagerTrait;
     
     /**
      * @param ProductPricing $productPricing
@@ -16,19 +17,30 @@ class ProductPricingManager
      */
     public function assignProductPricingToMember(ProductPricing $productPricing, Member $member)
     {
-        if ($productPricing->getIsActive()) {
-            $assignDate = new \DateTime();
-            $newProductPricingMember = new ProductPricingMember();
-            $newProductPricingMember->setAssignDate($assignDate);
-            $newProductPricingMember->setMember($member);
-            $newProductPricingMember->setProductPricing($productPricing);
-            $newProductPricingMember->setPricePaid($productPricing->getProductPrice());
-            $this->em->persist($newProductPricingMember);
-            $this->em->flush();
-
-            return $newProductPricingMember;
+        if (!$productPricing->getIsActive()) {
+            return null;
         }
-        return null;
+        $assignDate = new \DateTime();
+        $newProductPricingMember = new ProductPricingMember();
+        $newProductPricingMember->setAssignDate($assignDate);
+        $newProductPricingMember->setMember($member);
+        $newProductPricingMember->setProductPricing($productPricing);
+        $newProductPricingMember->setPricePaid($productPricing->getProductPrice());
+        $this->em->persist($newProductPricingMember);
+        
+        $this->processProductPricing($productPricing, $member);
+        
+        $this->em->flush();
+        return $newProductPricingMember;
+    }
+    
+    /**
+     * @param ProductPricing $productPricing
+     * @param Member $member
+     */
+    public function processProductPricing(ProductPricing $productPricing, Member $member)
+    {
+        $this->accountMananger->doAccountOperation($member, -1 * $productPricing->getProductPrice(), "product bying {$productPricing->getProductName()}");
     }
     
     /**
