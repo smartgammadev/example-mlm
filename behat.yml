@@ -15,22 +15,23 @@ default:
             
             selenium2: ~
 
-basic:
-    filters:
-        tags:       "@basic"
-    formatter:
-        name:       pretty
-
-advanced:
-    filters:
-        tags:       "@advanced"
-    formatter:
-        name:       progress         
+#basic:
+#    filters:
+#        tags:       "@basic"
+#    formatter:
+#        name:       pretty
+#
+#advanced:
+#    filters:
+#        tags:       "@advanced"
+#    formatter:
+#        name:       progress         
 
 jenkins:
     formatters:
-        #pretty: ~
-        junit: [build/log/behat/]
+        junit: [build/logs/behat/]
+        pretty: ~
+        progress: ~
 
 #build:
 #    output:
@@ -46,10 +47,10 @@ jenkins:
 #        parameters:
 #            output_path: ,build/logs/behat
             
-jenkins-advanced:
-    filters:
-        tags:       "@advanced"    
-    formatter:
-        name: pretty,junit
-        parameters:
-            output_path: ,build/logs/behat  
+#jenkins-advanced:
+#    filters:
+#        tags:       "@advanced"    
+#    formatter:
+#        name: pretty,junit
+#        parameters:
+#            output_path: ,build/logs/behat  

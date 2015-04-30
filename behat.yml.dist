@@ -30,13 +30,15 @@ advanced:
 
 jenkins:
     formatters:
-        #pretty: ~
-        junit: [build/log/behat/]
+        junit: [build/logs/behat/]
+        pretty: ~
+        progress: ~
+        
             
-jenkins-advanced:
-    filters:
-        tags:       "@advanced"    
-    formatter:
-        name: pretty,junit
-        parameters:
-            output_path: ,build/logs/behat  
+#jenkins-advanced:
+#    filters:
+#        tags:       "@advanced"    
+#    formatter:
+#        name: pretty,junit
+#        parameters:
+#            output_path: ,build/logs/behat  
