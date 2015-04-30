@@ -19,7 +19,7 @@ class MemberSponsorUpdateCommand extends ContainerAwareCommand
                 ->addArgument(
                     'email',
                     InputArgument::OPTIONAL,
-                    'Who do you want to greet?'
+                    'For which member update sponsor'
                 )
         ;
     }
@@ -27,20 +27,22 @@ class MemberSponsorUpdateCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $memberEmail = $input->getArgument('email');
-        
+        $this->updateSponsorForMemberFromAPI($memberEmail);
+    }
+
+    private function updateSponsorForMemberFromAPI($memberEmail)
+    {
         /* @var $memberManager \Success\MemberBundle\Service\MemberManager */
         $memberManager = $this->getContainer()->get('success.member.member_manager');
         /* @var $tigerrHelper \Success\MemberBundle\Service\TigerrApiHelper */
         $tigerrHelper = $this->getContainer()->get('success.member.tigerr_helper');
-        
-        
-        
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+
         $member = $memberManager->getMemberByExternalId($memberEmail);
         $sponsorEmail = $tigerrHelper->getSponsorEmail($memberEmail);
         $sponsor = $memberManager->getMemberByExternalId($sponsorEmail);
         $member->setSponsor($sponsor);
-        
+
         $em->flush();
     }
 }
