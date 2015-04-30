@@ -30,8 +30,6 @@ default:
 jenkins:
     formatters:
         junit: [build/logs/behat/]
-        pretty: ~
-        progress: ~
 
 #build:
 #    output:
