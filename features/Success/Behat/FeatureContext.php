@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Behat\Gherkin\Node\TableNode;
 use Guzzle\Http\QueryString;
-
+use Behat\Mink\Exception\UnsupportedDriverActionException;
 /**
  * Features context.
  */
