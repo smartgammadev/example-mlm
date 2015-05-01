@@ -11,7 +11,8 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Behat\Gherkin\Node\TableNode;
 use Guzzle\Http\QueryString;
-use Behat\Mink\Exception\UnsupportedDriverActionException;
+
+
 /**
  * Features context.
  */
@@ -90,33 +91,6 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     {
         $this->getSession()->wait(3000);
     }
-    
-    /**
-     * Take screenshot when step fails.
-     * Works only with Selenium2Driver.
-     *
-     *  @AfterStep
-     */
-    public function takeScreenshotAfterFailedStep($event)
-    {
-        if (4 === $event->getResult()) {
-            $driver = $this->getSession()->getDriver();
-            if ($driver instanceof KernelDriver) {
-                return;
-            }
-            if (!($driver instanceof Selenium2Driver)) {
-                throw new UnsupportedDriverActionException('Taking screenshots is not supported by %s, use Selenium2Driver instead.', $driver);
-
-                return;
-            }
-            $directory = 'build/behat/' . $event->getLogicalParent()->getFeature()->getTitle() . '.' . $event->getLogicalParent()->getTitle();
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
-            }
-            $filename = sprintf('%s_%s_%s.%s', $this->getMinkParameter('browser_name'), date('c'), uniqid('', true), 'png');
-            file_put_contents($directory . '/' . $filename, $driver->getScreenshot());
-        }
-    }    
 
     /**
      * @When /^I click "([^"]*)"$/
