@@ -2,7 +2,8 @@
 
 namespace Success\MemberBundle\Service;
 
-use GuzzleHttp\Client;
+use Guzzle\Http\Client;
+use Guzzle\Http\QueryString;
 
 class TigerrApiHelper
 {
@@ -24,10 +25,9 @@ class TigerrApiHelper
      */
     private function doGetApiRequest($endPoint, $query)
     {
-        $request = $this->client->createRequest("GET", $this->apiBaseUrl.$endPoint);
-        $request->setQuery($query);
-        
-        $result = $this->client->send($request)->getBody()->getContents();
+        $qeryString = new QueryString($query);
+        $request = $this->client->createRequest("GET", $this->apiBaseUrl.$endPoint.'?'.$qeryString->__toString());
+        $result = $this->client->send($request)->json();
         return $result;
     }
     
@@ -37,9 +37,9 @@ class TigerrApiHelper
      */
     public function getSponsorEmail($memberEmail)
     {
-        $response = json_decode($this->doGetApiRequest(self::PARTNER_INFO_ENDPOINT, ['email' => $memberEmail]));
-        if (isset($response->sponsor_email)) {
-            return $response->sponsor_email;
+        $response = $this->doGetApiRequest(self::PARTNER_INFO_ENDPOINT, ['email' => $memberEmail]);
+        if (isset($response['sponsor_email'])) {
+            return $response['sponsor_email'];
         }
         return null;
     }

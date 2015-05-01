@@ -5,6 +5,8 @@ namespace Success\Behat;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Mink\Exception\ExpectationException;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Symfony2Extension\Context\KernelAwareInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Behat\Gherkin\Node\TableNode;
@@ -12,27 +14,71 @@ use Behat\Gherkin\Node\TableNode;
 /**
  * Features context.
  */
-class FeatureContext extends MinkContext
+class FeatureContext extends MinkContext implements KernelAwareInterface
 {
 
     const SONATA_UNIQID = 'behat';
     const ROLE_SPONSOR = 'ROLE_4SUCCESS_SPONSOR';
     const ROLE_USER = 'ROLE_4SUCCESS_USER';
 
-    /**
-     * @var \Doctrine\ORM\EntityManager $em
-     */
-    private $em;
+    /* @var $kernel \Symfony\Component\HttpKernel\Kernel */
+
+    private $kernel;
 
     /**
-     * @var \Symfony\Component\Security\Core\SecurityContext $securityContext
+     * Sets HttpKernel instance.
+     * This method will be automatically called by Symfony2Extension ContextInitializer.
+     *
+     * @param KernelInterface $kernel
      */
-    private $securityContext;
-
-    public function __construct(Kernel $kernel)
+    public function setKernel(KernelInterface $kernel)
     {
-        $this->em = $kernel->getContainer()->get('doctrine.orm.entity_manager');
-        $this->securityContext = $kernel->getContainer()->get('security.context');
+        $this->kernel = $kernel;
+    }
+
+    /**
+     * Get repository by name.
+     * @param string $resource
+     * @return RepositoryInterface
+     */
+    public function getRepository($resource)
+    {
+        return $this->getEntityManager()->getRepository($resource);
+    }
+
+    /**
+     * Get entity manager.
+     *
+     * @return \Doctrine\ORM\EntityManager
+     */
+    public function getEntityManager()
+    {
+        return $this->getService('doctrine')->getManager();
+    }
+    
+    public function getSecurityContext()
+    {
+        return $this->getService('security.context');
+    }
+
+    /**
+     * Returns Container instance.
+     *
+     * @return ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->kernel->getContainer();
+    }
+
+    /**
+     * Get service by id.
+     * @param string $id
+     * @return object
+     */
+    public function getService($id)
+    {
+        return $this->getContainer()->get($id);
     }
 
     /**
@@ -44,7 +90,7 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @When I click :arg1
+     * @When /^I click "([^"]*)"$/
      */
     public function iClick($selector)
     {
@@ -75,22 +121,22 @@ class FeatureContext extends MinkContext
      */
     public function thereIsNoEventsInDb()
     {
-        $signUps = $this->em->getRepository('Success\EventBundle\Entity\EventSignUp')->findAll();
-        $events = $this->em->getRepository('Success\EventBundle\Entity\BaseEvent')->findAll();
-        $eventRepeats = $this->em->getRepository('Success\EventBundle\Entity\EventRepeat')->findAll();
+        $signUps = $this->getRepository('Success\EventBundle\Entity\EventSignUp')->findAll();
+        $events = $this->getRepository('Success\EventBundle\Entity\BaseEvent')->findAll();
+        $eventRepeats = $this->getRepository('Success\EventBundle\Entity\EventRepeat')->findAll();
 
         foreach ($eventRepeats as $eventRepeat) {
-            $this->em->remove($eventRepeat);
+            $this->getEntityManager()->remove($eventRepeat);
         }
 
         foreach ($signUps as $signUp) {
-            $this->em->remove($signUp);
+            $this->getEntityManager()->remove($signUp);
         }
 
         foreach ($events as $event) {
-            $this->em->remove($event);
+            $this->getEntityManager()->remove($event);
         }
-        $this->em->flush();
+        $this->getEntityManager()->flush();
     }
 
     /**
@@ -118,7 +164,7 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then I fill :arg1 with current date plus :arg2 minutes
+     * @Given /^I fill "([^"]*)" with current date plus "([^"]*)" minutes$/
      */
     public function iFillWithCurrentDatePlusMinutes($filedName, $minutes)
     {
@@ -128,7 +174,7 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then I fill :arg1 with :arg2
+     * @Given /^I fill "([^"]*)" with "([^"]*)"$/
      */
     public function iFillWith($filedName, $value)
     {
@@ -136,7 +182,7 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then I select :arg1 in :arg2
+     * @Then /^I select "([^"]*)" in "([^"]*)"$/
      */
     public function iSelectIn($value, $filedName)
     {
@@ -144,7 +190,7 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @When I go to :arg1 with :arg2 placeholders
+     * @When /^I go to "([^"]*)" with "([^"]*)" placeholders$/
      */
     public function iGoToWithPlaceholders($url, $placeholders)
     {
@@ -160,7 +206,7 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then I fill :arg1 with current date plus :arg2 days
+     * @Then /^I fill "([^"]*)" with current date plus "([^"]*)" days$/
      */
     public function iFillWithCurrentDatePlusDays($filedName, $days)
     {
@@ -170,7 +216,7 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then I check :arg1 iCheckbox
+     * @Given /^I check "([^"]*)" iCheckbox$/
      */
     public function iCheckIcheckbox($iCheckId)
     {
@@ -180,11 +226,11 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then I should have member with id :arg1
+     * @Then /^I should have member with id "([^"]*)"$/
      */
     public function iShouldHaveMemberWithId($memberId)
     {
-        $membersCount = $this->em->createQuery('select count(m) from SuccessMemberBundle:Member m where m.externalId=:external_id')
+        $membersCount = $this->getEntityManager()->createQuery('select count(m) from SuccessMemberBundle:Member m where m.externalId=:external_id')
                 ->setParameter('external_id', $memberId)
                 ->getSingleScalarResult();
         if ($membersCount == 0) {
@@ -194,11 +240,11 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then I should have :arg2 email notification to :arg1
+     * @Then /^I should have (\d+) email notification to "([^"]*)"$/
      */
     public function iShouldHaveEmailNotificationTo($count, $destination)
     {
-        $notificationsCount = $this->em
+        $notificationsCount = $this->getEntityManager()
                 ->createQuery('select count(n) from SuccessNotificationBundle:EmailNotification n where n.destination=:destination')
                 ->setParameter('destination', $destination)
                 ->getSingleScalarResult();
@@ -210,11 +256,11 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then I should have :arg2 SMS notification to :arg1
+     * @Then /^I should have (\d+) SMS notification to "([^"]*)"$/
      */
     public function iShouldHaveSmsNotificationTo($count, $destination)
     {
-        $notificationsCount = $this->em
+        $notificationsCount = $this->getEntityManager()
                 ->createQuery('select count(n) from SuccessNotificationBundle:SMSNotification n where n.destination=:destination')
                 ->setParameter('destination', $destination)
                 ->getSingleScalarResult();
@@ -226,7 +272,7 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then I should see :arg1 button enabled
+     * @Then /^I should see "([^"]*)" button enabled$/
      */
     public function iShouldSeeButtonEnabled($buttonName)
     {
@@ -243,7 +289,7 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then I should see :arg1 button disabled
+     * @Given /^I should see "([^"]*)" button disabled$/
      */
     public function iShouldSeeButtonDisabled($buttonName)
     {
@@ -264,13 +310,13 @@ class FeatureContext extends MinkContext
      */
     public function theFollowingEventsExist(TableNode $table)
     {
-        $eventRepo = $this->em->getRepository('SuccessEventBundle:WebinarEvent');
+        $eventRepo = $this->getRepository('SuccessEventBundle:WebinarEvent');
         $webinarEvents = $eventRepo->findAll();
         foreach ($webinarEvents as $event) {
-            $this->em->remove($event);
+            $this->getEntityManager()->remove($event);
         }
-        $accessTypeRepo = $this->em->getRepository('SuccessEventBundle:EventAccessType');
-        $eventTypeRepo = $this->em->getRepository('SuccessEventBundle:EventType');
+        $accessTypeRepo = $this->getRepository('SuccessEventBundle:EventAccessType');
+        $eventTypeRepo = $this->getRepository('SuccessEventBundle:EventType');
 
         $hash = $table->getHash();
         foreach ($hash as $row) {
@@ -288,9 +334,9 @@ class FeatureContext extends MinkContext
             $event->setAccessType($accessType);
             $event->setEventType($eventType);
             $event->setUrl('http://www.url.com');
-            $this->em->persist($event);
+            $this->getEntityManager()->persist($event);
         }
-        $this->em->flush();
+        $this->getEntityManager()->flush();
     }
 
     /**
@@ -298,15 +344,15 @@ class FeatureContext extends MinkContext
      */
     public function iAmNotLogged()
     {
-        $this->securityContext->setToken(new AnonymousToken('user', 'anon.', []));
+        $this->getSecurityContext()->setToken(new AnonymousToken('user', 'anon.', []));
     }
 
     /**
-     * @Then member :arg1 should be sponsor
+     * @Given /^member "([^"]*)" should be sponsor$/
      */
     public function memberShouldBeSponsor($memberExternalId)
     {
-        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $memberRepo = $this->getRepository('SuccessMemberBundle:Member');
         $member = $memberRepo->findOneBy(['externalId' => $memberExternalId]);
         $roles = $member->getRoles();
         if ($roles[0] != self::ROLE_SPONSOR) {
@@ -318,30 +364,27 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then member :arg1 should be user
+     * @Given /^member "([^"]*)" should be user$/
      */
     public function memberShouldBeUser($memberExternalId)
     {
-        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $memberRepo = $this->getRepository('SuccessMemberBundle:Member');
         $member = $memberRepo->findOneBy(['externalId' => $memberExternalId]);
         $roles = $member->getRoles();
         if ($roles[0] != self::ROLE_USER) {
             $message = sprintf(
-                'Role of "%s" member should be "%s", but it is "%s"',
-                $memberExternalId,
-                self::ROLE_USER,
-                $roles[0]
+                    'Role of "%s" member should be "%s", but it is "%s"', $memberExternalId, self::ROLE_USER, $roles[0]
             );
             throw new ExpectationException($message, $this->getSession());
         }
     }
 
     /**
-     * @Then sponsor of :arg1 member should be :arg2
+     * @Given /^sponsor of "([^"]*)" member should be "([^"]*)"$/
      */
     public function sponsorOfMemberShouldBe($userExternalId, $sponsorExternalId)
     {
-        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $memberRepo = $this->getRepository('SuccessMemberBundle:Member');
         $userMember = $memberRepo->findOneBy(['externalId' => $userExternalId]);
         if ($userMember->getSponsor()->getExternalId() != $sponsorExternalId) {
             $message = sprintf(
@@ -352,11 +395,11 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then sponsor :arg1 should have :arg2 referals
+     * @Given /^sponsor "([^"]*)" should have (\d+) referals$/
      */
     public function sponsorShouldHaveReferals($sponsorExternalId, $referalsCount)
     {
-        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $memberRepo = $this->getRepository('SuccessMemberBundle:Member');
         $sponsor = $memberRepo->findOneBy(['externalId' => $sponsorExternalId]);
         $childCount = $memberRepo->childCount($sponsor);
 
@@ -373,14 +416,15 @@ class FeatureContext extends MinkContext
      */
     public function thereIsNoNewMembersInDb()
     {
-        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $memberRepo = $this->getRepository('SuccessMemberBundle:Member');
         $members = $memberRepo->findAll();
 
         foreach ($members as $member) {
             if ($member->getExternalId() != '4success.bz@gmail.com') {
-                $this->em->remove($member);
+                $this->getEntityManager()->remove($member);
             }
         }
-        $this->em->flush();
+        $this->getEntityManager()->flush();
     }
+
 }

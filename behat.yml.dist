@@ -1,21 +1,31 @@
-default:
-    suites:
-        default:
-            contexts:
-                - Success\Behat\FeatureContext:
-                    kernel:   '@kernel'
+#default:
+#    extensions:
+#        Behat\Symfony2Extension\Extension:
+#            mink_driver: true
+#        
+#        Behat\MinkExtension\Extension:            
+#            base_url: http://success.smart-gamma.com
+#            selenium2: ~
+#            goutte: ~
 
+default:
+    paths:
+        features: features
+    context:
+        class: Success\Behat\FeatureContext
+        parameters:
+            base_url: http://success.smart-gamma.com
+            timeout: 20
+        
     extensions:
-        Behat\Symfony2Extension: 
-        Behat\MinkExtension:
+        Behat\Symfony2Extension\Extension:
+            mink_driver: true
+        Behat\MinkExtension\Extension:
             base_url: http://success.smart-gamma.com
             default_session: selenium2
             browser_name: 'firefox'
             selenium2:
-                capabilities: { "browser": "firefox", "version": "33.0"}
-            
-            selenium2: ~
-
+              capabilities: { "browser": "firefox", "version": "33.0"}
 basic:
     filters:
         tags:       "@basic"
@@ -29,13 +39,17 @@ advanced:
         name:       progress         
 
 jenkins:
-    formatters:
-        junit: [build/logs/behat/]
+    filters:
+        tags:       "@basic"    
+    formatter:
+        name: pretty,junit
+        parameters:
+            output_path: ,build/logs/behat
             
-#jenkins-advanced:
-#    filters:
-#        tags:       "@advanced"    
-#    formatter:
-#        name: pretty,junit
-#        parameters:
-#            output_path: ,build/logs/behat  
+jenkins-advanced:
+    filters:
+        tags:       "@advanced"    
+    formatter:
+        name: pretty,junit
+        parameters:
+            output_path: ,build/logs/behat  
