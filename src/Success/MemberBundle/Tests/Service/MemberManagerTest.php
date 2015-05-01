@@ -97,21 +97,52 @@ class MemberManagerTest extends ServiceTest
         $this->assertInternalType("string", $memberName);
     }
 
+    public function testGetMemberSponsorOfLevel0Null()
+    {
+        $member = $this->instance->getMemberByExternalId('4success.bz@gmail.com');
+        $sponsor = $this->instance->getMemberSponsorOfLevel($member, 0);
+        $this->assertNull($sponsor);
+    }
+
+    public function testGetMemberSponsorOfLevel3Null()
+    {
+        $member = $this->instance->getMemberByExternalId('4success.bz@gmail.com');
+        $sponsor = $this->instance->getMemberSponsorOfLevel($member, 3);
+        $this->assertNull($sponsor);
+    }
+    
+    public function testGetMemberSponsorOfLevel10Null()
+    {
+        $member = $this->instance->getMemberByExternalId('user_2-1@fake.domain');
+        $sponsor = $this->instance->getMemberSponsorOfLevel($member, 10);
+        $this->assertNull($sponsor);
+    }    
+    
     public function testGetMemberSponsorOfLevel0()
     {
-        $member = $this->instance->resolveMemberByExternalId('fake_mail@fake_domain.fake', '4success.bz@gmail.com');
+        $member = $this->instance->getMemberByExternalId('user_2-1@fake.domain');
         $sponsor = $this->instance->getMemberSponsorOfLevel($member, 0);
+        
         $this->assertNotNull($sponsor);
         $this->assertInstanceOf('Success\MemberBundle\Entity\Member', $sponsor);
-        $this->assertEquals($sponsor->getExternalId(), '4success.bz@gmail.com');
-    }
+        $this->assertEquals($sponsor->getExternalId(), 'user_1-1@fake.domain');
+    }    
 
     public function testGetMemberSponsorOfLevel1()
     {
-        $member = $this->instance->resolveMemberByExternalId('fake_mail1@fake_domain1.fake1', 'fake_mail@fake_domain.fake');
+        $member = $this->instance->getMemberByExternalId('user_2-1@fake.domain');
         $sponsor = $this->instance->getMemberSponsorOfLevel($member, 1);
         $this->assertNotNull($sponsor);
         $this->assertInstanceOf('Success\MemberBundle\Entity\Member', $sponsor);
         $this->assertEquals($sponsor->getExternalId(), '4success.bz@gmail.com');
     }
+    
+    public function testGetMemberSponsorOfLevel2()
+    {
+        $member = $this->instance->getMemberByExternalId('user_3-1@fake.domain');
+        $sponsor = $this->instance->getMemberSponsorOfLevel($member, 2);
+        $this->assertNotNull($sponsor);
+        $this->assertInstanceOf('Success\MemberBundle\Entity\Member', $sponsor);
+        $this->assertEquals($sponsor->getExternalId(), '4success.bz@gmail.com');
+    }    
 }

@@ -24,34 +24,67 @@ class ProductPricingManagerTest extends ServiceTest
         $this->memberManager = $this->container->get('success.member.member_manager');
     }
     
-    public function testGetActiveProductPricingByName()
+    public function testGetActiveByName()
     {
-        $productPricing = $this->instance->getActiveProductPricingByName('V.I.P.');
+        $productPricing = $this->instance->getActiveByName('V.I.P.');
         $this->assertNotNull($productPricing);
         $this->assertInstanceOf('Success\PricingBundle\Entity\ProductPricing', $productPricing);
         $this->assertEquals('V.I.P.', $productPricing->getProductName());
         $this->assertTrue($productPricing->getIsActive());
     }
 
-    public function testGetNotFoundProductPricingByName()
+    public function testGetNotFoundByName()
     {
-        $productPricing = $this->instance->getActiveProductPricingByName('not_existing_pricing');
+        $productPricing = $this->instance->getActiveByName('not_existing_pricing');
         $this->assertNull($productPricing);
     }
     
-    public function testAssignProductPricingToMember()
+
+    public function testGetActivePricings()
     {
-        $productPricing = $this->instance->getActiveProductPricingByName('V.I.P.');
+        $result = $this->instance->getActivePricings();
+        $this->assertNotNull($result);
+        $this->assertInternalType('array', $result);
+        $this->assertEquals(3, count($result));
+        
+        $first = $result[0];
+        $this->assertInstanceOf('Success\PricingBundle\Entity\ProductPricing',$first);
+    }
+       
+    public function testCheckIfCanBeAssignedToMemberTrue()
+    {
         $member = $this->memberManager->getMemberByExternalId('4success.bz@gmail.com');
-        $result = $this->instance->assignProductPricingToMember($productPricing, $member);
+        $productPricing = $this->instance->getActiveByName('V.I.P.');
+        $result = $this->instance->checkIfCanBeAssignedToMember($productPricing, $member);
+        $this->assertNotNull($result);
+        $this->assertTrue($result);
+    }
+
+    public function testCheckIfCanBeAssignedToMemberFalse()
+    {
+        $member = $this->memberManager->getMemberByExternalId('user_1-3@fake.domain');
+        $productPricing = $this->instance->getActiveByName('V.I.P.');
+        try {
+            $result = $this->instance->checkIfCanBeAssignedToMember($productPricing, $member);
+        } catch (\Exception $ex) {
+            $this->assertFalse(isset($result));
+            $this->assertInstanceOf('Success\TreasureBundle\Exception\NotEnoughAmountException', $ex);
+        }
+    }
+    
+    public function testProcessForMember()
+    {
+        $productPricing = $this->instance->getActiveByName('V.I.P.');
+        $member = $this->memberManager->getMemberByExternalId('4success.bz@gmail.com');
+        $result = $this->instance->processForMember($productPricing, $member);
         $this->assertNotNull($result);
         $this->assertInstanceOf('Success\PricingBundle\Entity\ProductPricingMember', $result);
     }
     
-    public function testGetCurrentProductPricingForMember()
+    public function testGetCurrentForMember()
     {
         $member = $this->memberManager->getMemberByExternalId('4success.bz@gmail.com');
-        $result = $this->instance->getCurrentProductPricingForMember($member);
+        $result = $this->instance->getCurrentForMember($member);
         $this->assertNotNull($result);
         $this->assertInstanceOf('Success\PricingBundle\Entity\ProductPricingMember', $result);
     }

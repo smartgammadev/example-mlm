@@ -1,6 +1,6 @@
 <?php
 
-namespace Success\EventBundle\DataFixtures\ORM;
+namespace Success\PricingBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -51,6 +51,6 @@ class LoadProductPricingData extends AbstractFixture implements OrderedFixtureIn
      */
     public function getOrder()
     {
-        return 2;
+        return 20;
     }
 }
