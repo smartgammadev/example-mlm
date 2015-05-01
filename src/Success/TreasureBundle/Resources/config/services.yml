@@ -1,5 +1,5 @@
 services:
     success.treasure.account_manager:
-        class: Success\TreasureBundle\Service\AccountMananger
+        class: Success\TreasureBundle\Service\AccountManager
         calls:
             - [setEntityManager, ['@doctrine.orm.entity_manager']]

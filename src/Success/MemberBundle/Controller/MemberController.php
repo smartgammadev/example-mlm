@@ -29,13 +29,13 @@ class MemberController extends Controller
     private $memberLoginManager;
     
     /**
-     * @var \Success\TreasureBundle\Service\AccountMananger $accountManager
+     * @var \Success\TreasureBundle\Service\AccountManager $accountManager
      * @DI\Inject("success.treasure.account_manager")
      */
     private $accountManager;
 
     /**
-     * @var \Success\PricingBundle\Service\ProductPricingMananger $productPricingManager
+     * @var \Success\PricingBundle\Service\ProductPricingManager $productPricingManager
      * @DI\Inject("success.pricing.product_pricing_manager")
      */
     private $productPricingManager;

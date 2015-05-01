@@ -1,7 +1,14 @@
 imports:
     - { resource: admin.yml }
 
-services:
+services:            
+    success.pricing.product_pricing_manager:
+        class: Success\PricingBundle\Service\ProductPricingManager
+        calls:
+            - [setEntityManager, ['@doctrine.orm.entity_manager']]            
+            - [setAccountManager, ['@success.treasure.account_manager']]
+            - [setMemberManager, ['@success.member.member_manager']]
+            
     success.pricing.referal_pricing_manager:
         class: Success\PricingBundle\Service\ReferalPricingManager
         calls:
@@ -9,8 +16,3 @@ services:
             - [setAccountManager, ['@success.treasure.account_manager']]
             - [setMemberManager, ['@success.member.member_manager']]
             
-    success.pricing.product_pricing_manager:
-        class: Success\PricingBundle\Service\ProductPricingManager
-        calls:
-            - [setEntityManager, ['@doctrine.orm.entity_manager']]            
-            - [setAccountManager, ['@success.treasure.account_manager']]

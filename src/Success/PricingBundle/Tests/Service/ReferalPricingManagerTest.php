@@ -19,6 +19,8 @@ class ReferalPricingManangerTest extends ServiceTest
     {
         parent::setUp();
         $this->instance->setEntityManager($this->container->get('doctrine.orm.entity_manager'));
+        $this->instance->setAccountManager($this->container->get('success.treasure.account_manager'));
+        $this->instance->setMemberManager($this->container->get('success.member.member_manager'));        
         $this->memberManager = $this->container->get('success.member.member_manager');
     }
     
@@ -64,10 +66,9 @@ class ReferalPricingManangerTest extends ServiceTest
     
     public function testProcessReferalPricingForMember()
     {
-        $this->memberManager->resolveMemberByExternalId('fake_mail@fake_domain.fake', '4success.bz@gmail.com');
-        $this->memberManager->resolveMemberByExternalId('fake_mail1@fake_domain.fake1', 'fake_mail@fake_domain.fake');
-        $member = $this->memberManager->resolveMemberByExternalId('fake_mail2@fake_domain.fake2', 'fake_mail1@fake_domain.fake1');
-        
+        $this->memberManager->resolveMemberByExternalId('fake_1@fake_domain.fake', '4success.bz@gmail.com');
+        $this->memberManager->resolveMemberByExternalId('fake_2@fake_domain.fake', 'fake_1@fake_domain.fake');
+        $member = $this->memberManager->resolveMemberByExternalId('fake_3@fake_domain.fake', 'fake_2@fake_domain.fake');
         $this->instance->processReferalPricingForMember($member, 90);
     }
 }

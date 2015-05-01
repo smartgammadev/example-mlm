@@ -3,14 +3,14 @@ namespace Success\TreasureBundle\Tests\Services;
 
 use Gamma\PhpUnit\Tester\Test\ServiceTest;
 
-class AccountManangerTest extends ServiceTest
+class AccountManagerTest extends ServiceTest
 {
     
     /**
      * Target class name for the instance creation
      * @var mixed $instance
      */
-    protected $targetClassName = 'Success\TreasureBundle\Service\AccountMananger';
+    protected $targetClassName = 'Success\TreasureBundle\Service\AccountManager';
     
     protected function setUp()
     {
@@ -41,10 +41,8 @@ class AccountManangerTest extends ServiceTest
     
     private function getSponsorMember()
     {
-        /**
-         * @var Success\MemberBundle\Service\MemberManager $memberManager
-         */
+        /* @var $memberManager \Success\MemberBundle\Service\MemberManager */
         $memberManager = $this->container->get('success.member.member_manager');
-        return $memberManager->getMemberByExternalId('4success.bz@gmail.com');
+        return $memberManager->resolveMemberByExternalId('test_accoun@domain.fake', '4success.bz@gmail.com');
     }
 }

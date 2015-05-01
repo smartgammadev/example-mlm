@@ -9,7 +9,8 @@ class ProductPricingManager
 {
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
     use \Success\TreasureBundle\Traits\SetAccountManagerTrait;
-    
+    use \Success\MemberBundle\Traits\SetMemberManagerTrait;
+
     /**
      * @param ProductPricing $productPricing
      * @param Member $member
@@ -40,7 +41,8 @@ class ProductPricingManager
      */
     public function processProductPricing(ProductPricing $productPricing, Member $member)
     {
-        $this->accountMananger->doAccountOperation($member, -1 * $productPricing->getProductPrice(), "product bying {$productPricing->getProductName()}");
+        //var_dump($this->memberManager);die;
+        $this->accountManager->doAccountOperation($member, -1 * $productPricing->getProductPrice(), "product bying {$productPricing->getProductName()}");
     }
     
     /**

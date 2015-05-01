@@ -2,15 +2,15 @@
 
 namespace Success\TreasureBundle\Traits;
 
-use Success\TreasureBundle\Service\AccountMananger;
+use Success\TreasureBundle\Service\AccountManager;
 
 trait SetAccountManagerTrait
 {
-    /* @var $accountMananger \Success\TreasureBundle\Service\AccountMananger */
-    private $accountMananger;
+    /* @var $accountManager \Success\TreasureBundle\Service\AccountManager */
+    private $accountManager;
 
-    public function setAccountManager(AccountMananger $accountMananger)
+    public function setAccountManager(AccountManager $accountManager)
     {
-        $this->accountMananger = $accountMananger;
+        $this->accountManager = $accountManager;
     }
 }

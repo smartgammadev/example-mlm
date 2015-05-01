@@ -103,7 +103,7 @@ class MemberManagerTest extends ServiceTest
         $sponsor = $this->instance->getMemberSponsorOfLevel($member, 0);
         $this->assertNotNull($sponsor);
         $this->assertInstanceOf('Success\MemberBundle\Entity\Member', $sponsor);
-        $this->assertInstanceOf($sponsor->getExternalId(), '4success.bz@gmail.com');
+        $this->assertEquals($sponsor->getExternalId(), '4success.bz@gmail.com');
     }
 
     public function testGetMemberSponsorOfLevel1()

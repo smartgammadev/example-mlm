@@ -19,6 +19,8 @@ class ProductPricingManagerTest extends ServiceTest
     {
         parent::setUp();
         $this->instance->setEntityManager($this->container->get('doctrine.orm.entity_manager'));
+        $this->instance->setAccountManager($this->container->get('success.treasure.account_manager'));
+        $this->instance->setMemberManager($this->container->get('success.member.member_manager'));
         $this->memberManager = $this->container->get('success.member.member_manager');
     }
     

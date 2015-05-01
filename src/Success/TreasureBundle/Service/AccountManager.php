@@ -5,7 +5,7 @@ use Success\MemberBundle\Entity\Member;
 use Success\TreasureBundle\Entity\AccountOperation;
 use Success\TreasureBundle\Entity\AccountBalance;
 
-class AccountMananger
+class AccountManager
 {
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
     
