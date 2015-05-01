@@ -35,7 +35,7 @@ class SuccessMemberExtension extends \Twig_Extension
     
     public function getMemberPricingProductName(Member $member)
     {
-        $memberProductPricing = $this->productPricingManager->getCurrentProductPricingForMember($member);
+        $memberProductPricing = $this->productPricingManager->getCurrentForMember($member);
         if ($memberProductPricing) {
             return sprintf('%s - $%s', $memberProductPricing->getProductPricing()->getProductName(), $memberProductPricing->getPricePaid());
         }

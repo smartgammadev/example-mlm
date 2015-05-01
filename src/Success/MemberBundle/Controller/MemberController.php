@@ -80,11 +80,11 @@ class MemberController extends Controller
      */
     public function profileAction(Request $request)
     {
-        $member = $this->memberLoginManager->getLoggedInMember();
+        $member = $this->getUser();
         if ($member instanceof Member) {
             $memberBalance = $this->accountManager->getOverallAccountBalance($member);
             $memberReferals = $this->memberManager->getMemberReferals($member);
-            $activeProductPricings = $this->productPricingManager->getActiveProductPricings();
+            $activeProductPricings = $this->productPricingManager->getActivePricings();
             return
                 [
                     'member' => $member,

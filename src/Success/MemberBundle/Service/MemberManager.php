@@ -213,11 +213,10 @@ class MemberManager
      */
     public function getMemberName(Member $member)
     {
-        /**
-         * @var $placeholder \Success\PlaceholderBundle\Entity\ExternalPlaceholder
-         */
+        /* @var $firstNamePlaceholder \Success\PlaceholderBundle\Entity\ExternalPlaceholder */
         $firstNamePlaceholder =
             $this->placeholderManager->resolveExternalPlaceholder(self::USER_PLACEHOLDER_TYPE_NAME.'_'.self::MEMBER_FIRSTNAME_PLACEHOLDER);
+        /* @var $lastNamePlaceholder \Success\PlaceholderBundle\Entity\ExternalPlaceholder */
         $lastNamePlaceholder =
             $this->placeholderManager->resolveExternalPlaceholder(self::USER_PLACEHOLDER_TYPE_NAME.'_'.self::MEMBER_LASTNAME_PLACEHOLDER);
         
@@ -228,7 +227,6 @@ class MemberManager
             return $member->getExternalId();
         }
         return sprintf("%s %s", $firstName, $lastName);
-        
     }
     
     /**
@@ -244,7 +242,6 @@ class MemberManager
         if (!$memberData) {
             return '';
         }
-        
         return $memberData->getMemberData();
     }
     

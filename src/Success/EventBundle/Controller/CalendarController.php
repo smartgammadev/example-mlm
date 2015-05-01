@@ -171,10 +171,7 @@ class CalendarController extends Controller
     {
         $placeholders = $request->query->all();
         $this->placeholderManager->assignPlaceholdersToSession($placeholders);
-        
-        /**
-         * @var \Success\MemberBundle\Entity\Member $member
-         */
+        /* @var $member \Success\MemberBundle\Entity\Member */
         $member = $this->memberManager->resolveUserMemberFromPlaceholders();
         return ['memberExternalId' => $member->getExternalId()];
     }

@@ -10,6 +10,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Behat\Gherkin\Node\TableNode;
+use Guzzle\Http\QueryString;
 
 /**
  * Features context.
@@ -20,6 +21,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     const SONATA_UNIQID = 'behat';
     const ROLE_SPONSOR = 'ROLE_4SUCCESS_SPONSOR';
     const ROLE_USER = 'ROLE_4SUCCESS_USER';
+    const PLACEHOLDER_USER_TYPE_NAME = 'user';
 
     /* @var $kernel \Symfony\Component\HttpKernel\Kernel */
 
@@ -426,5 +428,41 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
         }
         $this->getEntityManager()->flush();
     }
-
+    
+    /**
+     * @When /^I go to "([^"]*)" with placeholders$/
+     */
+    public function iGoToWithPlaceholders2($url, TableNode $placeholders)
+    {
+        $queryString = new QueryString($placeholders->getRowsHash());
+        $this->visit($url.'?'.$queryString->__toString());
+    }
+    
+    /**
+     * @Then /^"([^"]*)" of member "([^"]*)" should be "([^"]*)"$/
+     */
+    public function ofMemberShouldBe($placeholderPattern, $externalId, $data)
+    {
+        /* @var $memberManager \Success\MemberBundle\Service\MemberManager */
+        $memberManager = $this->getService('success.member.member_manager');
+        $member = $memberManager->getMemberByExternalId($externalId);
+        
+        /* @var $placeholderManager \Success\PlaceholderBundle\Service\PlaceholderManager */
+        $placeholderManager = $this->getService('success.placeholder.placeholder_manager');
+        $placeholder = $placeholderManager->resolveExternalPlaceholder(self::PLACEHOLDER_USER_TYPE_NAME.'_'.$placeholderPattern);
+        
+        $memberData = $memberManager->getMemberData($member, $placeholder);
+        
+        if ($data != $memberData) {
+            $message = sprintf(
+                    'Value of "%s", of member "%s" equals to "%s". But should be "%s".',
+                    $placeholderPattern,
+                    $externalId,
+                    $memberData,
+                    $data
+                );
+            throw new ExpectationException($message, $this->getSession());
+        }
+    }
+    
 }
