@@ -28,3 +28,27 @@ services:
             - ~
             - Success\PricingBundle\Entity\ProductPricing
             - ~
+            
+    sonata.admin.bonus_pricing_admin:
+        class: Success\PricingBundle\Admin\BonusPricingAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Бонусы"}
+        arguments:
+            - ~
+            - Success\PricingBundle\Entity\BonusPricing
+            - SuccessPricingBundle:BonusPricingAdmin
+        calls:
+            - [setbonusPricingManager, ['@success.pricing.bonus_pricing_manager']]
+            
+
+    sonata.admin.bonus_pricing_value_admin:
+        class: Success\PricingBundle\Admin\BonusPricingValueAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Бонусные выплаты"}
+        arguments:
+            - ~
+            - Success\PricingBundle\Entity\BonusPricingValue
+            - ~
+        calls:
+            - [setbonusPricingManager, ['@success.pricing.bonus_pricing_manager']]
+            

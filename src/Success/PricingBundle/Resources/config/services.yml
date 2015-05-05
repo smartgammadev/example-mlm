@@ -16,3 +16,7 @@ services:
             - [setAccountManager, ['@success.treasure.account_manager']]
             - [setMemberManager, ['@success.member.member_manager']]
             
+    success.pricing.bonus_pricing_manager:
+        class: Success\PricingBundle\Service\BonusPricingManager
+        calls:
+            - [setEntityManager, ['@doctrine.orm.entity_manager']]

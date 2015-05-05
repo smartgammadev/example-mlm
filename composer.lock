@@ -1235,12 +1235,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/smart-gamma/vendor-framework.git",
-                "reference": "b91d9e9de2866ff33ef369f809e6555ffdd96510"
+                "reference": "029a63e6ddcc7a60c7ed5bbece353a4d759036c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smart-gamma/vendor-framework/zipball/b91d9e9de2866ff33ef369f809e6555ffdd96510",
-                "reference": "b91d9e9de2866ff33ef369f809e6555ffdd96510",
+                "url": "https://api.github.com/repos/smart-gamma/vendor-framework/zipball/029a63e6ddcc7a60c7ed5bbece353a4d759036c9",
+                "reference": "029a63e6ddcc7a60c7ed5bbece353a4d759036c9",
                 "shasum": ""
             },
             "require": {
@@ -1265,7 +1265,7 @@
                 "source": "https://github.com/smart-gamma/vendor-framework/tree/master",
                 "issues": "https://github.com/smart-gamma/vendor-framework/issues"
             },
-            "time": "2015-02-23 15:25:20"
+            "time": "2015-05-04 15:48:47"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -2018,7 +2018,7 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "KnpLabs",
+                    "name": "Knplabs",
                     "homepage": "http://knplabs.com"
                 },
                 {
@@ -2715,17 +2715,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v2.3.14",
+            "version": "v2.3.16",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "cb8195ddf5b310b34033921edec638829ccfa201"
+                "reference": "df552307f1426f69ada59cfcae85c43b7c10a8cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/cb8195ddf5b310b34033921edec638829ccfa201",
-                "reference": "cb8195ddf5b310b34033921edec638829ccfa201",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/df552307f1426f69ada59cfcae85c43b7c10a8cd",
+                "reference": "df552307f1426f69ada59cfcae85c43b7c10a8cd",
                 "shasum": ""
             },
             "require": {
@@ -2757,7 +2757,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2015-04-10 06:19:33"
+            "time": "2015-05-02 16:01:47"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -5086,12 +5086,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "252fb449d5c45a4c1a92497b43d4c246bde0ee6b"
+                "reference": "a4f14d3a3d397104e557ec65d1a4e43bb86e4ddf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/252fb449d5c45a4c1a92497b43d4c246bde0ee6b",
-                "reference": "252fb449d5c45a4c1a92497b43d4c246bde0ee6b",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/a4f14d3a3d397104e557ec65d1a4e43bb86e4ddf",
+                "reference": "a4f14d3a3d397104e557ec65d1a4e43bb86e4ddf",
                 "shasum": ""
             },
             "require": {
@@ -5138,7 +5138,7 @@
                 "database",
                 "migrations"
             ],
-            "time": "2015-04-29 07:54:59"
+            "time": "2015-05-02 06:20:23"
         },
         {
             "name": "fabpot/goutte",

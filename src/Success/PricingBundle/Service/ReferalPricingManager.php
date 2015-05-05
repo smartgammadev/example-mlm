@@ -41,6 +41,8 @@ class ReferalPricingManager
         $this->em->flush();
         return $newReferalPricing;
     }
+    
+    
     /**
      * @return ReferalPricing
      */
