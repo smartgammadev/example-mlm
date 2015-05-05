@@ -68,6 +68,13 @@ class Member implements UserInterface, \Serializable
      */
     private $rgt;
     
+    
+    /**
+     * @Gedmo\Mapping\Annotation\TreeLevel
+     * @ORM\Column(name="lvl", type="integer")
+     */
+    private $lvl;    
+    
     public function getPassword()
     {
     }
@@ -319,5 +326,28 @@ class Member implements UserInterface, \Serializable
     public function getRgt()
     {
         return $this->rgt;
+    }
+
+    /**
+     * Set lvl
+     *
+     * @param integer $lvl
+     * @return Member
+     */
+    public function setLvl($lvl)
+    {
+        $this->lvl = $lvl;
+
+        return $this;
+    }
+
+    /**
+     * Get lvl
+     *
+     * @return integer 
+     */
+    public function getLvl()
+    {
+        return $this->lvl;
     }
 }

@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * MemberData
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Success\MemberBundle\Entity\MemberDataRepository")
+* @ORM\Table()
+ * @ORM\Entity()
  */
 class MemberData
 {
@@ -30,7 +30,7 @@ class MemberData
     
     /**
      * @ORM\ManyToOne(targetEntity="Member", inversedBy="data")
-     * @ORM\JoinColumn(name="member_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="member_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $member;
 
@@ -42,8 +42,7 @@ class MemberData
 
     /**
      * Get id
-     *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -65,8 +64,7 @@ class MemberData
 
     /**
      * Get memberData
-     *
-     * @return string 
+     * @return string
      */
     public function getMemberData()
     {
@@ -88,8 +86,7 @@ class MemberData
 
     /**
      * Get member
-     *
-     * @return \Success\MemberBundle\Entity\Member 
+     * @return \Success\MemberBundle\Entity\Member
      */
     public function getMember()
     {
@@ -111,8 +108,7 @@ class MemberData
 
     /**
      * Get placeholder
-     *
-     * @return \Success\PlaceholderBundle\Entity\BasePlaceholder 
+     * @return \Success\PlaceholderBundle\Entity\BasePlaceholder
      */
     public function getPlaceholder()
     {

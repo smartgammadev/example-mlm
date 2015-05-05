@@ -7,10 +7,10 @@ use Gedmo\Tree\Entity\Repository\NestedTreeRepository as BaseRepository;
 class MemberRepository extends BaseRepository
 {
 
-    public function childrenHasProduct($node)
+    public function childrenHasProduct($node, $direct)
     {
         /* @var $qb \Doctrine\ORM\QueryBuilder */
-        $qb = $this->childrenQueryBuilder($node);
+        $qb = $this->childrenQueryBuilder($node, $direct);
         $qb->join('SuccessPricingBundle:ProductPricingMember', 'pm', 'node = pm.member');
         $qb->andWhere('node.id = pm.member');
         return $qb->getQuery()->getResult();

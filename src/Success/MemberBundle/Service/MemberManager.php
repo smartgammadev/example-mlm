@@ -285,10 +285,10 @@ use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
     }
     
     
-    public function getMemberReferalsHasProduct(Member $sponsor)
+    public function getMemberFirstReferalsHasProduct(Member $sponsor)
     {
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
-        $result = $memberRepo->childrenHasProduct($sponsor);
+        $result = $memberRepo->childrenHasProduct($sponsor, true);
         return $result;
     }
     
@@ -303,6 +303,13 @@ use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
     {
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
         $result = $memberRepo->childrenHasProductPaidSum($sponsor);
+        return $result;
+    }    
+    
+    public function getMemberFirstReferalsHasProductCount(Member $sponsor)
+    {
+        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $result = $memberRepo->childrenHasProductCount($sponsor);
         return $result;
     }    
 }

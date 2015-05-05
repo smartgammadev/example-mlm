@@ -35,7 +35,19 @@ class BonusPricingManagerTest extends ServiceTest
     {
         $member = $this->memberManager->getMemberByExternalId('4success.bz@gmail.com');
         $result = $this->instance->calculateBonusForMember($member);
+        print_r($result);
+        //die; 	user_1-1@fake.domain 
+        
+//        $member = $this->memberManager->getMemberByExternalId('user_1-1@fake.domain');
+//        $result = $this->instance->calculateBonusForMember($member);
+//        var_dump($result);
+        
+    }
+    
+    public function testCalculateBaseBonusForMember()
+    {
+        $member = $this->memberManager->getMemberByExternalId('4success.bz@gmail.com');
+        $result = $this->instance->calculateMemberBaseBonus($member);
         var_dump($result);
-        //die;
     }
 }

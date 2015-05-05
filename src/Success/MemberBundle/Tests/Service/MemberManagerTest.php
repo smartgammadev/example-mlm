@@ -149,7 +149,7 @@ class MemberManagerTest extends ServiceTest
     public function testGetMemberReferalsHasProduct()
     {
         $member = $this->instance->getMemberByExternalId('4success.bz@gmail.com');
-        $result = $this->instance->getMemberReferalsHasProduct($member);
+        $result = $this->instance->getMemberFirstReferalsHasProduct($member);
         $this->assertNotNull($result);
         $this->assertInternalType('array', $result);
     }

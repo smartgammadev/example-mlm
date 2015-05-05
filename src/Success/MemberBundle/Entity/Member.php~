@@ -11,7 +11,7 @@ use Gedmo\Mapping\Annotation\Tree as Tree;
  * Member
  * @Tree(type="nested")
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Success\MemberBundle\Entity\MemberRepository")
+ * @ORM\Entity(repositoryClass="Success\MemberBundle\Entity\Repository\MemberRepository")
  */
 class Member implements UserInterface, \Serializable
 {
@@ -52,10 +52,9 @@ class Member implements UserInterface, \Serializable
     /**
      * @Gedmo\Mapping\Annotation\TreeParent
      * @ORM\ManyToOne(targetEntity="Member", inversedBy="referals")
-     * @ORM\JoinColumn(name="sponsor_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="sponsor_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $sponsor;
-    
     
     /**
      * @Gedmo\Mapping\Annotation\TreeLeft
@@ -68,6 +67,13 @@ class Member implements UserInterface, \Serializable
      * @Doctrine\ORM\Mapping\Column(type="integer")
      */
     private $rgt;
+    
+    
+    /**
+     * @Gedmo\Mapping\Annotation\TreeLevel
+     * @ORM\Column(name="lvl", type="integer")
+     */
+    private $lvl;    
     
     public function getPassword()
     {
@@ -274,5 +280,74 @@ class Member implements UserInterface, \Serializable
             $this->id,
             $this->externalId,
         ) = unserialize($serialized);
+    }
+
+    /**
+     * Set lft
+     *
+     * @param integer $lft
+     * @return Member
+     */
+    public function setLft($lft)
+    {
+        $this->lft = $lft;
+
+        return $this;
+    }
+
+    /**
+     * Get lft
+     *
+     * @return integer 
+     */
+    public function getLft()
+    {
+        return $this->lft;
+    }
+
+    /**
+     * Set rgt
+     *
+     * @param integer $rgt
+     * @return Member
+     */
+    public function setRgt($rgt)
+    {
+        $this->rgt = $rgt;
+
+        return $this;
+    }
+
+    /**
+     * Get rgt
+     *
+     * @return integer 
+     */
+    public function getRgt()
+    {
+        return $this->rgt;
+    }
+
+    /**
+     * Set lvl
+     *
+     * @param integer $lvl
+     * @return Member
+     */
+    public function setLvl($lvl)
+    {
+        $this->lvl = $lvl;
+
+        return $this;
+    }
+
+    /**
+     * Get lvl
+     *
+     * @return integer 
+     */
+    public function getLvl()
+    {
+        return $this->lvl;
     }
 }

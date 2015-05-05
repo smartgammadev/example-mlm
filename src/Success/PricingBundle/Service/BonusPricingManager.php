@@ -54,7 +54,64 @@ class BonusPricingManager
         return $currentBonusPricing;
     }
 
+    /**
+     * @param Member $member
+     * @return type
+     */
     public function calculateBonusForMember(Member $member)
+    {
+        $memberBaseBonus = $this->calculateMemberBaseBonus($member);
+        if (!isset($memberBaseBonus)) {
+            return null;
+        }        
+        $memberReferals = $this->memberManager->getMemberFirstReferalsHasProduct($member);
+        foreach ($memberReferals as $memberReferal) {
+            $memberReferalBaseBonus = $this->calculateBonusForMember($memberReferal);
+            if ($memberReferalBaseBonus) {
+                //echo '////////'.$memberReferal->getExternalId().' TAKES from '.$member->getExternalId().PHP_EOL;
+                $memberBaseBonus = $this->getBonusesDiffs($memberBaseBonus, $memberReferalBaseBonus);                
+                //print_r($memberBaseBonus);
+            }
+        }
+        //print_r($memberBaseBonus);
+        return $memberBaseBonus;
+    }
+    
+    private function getBonusesDiffs($bonus1, $bonus2)
+    {
+        if (array_key_exists('add', $bonus1)) {
+            $additionalBonuses1 = $bonus1['add'];
+        } else {
+            $additionalBonuses1 = [];
+        }
+        if (array_key_exists('add', $bonus2)) {
+            $additionalBonuses2 = $bonus2['add'];
+        } else {
+            $additionalBonuses2 = [];
+        }
+        $additionalBonuses = array_merge($additionalBonuses1, $additionalBonuses2);
+        
+        $additionalBonuses[] = [
+            'referalsPaidSum' => $bonus2['referalsPaidSum'],
+            'salesCount' => $bonus2['salesCount'],
+            'profitValue' => $bonus1['profitValue'] - $bonus2['profitValue'],
+            
+        ];echo $bonus1['profitValue'].' - '.$bonus2['profitValue'].PHP_EOL;
+        $result = [
+                    'referalsPaidSum' => $bonus1['referalsPaidSum'] - $bonus2['totalReferalsPaidSum'],
+                    'totalReferalsPaidSum' => $bonus1['referalsPaidSum'],
+            
+                    'salesCount' => $bonus1['salesCount'] - $bonus2['totalSalesCount'],
+                    'totalSalesCount' => $bonus1['salesCount'],
+            
+                    'profitValue' => $bonus1['profitValue'],// - $bonus2['profitValue'],
+                    'add' => $additionalBonuses,
+        ];        
+        return $result;
+    }
+
+
+    public function calculateMemberBaseBonus(Member $member)
     {
         $bonusPricing = $this->getCurrentBonusPricing();
         $bonusPricingValues = $bonusPricing->getPricingValues();
@@ -62,53 +119,20 @@ class BonusPricingManager
         
         foreach ($bonusPricingValues as $value) {
             if ($actualSalesCount >= $value->getSalesCount()) {
+                $totalReferalsPaidSum = $this->memberManager->getMemberReferalsHasProductPaidSum($member);
                 $memberBaseBonus = [
-                    'referalsPaidSum' => $this->memberManager->getMemberReferalsHasProductPaidSum($member),
+                   
+                    'referalsPaidSum' => $totalReferalsPaidSum,
+                    'totalReferalsPaidSum' => $totalReferalsPaidSum,
+                    
                     'salesCount' => $actualSalesCount,
+                    'totalSalesCount' => $actualSalesCount,
+                    
                     'profitValue' => $value->getProfitValue(),
                     ]
                 ;
             }
         }
-        if (!isset($memberBaseBonus)) {
-            return null;
-        }
-        
-        $memberReferals = $this->memberManager->getMemberReferalsHasProduct($member);
-        
-        foreach ($memberReferals as $memberReferal) {
-            $memberReferalBonus = $this->calculateBonusForMember($memberReferal);
-            if ($memberReferalBonus) {
-                $memberBaseBonus = $this->calculateMemberBonusesDiff($memberBaseBonus, $memberReferalBonus);
-                //var_dump($memberBaseBonus);
-            }
-        }
-        
-        return $memberBaseBonus;
-    }
-    
-    private function calculateMemberBonusesDiff(array $baseBonus, array $toSubstractBonus)
-    {
-        $result = [
-            'referalsPaidSum' => $baseBonus['referalsPaidSum'] - $toSubstractBonus['referalsPaidSum'],
-            'salesCount' => $baseBonus['salesCount'] - $toSubstractBonus['salesCount'],
-            'profitValue' => $baseBonus['profitValue'],
-        ];
-        $result['difference'][] = [
-            'referalsPaidSum' => $toSubstractBonus['referalsPaidSum'],
-            'salesCount' => $toSubstractBonus['salesCount'],
-            'profitValue' => $baseBonus['profitValue'] - $toSubstractBonus['profitValue'],
-        ];
-        return $result;
-    }
-    
-    private function calculateMemberSubBonus(array $baseBonus, array $toSubstractBonus)
-    {
-        $result = [
-            'referalsPaidSum' => $baseBonus['referalsPaidSum'] - $toSubstractBonus['referalsPaidSum'],
-            'salesCount' => $baseBonus['salesCount'] - $toSubstractBonus['salesCount'],
-            'profitValue' => $baseBonus['profitValue'] - $toSubstractBonus['profitValue'],
-        ];
-        return $result;
+        return isset($memberBaseBonus)? $memberBaseBonus : null;
     }
 }
