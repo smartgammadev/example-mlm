@@ -36,6 +36,6 @@ class BonusPricingManagerTest extends ServiceTest
         $member = $this->memberManager->getMemberByExternalId('4success.bz@gmail.com');
         $result = $this->instance->calculateBonusForMember($member);
         var_dump($result);
-        die;
+        //die;
     }
 }
