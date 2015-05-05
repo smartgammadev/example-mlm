@@ -110,23 +110,23 @@ class MemberManagerTest extends ServiceTest
         $sponsor = $this->instance->getMemberSponsorOfLevel($member, 3);
         $this->assertNull($sponsor);
     }
-    
+
     public function testGetMemberSponsorOfLevel10Null()
     {
         $member = $this->instance->getMemberByExternalId('user_2-1@fake.domain');
         $sponsor = $this->instance->getMemberSponsorOfLevel($member, 10);
         $this->assertNull($sponsor);
-    }    
-    
+    }
+
     public function testGetMemberSponsorOfLevel0()
     {
         $member = $this->instance->getMemberByExternalId('user_2-1@fake.domain');
         $sponsor = $this->instance->getMemberSponsorOfLevel($member, 0);
-        
+
         $this->assertNotNull($sponsor);
         $this->assertInstanceOf('Success\MemberBundle\Entity\Member', $sponsor);
         $this->assertEquals($sponsor->getExternalId(), 'user_1-1@fake.domain');
-    }    
+    }
 
     public function testGetMemberSponsorOfLevel1()
     {
@@ -136,7 +136,7 @@ class MemberManagerTest extends ServiceTest
         $this->assertInstanceOf('Success\MemberBundle\Entity\Member', $sponsor);
         $this->assertEquals($sponsor->getExternalId(), '4success.bz@gmail.com');
     }
-    
+
     public function testGetMemberSponsorOfLevel2()
     {
         $member = $this->instance->getMemberByExternalId('user_3-1@fake.domain');
@@ -144,5 +144,29 @@ class MemberManagerTest extends ServiceTest
         $this->assertNotNull($sponsor);
         $this->assertInstanceOf('Success\MemberBundle\Entity\Member', $sponsor);
         $this->assertEquals($sponsor->getExternalId(), '4success.bz@gmail.com');
-    }    
+    }
+
+    public function testGetMemberReferalsHasProduct()
+    {
+        $member = $this->instance->getMemberByExternalId('4success.bz@gmail.com');
+        $result = $this->instance->getMemberReferalsHasProduct($member);
+        $this->assertNotNull($result);
+        $this->assertInternalType('array', $result);
+    }
+    
+    public function testGetMemberReferalsHasProductCount()
+    {
+        $member = $this->instance->getMemberByExternalId('4success.bz@gmail.com');
+        $result = $this->instance->getMemberReferalsHasProductCount($member);
+        $this->assertNotNull($result);
+        $this->assertInternalType('integer', $result);
+    }
+    
+    public function testGetMemberReferalsHasProductPaidSum()
+    {
+        $member = $this->instance->getMemberByExternalId('4success.bz@gmail.com');
+        $result = $this->instance->getMemberReferalsHasProductPaidSum($member);
+        $this->assertNotNull($result);
+        $this->assertInternalType('float', $result);
+    }
 }

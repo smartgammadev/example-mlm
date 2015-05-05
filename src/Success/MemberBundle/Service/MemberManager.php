@@ -13,16 +13,16 @@ use Success\PlaceholderBundle\Entity\ExternalPlaceholder;
 
 class MemberManager
 {
+
     const MEMBER_IDENTITY_PLACEHOLDER = 'email';
-    
     const MEMBER_FIRSTNAME_PLACEHOLDER = 'first_name';
     const MEMBER_LASTNAME_PLACEHOLDER = 'last_name';
-    
     const SPONSOR_PLACEHOLDER_TYPE_NAME = 'sponsor';
     const USER_PLACEHOLDER_TYPE_NAME = 'user';
-    
+
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
-    use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
+
+use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
 
     /**
      * @param type $externalId string(255)
@@ -37,7 +37,7 @@ class MemberManager
         }
         return $member;
     }
-    
+
     /**
      * @param sting $externalId
      * @return Success\MemberBundle\Entity\Member
@@ -127,7 +127,7 @@ class MemberManager
         }
         return $memberData;
     }
-    
+
     /**
      * @return Member
      * @throws NotFoundHttpException
@@ -137,7 +137,7 @@ class MemberManager
         $placeholdersData = $this->placeholderManager->getPlaceholdersValuesFormSession();
         foreach ($placeholdersData as $placeholderData) {
             if ($placeholderData['placeholder']->getFullPattern() ==
-                    self::SPONSOR_PLACEHOLDER_TYPE_NAME.'_'.self::MEMBER_IDENTITY_PLACEHOLDER) {
+                    self::SPONSOR_PLACEHOLDER_TYPE_NAME . '_' . self::MEMBER_IDENTITY_PLACEHOLDER) {
                 $sponsorExternalId = $placeholderData['value'];
             }
         }
@@ -151,7 +151,7 @@ class MemberManager
         }
         return $sponsorMember;
     }
-    
+
     /**
      * @return Member
      * @throws NotFoundHttpException
@@ -161,7 +161,7 @@ class MemberManager
         $placeholdersData = $this->placeholderManager->getPlaceholdersValuesFormSession();
         foreach ($placeholdersData as $placeholderData) {
             if ($placeholderData['placeholder']->getFullPattern() ==
-                    self::USER_PLACEHOLDER_TYPE_NAME.'_'.self::MEMBER_IDENTITY_PLACEHOLDER) {
+                    self::USER_PLACEHOLDER_TYPE_NAME . '_' . self::MEMBER_IDENTITY_PLACEHOLDER) {
                 $userExternalId = $placeholderData['value'];
             }
         }
@@ -188,11 +188,11 @@ class MemberManager
         $member->setSponsor($sponsorMember);
         $this->em->persist($member);
         $this->updateMemberDataFromPlaceholders(self::USER_PLACEHOLDER_TYPE_NAME, $member);
-        
+
         $this->em->flush();
         return $member;
     }
-    
+
     /**
      * @param type $placeholderTypeName
      * @param Member $member
@@ -206,7 +206,7 @@ class MemberManager
             }
         }
     }
-    
+
     /**
      * @param Member $member
      * @return string
@@ -214,21 +214,19 @@ class MemberManager
     public function getMemberName(Member $member)
     {
         /* @var $firstNamePlaceholder \Success\PlaceholderBundle\Entity\ExternalPlaceholder */
-        $firstNamePlaceholder =
-            $this->placeholderManager->resolveExternalPlaceholder(self::USER_PLACEHOLDER_TYPE_NAME.'_'.self::MEMBER_FIRSTNAME_PLACEHOLDER);
+        $firstNamePlaceholder = $this->placeholderManager->resolveExternalPlaceholder(self::USER_PLACEHOLDER_TYPE_NAME . '_' . self::MEMBER_FIRSTNAME_PLACEHOLDER);
         /* @var $lastNamePlaceholder \Success\PlaceholderBundle\Entity\ExternalPlaceholder */
-        $lastNamePlaceholder =
-            $this->placeholderManager->resolveExternalPlaceholder(self::USER_PLACEHOLDER_TYPE_NAME.'_'.self::MEMBER_LASTNAME_PLACEHOLDER);
-        
+        $lastNamePlaceholder = $this->placeholderManager->resolveExternalPlaceholder(self::USER_PLACEHOLDER_TYPE_NAME . '_' . self::MEMBER_LASTNAME_PLACEHOLDER);
+
         $firstName = $this->getMemberData($member, $firstNamePlaceholder);
         $lastName = $this->getMemberData($member, $lastNamePlaceholder);
-        
-        if (strlen($lastName.$firstName) ==  0) {
+
+        if (strlen($lastName . $firstName) == 0) {
             return $member->getExternalId();
         }
         return sprintf("%s %s", $firstName, $lastName);
     }
-    
+
     /**
      * @param Member $member
      * @param ExternalPlaceholder $placeholder
@@ -238,14 +236,13 @@ class MemberManager
     {
         $repo = $this->em->getRepository('SuccessMemberBundle:MemberData');
         $memberData = $repo->findOneBy(['member' => $member->getId(), 'placeholder' => $placeholder->getId()]);
-        
+
         if (!$memberData) {
             return '';
         }
         return $memberData->getMemberData();
     }
-    
-    
+
     /**
      * @param Member $sponsor
      * @return integer
@@ -259,7 +256,7 @@ class MemberManager
         $childCount = $memberRepo->childCount($sponsor);
         return $childCount;
     }
-    
+
     /**
      * @param Member $sponsor
      * @return array
@@ -286,4 +283,26 @@ class MemberManager
         }
         return $this->getMemberSponsorOfLevel($member->getSponsor(), $level - 1);
     }
+    
+    
+    public function getMemberReferalsHasProduct(Member $sponsor)
+    {
+        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $result = $memberRepo->childrenHasProduct($sponsor);
+        return $result;
+    }
+    
+    public function getMemberReferalsHasProductCount(Member $sponsor)
+    {
+        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $result = $memberRepo->childrenHasProductCount($sponsor);
+        return $result;
+    }
+    
+    public function getMemberReferalsHasProductPaidSum(Member $sponsor)
+    {
+        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $result = $memberRepo->childrenHasProductPaidSum($sponsor);
+        return $result;
+    }    
 }

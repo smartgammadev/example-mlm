@@ -12,11 +12,16 @@ class BonusPricingManagerTest extends ServiceTest
      * @var mixed $instance
      */
     protected $targetClassName = 'Success\PricingBundle\Service\BonusPricingManager';
+    
+    private $memberManager;
 
     protected function setUp()
     {
         parent::setUp();
         $this->instance->setEntityManager($this->container->get('doctrine.orm.entity_manager'));
+        $this->instance->setMemberManager($this->container->get('success.member.member_manager'));
+        
+        $this->memberManager = $this->container->get('success.member.member_manager');
     }
 
     public function testGetCurrentBonusPricing()
@@ -25,11 +30,12 @@ class BonusPricingManagerTest extends ServiceTest
         $this->assertNotNull($result);
         $this->assertInstanceOf('Success\PricingBundle\Entity\BonusPricing', $result);
     }
-    
-    public function testCopyBonusPricingFromCurrent()
+
+    public function testCalculateBonusForMember()
     {
-        $result = $this->instance->copyBonusPricingFromCurrent();
-        $this->assertNotNull($result);
-        $this->assertInstanceOf('Success\PricingBundle\Entity\BonusPricing', $result);
+        $member = $this->memberManager->getMemberByExternalId('4success.bz@gmail.com');
+        $result = $this->instance->calculateBonusForMember($member);
+        var_dump($result);
+        die;
     }
 }

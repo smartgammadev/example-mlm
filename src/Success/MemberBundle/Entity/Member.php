@@ -11,7 +11,7 @@ use Gedmo\Mapping\Annotation\Tree as Tree;
  * Member
  * @Tree(type="nested")
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
+ * @ORM\Entity(repositoryClass="Success\MemberBundle\Entity\Repository\MemberRepository")
  */
 class Member implements UserInterface, \Serializable
 {
