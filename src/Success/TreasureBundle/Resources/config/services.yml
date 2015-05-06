@@ -3,3 +3,10 @@ services:
         class: Success\TreasureBundle\Service\AccountManager
         calls:
             - [setEntityManager, ['@doctrine.orm.entity_manager']]
+            
+    success.account.twig_extension:
+        class: Success\TreasureBundle\Twig\SuccessAccountExtension
+        calls:     
+             - [setAccountManager, ["@success.treasure.account_manager"]]
+        tags:
+            - { name: twig.extension }              

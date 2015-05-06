@@ -33,11 +33,15 @@
                             <h4>
                                 ${{ productPricing.productPrice }}
                             </h4>
-                            {% if productPricing.id == memberPricingProduct.productPricing.id %}
-                                <a id="pricing-id-{{ productPricing.id }}" class="btn btn-success disabled assign-pricing" role="button" data-price="{{ productPricing.productPrice }}" data-id="{{ productPricing.id }}">{{ productPricing.productName }}</a>
+                            {% if memberPricingProduct != null %}
+                                {% if productPricing.id == memberPricingProduct.productPricing.id %}
+                                    <a id="pricing-id-{{ productPricing.id }}" class="btn btn-success disabled assign-pricing" role="button" data-price="{{ productPricing.productPrice }}" data-id="{{ productPricing.id }}">{{ productPricing.productName }}</a>
+                                {% else %}
+                                    <a id="pricing-id-{{ productPricing.id }}" class="btn btn-success assign-pricing" role="button" data-price="{{ productPricing.productPrice }}" data-id="{{ productPricing.id }}">{{ productPricing.productName }}</a>
+                                {% endif %}    
                             {% else %}
                                 <a id="pricing-id-{{ productPricing.id }}" class="btn btn-success assign-pricing" role="button" data-price="{{ productPricing.productPrice }}" data-id="{{ productPricing.id }}">{{ productPricing.productName }}</a>
-                            {% endif %}    
+                            {% endif %}
                         </div>
                     {% endfor %}
             </div>
