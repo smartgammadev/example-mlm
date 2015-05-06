@@ -25,7 +25,7 @@ class ProductPricingManager
         $newProductPricingMember->setMember($member);
         $newProductPricingMember->setProductPricing($productPricing);
         $newProductPricingMember->setPricePaid($productPricing->getProductPrice());
-        $this->em->persist($newProductPricingMember);        
+        $this->em->persist($newProductPricingMember);
         $this->em->flush();
         return $newProductPricingMember;
     }
@@ -60,7 +60,7 @@ class ProductPricingManager
         return true;
     }
 
-        /**
+    /**
      * @param string $name
      * @return ProductPricing
      */
@@ -68,6 +68,17 @@ class ProductPricingManager
     {
         $repo = $this->em->getRepository('SuccessPricingBundle:ProductPricing');
         return $repo->findOneBy(['isActive' => true, 'productName' => $name]);
+    }
+
+    
+    /**
+     * @param integer $id
+     * @return ProductPricing
+     */
+    public function getActiveById($id)
+    {
+        $repo = $this->em->getRepository('SuccessPricingBundle:ProductPricing');
+        return $repo->findOneBy(['isActive' => true, 'id' => $id]);
     }
     
     /**

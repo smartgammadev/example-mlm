@@ -1,10 +1,10 @@
-success_pricing:
-    resource: "@SuccessPricingBundle/Resources/config/routing.yml"
-    prefix:   /
-
-success_treasure:
-    resource: "@SuccessTreasureBundle/Resources/config/routing.yml"
-    prefix:   /
+#success_pricing:
+#    resource: "@SuccessPricingBundle/Resources/config/routing.yml"
+#    prefix:   /
+#
+#success_treasure:
+#    resource: "@SuccessTreasureBundle/Resources/config/routing.yml"
+#    prefix:   /
 
 success_sales_generator:
     resource: "@SuccessSalesGeneratorBundle/Controller/"
@@ -15,6 +15,11 @@ success_member:
     resource: "@SuccessMemberBundle/Controller/"
     type:     annotation
     prefix:   /member
+
+success_pricing:
+    resource: "@SuccessPricingBundle/Controller/"
+    type:     annotation
+    prefix:   /member/account
 
 success_site:
     resource: "@SuccessSiteBundle/Controller/"
