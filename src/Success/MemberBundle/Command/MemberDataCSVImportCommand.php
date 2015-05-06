@@ -75,12 +75,12 @@ class MemberDataCSVImportCommand extends ContainerAwareCommand
                     $member->setSponsor($sponsor);
                 }
                 
-//                $placeholder = $placeholderManager->resolveExternalPlaceholder($placeholderName);
-//                $memberData = new MemberData();
-//                $memberData->setPlaceholder($placeholder);
-//                $memberData->setMember($member);
-//                $memberData->setMemberData($row[$index]);
-//                $em->persist($memberData);
+                $placeholder = $placeholderManager->resolveExternalPlaceholder($placeholderName);
+                $memberData = new MemberData();
+                $memberData->setPlaceholder($placeholder);
+                $memberData->setMember($member);
+                $memberData->setMemberData($row[$index]);
+                $em->persist($memberData);
             }
         }
         $em->flush();

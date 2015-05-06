@@ -4,13 +4,13 @@
 
 {% block body %}
     
-    <div class="modal fade" id="profile-modal-content" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+{#    <div class="modal fade" id="profile-modal-content" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content" id="modal-content">
                 
             </div>
         </div>
-    </div>      
+    </div>    #}  
     
     
     
@@ -19,12 +19,12 @@
             <div class="col-md-12 no-padding no-margin well jumbotron">
                 <h2>{{ memberName(member) }}</h2>
                 <h4>баланс: ${{ balance }}</h4>
-                    <a class="btn btn-info" href="#">пополнить счет</a>
+                    <a id="refund-btn" class="btn btn-info" href="#">пополнить счет</a>
                     <a class="btn btn-info" href="#">мои оплаты</a>
                     <h4>текущий тариф:
-                    {% set pricingProduct = memberOwnedProduct(member) %}
-                        <span class="{{ pricingProduct == null ? "label label-danger" : "label label-success" }}">
-                            {{ pricingProduct == null ? "тариф не назначен" : pricingProduct.productPricing.productName }}
+                    {% set memberPricingProduct = memberOwnedProduct(member) %}
+                        <span class="{{ memberPricingProduct == null ? "label label-danger" : "label label-success" }}">
+                            {{ memberPricingProduct == null ? "тариф не назначен" : memberPricingProduct.productPricing.productName }}
                         </span>
                     </h4>
                     <h4>сменить тариф</h4>
@@ -33,7 +33,11 @@
                             <h4>
                                 ${{ productPricing.productPrice }}
                             </h4>
-                            <a id="pricing-id-{{ productPricing.id }}" class="btn btn-success assign-pricing" role="button" data-price="{{ productPricing.productPrice }}" data-id="{{ productPricing.id }}">{{ productPricing.productName }}</a>
+                            {% if productPricing.id == memberPricingProduct.productPricing.id %}
+                                <a id="pricing-id-{{ productPricing.id }}" class="btn btn-success disabled assign-pricing" role="button" data-price="{{ productPricing.productPrice }}" data-id="{{ productPricing.id }}">{{ productPricing.productName }}</a>
+                            {% else %}
+                                <a id="pricing-id-{{ productPricing.id }}" class="btn btn-success assign-pricing" role="button" data-price="{{ productPricing.productPrice }}" data-id="{{ productPricing.id }}">{{ productPricing.productName }}</a>
+                            {% endif %}    
                         </div>
                     {% endfor %}
             </div>
@@ -62,7 +66,13 @@
             var id = $('.assign-pricing').data('id');
             $('.assign-pricing').on('click', function(id){
                 assign($(this));
-            })
+            });
+            
+            $('#refund-btn').on('click', function(){
+                refund();
+            });
+            
+            
         });
         function assign(id)
         {
@@ -81,6 +91,25 @@
                     alert(data);
                     window.location.reload();
                 })
+        }
+        
+        function refund()
+        {
+            var postUrl = "{{ path('member_add_paymnet') }}";
+            $.ajax({
+                method: "POST",
+                url: postUrl,
+            })
+                .fail(function(data) {
+                    if(data.responseText === "0") {
+                        alert('Ошибка при пополнении счета');
+                    }
+                })
+                .done(function(data) {
+                    alert(data);
+                    window.location.reload();
+                })
+            
         }
     </script>
 {% endblock %}    
