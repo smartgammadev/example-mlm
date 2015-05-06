@@ -3,6 +3,17 @@
 {% block title %}Личный кабинет{% endblock %}
 
 {% block body %}
+    
+    <div class="modal fade" id="profile-modal-content" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" id="modal-content">
+                
+            </div>
+        </div>
+    </div>      
+    
+    
+    
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="col-md-12 no-padding no-margin well jumbotron">
@@ -13,18 +24,17 @@
                     <h4>текущий тариф:
                     {% set pricingProduct = memberOwnedProduct(member) %}
                         <span class="{{ pricingProduct == null ? "label label-danger" : "label label-success" }}">
-                            {{ pricingProduct == null ? "тариф не назначен" : pricingProduct }}
+                            {{ pricingProduct == null ? "тариф не назначен" : pricingProduct.productPricing.productName }}
                         </span>
-                    </h4>                    
+                    </h4>
                     <h4>сменить тариф</h4>
                     {% for productPricing in productPricings %}
                         <div class="col-md-1 center-block center center-cell">
                             <h4>
                                 ${{ productPricing.productPrice }}
                             </h4>
-                            <a class="btn btn-success" href="#">{{ productPricing.productName }}</a>
+                            <a id="pricing-id-{{ productPricing.id }}" class="btn btn-success assign-pricing" role="button" data-price="{{ productPricing.productPrice }}" data-id="{{ productPricing.id }}">{{ productPricing.productName }}</a>
                         </div>
-                        {#{{ dump(productPricing) }}#}
                     {% endfor %}
             </div>
             <div class="col-md-12 no-padding no-margin well jumbotron">
@@ -44,3 +54,33 @@
         </div>
     </div>    
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            var id = $('.assign-pricing').data('id');
+            $('.assign-pricing').on('click', function(id){
+                assign($(this));
+            })
+        });
+        function assign(id)
+        {
+            var postUrl ="{{ path('member_buy_product') }}";
+            $.ajax({
+                method: "POST",
+                url: postUrl,
+                data: { id: id.data('id') }
+            })
+                .fail(function(data) {
+                    if(data.responseText === "0") {
+                        alert('Недостаточно средств на счете');
+                    }
+                })
+                .done(function(data) {
+                    alert(data);
+                    window.location.reload();
+                })
+        }
+    </script>
+{% endblock %}    

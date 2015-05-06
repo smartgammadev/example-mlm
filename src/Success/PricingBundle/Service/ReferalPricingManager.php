@@ -123,7 +123,9 @@ class ReferalPricingManager
                 $baseValue
             );
             $sponsor = $this->memberManager->getMemberSponsorOfLevel($member, $pricingValue->getLevel());
-            $this->accountManager->doAccountOperation($sponsor, $profitAmount, 'referal');
+            if ($sponsor) {
+                $this->accountManager->doAccountOperation($sponsor, $profitAmount, 'referal');
+            }
         }
     }
     
