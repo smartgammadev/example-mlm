@@ -45,5 +45,5 @@ logger.level = Logger::MAX_LEVEL
 # Be more verbose by uncommenting the following line
  logger.level = Logger::MAX_LEVEL
 
-after "deploy", "symfony:apc_clear"
+#after "deploy", "symfony:apc_clear"
 after "deploy:rollback:cleanup", "symfony:apc_clear"
