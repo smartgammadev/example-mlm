@@ -227,7 +227,7 @@ snc_redis:
         prefix: success
         ttl: 1200
 
-#accelerator_cache:
-#    mode: curl
-#    host: %domain%
-#    web_dir: %kernel.root_dir%/../web        
+accelerator_cache:
+    mode: curl
+    host: %domain%
+    web_dir: %kernel.root_dir%/../web        
