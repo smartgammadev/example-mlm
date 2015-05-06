@@ -2018,7 +2018,7 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "Knplabs",
+                    "name": "KnpLabs",
                     "homepage": "http://knplabs.com"
                 },
                 {
@@ -4746,12 +4746,12 @@
             "version": "v1.0.9",
             "source": {
                 "type": "git",
-                "url": "https://github.com/minkphp/MinkGoutteDriver.git",
+                "url": "https://github.com/Behat/MinkGoutteDriver.git",
                 "reference": "fa1b073b48761464feb0b05e6825da44b20118d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/minkphp/MinkGoutteDriver/zipball/fa1b073b48761464feb0b05e6825da44b20118d8",
+                "url": "https://api.github.com/repos/Behat/MinkGoutteDriver/zipball/fa1b073b48761464feb0b05e6825da44b20118d8",
                 "reference": "fa1b073b48761464feb0b05e6825da44b20118d8",
                 "shasum": ""
             },
@@ -5145,12 +5145,12 @@
             "version": "v1.0.7",
             "source": {
                 "type": "git",
-                "url": "https://github.com/FriendsOfPHP/Goutte.git",
+                "url": "https://github.com/fabpot/Goutte.git",
                 "reference": "794b196e76bdd37b5155cdecbad311f0a3b07625"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/Goutte/zipball/794b196e76bdd37b5155cdecbad311f0a3b07625",
+                "url": "https://api.github.com/repos/fabpot/Goutte/zipball/794b196e76bdd37b5155cdecbad311f0a3b07625",
                 "reference": "794b196e76bdd37b5155cdecbad311f0a3b07625",
                 "shasum": ""
             },
@@ -5276,12 +5276,12 @@
             "target-dir": "Guzzle/Common",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Guzzle3/common.git",
+                "url": "https://github.com/guzzle/common.git",
                 "reference": "2e36af7cf2ce3ea1f2d7c2831843b883a8e7b7dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Guzzle3/common/zipball/2e36af7cf2ce3ea1f2d7c2831843b883a8e7b7dc",
+                "url": "https://api.github.com/repos/guzzle/common/zipball/2e36af7cf2ce3ea1f2d7c2831843b883a8e7b7dc",
                 "reference": "2e36af7cf2ce3ea1f2d7c2831843b883a8e7b7dc",
                 "shasum": ""
             },
@@ -5312,7 +5312,6 @@
                 "event",
                 "exception"
             ],
-            "abandoned": "guzzle/guzzle",
             "time": "2014-08-11 04:32:36"
         },
         {
@@ -5321,12 +5320,12 @@
             "target-dir": "Guzzle/Http",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Guzzle3/http.git",
+                "url": "https://github.com/guzzle/http.git",
                 "reference": "1e8dd1e2ba9dc42332396f39fbfab950b2301dc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Guzzle3/http/zipball/1e8dd1e2ba9dc42332396f39fbfab950b2301dc5",
+                "url": "https://api.github.com/repos/guzzle/http/zipball/1e8dd1e2ba9dc42332396f39fbfab950b2301dc5",
                 "reference": "1e8dd1e2ba9dc42332396f39fbfab950b2301dc5",
                 "shasum": ""
             },
@@ -5370,7 +5369,6 @@
                 "http",
                 "http client"
             ],
-            "abandoned": "guzzle/guzzle",
             "time": "2014-08-11 04:32:36"
         },
         {
@@ -5379,12 +5377,12 @@
             "target-dir": "Guzzle/Parser",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Guzzle3/parser.git",
+                "url": "https://github.com/guzzle/parser.git",
                 "reference": "6874d171318a8e93eb6d224cf85e4678490b625c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Guzzle3/parser/zipball/6874d171318a8e93eb6d224cf85e4678490b625c",
+                "url": "https://api.github.com/repos/guzzle/parser/zipball/6874d171318a8e93eb6d224cf85e4678490b625c",
                 "reference": "6874d171318a8e93eb6d224cf85e4678490b625c",
                 "shasum": ""
             },
@@ -5415,7 +5413,6 @@
                 "message",
                 "url"
             ],
-            "abandoned": "guzzle/guzzle",
             "time": "2014-02-05 18:29:46"
         },
         {
@@ -5424,12 +5421,12 @@
             "target-dir": "Guzzle/Stream",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Guzzle3/stream.git",
+                "url": "https://github.com/guzzle/stream.git",
                 "reference": "60c7fed02e98d2c518dae8f97874c8f4622100f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Guzzle3/stream/zipball/60c7fed02e98d2c518dae8f97874c8f4622100f0",
+                "url": "https://api.github.com/repos/guzzle/stream/zipball/60c7fed02e98d2c518dae8f97874c8f4622100f0",
                 "reference": "60c7fed02e98d2c518dae8f97874c8f4622100f0",
                 "shasum": ""
             },
@@ -5469,7 +5466,6 @@
                 "component",
                 "stream"
             ],
-            "abandoned": "guzzle/guzzle",
             "time": "2014-05-01 21:36:02"
         },
         {

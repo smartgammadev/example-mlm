@@ -77,11 +77,11 @@ class LoadMemberData extends AbstractFixture implements OrderedFixtureInterface
         ],
         [
             'memberExternalId' => 'user_3-10@fake.domain',
-            'sponsorExternalId' => 'user_2-3@fake.domain',
+            'sponsorExternalId' => 'user_2-2@fake.domain',
         ],
         [
             'memberExternalId' => 'user_3-11@fake.domain',
-            'sponsorExternalId' => 'user_2-3@fake.domain',
+            'sponsorExternalId' => 'user_2-2@fake.domain',
         ],
     ];
 
