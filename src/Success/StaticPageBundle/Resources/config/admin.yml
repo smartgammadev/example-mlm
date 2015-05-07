@@ -1,0 +1,17 @@
+services:
+    sonata.admin.page_admin:
+        class: Success\StaticPageBundle\Admin\PageAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Pages", label: "Статические страницы"}
+        arguments:
+            - ~
+            - Success\StaticPageBundle\Entity\Page
+            - ~
+    sonata.admin.page_pricing:
+        class: Success\StaticPageBundle\Admin\PageProductPricingAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Pages", label: "Статически"}
+        arguments:
+            - ~
+            - Success\StaticPageBundle\Entity\PageProductPricing
+            - ~
