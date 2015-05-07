@@ -35,7 +35,7 @@ class Page
     
     
     /**
-     * @ORM\OneToMany(targetEntity="Success\StaticPageBundle\Entity\PageProductPricing", mappedBy="page", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Success\StaticPageBundle\Entity\PageProductPricing", mappedBy="page", cascade={"persist","remove"}, orphanRemoval=true)
      */
     private $productPricings;    
     

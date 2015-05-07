@@ -23,13 +23,13 @@ class PageProductPricing
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Success\StaticPageBundle\Entity\Page", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Success\StaticPageBundle\Entity\Page")
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id", nullable=false)
      */
     protected $page;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Success\PricingBundle\Entity\ProductPricing", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Success\PricingBundle\Entity\ProductPricing")
      * @ORM\JoinColumn(name="product_pricing_id", referencedColumnName="id", nullable=false)
      */
     protected $productPricing;

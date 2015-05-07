@@ -15,7 +15,7 @@ class PageAdmin extends Admin{
             ->add('content', 'text', [])
             ->add('isActive', null, array('required' => false))
             ->add('productPricings', 'sonata_type_collection', array('by_reference' => true,'cascade_validation' => false, 'type_options' => array('delete' => true)), array(
-                        'allow_delete'=>true,
+                        'allow_delete'=>FALSE,
                         'edit' => 'inline',
                         'sortable' => 'position',
                         'inline' => 'table'

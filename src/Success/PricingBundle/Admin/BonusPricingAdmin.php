@@ -31,14 +31,7 @@ class BonusPricingAdmin extends Admin
                 ), array(
                     'edit' => 'inline',
                     'inline' => 'table',
-                ))
-                    
-/*
-
- *
- * 
- *  */
-        ;
+                ));
     }
 
     protected function configureListFields(ListMapper $listMapper)
