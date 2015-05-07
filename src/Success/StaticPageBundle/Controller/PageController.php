@@ -33,6 +33,6 @@ class PageController extends Controller {
             $access =FALSE;
         }
 
-        return ['page' => $page];
+        return ['page' => $page, 'access' => $access];
     }
 }
