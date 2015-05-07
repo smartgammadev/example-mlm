@@ -36,7 +36,6 @@ class MemberAdmin extends Admin
                 ->add('referalsCount', null, ['template' => 'SuccessMemberBundle:Sonata:Fields/member_refs_count.html.twig'])
                 ->add('productPricing', null, ['template' => 'SuccessMemberBundle:Sonata:Fields/member_product_pricing_name.html.twig'])
                 ->add('accountBalance', null, ['template' => 'SuccessMemberBundle:Sonata:Fields/member_account_balance.html.twig'])
-                
         ;
     }
 }

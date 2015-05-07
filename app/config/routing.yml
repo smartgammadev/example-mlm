@@ -41,7 +41,7 @@ success_placeholder:
 success_event:
     resource: "@SuccessEventBundle/Controller/"
     type: annotation
-    prefix: /    
+    prefix: /
 
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
