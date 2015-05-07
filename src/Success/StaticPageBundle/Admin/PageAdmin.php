@@ -13,13 +13,17 @@ class PageAdmin extends Admin{
         $formMapper
             ->add('slug', 'text', [])
             ->add('content', 'text', [])
-            ->add('isActive', null, array('required' => false))
+            ->add('isActive', null, array('required' => false));
+        
+        if ($this->id($this->getSubject())){
+        $formMapper
             ->add('productPricings', 'sonata_type_collection', array('by_reference' => true,'cascade_validation' => false, 'type_options' => array('delete' => true)), array(
                         'allow_delete'=>FALSE,
                         'edit' => 'inline',
                         'sortable' => 'position',
                         'inline' => 'table'
                         ));
+        }
     }
     
     protected function configureListFields(ListMapper $listMapper)
