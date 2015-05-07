@@ -1,0 +1,9 @@
+services:
+    sonata.admin.account_opeartion:
+        class: Success\TreasureBundle\Admin\AccountOperationAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "EventTypes", show_in_dashboard: false }
+        arguments:
+            - ~
+            - Success\TreasureBundle\Entity\AccountOperation
+            - ~
