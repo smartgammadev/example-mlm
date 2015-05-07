@@ -22,4 +22,10 @@ class BonusPricingAdminController extends BaseController
             ['id' => $this->bonusPricingManager->getCurrentBonusPricing()->getId()]
         );
     }
+    
+    
+    public function bonusAction()
+    {
+        
+    }
 }

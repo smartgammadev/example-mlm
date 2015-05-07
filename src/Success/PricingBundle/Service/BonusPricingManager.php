@@ -96,7 +96,8 @@ class BonusPricingManager
             'salesCount' => $bonus2['salesCount'],
             'profitValue' => $bonus1['profitValue'] - $bonus2['profitValue'],
             
-        ];echo $bonus1['profitValue'].' - '.$bonus2['profitValue'].PHP_EOL;
+        ];
+        //echo $bonus1['profitValue'].' - '.$bonus2['profitValue'].PHP_EOL;
         $result = [
                     'referalsPaidSum' => $bonus1['referalsPaidSum'] - $bonus2['totalReferalsPaidSum'],
                     'totalReferalsPaidSum' => $bonus1['referalsPaidSum'],

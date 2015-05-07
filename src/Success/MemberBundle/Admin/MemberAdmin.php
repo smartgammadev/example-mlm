@@ -6,9 +6,19 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 class MemberAdmin extends Admin
 {
+    
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        parent::configureRoutes($collection);
+        $collection->add('calculate', $this->getRouterIdParameter().'/calculate_bonus');
+        //$collection->remove('edit');
+        //$collection->remove('delete');
+    }
+    
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -36,6 +46,7 @@ class MemberAdmin extends Admin
                 ->add('referalsCount', null, ['template' => 'SuccessMemberBundle:Sonata:Fields/member_refs_count.html.twig'])
                 ->add('productPricing', null, ['template' => 'SuccessMemberBundle:Sonata:Fields/member_product_pricing_name.html.twig'])
                 ->add('accountBalance', null, ['template' => 'SuccessMemberBundle:Sonata:Fields/member_account_balance.html.twig'])
+                ->add('calculateBonus', null, ['template' => 'SuccessMemberBundle:Sonata:Fields/member_calculate_bonus.html.twig'])
         ;
     }
 }

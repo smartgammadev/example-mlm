@@ -1,0 +1,40 @@
+{% extends 'SonataAdminBundle:CRUD:base_show.html.twig' %}
+{% block show %}
+    <div class="sonata-ba-view">
+        {% if bonus != null %}
+            
+            {% set mainBonus = bonus.profitValue * (bonus.referalsPaidSum / 100) %}
+            
+            
+            <h3>
+                <span class="label label-success">
+                    Расчет бонуса:
+                </span>
+            </h3>    
+               <h4>{{ bonus.referalsPaidSum }} x {{ bonus.profitValue }}% = {{ mainBonus }}</h4>
+               <h5>за {{ bonus.salesCount }} продаж</h5>
+               {% set addBonusSum = 0 %}
+               {% if bonus.add is defined %}
+                    {% for addBonus in bonus.add %}
+                         <h4>
+                             <span class="label label-success">+</span>
+                         </h4>
+                         {% set addBonusValue = addBonus.profitValue * (addBonus.referalsPaidSum / 100) %}
+                         {% set addBonusSum = addBonusSum + addBonusValue %}
+                         <h4>{{ addBonus.referalsPaidSum }} x {{ addBonus.profitValue }}% = {{ addBonusValue }}</h4>                    
+                         <h5>за {{ addBonus.salesCount }} продаж</h5>
+                    {% endfor %}                   
+               {% endif %}    
+            <h3>
+                <span class="label label-success">
+                    Всего: {{ addBonusSum + mainBonus }}
+                </span>                
+            </h3>    
+               
+        {% else %}
+            <p>
+                No bonus
+            <p>
+        {% endif %}
+    </div>
+{% endblock %}

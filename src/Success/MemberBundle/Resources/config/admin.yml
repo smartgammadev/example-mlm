@@ -6,4 +6,4 @@ services:
         arguments:
             - ~
             - Success\MemberBundle\Entity\Member
-            - ~
+            - SuccessMemberBundle:MemberAdmin
