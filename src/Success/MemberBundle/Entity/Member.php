@@ -10,7 +10,7 @@ use Gedmo\Mapping\Annotation\Tree as Tree;
 /**
  * Member
  * @Tree(type="nested")
- * @ORM\Table()
+ * @ORM\Table(name="m_member")
  * @ORM\Entity(repositoryClass="Success\MemberBundle\Entity\Repository\MemberRepository")
  */
 class Member implements UserInterface, \Serializable
