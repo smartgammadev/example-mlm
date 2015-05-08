@@ -234,4 +234,15 @@ snc_redis:
 accelerator_cache:
     mode: curl
     host: %domain%
-    web_dir: %kernel.root_dir%/../web        
+    web_dir: %kernel.root_dir%/../web 
+ivory_ck_editor:        
+    default_config: default
+    configs:
+        default:
+            jquery: true
+            height: 500
+            extraPlugins: "cke_autotext"          
+    plugins:
+        cke_autotext:
+            path:     "/bundles/successstaticpage/js/cke_autotext/"
+            filename: "plugin.js"

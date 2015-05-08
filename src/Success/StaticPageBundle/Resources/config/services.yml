@@ -3,3 +3,4 @@ services:
         class: Success\StaticPageBundle\Service\PageUserManager
         calls:
             - [setEntityManager, ['@doctrine.orm.entity_manager']]        
+            - [setMemberManager, ["@success.member.member_manager"]]            

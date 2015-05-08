@@ -13,7 +13,24 @@ class PageAdmin extends Admin{
         $formMapper
             ->add('slug', 'text', [])
             ->add('content', 'text', [])
-            ->add('isActive', null, array('required' => false));
+            ->add('isActive', null, array('required' => false))
+                ->add('content', 'ckeditor', array(
+                    'config' => array(
+//                        'toolbar' => array(
+//                            array(
+//                                'name'  => 'document',
+//                                'items' => array('Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates'),
+//                            ),
+//                            '/',
+//                            array(
+//                                'name'  => 'basicstyles',
+//                                'items' => array('Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'),
+//                            ),
+//                        ),
+//                        'uiColor' => '#ffffff',
+                        //...
+                    ),
+                ));
         
         if ($this->id($this->getSubject())){
         $formMapper
