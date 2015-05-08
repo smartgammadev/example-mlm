@@ -1,0 +1,6 @@
+services:            
+    success.staticpage.page_user_meneger:
+        class: Success\StaticPageBundle\Service\PageUserManager
+        calls:
+            - [setEntityManager, ['@doctrine.orm.entity_manager']]        
+            - [setMemberManager, ["@success.member.member_manager"]]            

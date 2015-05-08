@@ -157,4 +157,9 @@ class ProductPricing
     {
         return $this->isActive;
     }
+    
+    public function __toString()
+    {
+        return $this->getProductName();
+    }
 }

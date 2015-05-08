@@ -54,6 +54,8 @@ class AppKernel extends Kernel
             new Success\PricingBundle\SuccessPricingBundle(),
             new Snc\RedisBundle\SncRedisBundle(),
             new SmartCore\Bundle\AcceleratorCacheBundle\AcceleratorCacheBundle(),
+            new Success\StaticPageBundle\SuccessStaticPageBundle(),
+            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
