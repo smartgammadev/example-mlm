@@ -30,6 +30,17 @@ Feature: Creation repeatable events in calendar. Repeating by day, week, month, 
     Then I press "btn_update_and_list"
      And I should see " Элемент успешно обновлен"
     When I go to "/calendarevents/nearest" with "user.email=user@mail&user.first_name=uName&user.last_name=uLastName&sponsor.email=4success.bz@gmail.com&sponsor.first_name=sName&sponsor.last_name=sLastName" placeholders
+
+    When I go to "/calendarevents/nearest" with placeholders
+        | user.email               | user@mail       |
+        | user.first_name          | uName                 |
+        | user.last_name           | uLastName             |
+        | sponsor.email            | 4success.bz@gmail.com |
+        | sponsor.first_name       | sName                 |
+        | sponsor.last_name        | sLastName             |
+
+
+
     Then I should see 1 ".day-webinar" elements
      And I should see 6 ".week-webinar" elements
     When I go to "/admin/success/event/webinarevent/list"

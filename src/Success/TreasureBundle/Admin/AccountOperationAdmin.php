@@ -40,6 +40,7 @@ class AccountOperationAdmin extends Admin
         $listMapper
                 ->add('dateOperation')
                 ->add('amount')
+                ->add('subAccount')
         ;
     }
 }

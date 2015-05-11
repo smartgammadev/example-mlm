@@ -40,6 +40,7 @@ class BonusPricing
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="BonusPricingValue", mappedBy="pricing", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OrderBy({"salesCount" = "ASC"})
      */
     private $pricingValues;
     

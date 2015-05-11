@@ -267,11 +267,9 @@ use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
         if (!$level) {
             $result = $memberRepo->children($sponsor);
             return $result;
-            
         }
         $result = $memberRepo->childrenOfLevel($sponsor, $level);
         return $result;
-        
     }
 
     public function getMemberReferalsSummary(Member $sponsor)
@@ -283,6 +281,10 @@ use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
         foreach ($referalsSummary as $index => $value) {
             $referalsSummary[$index]['referalsLevel'] -= $baseLevel;
         }
+        usort($referalsSummary, function($a, $b) {
+            return strcmp($a['referalsLevel'], $b['referalsLevel']);
+        });
+
         return $referalsSummary;
     }
 

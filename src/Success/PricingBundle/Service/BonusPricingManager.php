@@ -63,13 +63,13 @@ class BonusPricingManager
         $memberBaseBonus = $this->calculateMemberBaseBonus($member);
         if (!isset($memberBaseBonus)) {
             return null;
-        }        
+        }
         $memberReferals = $this->memberManager->getMemberFirstReferalsHasProduct($member);
         foreach ($memberReferals as $memberReferal) {
             $memberReferalBaseBonus = $this->calculateBonusForMember($memberReferal);
             if ($memberReferalBaseBonus) {
                 //echo '////////'.$memberReferal->getExternalId().' TAKES from '.$member->getExternalId().PHP_EOL;
-                $memberBaseBonus = $this->getBonusesDiffs($memberBaseBonus, $memberReferalBaseBonus);                
+                $memberBaseBonus = $this->getBonusesDiffs($memberBaseBonus, $memberReferalBaseBonus);
                 //print_r($memberBaseBonus);
             }
         }
@@ -107,7 +107,7 @@ class BonusPricingManager
             
                     'profitValue' => $bonus1['profitValue'],// - $bonus2['profitValue'],
                     'add' => $additionalBonuses,
-        ];        
+        ];
         return $result;
     }
 

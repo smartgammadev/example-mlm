@@ -29,7 +29,6 @@ class ProductPricingMember
      */
     private $assignDate;
 
-    
     /**
      * @ORM\ManyToOne(targetEntity="Success\MemberBundle\Entity\Member")
      * @ORM\JoinColumn(name="member_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
