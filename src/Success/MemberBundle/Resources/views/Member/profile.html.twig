@@ -4,13 +4,25 @@
 
 {% block body %}
     
-{#    <div class="modal fade" id="profile-modal-content" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="profile-modal-content" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content" id="modal-content">
-                
+            <div class="modal-content">
+            
+                <div class="modal-header">
+                    test
+                </div>    
+
+                <div class="modal-body">
+
+                </div>
+
+
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
             </div>
         </div>
-    </div>    #}  
+    </div>
     
     
     
@@ -20,7 +32,7 @@
                 <h2>{{ memberName(member) }}</h2>
                 <h4>баланс: ${{ balance }}</h4>
                     <a id="refund-btn" class="btn btn-info" href="#">пополнить счет</a>
-                    <a class="btn btn-info" href="#">мои оплаты</a>
+                    <a class="btn btn-info" href="#">история счета</a>
                     <h4>текущий тариф:
                     {% set memberPricingProduct = memberOwnedProduct(member) %}
                         <span class="{{ memberPricingProduct == null ? "label label-danger" : "label label-success" }}">
@@ -46,17 +58,38 @@
                     {% endfor %}
             </div>
             <div class="col-md-12 no-padding no-margin well jumbotron">
+                
                 <h3>Моя команда</h3>
-                <h4>лидер: <strong>{{ memberName(member.sponsor) }}</strong></h4>
+                    
+                <h4>лидер: <strong>{{ memberName(member.sponsor) }}</strong></h4>                
                 <h3>команда: </h3>
                 <table class="table table-hover table-responsive" >
                     <tr>
-                        <th>Партнер</th>
-                        <th>Количество рефералов</th>
+                        <th>Поколение</th>
+                        <th>Количество</th>
+                        <th>Оплаченных</th>
+                        <th>Таблица рефералов</th>
                     </tr>
-                    {% for referal in referals %}
-                        {% include 'SuccessMemberBundle:Member:partial/referal_table_row.html.twig' %}
-                    {% endfor %}
+                        {% for levelSummary in referalsSummary %}
+                        <tr>
+                            <td>{{ levelSummary.referalsLevel }}</td>
+                            <td>{{ levelSummary.referalsCount }}</td>
+                            <td>{{ referalsHasProductCount(member, levelSummary.referalsLevel) }}</td>
+                            <td>
+                                <a class="btn btn-xs btn-warning modal-btn" role="button" data-toggle="modal" data-target="#profile-modal-content" href="{{ path("member_profile_refs_table", {'level': levelSummary.referalsLevel }) }}">
+                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                    Просмотр
+                                </a>
+                            </td>
+                            
+                        </tr>
+                        {% endfor %}
+                    <tr>
+                        <th>Всего:</th>
+                        <th>{{ referalsCount(member) }}</th>
+                        <th>{{ referalsHasProductCount(member) }}</th>
+                        <th></th>
+                    </tr>
                 </table>
             </div>    
         </div>
@@ -116,4 +149,25 @@
             
         }
     </script>
+    
+    <script type="text/javascript">
+        $('body').on('hidden.bs.modal', '.modal', function () {
+            $('#profile-modal-content').empty();
+        });
+
+        $('body').on('click', '.modal-btn', function () {
+            link = $(this).attr('href');
+            $('#profile-modal-content').load(
+                    link,
+                    function (response, status, xhr) {
+                        if (status === 'error') {
+                            $('#profile-modal-content').html('<h2>Whoops!</h2><p>Sorry, but there was an error:' + xhr.status + ' ' + xhr.statusText + '</p>');
+                        }
+                        return this;
+                    }
+            );
+        });
+    </script>    
+    
+    
 {% endblock %}    

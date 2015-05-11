@@ -84,15 +84,28 @@ class MemberController extends Controller
         if ($member instanceof Member) {
             $memberBalance = $this->accountManager->getOverallAccountBalance($member);
             $memberReferals = $this->memberManager->getMemberReferals($member);
+            $referalsSummary = $this->memberManager->getMemberReferalsSummary($member);
             $activeProductPricings = $this->productPricingManager->getActivePricings();
             return
                 [
                     'member' => $member,
+                    'referalsSummary' => $referalsSummary,
                     'productPricings' => $activeProductPricings,
                     'referals' => $memberReferals,
                     'balance' => ($memberBalance == null ? 0 : $memberBalance->getAmount()),
                 ];
         }
         throw new AccessDeniedHttpException();
+    }
+    
+    /**
+     * @Route("/profile/refs/{level}", name="member_profile_refs_table")
+     * @Template()
+     */
+    public function profileReferalsTableAction(Request $request, $level)
+    {
+        $member = $this->getUser();
+        $referalsTable = $this->memberManager->getMemberReferals($member, $level);
+        return ['referals' => $referalsTable, 'level' => $level];
     }
 }

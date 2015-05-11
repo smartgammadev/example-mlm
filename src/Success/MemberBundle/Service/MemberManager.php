@@ -261,11 +261,29 @@ use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
      * @param Member $sponsor
      * @return array
      */
-    public function getMemberReferals(Member $sponsor)
+    public function getMemberReferals(Member $sponsor, $level = null)
     {
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
-        $result = $memberRepo->children($sponsor);
+        if (!$level) {
+            $result = $memberRepo->children($sponsor);
+            return $result;
+            
+        }
+        $result = $memberRepo->childrenOfLevel($sponsor, $level);
         return $result;
+        
+    }
+
+    public function getMemberReferalsSummary(Member $sponsor)
+    {
+        $baseLevel = $sponsor->getLvl();
+        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $referalsSummary = $memberRepo->childrenByLevelSymmary($sponsor);
+
+        foreach ($referalsSummary as $index => $value) {
+            $referalsSummary[$index]['referalsLevel'] -= $baseLevel;
+        }
+        return $referalsSummary;
     }
 
     /**
@@ -283,33 +301,33 @@ use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
         }
         return $this->getMemberSponsorOfLevel($member->getSponsor(), $level - 1);
     }
-    
-    
+
     public function getMemberFirstReferalsHasProduct(Member $sponsor)
     {
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
         $result = $memberRepo->childrenHasProduct($sponsor, true);
         return $result;
     }
-    
-    public function getMemberReferalsHasProductCount(Member $sponsor)
-    {
-        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
-        $result = $memberRepo->childrenHasProductCount($sponsor);
-        return $result;
-    }
-    
-    public function getMemberReferalsHasProductPaidSum(Member $sponsor)
-    {
-        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
-        $result = $memberRepo->childrenHasProductPaidSum($sponsor);
-        return $result;
-    }    
-    
+
     public function getMemberFirstReferalsHasProductCount(Member $sponsor)
     {
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
         $result = $memberRepo->childrenHasProductCount($sponsor);
         return $result;
-    }    
+    }
+
+    public function getMemberReferalsHasProductCount(Member $sponsor, $level = null)
+    {
+
+        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $result = $memberRepo->childrenHasProductCount($sponsor, $level);
+        return $result;
+    }
+
+    public function getMemberReferalsHasProductPaidSum(Member $sponsor)
+    {
+        $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
+        $result = $memberRepo->childrenHasProductPaidSum($sponsor);
+        return $result;
+    }
 }
