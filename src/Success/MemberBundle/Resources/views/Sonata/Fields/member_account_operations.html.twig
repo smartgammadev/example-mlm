@@ -1,7 +1,7 @@
 {% extends "SonataAdminBundle:CRUD:base_list_field.html.twig" %}
 
 {% block field %}
-    <a class="btn btn-sm btn-default edit_link" href="{{ path('admin_success_treasure_accountoperation_list', {'filter':{'member':{'value':object.id}}}) }}">
+    <a class="btn btn-sm btn-default edit_link" href="{{ path('admin_success_treasure_accountoper('admination_list', {'filter':{'member':{'value':object.id}}}) }}">
         <i class="glyphicon glyphicon-eye-open"></i>
         Операции про счету
     </a>

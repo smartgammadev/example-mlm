@@ -27,7 +27,7 @@ class MemberController extends Controller
      * @DI\Inject("success.member.login_manager")
      */
     private $memberLoginManager;
-    
+
     /**
      * @var \Success\TreasureBundle\Service\AccountManager $accountManager
      * @DI\Inject("success.treasure.account_manager")
@@ -39,8 +39,7 @@ class MemberController extends Controller
      * @DI\Inject("success.pricing.product_pricing_manager")
      */
     private $productPricingManager;
-    
-    
+
     /**
      * @Route("/login", name="member_login")
      * @Method({"POST"})
@@ -86,18 +85,21 @@ class MemberController extends Controller
             $memberReferals = $this->memberManager->getMemberReferals($member);
             $referalsSummary = $this->memberManager->getMemberReferalsSummary($member);
             $activeProductPricings = $this->productPricingManager->getActivePricings();
+            $operations = $this->accountManager->getAccountOpperations($member);
+
             return
-                [
-                    'member' => $member,
-                    'referalsSummary' => $referalsSummary,
-                    'productPricings' => $activeProductPricings,
-                    'referals' => $memberReferals,
-                    'balance' => ($memberBalance == null ? 0 : $memberBalance->getAmount()),
-                ];
+                    [
+                        'member' => $member,
+                        'referalsSummary' => $referalsSummary,
+                        'productPricings' => $activeProductPricings,
+                        'referals' => $memberReferals,
+                        'balance' => ($memberBalance == null ? 0 : $memberBalance->getAmount()),
+                        'accountOperations' => $operations,
+                    ];
         }
         throw new AccessDeniedHttpException();
     }
-    
+
     /**
      * @Route("/profile/refs/{level}", name="member_profile_refs_table")
      * @Template()

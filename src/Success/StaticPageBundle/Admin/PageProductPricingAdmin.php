@@ -13,7 +13,7 @@ class PageProductPricingAdmin extends Admin{
         {
             $formMapper
                     ->add('productPricing', 'entity', array('label' => 'Пакет', 'class' => 'Success\PricingBundle\Entity\ProductPricing'))
-                    ->add('page', 'entity', array('label' => 'Страница', 'class' => 'Success\StaticPageBundle\Entity\Page'))
+                    ->add('page', 'entity', array('label' => 'Страница', 'class' => 'Success\StaticPageBundle\Entity\Page','attr'=>array("hidden" => true)))
             ;
         }
 
