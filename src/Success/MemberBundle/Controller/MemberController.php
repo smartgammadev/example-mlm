@@ -85,14 +85,18 @@ class MemberController extends Controller
             $memberBalance = $this->accountManager->getOverallAccountBalance($member);
             $memberReferals = $this->memberManager->getMemberReferals($member);
             $activeProductPricings = $this->productPricingManager->getActivePricings();
+            $operations = $this->accountManager->getAccountOpperations($member);
+
             return
                 [
                     'member' => $member,
                     'productPricings' => $activeProductPricings,
                     'referals' => $memberReferals,
                     'balance' => ($memberBalance == null ? 0 : $memberBalance->getAmount()),
+                    'operations' => $operations,
                 ];
         }
         throw new AccessDeniedHttpException();
     }
+    
 }

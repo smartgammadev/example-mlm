@@ -3,14 +3,41 @@
 {% block title %}Личный кабинет{% endblock %}
 
 {% block body %}
-    
-{#    <div class="modal fade" id="profile-modal-content" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" id="modal-content">
-                
-            </div>
+
+<div id="showModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Мои оплаты</h4>
         </div>
-    </div>    #}  
+        <div class="modal-body">
+            <table class="table table-hover" >
+                <thead>
+                    <tr>
+                        <th>Дата операции</th>
+                        <th>Сума</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for operation in operations %}
+                    <tr>
+                        <td>{{operation.dateOperation |date()}}</td>
+                        <td>{{operation.amount}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+
+   </div>
+</div>
     
     
     
@@ -20,7 +47,7 @@
                 <h2>{{ memberName(member) }}</h2>
                 <h4>баланс: ${{ balance }}</h4>
                     <a id="refund-btn" class="btn btn-info" href="#">пополнить счет</a>
-                    <a class="btn btn-info" href="#">мои оплаты</a>
+                    <a class="btn btn-info" role="button" href="#showModal" data-toggle="modal">мои оплаты</a>
                     <h4>текущий тариф:
                     {% set memberPricingProduct = memberOwnedProduct(member) %}
                         <span class="{{ memberPricingProduct == null ? "label label-danger" : "label label-success" }}">
@@ -115,5 +142,6 @@
                 })
             
         }
+
     </script>
 {% endblock %}    

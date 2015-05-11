@@ -55,4 +55,17 @@ class AccountManager
         
         return $balance;
     }
+    
+    public function getAccountOpperations(Member $member) {
+        
+        $operationRepo = $this->em->createQueryBuilder()
+                    ->select('p')
+                    ->from('SuccessTreasureBundle:AccountOperation', 'p')
+                    ->where('p.member = :member')
+                    ->orderBy('p.dateOperation', 'DESC')
+                    ->setParameter('member', $member)
+                    ->getQuery()
+                    ->getResult();
+            return $operationRepo;
+    }
 }
