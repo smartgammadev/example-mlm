@@ -15,21 +15,7 @@ class PageAdmin extends Admin{
             ->add('content', 'text', [])
             ->add('isActive', null, array('required' => false))
                 ->add('content', 'ckeditor', array(
-                    'config' => array(
-//                        'toolbar' => array(
-//                            array(
-//                                'name'  => 'document',
-//                                'items' => array('Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates'),
-//                            ),
-//                            '/',
-//                            array(
-//                                'name'  => 'basicstyles',
-//                                'items' => array('Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'),
-//                            ),
-//                        ),
-//                        'uiColor' => '#ffffff',
-                        //...
-                    ),
+                    'config' => array(),
                 ));
         
         if ($this->id($this->getSubject())){
@@ -48,6 +34,7 @@ class PageAdmin extends Admin{
         $listMapper
                 ->add('slug')
 //                ->add('content')
+                ->add('Page Link', null, ['template' =>'SuccessStaticPageBundle:Sonata:Fields/page_link.html.twig'])
                 ->add('isActive')
                 ->add('_action', 'actions', array(
                     'actions' => array(

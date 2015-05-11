@@ -1,0 +1,8 @@
+{% extends "SonataAdminBundle:CRUD:base_list_field.html.twig" %}
+
+{% block field %}
+     
+    <a href="{{ path('static_page', {'slug':object.slug}) }}" target="_blank">
+        {{ url('static_page', {'slug':object.slug}) }}
+        </a>
+{% endblock %}

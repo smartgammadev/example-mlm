@@ -8,7 +8,7 @@ use Success\PricingBundle\Entity\ProductPricing;
 /**
  * PageProductPricing
  *
- * @ORM\Table()
+ * @ORM\Table(name="p_page_product_pricing",uniqueConstraints={@ORM\UniqueConstraint(name="page_pricing_id", columns={"page_id", "product_pricing_id"})})
  * @ORM\Entity
  */
 class PageProductPricing
