@@ -73,7 +73,7 @@ class Member implements UserInterface, \Serializable
      * @Gedmo\Mapping\Annotation\TreeLevel
      * @ORM\Column(name="lvl", type="integer")
      */
-    private $lvl;    
+    private $lvl;
     
     public function getPassword()
     {

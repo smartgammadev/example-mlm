@@ -32,7 +32,7 @@ class ProductPricingMember
     
     /**
      * @ORM\ManyToOne(targetEntity="Success\MemberBundle\Entity\Member")
-     * @ORM\JoinColumn(name="member_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="member_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $member;
     
