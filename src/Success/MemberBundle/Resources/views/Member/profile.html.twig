@@ -47,12 +47,18 @@
         <div class="row-fluid">
             <div class="col-md-12 no-padding no-margin well jumbotron">
                 <h2>{{ memberName(member) }}</h2>
-                <h4>баланс: ${{ balance }}</h4>
+                
+                
+                {% set memberPricingProduct = memberOwnedProduct(member) %}
+                <h4>баланс: ${{ balance }}
+                {% if memberPricingProduct == null %}
+                    <span class="label label-default">Ваш балланс не активирован</span>
+                {% endif %}
+                </h4>
                     <a id="refund-btn" class="btn btn-info" href="#">пополнить счет</a>
                     <a class="btn btn-info" role="button" href="#showModal" data-toggle="modal">история счета</a>
 
-                    <h4>текущий тариф:
-                    {% set memberPricingProduct = memberOwnedProduct(member) %}
+                    <h4>текущий тариф:                    
                         <span class="{{ memberPricingProduct == null ? "label label-danger" : "label label-success" }}">
                             {{ memberPricingProduct == null ? "тариф не назначен" : memberPricingProduct.productPricing.productName }}
                         </span>

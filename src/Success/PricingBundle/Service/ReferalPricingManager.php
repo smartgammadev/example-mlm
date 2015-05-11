@@ -10,7 +10,7 @@ class ReferalPricingManager
     const DEFAULT_REFERAL_PRICING_NAME = 'default';
     const DEFAULT_REFERAL_PRICING_VALUE_ISABSOLUTE = true;
     const DEFAULT_REFERAL_PRICING_VALUE_PROFIT = 1;
-
+    const REFERAL_ACCOUNT_OPERATION_TAG = 'реф. выплата за покупку пакета рефералом: партнер - %s, поколение - %s';
 
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
     use \Success\TreasureBundle\Traits\SetAccountManagerTrait;
@@ -122,9 +122,11 @@ class ReferalPricingManager
                 $pricingValue->getProfitValue(),
                 $baseValue
             );
-            $sponsor = $this->memberManager->getMemberSponsorOfLevel($member, $pricingValue->getLevel());
+            $level = $pricingValue->getLevel();
+            $sponsor = $this->memberManager->getMemberSponsorOfLevel($member, $level);
             if ($sponsor) {
-                $this->accountManager->doAccountOperation($sponsor, $profitAmount, 'referal');
+                $tagMessage = sprintf(self::REFERAL_ACCOUNT_OPERATION_TAG, $member->getExternalId(), $level+1);
+                $this->accountManager->doAccountOperation($sponsor, $profitAmount, $tagMessage);
             }
         }
     }

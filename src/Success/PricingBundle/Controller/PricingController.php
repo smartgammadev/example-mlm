@@ -90,7 +90,7 @@ class PricingController extends Controller
             $response->setContent('0');
             return $response;
         }
-        $accountOperation = $this->accountManager->doAccountOperation($member, 100, 'refund');
+        $accountOperation = $this->accountManager->doAccountOperation($member, 100, 'пополнение счета');
         if ($accountOperation instanceof AccountOperation) {
             $response->setStatusCode(200);
             $response->setContent('Ваш счет пополнен');

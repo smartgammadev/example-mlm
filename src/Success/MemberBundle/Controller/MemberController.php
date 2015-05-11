@@ -86,7 +86,6 @@ class MemberController extends Controller
             $referalsSummary = $this->memberManager->getMemberReferalsSummary($member);
             $activeProductPricings = $this->productPricingManager->getActivePricings();
             $operations = $this->accountManager->getAccountOpperations($member);
-
             return
                     [
                         'member' => $member,

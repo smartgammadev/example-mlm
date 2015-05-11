@@ -38,7 +38,7 @@ class ProductPricingManager
     public function processForMember(ProductPricing $productPricing, Member $member)
     {
         if ($this->checkIfCanBeAssignedToMember($productPricing, $member)) {
-            $this->accountManager->doAccountOperation($member, -1 * $productPricing->getProductPrice(), "product bying {$productPricing->getProductName()}");
+            $this->accountManager->doAccountOperation($member, -1 * $productPricing->getProductPrice(), "приобретение пакета '{$productPricing->getProductName()}'");
             
             return $this->assignToMember($productPricing, $member);
         }
