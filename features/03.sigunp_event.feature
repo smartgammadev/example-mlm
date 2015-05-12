@@ -11,7 +11,7 @@ Feature: Sign up for event in calendar
         | test webinar | открытый    | description 1 | вводный вебинар | +15 minutes   |
    Given I am not logged
     When I go to "/calendarevents/nearest" with placeholders
-        | user.email               | user@mail       |
+        | user.email               | user1@mail       |
         | user.first_name          | uName                 |
         | user.last_name           | uLastName             |
         | sponsor.email            | 4success.bz@gmail.com |
@@ -33,13 +33,12 @@ Feature: Sign up for event in calendar
   @basic @javascript @signup
   Scenario: Try to sign up for event that user allready signed up
     When I go to "/calendarevents/nearest" with placeholders
-        | user.email               | user@mail       |
+        | user.email               | user1@mail       |
         | user.first_name          | uName                 |
         | user.last_name           | uLastName             |
         | sponsor.email            | 4success.bz@gmail.com |
         | sponsor.first_name       | sName                 |
         | sponsor.last_name        | sLastName             |
-
     Then I should see "Записаться"
      And I follow "Записаться"
     Then I wait for AJAX to finish
@@ -51,12 +50,14 @@ Feature: Sign up for event in calendar
   @basic @javascript @signup
   Scenario: Sign up for event with phone numbers
     When I go to "/calendarevents/nearest" with placeholders
-        | user.email               | user@mail       |
+        | user.email               | user2@mail       |
         | user.first_name          | uName                 |
         | user.last_name           | uLastName             |
+        | user.phone               | 012345678             | 
         | sponsor.email            | 4success.bz@gmail.com |
         | sponsor.first_name       | sName                 |
         | sponsor.last_name        | sLastName             |
+        | sponsor.phone            | 112345678             |  
      And I follow "Записаться"
     Then I wait for AJAX to finish
      And I press "signup_Записаться"
@@ -75,12 +76,12 @@ Feature: Sign up for event in calendar
   @basic @javascript @signup
   Scenario: Sign up from sponsor user1@mail
     When I go to "/calendarevents/nearest" with placeholders
-        | user.email               | user@mail       |
-        | user.first_name          | uName                 |
-        | user.last_name           | uLastName             |
-        | sponsor.email            | 4success.bz@gmail.com |
-        | sponsor.first_name       | sName                 |
-        | sponsor.last_name        | sLastName             |
+        | user.email               | user3@mail |
+        | user.first_name          | uName      |
+        | user.last_name           | uLastName  |
+        | sponsor.email            | user1@mail |
+        | sponsor.first_name       | sName      |
+        | sponsor.last_name        | sLastName  |
     Then I should see "Записаться"
      And I follow "Записаться"
     Then I wait for AJAX to finish
