@@ -56,6 +56,7 @@ class AppKernel extends Kernel
             new SmartCore\Bundle\AcceleratorCacheBundle\AcceleratorCacheBundle(),
             new Success\StaticPageBundle\SuccessStaticPageBundle(),
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
+            new JMS\JobQueueBundle\JMSJobQueueBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

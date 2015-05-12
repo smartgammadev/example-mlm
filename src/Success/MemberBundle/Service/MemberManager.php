@@ -10,6 +10,7 @@ use Success\MemberBundle\Entity\MemberData;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Success\PlaceholderBundle\Entity\ExternalPlaceholder;
+use Success\PricingBundle\Utils\DateRange;
 
 class MemberManager
 {
@@ -22,7 +23,7 @@ class MemberManager
 
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
 
-use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
+    use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
 
     /**
      * @param type $externalId string(255)
@@ -304,10 +305,10 @@ use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
         return $this->getMemberSponsorOfLevel($member->getSponsor(), $level - 1);
     }
 
-    public function getMemberFirstReferalsHasProduct(Member $sponsor)
+    public function getMemberFirstReferalsHasProduct(Member $sponsor, DateRange $dateRange = null)
     {
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
-        $result = $memberRepo->childrenHasProduct($sponsor, true);
+        $result = $memberRepo->childrenHasProduct($sponsor, true, $dateRange);
         return $result;
     }
 

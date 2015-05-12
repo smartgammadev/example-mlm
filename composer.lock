@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "443263f6948d392956ea32b7a6c4af6a",
+    "hash": "c416c73d32ebba82c816357295e89a1d",
     "packages": [
         {
             "name": "adesigns/calendar-bundle",
@@ -1765,6 +1765,78 @@
                 "dependency injection"
             ],
             "time": "2014-11-24 08:56:26"
+        },
+        {
+            "name": "jms/job-queue-bundle",
+            "version": "1.1.0",
+            "target-dir": "JMS/JobQueueBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schmittjoh/JMSJobQueueBundle.git",
+                "reference": "77b67f01e6aa4370128d0cd17044008e04c36216"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schmittjoh/JMSJobQueueBundle/zipball/77b67f01e6aa4370128d0cd17044008e04c36216",
+                "reference": "77b67f01e6aa4370128d0cd17044008e04c36216",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": ">=2.3,<3.0",
+                "jms/di-extra-bundle": ">=1.1,<2.0",
+                "symfony/framework-bundle": ">=2.1,<3.0-dev"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "*",
+                "doctrine/doctrine-fixtures-bundle": "*",
+                "doctrine/orm": "*",
+                "pagerfanta/pagerfanta": "dev-master",
+                "sensio/framework-extra-bundle": "*",
+                "symfony/browser-kit": "*",
+                "symfony/class-loader": "*",
+                "symfony/css-selector": "*",
+                "symfony/finder": "*",
+                "symfony/form": "*",
+                "symfony/process": "*",
+                "symfony/twig-bundle": "*",
+                "symfony/validator": "*",
+                "symfony/yaml": "*"
+            },
+            "suggest": {
+                "pagerfanta/pagerfanta": "Required when using the webinterface.",
+                "sensio/framework-extra-bundle": "Required when using the webinterface.",
+                "symfony/twig-bundle": "Required when using the webinterface."
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "JMS\\JobQueueBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "authors": [
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com",
+                    "homepage": "https://github.com/schmittjoh",
+                    "role": "Developer of wrapped JMSSerializerBundle"
+                }
+            ],
+            "description": "Allows to schedule Symfony2 console commands as jobs.",
+            "homepage": "http://jmsyst.com/bundles/JMSJobQueueBundle",
+            "keywords": [
+                "job",
+                "queue"
+            ],
+            "time": "2014-03-06 21:13:39"
         },
         {
             "name": "jms/metadata",

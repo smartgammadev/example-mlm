@@ -3,6 +3,7 @@
 namespace Success\MemberBundle\Tests\Services;
 
 use Gamma\PhpUnit\Tester\Test\ServiceTest;
+use Success\PricingBundle\Utils\DateRange;
 
 class MemberManagerTest extends ServiceTest
 {
@@ -146,13 +147,30 @@ class MemberManagerTest extends ServiceTest
         $this->assertEquals($sponsor->getExternalId(), '4success.bz@gmail.com');
     }
 
-    public function testGetMemberReferalsHasProduct()
+    public function testGetMemberFirstReferalsHasProduct()
     {
         $member = $this->instance->getMemberByExternalId('4success.bz@gmail.com');
         $result = $this->instance->getMemberFirstReferalsHasProduct($member);
         $this->assertNotNull($result);
         $this->assertInternalType('array', $result);
+        $this->assertEquals(3, count($result));
     }
+    
+    public function testGetMemberFirstReferalsHasProductInDateRange()
+    {
+        $dateFrom = new \DateTime();
+        $dateFrom->modify('-1 day');
+        $dateTo = new \DateTime();
+        $dateTo->modify('+10 days');
+        $dateRange = new DateRange($dateFrom, $dateTo);
+        
+        $member = $this->instance->getMemberByExternalId('4success.bz@gmail.com');
+        $result = $this->instance->getMemberFirstReferalsHasProduct($member, $dateRange);
+        $this->assertNotNull($result);
+        $this->assertInternalType('array', $result);
+        $this->assertEquals(3, count($result));
+    }
+    
     
     public function testGetMemberReferalsHasProductCount()
     {
