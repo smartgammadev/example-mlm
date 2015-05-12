@@ -12,7 +12,6 @@ use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Behat\Gherkin\Node\TableNode;
 use Guzzle\Http\QueryString;
 
-
 /**
  * Features context.
  */
@@ -23,7 +22,6 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     const ROLE_SPONSOR = 'ROLE_4SUCCESS_SPONSOR';
     const ROLE_USER = 'ROLE_4SUCCESS_USER';
     const PLACEHOLDER_USER_TYPE_NAME = 'user';
-
     /* @var $kernel \Symfony\Component\HttpKernel\Kernel */
 
     private $kernel;
@@ -58,7 +56,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     {
         return $this->getService('doctrine')->getManager();
     }
-    
+
     public function getSecurityContext()
     {
         return $this->getService('security.context');
@@ -393,7 +391,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
             $message = sprintf(
                     'Sponsor of "%s" member is %s, but should be %s.', $userExternalId, $userMember->getSponsor()->getExternalId(), $sponsorExternalId
             );
-            throw new ExpectationException($message);
+            throw new ExpectationException($message, $this->getSession());
         }
     }
 
@@ -429,16 +427,16 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
         }
         $this->getEntityManager()->flush();
     }
-    
+
     /**
      * @When /^I go to "([^"]*)" with placeholders$/
      */
     public function iGoToWithPlaceholders2($url, TableNode $placeholders)
     {
         $queryString = new QueryString($placeholders->getRowsHash());
-        $this->visit($url.'?'.$queryString->__toString());
+        $this->visit($url . '?' . $queryString->__toString());
     }
-    
+
     /**
      * @Then /^"([^"]*)" of member "([^"]*)" should be "([^"]*)"$/
      */
@@ -447,23 +445,18 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
         /* @var $memberManager \Success\MemberBundle\Service\MemberManager */
         $memberManager = $this->getService('success.member.member_manager');
         $member = $memberManager->getMemberByExternalId($externalId);
-        
+
         /* @var $placeholderManager \Success\PlaceholderBundle\Service\PlaceholderManager */
         $placeholderManager = $this->getService('success.placeholder.placeholder_manager');
-        $placeholder = $placeholderManager->resolveExternalPlaceholder(self::PLACEHOLDER_USER_TYPE_NAME.'_'.$placeholderPattern);
-        
+        $placeholder = $placeholderManager->resolveExternalPlaceholder(self::PLACEHOLDER_USER_TYPE_NAME . '_' . $placeholderPattern);
+
         $memberData = $memberManager->getMemberData($member, $placeholder);
-        
+
         if ($data != $memberData) {
             $message = sprintf(
-                    'Value of "%s", of member "%s" equals to "%s". But should be "%s".',
-                    $placeholderPattern,
-                    $externalId,
-                    $memberData,
-                    $data
-                );
+                    'Value of "%s", of member "%s" equals to "%s". But should be "%s".', $placeholderPattern, $externalId, $memberData, $data
+            );
             throw new ExpectationException($message, $this->getSession());
         }
     }
-    
 }
