@@ -5,6 +5,7 @@ namespace Success\StaticPageBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Success\PricingBundle\Entity\ProductPricing;
 
+
 /**
  * PageProductPricing
  *

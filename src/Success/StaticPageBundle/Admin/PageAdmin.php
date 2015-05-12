@@ -20,7 +20,7 @@ class PageAdmin extends Admin{
         
         if ($this->id($this->getSubject())){
         $formMapper
-            ->add('productPricings', 'sonata_type_collection', array('by_reference' => true,'cascade_validation' => false, 'type_options' => array('delete' => true)), array(
+            ->add('productPricings', 'sonata_type_collection', array('by_reference' => false,'cascade_validation' => true, 'type_options' => array('delete' => true)), array(
                         'allow_delete'=>FALSE,
                         'edit' => 'inline',
                         'sortable' => 'position',

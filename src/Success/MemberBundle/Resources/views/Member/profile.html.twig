@@ -7,7 +7,6 @@
     <div class="modal fade" id="profile-modal-content" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
     </div>
-
 <div id="showModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -18,24 +17,31 @@
             <h4 class="modal-title">История счета</h4>
         </div>
         <div class="modal-body" style="max-height:550px; overflow: auto;">
-            <table class="table table-hover table-striped" >
-                <thead>
-                    <tr>
-                        <th>Дата операции</th>
-                        <th>Сума</th>
-                        <th>Описание операции</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for operation in accountOperations %}
-                    <tr>
-                        <td>{{operation.dateOperation |date()}}</td>
-                        <td>{{operation.amount}}</td>
-                        <td>{{operation.subAccount}}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Дата операции</th>
+                            <th>Сума</th>
+                            <th>Описание операции</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">
+                    {% for operation in accountOperations %}
+                        <tr>
+                            <td>{{operation.dateOperation |date()}}</td>
+                            <td>{{operation.amount}}</td>
+                            <td>{{operation.subAccount}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if accountOperations|length > 10 %}     
+                <div class="col-md-12 text-center">
+                    <ul class="pagination" id="myPager" style="margin:0px;"></ul>
+                </div>
+            {% endif %}
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-success" data-dismiss="modal">Закрыть</button>
@@ -44,7 +50,6 @@
 
    </div>
 </div>       
-    
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="col-md-12 no-padding no-margin well jumbotron">
@@ -133,8 +138,8 @@
             
             $('#refund-btn').on('click', function(){
                 refund();
-            });
-            
+            }); 
+            $('#myTable').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:10});
             
         });
         function assign(id)
@@ -176,7 +181,8 @@
         }
 
     </script>
-    
+
+</script>
     <script type="text/javascript">
         $('body').on('hidden.bs.modal', '.modal', function () {
             $('#profile-modal-content').empty();
@@ -194,7 +200,7 @@
                     }
             );
         });
-    </script>    
+    </script>   
     
     
 {% endblock %}    

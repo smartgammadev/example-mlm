@@ -86,6 +86,15 @@ class MemberController extends Controller
             $referalsSummary = $this->memberManager->getMemberReferalsSummary($member);
             $activeProductPricings = $this->productPricingManager->getActivePricings();
             $operations = $this->accountManager->getAccountOpperations($member);
+//            foreach ($operations as $operation) {
+//                $js[] = [
+//                            'date' => $operation->getDateOperation(), 
+//                            'price' => $operation->getAmount(), 
+//                            'description' => $operation ->getSubAccount()
+//                        ]; 
+//            }
+//            $f = json_encode($js);
+//            var_dump($f);die;
             return
                     [
                         'member' => $member,
