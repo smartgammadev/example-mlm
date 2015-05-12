@@ -11,11 +11,12 @@ class PageUserManager {
     
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
     use \Success\MemberBundle\Traits\SetMemberManagerTrait;
+    use \Success\PricingBundle\Traits\ProductPricingManagerTrait;
     
-    public function getAccessByUser($pageId, $member)
+    public function getAccessByUser($pageId,Member $member)
     {
-        $pricing = $this->em->getRepository('SuccessPricingBundle:ProductPricingMember')
-                ->findOneBy(['member' => $member]);
+        $pricing = $this->productPricingManager->getCurrentForMember($member);
+
         if ($pricing) {
             $repo = $this->em->createQueryBuilder()
                     ->select('p')

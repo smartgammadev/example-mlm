@@ -40,11 +40,10 @@ class PageController extends Controller {
             if (!$member instanceof Member) {
                 throw new AccessDeniedHttpException();
             }
-            $access = $this->pageUserManager->getAccessByUser($page->getId(), $member->getId());            
+            $access = $this->pageUserManager->getAccessByUser($page->getId(), $member);            
         } else {
             throw new NotFoundHttpException();
         }
-        
         $twig = clone $this->get('twig');
         $twig->setLoader(new \Twig_Loader_String()); 
         
