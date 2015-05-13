@@ -305,6 +305,13 @@ class MemberManager
         return $this->getMemberSponsorOfLevel($member->getSponsor(), $level - 1);
     }
 
+    
+    /**
+     * @deprecated
+     * @param Member $sponsor
+     * @param DateRange $dateRange
+     * @return Array
+     */
     public function getMemberFirstReferalsHasProduct(Member $sponsor, DateRange $dateRange = null)
     {
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
@@ -312,6 +319,11 @@ class MemberManager
         return $result;
     }
 
+    /**
+     * @deprecated
+     * @param Member $sponsor
+     * @return Array
+     */
     public function getMemberFirstReferalsHasProductCount(Member $sponsor)
     {
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
@@ -319,6 +331,13 @@ class MemberManager
         return $result;
     }
 
+    
+    /**
+     * @deprecated
+     * @param Member $sponsor
+     * @param type $level
+     * @return integer
+     */
     public function getMemberReferalsHasProductCount(Member $sponsor, $level = null)
     {
 
@@ -327,6 +346,12 @@ class MemberManager
         return $result;
     }
 
+    
+    /**
+     * @deprecated
+     * @param Member $sponsor
+     * @return float
+     */
     public function getMemberReferalsHasProductPaidSum(Member $sponsor)
     {
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');

@@ -21,3 +21,10 @@ services:
         calls:
             - [setEntityManager, ['@doctrine.orm.entity_manager']]
             - [setMemberManager, ['@success.member.member_manager']]            
+            
+    success.pricing.bonus_calculator:
+        class: Success\PricingBundle\Service\BonusCalculator
+        calls:
+            - [setEntityManager, ['@doctrine.orm.entity_manager']]
+            - [setMemberManager, ['@success.member.member_manager']]                        
+            - [setBonusPricingManager, ['@success.member.member_manager']]                        

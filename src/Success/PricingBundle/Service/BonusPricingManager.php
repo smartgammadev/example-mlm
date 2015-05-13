@@ -55,6 +55,7 @@ class BonusPricingManager
     }
 
     /**
+     * @deprecated
      * @param Member $member
      * @return type
      */
@@ -77,6 +78,12 @@ class BonusPricingManager
         return $memberBaseBonus;
     }
     
+    /**
+     * @deprecated
+     * @param array $bonus1
+     * @param atray $bonus2
+     * @return atray
+     */
     private function getBonusesDiffs($bonus1, $bonus2)
     {
         if (array_key_exists('add', $bonus1)) {
@@ -112,6 +119,11 @@ class BonusPricingManager
     }
 
 
+    /**
+     * @deprecated
+     * @param Member $member
+     * @return type
+     */
     public function calculateMemberBaseBonus(Member $member)
     {
         $bonusPricing = $this->getCurrentBonusPricing();
