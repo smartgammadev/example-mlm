@@ -459,4 +459,35 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
             throw new ExpectationException($message, $this->getSession());
         }
     }
+    /**
+     * @Then /^I want to create new static page$/
+     */
+    public function iWantToCreateNewStaticPage()
+    {
+        $this->visit('admin/success/staticpage/page/create?uniqid=' . self::SONATA_UNIQID);
+
+    }
+
+    /**
+     * @Then /^I fill in ckeeditor with "([^"]*)"$/
+     */
+    public function iFillInCkeeditorWith($arg1)
+    {
+        $jsQuery = "CKEDITOR.instances[Object.keys(CKEDITOR.instances)[0]].insertHtml('$arg1')";
+        $this->getSession()->getDriver()->evaluateScript($jsQuery);
+    }
+
+    /**
+     * @Then /^I click add paket and select "([^"]*)"$/
+     */
+    public function iClickAddPaketAndSelect($arg1)
+    {
+        $link = $this->getSession()->getCurrentUrl();
+        $this->visit('/admin/success/staticpage/pageproductpricing/create?uniqid='.self::SONATA_UNIQID.'&code=sonata.admin.page_pricing&pcode=sonata.admin.page_admin&puniqid='.self::SONATA_UNIQID);
+        $elem = $this->getSession()->getPage();
+        $select = $elem->findById(self::SONATA_UNIQID.'_productPricing')->selectOption($arg1);
+        $button = $elem->findButton('btn_create_and_edit')->click();
+        $this->visit($link);
+    }
+
 }
