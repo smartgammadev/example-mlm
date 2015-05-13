@@ -12,6 +12,7 @@ Feature: Static pages feature
     And  I should see "Элемент создан успешно"
 
     Then I click add paket and select "стандарт"
+    And  I click add paket and select "V.I.P."
     Then I press "btn_update_and_edit"
     And  I should see "Элемент успешно обновлен."
 
