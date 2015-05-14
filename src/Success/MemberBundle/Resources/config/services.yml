@@ -9,6 +9,7 @@ services:
         calls:
              - [setEntityManager, ["@doctrine.orm.entity_manager"]]
              - [setPlaceholderManager, ["@success.placeholder.placeholder_manager"]]
+             - [setBonusPricingManager, ["@success.pricing.bonus_pricing_manager"]]
              
     success.member.login_manager:
         class: Success\MemberBundle\Service\MemberLoginManager

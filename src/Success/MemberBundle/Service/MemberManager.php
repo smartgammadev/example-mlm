@@ -24,6 +24,7 @@ class MemberManager
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
 
     use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
+    use \Success\PricingBundle\Traits\BonusPricingManagerTrait;
 
     /**
      * @param type $externalId string(255)
@@ -334,8 +335,7 @@ class MemberManager
      * @return integer
      */
     public function getMemberReferalsHasProductCount(Member $sponsor, $level = null, DateRange $dateRange = null)
-    {
-
+    {    
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
         $result = $memberRepo->childrenHasProductCount($sponsor, $level, $dateRange);
         return $result;
@@ -349,6 +349,20 @@ class MemberManager
     {
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
         $result = $memberRepo->childrenHasProductPaidSum($sponsor, $dateRange);
+        return $result;
+    }
+    
+    public function getMemberForCalculateBonus() {
+        $pricingValues = $this->bonusPricingManager->getCurrentBonusPricing()->getPricingValues();
+        $minPricingVal = $pricingValues[0]->getSalesCount();
+        $members = $this->em->getRepository('SuccessMemberBundle:Member')->findAll();
+        foreach ($members as $member) {
+            $count = $this->getMemberReferalCount($member);
+            if ($count >= $minPricingVal){
+                $result[] = $member;
+            }
+        } 
+        
         return $result;
     }
 }
