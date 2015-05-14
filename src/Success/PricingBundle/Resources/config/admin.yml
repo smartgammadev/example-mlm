@@ -52,3 +52,14 @@ services:
         calls:
             - [setbonusPricingManager, ['@success.pricing.bonus_pricing_manager']]
             
+    sonata.admin.bonus_calculte_shedule_admin:
+        class: Success\PricingBundle\Admin\BonusCalculateSheduleAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "4 Success", label: "Начисление бонусов"}
+        arguments:
+            - ~
+            - Success\PricingBundle\Entity\BonusCalculateShedule
+            - ~
+        calls:
+            - [setEntityManager, ['@doctrine.orm.entity_manager']]
+        

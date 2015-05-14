@@ -13,7 +13,6 @@ use JMS\JobQueueBundle\Entity\Job;
  */
 class BonusCalculateShedule
 {
-
     /**
      * @var integer
      *
@@ -31,29 +30,26 @@ class BonusCalculateShedule
     private $startDate;
 
     /**
-     * @var \DateTime
      *
-     * @ORM\Column(name="calculation_date_from", type="datetime")
+     * @ORM\Column(name="calculation_days", type="integer")
      */
-    private $calculationDateFrom;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="calculation_date_to", type="datetime")
-     */
-    private $calculationDateTo;
+    private $calculationDays;
 
     /**
      * @var boolean
-     *
      * @ORM\Column(name="is_processed", type="boolean")
      */
     private $isProcessed;
 
     /**
+     * @var boolean
+     * @ORM\Column(name="auto_recreate", type="boolean")
+     */
+    private $autoRecreate;
+
+    /**
      * @var \JMS\JobQueueBundle\Entity\Job
-     * @ORM\OneToOne(targetEntity="JMS\JobQueueBundle\Entity\Job")
+     * @ORM\OneToOne(targetEntity="JMS\JobQueueBundle\Entity\Job", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="job_id", referencedColumnName="id")
      **/
     private $job;
@@ -88,52 +84,6 @@ class BonusCalculateShedule
     public function getStartDate()
     {
         return $this->startDate;
-    }
-
-    /**
-     * Set calculationDateFrom
-     *
-     * @param \DateTime $calculationDateFrom
-     * @return BonusCalculateShedule
-     */
-    public function setCalculationDateFrom($calculationDateFrom)
-    {
-        $this->calculationDateFrom = $calculationDateFrom;
-
-        return $this;
-    }
-
-    /**
-     * Get calculationDateFrom
-     *
-     * @return \DateTime
-     */
-    public function getCalculationDateFrom()
-    {
-        return $this->calculationDateFrom;
-    }
-
-    /**
-     * Set calculationDateTo
-     *
-     * @param \DateTime $calculationDateTo
-     * @return BonusCalculateShedule
-     */
-    public function setCalculationDateTo($calculationDateTo)
-    {
-        $this->calculationDateTo = $calculationDateTo;
-
-        return $this;
-    }
-
-    /**
-     * Get calculationDateTo
-     *
-     * @return \DateTime
-     */
-    public function getCalculationDateTo()
-    {
-        return $this->calculationDateTo;
     }
 
     /**
@@ -180,5 +130,51 @@ class BonusCalculateShedule
     public function getJob()
     {
         return $this->job;
+    }
+
+    /**
+     * Set calculationDays
+     *
+     * @param integer $calculationDays
+     * @return BonusCalculateShedule
+     */
+    public function setCalculationDays($calculationDays)
+    {
+        $this->calculationDays = $calculationDays;
+
+        return $this;
+    }
+
+    /**
+     * Get calculationDays
+     *
+     * @return integer 
+     */
+    public function getCalculationDays()
+    {
+        return $this->calculationDays;
+    }
+
+    /**
+     * Set autoRecreate
+     *
+     * @param boolean $autoRecreate
+     * @return BonusCalculateShedule
+     */
+    public function setAutoRecreate($autoRecreate)
+    {
+        $this->autoRecreate = $autoRecreate;
+
+        return $this;
+    }
+
+    /**
+     * Get autoRecreate
+     *
+     * @return boolean 
+     */
+    public function getAutoRecreate()
+    {
+        return $this->autoRecreate;
     }
 }

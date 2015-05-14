@@ -111,6 +111,9 @@ sonata_admin:
             Партнеры:
                 items:
                     - sonata.admin.member_admin
+            Задачи:
+                items: 
+                    - sonata.admin.bonus_calculte_shedule_admin
             Настройка:       
                 items:
                     - sonata.admin.referal_pricing_admin
