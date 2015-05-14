@@ -62,7 +62,6 @@ class BonusPricingManager
      */
     public function calculateBonusForMember(Member $member, DateRange $dateRange = Null)
     {
-//        var_dump($dateRange);die;
         $memberBaseBonus = $this->calculateMemberBaseBonus($member, $dateRange);
         if (!isset($memberBaseBonus)) {
             return null;

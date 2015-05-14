@@ -8,7 +8,7 @@ trait BonusPricingManagerTrait
 {
 
     /**
-     * @var $productPricingManager \Success\PricingBundle\Service\ProductPricingManager
+     * @var $bonusPricingManager \Success\PricingBundle\Service\BonusPricingManager
      */
     private $bonusPricingManager;
 
