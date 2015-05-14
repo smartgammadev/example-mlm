@@ -305,9 +305,7 @@ class MemberManager
         return $this->getMemberSponsorOfLevel($member->getSponsor(), $level - 1);
     }
 
-    
     /**
-     * @deprecated
      * @param Member $sponsor
      * @param DateRange $dateRange
      * @return Array
@@ -320,7 +318,6 @@ class MemberManager
     }
 
     /**
-     * @deprecated
      * @param Member $sponsor
      * @return Array
      */
@@ -331,9 +328,7 @@ class MemberManager
         return $result;
     }
 
-    
     /**
-     * @deprecated
      * @param Member $sponsor
      * @param type $level
      * @return integer
@@ -346,13 +341,11 @@ class MemberManager
         return $result;
     }
 
-    
     /**
-     * @deprecated
      * @param Member $sponsor
      * @return float
      */
-    public function getMemberReferalsHasProductPaidSum(Member $sponsor,DateRange $dateRange = null)
+    public function getMemberReferalsHasProductPaidSum(Member $sponsor, DateRange $dateRange = null)
     {
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
         $result = $memberRepo->childrenHasProductPaidSum($sponsor, $dateRange);

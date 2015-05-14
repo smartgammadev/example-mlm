@@ -27,4 +27,4 @@ services:
         calls:
             - [setEntityManager, ['@doctrine.orm.entity_manager']]
             - [setMemberManager, ['@success.member.member_manager']]                        
-            - [setBonusPricingManager, ['@success.member.member_manager']]                        
+            - [setBonusPricingManager, ['@success.pricing.bonus_pricing_manager']]                        
