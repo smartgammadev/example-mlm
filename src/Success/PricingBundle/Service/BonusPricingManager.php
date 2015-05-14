@@ -130,11 +130,11 @@ class BonusPricingManager
     {
         $bonusPricing = $this->getCurrentBonusPricing();
         $bonusPricingValues = $bonusPricing->getPricingValues();
-        $actualSalesCount = $this->memberManager->getMemberReferalsHasProductCount($member,null, $dateRange);
+        $actualSalesCount = $this->memberManager->getMemberReferalsHasProductCount($member, null, $dateRange);
         
         foreach ($bonusPricingValues as $value) {
             if ($actualSalesCount >= $value->getSalesCount()) {
-                $totalReferalsPaidSum = $this->memberManager->getMemberReferalsHasProductPaidSum($member,null, $dateRange);
+                $totalReferalsPaidSum = $this->memberManager->getMemberReferalsHasProductPaidSum($member, $dateRange);
                 $memberBaseBonus = [
                    
                     'referalsPaidSum' => $totalReferalsPaidSum,

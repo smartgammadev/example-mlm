@@ -338,7 +338,7 @@ class MemberManager
      * @param type $level
      * @return integer
      */
-    public function getMemberReferalsHasProductCount(Member $sponsor, $level = null,DateRange $dateRange = null)
+    public function getMemberReferalsHasProductCount(Member $sponsor, $level = null, DateRange $dateRange = null)
     {
 
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
