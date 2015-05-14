@@ -29,7 +29,7 @@ class MemberRepository extends BaseRepository
         return $qb;
     }
 
-    public function childrenHasProductCount($node, $level = null, DateRange $dateRange = null)
+    public function childrenHasProductCount($node, DateRange $dateRange = null, $level = null)
     {
         /* @var $qb \Doctrine\ORM\QueryBuilder */
         $qb = $this->childrenQueryBuilder($node);

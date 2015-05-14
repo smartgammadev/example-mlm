@@ -338,11 +338,11 @@ class MemberManager
      * @param type $level
      * @return integer
      */
-    public function getMemberReferalsHasProductCount(Member $sponsor, $level = null)
+    public function getMemberReferalsHasProductCount(Member $sponsor, $level = null,DateRange $dateRange = null)
     {
 
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
-        $result = $memberRepo->childrenHasProductCount($sponsor, $level);
+        $result = $memberRepo->childrenHasProductCount($sponsor, $level, $dateRange);
         return $result;
     }
 
@@ -352,10 +352,10 @@ class MemberManager
      * @param Member $sponsor
      * @return float
      */
-    public function getMemberReferalsHasProductPaidSum(Member $sponsor)
+    public function getMemberReferalsHasProductPaidSum(Member $sponsor,DateRange $dateRange = null)
     {
         $memberRepo = $this->em->getRepository('SuccessMemberBundle:Member');
-        $result = $memberRepo->childrenHasProductPaidSum($sponsor);
+        $result = $memberRepo->childrenHasProductPaidSum($sponsor, $dateRange);
         return $result;
     }
 }

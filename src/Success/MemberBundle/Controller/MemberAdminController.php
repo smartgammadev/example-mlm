@@ -19,7 +19,8 @@ class MemberAdminController extends BaseController
     public function calculateAction(Request $request)
     {
         $member = $this->admin->getSubject();
-        $bonus = $this->bonusPricingManager->calculateBonusForMember($member);
+        $dateRange = new \Success\PricingBundle\Utils\DateRange(new \DateTime("2015-03-01"), new \DateTime());
+        $bonus = $this->bonusPricingManager->calculateBonusForMember($member, $dateRange);
         
         return $this->render('SuccessMemberBundle:Sonata:bonus_calculation.html.twig', 
                 array('object' => $member,

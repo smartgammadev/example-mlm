@@ -5,6 +5,7 @@ namespace Success\PricingBundle\Service;
 use Success\PricingBundle\Entity\BonusPricing;
 use Success\PricingBundle\Entity\BonusPricingValue;
 use Success\MemberBundle\Entity\Member;
+use Success\PricingBundle\Utils\DateRange;
 
 class BonusPricingManager
 {
@@ -59,15 +60,16 @@ class BonusPricingManager
      * @param Member $member
      * @return type
      */
-    public function calculateBonusForMember(Member $member)
+    public function calculateBonusForMember(Member $member, DateRange $dateRange = Null)
     {
-        $memberBaseBonus = $this->calculateMemberBaseBonus($member);
+//        var_dump($dateRange);die;
+        $memberBaseBonus = $this->calculateMemberBaseBonus($member, $dateRange);
         if (!isset($memberBaseBonus)) {
             return null;
         }
-        $memberReferals = $this->memberManager->getMemberFirstReferalsHasProduct($member);
+        $memberReferals = $this->memberManager->getMemberFirstReferalsHasProduct($member, $dateRange);
         foreach ($memberReferals as $memberReferal) {
-            $memberReferalBaseBonus = $this->calculateBonusForMember($memberReferal);
+            $memberReferalBaseBonus = $this->calculateBonusForMember($memberReferal, $dateRange);
             if ($memberReferalBaseBonus) {
                 //echo '////////'.$memberReferal->getExternalId().' TAKES from '.$member->getExternalId().PHP_EOL;
                 $memberBaseBonus = $this->getBonusesDiffs($memberBaseBonus, $memberReferalBaseBonus);
@@ -124,15 +126,15 @@ class BonusPricingManager
      * @param Member $member
      * @return type
      */
-    public function calculateMemberBaseBonus(Member $member)
+    public function calculateMemberBaseBonus(Member $member, DateRange $dateRange = null)
     {
         $bonusPricing = $this->getCurrentBonusPricing();
         $bonusPricingValues = $bonusPricing->getPricingValues();
-        $actualSalesCount = $this->memberManager->getMemberReferalsHasProductCount($member);
+        $actualSalesCount = $this->memberManager->getMemberReferalsHasProductCount($member, $dateRange);
         
         foreach ($bonusPricingValues as $value) {
             if ($actualSalesCount >= $value->getSalesCount()) {
-                $totalReferalsPaidSum = $this->memberManager->getMemberReferalsHasProductPaidSum($member);
+                $totalReferalsPaidSum = $this->memberManager->getMemberReferalsHasProductPaidSum($member, $dateRange);
                 $memberBaseBonus = [
                    
                     'referalsPaidSum' => $totalReferalsPaidSum,
