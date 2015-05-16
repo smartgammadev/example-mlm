@@ -50,7 +50,7 @@
         "predis/predis": "0.8.x-dev",
         "egeloen/ckeditor-bundle": "~2.0",
         "smart-core/accelerator-cache-bundle": "~1.0",
-        "jms/job-queue-bundle": "~1.1"
+        "jms/job-queue-bundle": "0.1.x-dev"
     },
     "require-dev": {
         "behat/behat": "2.*@stable",

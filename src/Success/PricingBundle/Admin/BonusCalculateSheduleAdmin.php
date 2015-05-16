@@ -33,9 +33,11 @@ class BonusCalculateSheduleAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+                ->add('id')
                 ->add('startDate')
                 ->add('calculationDays')
                 ->add('autoRecreate')
+                ->add('isProcessed')
                 ->add('_action', 'actions', array(
                     'actions' => array(
                         'edit' => array(),
@@ -71,7 +73,6 @@ class BonusCalculateSheduleAdmin extends Admin
     {
         $job = $this->createCalculationConsoleJob($object->getStartDate(), $object->getCalculationDays(), $object->getId());        
         $object->setJob($job);
-        $job->addRelatedEntity($object);
         $this->em->persist($job);
         $this->em->flush();
     }
@@ -87,7 +88,7 @@ class BonusCalculateSheduleAdmin extends Admin
     private function createCalculationConsoleJob(\DateTime $executionDateTime, $daysToCalculate, $calculateId)
     {
         $consoleCommand = 'success:bonus:calculate';
-        $params = [$daysToCalculate, $calculateId];
+        $params = [$calculateId];
         $job = new Job($consoleCommand, $params);
         $job->setExecuteAfter($executionDateTime);
         return $job;
