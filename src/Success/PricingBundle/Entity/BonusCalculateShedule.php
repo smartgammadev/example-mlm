@@ -54,6 +54,13 @@ class BonusCalculateShedule
      **/
     private $job;
     
+    
+    /**
+     * @var array
+     * @ORM\Column(name="calcultaion_result", type="json_array", nullable=true)
+     */
+    private $calculationResult;
+    
     /**
      * Get id
      * @return integer
@@ -176,5 +183,28 @@ class BonusCalculateShedule
     public function getAutoRecreate()
     {
         return $this->autoRecreate;
+    }
+
+    /**
+     * Set calculationResult
+     *
+     * @param array $calculationResult
+     * @return BonusCalculateShedule
+     */
+    public function setCalculationResult($calculationResult)
+    {
+        $this->calculationResult = $calculationResult;
+
+        return $this;
+    }
+
+    /**
+     * Get calculationResult
+     *
+     * @return array 
+     */
+    public function getCalculationResult()
+    {
+        return $this->calculationResult;
     }
 }

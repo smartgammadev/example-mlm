@@ -97,4 +97,18 @@ class BonusCalculator
         }
         return isset($memberBaseBonus) ? $memberBaseBonus : null;
     }
+    
+    public function getBonusAmountByCalculation($bonusCalculation)
+    {
+        $mainBonus = $bonusCalculation['profitValue'] * ($bonusCalculation['referalsPaidSum']/100);
+        
+        if (!array_key_exists('add', $bonusCalculation)) {
+            return $mainBonus;
+        }
+        $addBonusAmount = 0;
+        foreach ($bonusCalculation['add'] as $addBonus) {
+            $addBonusAmount += $addBonus['profitValue'] * ($addBonus['referalsPaidSum']/100);
+        }
+        return $addBonusAmount + $mainBonus;
+    }
 }

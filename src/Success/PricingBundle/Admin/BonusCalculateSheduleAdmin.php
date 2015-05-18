@@ -7,12 +7,20 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use JMS\JobQueueBundle\Entity\Job;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 class BonusCalculateSheduleAdmin extends Admin
 {
     
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
 
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        parent::configureRoutes($collection);
+        $collection->add('result', $this->getRouterIdParameter().'/result');
+        $collection->add('approve', $this->getRouterIdParameter().'/approve');
+    }
+    
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -42,6 +50,8 @@ class BonusCalculateSheduleAdmin extends Admin
                     'actions' => array(
                         'edit' => array(),
                         'delete' => array(),
+                        'result' => array('template' => 'SuccessPricingBundle:Sonata:Actions\result__action.html.twig'),
+                        'approve' => array('template' => 'SuccessPricingBundle:Sonata:Actions\approve__action.html.twig'),
                     )
                 ))
         ;

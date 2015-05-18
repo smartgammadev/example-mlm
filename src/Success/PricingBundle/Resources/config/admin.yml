@@ -59,7 +59,7 @@ services:
         arguments:
             - ~
             - Success\PricingBundle\Entity\BonusCalculateShedule
-            - ~
+            - SuccessPricingBundle:BonusCalculateSheduleAdmin
         calls:
             - [setEntityManager, ['@doctrine.orm.entity_manager']]
         
