@@ -1,0 +1,6 @@
+{% if admin.isGranted('RESULT', object) and admin.hasRoute('result') %}
+    <a href="{{ admin.generateObjectUrl('result', object) }}" class="btn btn-sm btn-default {{ object.isProcessed? "" : "disabled" }}" title="Просмотр результатов расчета">
+        <i class="glyphicon glyphicon-list-alt"></i>
+        Результат расчета
+    </a>
+{% endif %}
