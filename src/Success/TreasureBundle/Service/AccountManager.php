@@ -24,7 +24,7 @@ class AccountManager
         
         return $operation;
     }
-    
+        
     private function updateAccountBalance(Member $member, $amount)
     {
         $balance = $this->getOverallAccountBalance($member);

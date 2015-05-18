@@ -10,10 +10,10 @@
                     <thead>
                         <tr class="sonata-ba-list-field-header">
                             <th class="sonata-ba-list-field-header" >
-                                Id
+                                Id Партнера
                             </th>
                             <th class="sonata-ba-list-field-header" >
-                                Партнер
+                                Имя
                             </th>
                             <th class="sonata-ba-list-field-header" >
                                 Бонус
@@ -26,8 +26,12 @@
                         {% for memberId,bonus in object.calculationresult %}
                             <tr>
                                 <td>{{ memberId }}</td>
-                                <td>name</td>
-                                <td>{{ dump(bonus) }}</td>
+                                <td>{{ memberName(memberId) }}</td>
+                                <td>
+                                    <span class="label label-success">
+                                        {{ bonusAmount(bonus)|number_format(2) }}
+                                    </span>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>

@@ -6,15 +6,21 @@ use Success\PricingBundle\Entity\BonusPricing;
 use Success\PricingBundle\Entity\BonusPricingValue;
 use Success\MemberBundle\Entity\Member;
 use Success\PricingBundle\Utils\DateRange;
+use Success\PricingBundle\Entity\BonusCalculateShedule;
 
 class BonusCalculator
 {
+    
+    const BONUS_OPERATION_TAG = 'Начисление бонуса';
+    //
 
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
 
     use \Success\MemberBundle\Traits\SetMemberManagerTrait;
 
     use \Success\PricingBundle\Traits\BonusPricingManagerTrait;
+    
+    use \Success\TreasureBundle\Traits\SetAccountManagerTrait;
 
     /**
      * @param Member $member
@@ -110,5 +116,16 @@ class BonusCalculator
             $addBonusAmount += $addBonus['profitValue'] * ($addBonus['referalsPaidSum']/100);
         }
         return $addBonusAmount + $mainBonus;
+    }
+    
+    public function approveBonusCalculation(BonusCalculateShedule $bonusCalculationShedule)
+    {
+        foreach ($bonusCalculationShedule->getCalculationResult() as $memberId => $calculationResult) {
+            $bonusAmount = $this->getBonusAmountByCalculation($calculationResult);
+            $member = $this->em->getRepository('SuccessMemberBundle:Member')->findOneBy(['id' => $memberId]);
+            $this->accountManager->doAccountOperation($member, $bonusAmount, self::BONUS_OPERATION_TAG);
+        }
+        $bonusCalculationShedule->setIsApproved(true);
+        $this->em->flush();
     }
 }

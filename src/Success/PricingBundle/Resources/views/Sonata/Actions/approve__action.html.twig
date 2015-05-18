@@ -1,5 +1,5 @@
 {% if admin.isGranted('APPROVE', object) and admin.hasRoute('approve') %}
-    <a href="{{ admin.generateObjectUrl('approve', object) }}" class="btn btn-sm btn-default {{ object.isProcessed? "" : "disabled" }}" title="Начислить бонус партнерам">
+    <a href="{{ admin.generateObjectUrl('approve', object) }}" class="btn btn-sm btn-default {{ object.isProcessed? "" : "disabled" }} {{ object.isApproved? "disabled" : "" }} " title="Начислить бонус партнерам">
         <i class="glyphicon glyphicon-usd"></i>
         Начислить бонус
     </a>

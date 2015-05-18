@@ -46,6 +46,12 @@ class BonusCalculateShedule
      * @ORM\Column(name="auto_recreate", type="boolean")
      */
     private $autoRecreate;
+    
+    /**
+     * @var boolean
+     * @ORM\Column(name="is_approved", type="boolean")
+     */
+    private $isApproved = false;
 
     /**
      * @var \JMS\JobQueueBundle\Entity\Job
@@ -155,7 +161,7 @@ class BonusCalculateShedule
     /**
      * Get calculationDays
      *
-     * @return integer 
+     * @return integer
      */
     public function getCalculationDays()
     {
@@ -178,7 +184,7 @@ class BonusCalculateShedule
     /**
      * Get autoRecreate
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getAutoRecreate()
     {
@@ -201,10 +207,33 @@ class BonusCalculateShedule
     /**
      * Get calculationResult
      *
-     * @return array 
+     * @return array
      */
     public function getCalculationResult()
     {
         return $this->calculationResult;
+    }
+
+    /**
+     * Set isApproved
+     *
+     * @param boolean $isApproved
+     * @return BonusCalculateShedule
+     */
+    public function setIsApproved($isApproved)
+    {
+        $this->isApproved = $isApproved;
+
+        return $this;
+    }
+
+    /**
+     * Get isApproved
+     *
+     * @return boolean 
+     */
+    public function getIsApproved()
+    {
+        return $this->isApproved;
     }
 }

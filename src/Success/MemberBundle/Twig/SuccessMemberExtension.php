@@ -53,6 +53,10 @@ class SuccessMemberExtension extends \Twig_Extension
         if ($member instanceof Member) {
             return $this->memberManager->getMemberName($member);
         }
+        
+        if (gettype($member) == 'integer') {
+            return $this->memberManager->getMemberNameById($member);
+        }
         return '';
     }
 

@@ -45,7 +45,8 @@ class BonusCalculateSheduleAdmin extends Admin
                 ->add('startDate')
                 ->add('calculationDays')
                 ->add('autoRecreate')
-                ->add('isProcessed')
+                ->add('isProcessed', null, ['label' => 'Расчитано'])
+                ->add('isApproved', null, ['label' => 'Начислено'])
                 ->add('_action', 'actions', array(
                     'actions' => array(
                         'edit' => array(),

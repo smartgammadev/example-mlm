@@ -23,9 +23,9 @@ class MemberManager
 
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
 
-use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
+    use \Success\MemberBundle\Traits\SetPlaceholderManagerTrait;
 
-use \Success\PricingBundle\Traits\BonusPricingManagerTrait;
+    use \Success\PricingBundle\Traits\BonusPricingManagerTrait;
 
     /**
      * @param type $externalId string(255)
@@ -228,6 +228,12 @@ use \Success\PricingBundle\Traits\BonusPricingManagerTrait;
             return $member->getExternalId();
         }
         return sprintf("%s %s", $firstName, $lastName);
+    }
+    
+    public function getMemberNameById($memberId)
+    {
+        $member = $this->em->getRepository('SuccessMemberBundle:Member')->findOneBy(['id' => $memberId]);
+        return $this->getMemberName($member);
     }
 
     /**

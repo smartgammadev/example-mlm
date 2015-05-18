@@ -27,4 +27,13 @@ services:
         calls:
             - [setEntityManager, ['@doctrine.orm.entity_manager']]
             - [setMemberManager, ['@success.member.member_manager']]                        
-            - [setBonusPricingManager, ['@success.pricing.bonus_pricing_manager']]                        
+            - [setBonusPricingManager, ['@success.pricing.bonus_pricing_manager']]
+            - [setAccountManager, ['@success.treasure.account_manager']]
+            
+    success.pricing.twig_extension:
+        class: Success\PricingBundle\Twig\SuccessPricingExtension
+        calls:     
+             - [setBonusCalculator, ["@success.pricing.bonus_calculator"]]
+        tags:
+            - { name: twig.extension }             
+            
