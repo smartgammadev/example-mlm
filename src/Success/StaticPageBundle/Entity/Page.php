@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Page
 {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -27,22 +28,21 @@ class Page
      * @ORM\Column(type="text")
      */
     protected $content;
-    
+
     /**
      * @ORM\Column(type="boolean")
-     */    
+     */
     protected $isActive;
-    
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Success\StaticPageBundle\Entity\PageProductPricing", mappedBy="page", cascade={"persist","remove"}, orphanRemoval=true)
      */
-    private $productPricings;    
-    
+    private $productPricings;
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -65,7 +65,7 @@ class Page
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -88,7 +88,7 @@ class Page
     /**
      * Get content
      *
-     * @return string 
+     * @return string
      */
     public function getContent()
     {
@@ -111,7 +111,7 @@ class Page
     /**
      * Get isActive
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsActive()
     {
@@ -125,7 +125,7 @@ class Page
     {
         $this->productPricings = new \Doctrine\Common\Collections\ArrayCollection();
     }
-        
+
     public function __toString()
     {
         return $this->getSlug();
@@ -157,7 +157,7 @@ class Page
     /**
      * Get productPricings
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProductPricings()
     {
