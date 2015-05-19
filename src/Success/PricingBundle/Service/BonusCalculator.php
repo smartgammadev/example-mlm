@@ -10,17 +10,18 @@ use Success\PricingBundle\Entity\BonusCalculateShedule;
 
 class BonusCalculator
 {
-    
+
     const BONUS_OPERATION_TAG = 'Начисление бонуса';
+
     //
 
     use \Gamma\Framework\Traits\DI\SetEntityManagerTrait;
 
-    use \Success\MemberBundle\Traits\SetMemberManagerTrait;
+use \Success\MemberBundle\Traits\SetMemberManagerTrait;
 
-    use \Success\PricingBundle\Traits\BonusPricingManagerTrait;
-    
-    use \Success\TreasureBundle\Traits\SetAccountManagerTrait;
+use \Success\PricingBundle\Traits\BonusPricingManagerTrait;
+
+use \Success\TreasureBundle\Traits\SetAccountManagerTrait;
 
     /**
      * @param Member $member
@@ -97,29 +98,32 @@ class BonusCalculator
                     'salesCount' => $actualSalesCount,
                     'totalSalesCount' => $actualSalesCount,
                     'profitValue' => $value->getProfitValue(),
-                    ]
+                        ]
                 ;
             }
         }
         return isset($memberBaseBonus) ? $memberBaseBonus : null;
     }
-    
+
     public function getBonusAmountByCalculation($bonusCalculation)
     {
-        $mainBonus = $bonusCalculation['profitValue'] * ($bonusCalculation['referalsPaidSum']/100);
-        
+        $mainBonus = $bonusCalculation['profitValue'] * ($bonusCalculation['referalsPaidSum'] / 100);
+
         if (!array_key_exists('add', $bonusCalculation)) {
             return $mainBonus;
         }
         $addBonusAmount = 0;
         foreach ($bonusCalculation['add'] as $addBonus) {
-            $addBonusAmount += $addBonus['profitValue'] * ($addBonus['referalsPaidSum']/100);
+            $addBonusAmount += $addBonus['profitValue'] * ($addBonus['referalsPaidSum'] / 100);
         }
         return $addBonusAmount + $mainBonus;
     }
-    
+
     public function approveBonusCalculation(BonusCalculateShedule $bonusCalculationShedule)
     {
+        if ($bonusCalculationShedule->getIsApproved()) {
+            return;
+        }
         foreach ($bonusCalculationShedule->getCalculationResult() as $memberId => $calculationResult) {
             $bonusAmount = $this->getBonusAmountByCalculation($calculationResult);
             $member = $this->em->getRepository('SuccessMemberBundle:Member')->findOneBy(['id' => $memberId]);
