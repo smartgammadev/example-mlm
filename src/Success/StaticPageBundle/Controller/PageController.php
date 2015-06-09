@@ -26,19 +26,21 @@ class PageController extends Controller
      */
     public function pageAction($slug)
     {
+        $twig = clone $this->get('twig');
+        $twig->setLoader(new \Twig_Loader_String());
+        
         $page = $this->pageUserManager->getPageBySlug($slug);
         if ($page) {
             $member = $this->getUser();
             if (!$member instanceof Member) {
-                throw new AccessDeniedHttpException();
+                $template = '{% block content %}' . $this->pageUserManager->getForbiddenPage()->getContent() . '{% endblock content %}';
+                $rendered = $twig->render($template);
+                return new Response($rendered);
             }
             $access = $this->pageUserManager->getAccessByUser($page, $member);
         } else {
             throw new NotFoundHttpException();
         }
-        $twig = clone $this->get('twig');
-        $twig->setLoader(new \Twig_Loader_String());
-
         if ($access) {
             $template = '{% block content %}' . $page->getContent() . '{% endblock content %}';
         } else {
