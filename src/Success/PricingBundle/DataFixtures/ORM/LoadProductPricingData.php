@@ -23,7 +23,7 @@ class LoadProductPricingData extends AbstractFixture implements OrderedFixtureIn
             'productPrice' => 60.00,
         ],
         [
-            'id' => 1,
+            'id' => 3,
             'isActive' => true,
             'productName' => 'V.I.P.',
             'productPrice' => 90.00,
@@ -35,10 +35,16 @@ class LoadProductPricingData extends AbstractFixture implements OrderedFixtureIn
      */
     public function load(ObjectManager $manager)
     {
+        $metadata = $manager->getClassMetaData('Success\PricingBundle\Entity\ProductPricing');
+        $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
+
+        
+        
         foreach ($this->fixtrues as $fixture) {
             extract($fixture);
             $newProductPricing = new ProductPricing();
             $newProductPricing->setIsActive($isActive);
+            $newProductPricing->setId($id);
             $newProductPricing->setProductName($productName);
             $newProductPricing->setProductPrice($productPrice);
             $manager->persist($newProductPricing);

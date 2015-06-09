@@ -4,6 +4,7 @@ namespace Success\Behat;
 
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Mink\Exception\ExpectationException;
+use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -101,7 +102,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
             $element = $this->getSession()->getPage()->find('css', $selector);
         }
         if (null === $element) {
-            throw new ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', $selector);
+            throw new \Behat\Mink\Exception\ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', $selector);
         }
         $this->getSession()->getDriver()->click($element->getXPath());
     }
