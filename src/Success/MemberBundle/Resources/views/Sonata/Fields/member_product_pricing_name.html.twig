@@ -1,8 +1,0 @@
-{% extends "SonataAdminBundle:CRUD:base_list_field.html.twig" %}
-
-{% block field %}
-    {% set pricingProduct = memberOwnedProduct(object) %}
-        <span class="{{ pricingProduct == null ? "label label-danger" : "label label-success" }}">
-            {{ pricingProduct == null ? "пакет не назначен" : pricingProduct.productPricing.productName }}
-        </span>
-{% endblock %}

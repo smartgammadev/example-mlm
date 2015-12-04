@@ -1,9 +1,0 @@
-services:
-    sonata.admin.member_admin:
-        class: Success\MemberBundle\Admin\MemberAdmin
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: "Partner System", label: "Members"}
-        arguments:
-            - ~
-            - Success\MemberBundle\Entity\Member
-            - SuccessMemberBundle:MemberAdmin
